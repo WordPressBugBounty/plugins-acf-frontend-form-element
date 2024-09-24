@@ -244,22 +244,22 @@ class Delete_Post_Widget extends Widget_Base {
 	 * @access protected
 	 */
 	protected function render() {
+		global $fea_form, $fea_instance, $fea_limit_visibility;
+		$reset = $fea_form ? false : true;	
 		$button_args = $this->prepare_field();
 
 		if( ! $button_args ){
 			return;
 		}
-		global $fea_form, $fea_instance, $fea_limit_visibility;
 		$settings = $this->get_settings_for_display();
 		
 		//if the current user is admin and there are no permission rules, print a message
 		if( ! $fea_limit_visibility && current_user_can('manage_options') && ! $settings['form_conditions'] && empty( $fea_form['form_conditions'] ) ){		
 			echo '<div class="fea-no-permissions-message">'.esc_html__('By default, this button is only visible to administrators. To change this, please set the visibilty for this element or the entire page.', 'frontend-admin').'</div>';
-		}
-
-		$reset = $fea_form ? false : true;	
+		}	
 
 		$fea_instance->form_display->render_field_wrap( $button_args );
+
 
 		if( $reset ){
 			$fea_form = null;

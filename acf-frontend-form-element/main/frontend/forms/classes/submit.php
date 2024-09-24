@@ -474,11 +474,11 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 			$response = array(
 				'to_top' => true,
+				'form_element' => $form['id'],
 			);
 
 			if ( $form['show_update_message'] ) {
 				$response['success_message'] = $update_message;
-				$response['form_element']    = $form['id'];
 			}
 
 			$save = get_option( 'frontend_admin_save_submissions' );
@@ -608,7 +608,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			do_action( 'frontend_admin/form/after_submit', $form, $response );
 			do_action( 'fea_after_submit', $form );
 
-			error_log(print_r($response,true));
 			wp_send_json_success( $response );
 		}
 

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.4.3
-Stable tag: 3.23.6
+Stable tag: 3.23.8
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -137,6 +137,12 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.23.8 - 24-09-2024 =
+ * Added form_element to form response
+ 
+ = 3.23.7 - 23-09-2024 =
+ * Fixed gallery field layout
+
 = 3.23.6 - 22-09-2024 =
  * Added encryption for extra security for inline edit fields
  * Added support for terms in loops

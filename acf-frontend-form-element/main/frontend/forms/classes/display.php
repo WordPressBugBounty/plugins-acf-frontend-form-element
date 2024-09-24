@@ -871,7 +871,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		function get_field_value( $field, $form = array() ) {
 			$type = $field['custom_fields_save'] ?? $form['custom_fields_save'] ?? 'post';
 			
-			$id = $form['source'] ?? '';
+			$id = $form['source'] ?? 0;
 			if( ! $id ){
 				if ( $type == 'options' ){
 					$id = 'options';
@@ -881,8 +881,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				
 			}
 
+			global $wp_query, $post;
+
+
 			if( ! $id ){
-				global $wp_query;
 
 				if( 'term' == $type && $wp_query->loop_term ){
 					$term_obj = $wp_query->loop_term;
@@ -893,13 +895,15 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					}
 				}
 			}
-			
 
 			if( empty( $object_id ) ){
-				if( ! is_numeric( $id ) ){
+				if( $id && ! is_numeric( $id ) ){
 					$object_id = $id;
 				}elseif ( 'post' == $type || 'product' == $type ) {
-					$object_id = $id ?? get_the_ID();
+					if( '' == $id ){
+						$id = $post->ID;
+					}
+					$object_id = $id;
 				} else {
 					$object_id = $type . '_' . $id;
 				}

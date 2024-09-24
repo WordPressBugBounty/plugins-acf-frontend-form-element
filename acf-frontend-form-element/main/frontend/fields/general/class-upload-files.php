@@ -107,6 +107,10 @@ if ( ! class_exists( 'upload_files' ) ) :
 				$field['max_height'] = 1080;
 			}
 
+			//if  no button text, add the default
+			if ( empty( $field['button_text'] ) ) {
+				$field['button_text'] = __( 'Add Images', 'acf-frontend-form-element' );
+			}
 			return $field;
 		}
 		/*

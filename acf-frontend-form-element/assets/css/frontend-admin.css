@@ -366,10 +366,11 @@ button.disabled:not(.temporary){
 .fea-uploads-attachment.not-valid .errors{
 	bottom: 0;
 	color: #bb2124;
-	font-size: medium;
+	font-size: 14px;
 	background: rgba(255, 255, 255, 0.6);
 	font-weight: 600;
 	line-height: 1;
+	padding: 4px;
 }
 
 .form-load{
@@ -713,7 +714,10 @@ body.acf-keydown-shift .acf-list-items .acf-row:hover>.acf-row-handle .acf-icon.
 }
 
 .fea-uploads .fea-uploads-attachment{
-	width:23%;cursor:pointer;position:relative
+	width:23%;
+	cursor:pointer;
+	position:relative;
+	background: #000;
 }
 
 .fea-uploads .fea-uploads-attachment .margin{
@@ -733,7 +737,12 @@ html[dir="rtl"] .fea-uploads .fea-uploads-attachment .thumbnail{
 }
 
 .fea-uploads .fea-uploads-attachment .thumbnail img{
-	display:block;height:auto;max-height:100%;width:auto;transform:translate(-50%, -50%)
+	display:block;
+	height:auto;
+	max-height: 100px;
+	max-width: 100%;
+	width:auto;
+	transform:translate(-50%, -50%)
 }
 
 html[dir="rtl"] .fea-uploads .fea-uploads-attachment .thumbnail img{
@@ -997,14 +1006,14 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
 	background-size: 20px 20px;
   }
 
-.fea-attachments {
+.fea-uploads-attachments {
 	display: flex;
 	gap: 5px;
 	overflow-y: hidden;
 	overflow-x: scroll;
 }
 
-.fea-attachments-container {
+.fea-uploads-attachments-container {
 	display: flex;
 	height: fit-content;
 }
@@ -1024,27 +1033,27 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
 }
 
 
-.fea-attachments img {
+.fea-uploads-attachments img {
 	object-fit: cover;
 }
 
 /* width */
-.fea-attachments::-webkit-scrollbar {
+.fea-uploads-attachments::-webkit-scrollbar {
 	display: none;
   }
   
   /* Track */
-  .fea-attachments::-webkit-scrollbar-track {
+  .fea-uploads-attachments::-webkit-scrollbar-track {
 	background: #f1f1f1;
   }
   
   /* Handle */
-  .fea-attachments::-webkit-scrollbar-thumb {
+  .fea-uploads-attachments::-webkit-scrollbar-thumb {
 	background: #888;
   }
   
   /* Handle on hover */
-  .fea-attachments::-webkit-scrollbar-thumb:hover {
+  .fea-uploads-attachments::-webkit-scrollbar-thumb:hover {
 	background: #555;
   }
 
@@ -1057,3 +1066,7 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
     max-width: 95vw;
     margin: auto;
   }
+
+
+
+  
