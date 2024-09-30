@@ -116,8 +116,8 @@ if ( ! class_exists( 'user_password' ) ) :
 					return __( 'The passwords do not match', 'acf-frontend-form-element' );
 				}
 			}
-			if ( isset( $_POST['password-strength'] ) && isset( $_POST['required-strength'] ) ) {
-				if( absint( $_POST['password-strength'] ) < absint( $_POST['required-strength'] ) ){
+			if ( isset( $_POST['password-strength'] ) ) {
+				if( absint( $_POST['password-strength'] ) < absint( $field['password_strength'] ) ){
 					if ( ! $field['required'] && $value == '' && ! isset( $_POST['edit_user_password'] ) ) {
 						return $is_valid;
 					}
@@ -166,7 +166,6 @@ if ( ! class_exists( 'user_password' ) ) :
 			if ( isset( $field['password_strength'] ) ) {
 
 				echo '<div class="pass-strength-result weak"></div>';
-				echo '<input type="hidden" value="' . esc_attr( $field['password_strength'] ) . '" name="required-strength"/>';
 				echo '<input class="password-strength" type="hidden" value="" name="password-strength"/>';
 			}
 			if ( empty( $field['force_edit'] ) ) {

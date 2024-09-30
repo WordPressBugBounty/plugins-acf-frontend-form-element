@@ -233,12 +233,27 @@ div.comment-data-image{
 	margin-top:10px
 }
 
-.edit_password .cancel-edit,.edit_password .pass-strength-result,.edit_password input[type=password],.edit_password.password_confirm{
+.edit_password .cancel-edit,.edit_password .pass-strength-result,.edit_password input.fea-password,.edit_password.password_confirm{
 	display:none
 }
 
 .editing_password .cancel-edit{
 	color:#0071a1;border-color:#0071a1;background:#f3f5f6;vertical-align:top;display:inline-block;padding:10px;margin-top:5px
+}
+.fea-password-toggle{
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #000;
+    font-size: 1.5rem;
+    z-index: 1;
+    padding: 0 10px;
+    transition: all 0.3s;
+}
+.acf-field:not(.editing_password) .fea-password-toggle{
+    display: none;
 }
 
 .pass-strength-result.weak{

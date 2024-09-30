@@ -61,12 +61,6 @@ if ( ! class_exists( 'password' ) ) :
 			//render dashicon for password visibility
 			echo '<span class="dashicons dashicons-visibility fea-password-toggle"></span>';
 
-			//enqueue scripts
-			wp_enqueue_script( 'fea-password', FEA_URL . 'assets/js/password.js', array(), FEA_VERSION, true );
-
-			//enqueue styles
-			wp_enqueue_style( 'fea-password', FEA_URL . 'assets/css/password.css', array(), FEA_VERSION );
-
 		}
 
 

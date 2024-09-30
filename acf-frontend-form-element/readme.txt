@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.4.3
-Stable tag: 3.23.8
+Stable tag: 3.23.9
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -104,6 +104,7 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 
 
 == Tutorials ==  
+
 = Paul from WP Tuts shows how to use Frontend Admin to create a frontend dashboard =
 https://www.youtube.com/watch?v=FsLSrd-11-g
 
@@ -137,6 +138,11 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.23.9 - 26-09-2024 =
+ * Fixed passwrod field not allowing very weak passwords despite the setting
+ * Fixed password preview showing even when password field is hidden
+ * Fixed Submissions not loading post fields data
+
 = 3.23.8 - 24-09-2024 =
  * Added form_element to form response
  

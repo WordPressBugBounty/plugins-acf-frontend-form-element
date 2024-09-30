@@ -908,6 +908,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					$object_id = $type . '_' . $id;
 				}
 			}
+
 			
 			if( empty( $form ) ){
 				$field['source'] = $object_id;
@@ -917,6 +918,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			$field_name = $field['name'];
 
 			if ( isset( $form['record'] ) ) {
+
+				$field_name = str_replace( 'fea_'.$field['type'], $field['type'], $field_name );
+				
 				$field_record = $form['record']['fields'][ $type ][ $field_name ] ?? false;
 
 				if( ! $field_record ){

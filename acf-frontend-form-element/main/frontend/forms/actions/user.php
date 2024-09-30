@@ -479,7 +479,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 							}
 							break;
 						case 'user_password':
-							if ( ( is_numeric( $user_id ) && empty( $record['edit_user_password'] ) ) || empty( $field['value'] ) ) {
+							if ( ( is_numeric( $user_id ) && empty( $_POST['edit_user_password'] ) ) || empty( $field['value'] ) ) {
 								continue 2;
 							}
 							$user_to_insert['user_pass'] = $field['value'];
