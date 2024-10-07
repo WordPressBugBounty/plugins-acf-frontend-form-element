@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.4.3
-Stable tag: 3.23.9
+Stable tag: 3.24.0
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -138,6 +138,9 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.24.0 - 07-10-2024 =
+ * Removed ACF dependancy. Still works seamlessly with ACF, but doesn't require it to be activated
+
 = 3.23.9 - 26-09-2024 =
  * Fixed passwrod field not allowing very weak passwords despite the setting
  * Fixed password preview showing even when password field is hidden
@@ -713,7 +716,6 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
  = 3.7.10 - 20-07-2022 =
  * Fixed Woo attributes not saving properly
  * Optimized Mailchimp action
- * Changed functions prefix from "acf_frontend" to "feadmin"  
  * Fixed Elementor submit button alignment
 
  = 3.7.9 - 14-07-2022 =  

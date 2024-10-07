@@ -101,7 +101,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.23.9' );
+			define( 'FEA_VERSION', '3.24.0' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page
@@ -118,11 +118,6 @@ if ( ! class_exists( 'Plugin' ) ) {
 				return;
 			}
 
-			if ( $data['requires_acf'] && ! class_exists( 'ACF' ) ) {
-				add_action( 'admin_notices', array( $this, 'admin_notice_missing_acf_plugin' ) );
-				return;
-			}
-
 			add_action( 'init', array( $this, 'i18n' ) );
 
 			if ( ! $data['pro_version'] ) {
@@ -136,6 +131,26 @@ if ( ! class_exists( 'Plugin' ) ) {
 
 			add_action( 'after_setup_theme', array( $this, 'plugin_includes' ), 12 );
 		}
+
+		function include_custom_fields() {
+			if ( class_exists( 'ACF' ) ) return;
+
+			// Define path and URL to the ACF plugin.
+			define( 'FEACF_PATH', FEA_DIR . '/main/custom-fields/' );
+			define( 'FEACF_URL', FEA_URL . '/main/custom-fields/' );
+			
+			// Include the ACF plugin.
+			include_once FEACF_PATH . 'custom-fields.php';
+
+			// Customize the url setting to fix incorrect asset URLs.
+			add_filter(
+				'acf/settings/url',
+				function( $url ) {
+					return FEACF_URL;
+				}
+			);
+
+		}	
 
 
 		/**
@@ -165,6 +180,8 @@ if ( ! class_exists( 'Plugin' ) ) {
 		 * @access public
 		 */
 		public function plugin_includes() {
+			$this->include_custom_fields();
+
 			include_once __DIR__ . '/helpers.php';
 
 			if ( did_action( 'elementor/loaded' ) ) {

@@ -149,7 +149,7 @@ class FEA_Payments_Settings{
 				),
 				'message' => __( '<h2>Set Up</h2>
 
-Click <a target="_blank" href="https://dashboard.stripe.com/register">here</a> to create a Stripe account. Once you do that you will recieve your API Keys.', 'acf-frontend-form-element' ),
+Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to create a Stripe account and receive API keys. Once you do that you will recieve your API Keys.', 'acf-frontend-form-element' ),
 				'new_lines' => 'wpautop',
 				'esc_html' => 0,
 			),
