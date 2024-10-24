@@ -17,7 +17,7 @@ if ( ! class_exists( 'ACF' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '6.3.7';
+		public $version = '3.24.1';
 
 		/**
 		 * The plugin settings array.
