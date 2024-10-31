@@ -296,6 +296,14 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					 'ui'                => 1,
 				 ),
 
+				 array( 
+					'key'               => 'hide_if_no_post',
+					'label'             => __( 'Hide if no post', 'acf-frontend-form-element' ),
+					'type'              => 'true_false',
+					'instructions'      => __( 'Hide this form if there is no post to edit', 'acf-frontend-form-element' ),
+					'required'          => 0,
+				 ),
+
 				 array(
 					 'key'               => 'new_post_terms',
 					 'label'             => __( 'New Post Terms', 'acf-frontend-form-element' ),
@@ -412,6 +420,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					 'ui'                => 0,
 					 'return_format'     => 'value',
 				 ),
+
 			 );
 
 			 return $options;
@@ -795,6 +804,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 		}
 
 		public function run( $form ) {
+
 			$record = $form['record'];
 
 			if ( empty( $record['post'] ) || empty( $record['fields']['post'] ) ) {
@@ -802,6 +812,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			}
 
 			$post_id = $record['post'];
+			error_log($post_id);
 
 			// allow for custom save
 			$post_id = apply_filters( 'acf/pre_save_post', $post_id, $form );
@@ -812,25 +823,11 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$old_status        = '';
 			$post_to_duplicate = false;
 
-			switch ( $form['save_to_post'] ) {
-				case 'edit_post':
-					if ( get_post_type( $post_id ) == 'revision' && isset( $record['status'] ) && $record['status'] == 'publish' ) {
-						$revision_id = $post_id;
-						$post_id     = wp_get_post_parent_id( $revision_id );
-						wp_delete_post_revision( $revision_id );
-					}
-					$old_status         = get_post_field( 'post_status', $post_id );
-					$post_to_edit['ID'] = $post_id;
-					break;
-				case 'new_post':
-					if ( 'add_post' == $post_id ) {
-						 $post_to_edit['ID']        = 0;
-						 $post_to_edit['post_type'] = $form['new_post_type'];
-					} else {
-						$post_to_edit['ID'] = $post_id;
-					}
-					break;
-				case 'duplicate_post':
+			if ( 'add_post' == $post_id ) {
+				$post_to_edit['ID']        = 0;
+				$post_to_edit['post_type'] = $form['new_post_type'];
+		   }else{
+				if( 'duplicate_post' == $form['save_to_post'] ){
 					$post_to_duplicate           = get_post( $post_id );
 					$post_to_edit                = get_object_vars( $post_to_duplicate );
 					$post_to_edit['ID']          = 0;
@@ -844,10 +841,18 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					}else{
 						$post_to_edit['post_date'] = current_time( 'mysql' );
 					}
-					break;
-				default:
-					return $form;
-			}
+				}else{
+					if ( get_post_type( $post_id ) == 'revision' && isset( $record['status'] ) && $record['status'] == 'publish' ) {
+						$revision_id = $post_id;
+						$post_id     = wp_get_post_parent_id( $revision_id );
+						wp_delete_post_revision( $revision_id );
+					}
+					$old_status         = get_post_field( 'post_status', $post_id );
+					$post_to_edit['ID'] = $post_id;
+				}
+		   }
+
+		
 
 			$metas = array();
 
@@ -882,7 +887,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				}
 			}
 
-			if ( $form['save_to_post'] == 'duplicate_post' ) {
+			if ( 'duplicate_post' == $form['save_to_post'] ) {
 				if ( $post_to_edit['post_name'] == $post_to_duplicate->post_name ) {
 					$post_name = sanitize_title( $post_to_edit['post_title'] );
 					if ( ! feadmin_slug_exists( $post_name ) ) {
@@ -949,15 +954,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				update_metadata( 'post', $post_id, 'admin_form_edited', $form['id'] );
 			}
 
-			if ( ! empty( $form['new_post_terms'] ) ) {
-				if ( 'select_terms' == $form['new_post_terms']  ) {
-					$form['post_terms'] = $form['new_terms_select'];
-				}
-				if ( 'current_term' == $form['new_post_terms'] ) {
-					$current_term = get_queried_object();
-					if( ! empty( $current_term->term_id ) ) $form['post_terms'] = $current_term->term_id;
-				}
-			}
+	
 
 				if ( ! empty( $form['new_post_terms'] ) ) {
 					$new_terms = [];
@@ -985,7 +982,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				}
 				
 
-			if ( $form['save_to_post'] == 'duplicate_post' ) {
+			if ( 'duplicate_post' == $form['save_to_post'] ) {
 				$taxonomies = get_object_taxonomies( $post_to_duplicate->post_type );
 				foreach ( $taxonomies as $taxonomy ) {
 					$post_terms = wp_get_object_terms( $post_to_duplicate->ID, $taxonomy, array( 'fields' => 'slugs' ) );

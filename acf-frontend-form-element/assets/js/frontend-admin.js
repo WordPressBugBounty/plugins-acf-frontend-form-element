@@ -194,6 +194,7 @@
 			formData.append( 'action', 'frontend_admin/forms/update_field' );
 			formData.append( 'nonce', acf.data.nonce );
 			acf.lockForm( $form );
+			$form.addClass( 'lock-form' );
 
 			$.ajax(
 				{
@@ -770,6 +771,7 @@
 				acf.doAction( 'validation_begin', this.$el ); // lock form
 
 				acf.lockForm( this.$el ); // loading callback
+				$form.addClass( 'lock-form' );
 
 				args.loading( this.$el, this ); // update status
 
@@ -784,6 +786,7 @@
 						var data = acf.applyFilters( 'validation_complete', json.data, this.$el, this ); // add errors
 
 						acf.unlockForm( this.$el );
+
 						this.$el.find( '.acf-notice' ).remove();
 
 					if ( ! data.valid) {
@@ -883,6 +886,8 @@
 				this.set( 'status', '' ); // unlock form
 
 				acf.unlockForm( this.$el );
+				$form.removeClass('lock-form');
+
 			}
 		}
 	);
@@ -1093,6 +1098,7 @@
 
 			acf.disableFileInputs( $form );
 			acf.lockForm( $form );
+			$form.addClass( 'lock-form' );
 
 			args = {
 				form: $form,
@@ -1142,7 +1148,8 @@
 				}
 				$validator.reset();
 				acf.enableFileInputs( $form );
-				acf.unlockForm( $form );
+				$form.removeClass('lock-form');
+				acf.removeClass('lock-form');
 				return;
 			}
 
@@ -1206,7 +1213,8 @@
 
 
 				acf.unlockForm( $form );
-				
+				$form.removeClass('lock-form');
+
 				if (data.modal) {
 					// modal window ajax form
 					modalLevel--;
@@ -1261,6 +1269,8 @@
 			$form.append( '<div class="frontend-admin-message"><div class="acf-notice -error acf-error-message"><p class="error-msg">' + message + '</p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div></div>' );	
 		}
 		acf.unlockForm( $form );
+		$form.removeClass('lock-form');
+
 		window.onbeforeunload = null;
 		$( window ).off( 'beforeunload' );
 		var $validator = acf.getFrontendValidator( $form );

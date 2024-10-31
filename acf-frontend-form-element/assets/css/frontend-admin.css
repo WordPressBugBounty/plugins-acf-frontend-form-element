@@ -1083,5 +1083,13 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
   }
 
 
-
+  .lock-form{
+	pointer-events: none;
+	opacity: 0.75;
+  }
   
+
+  .elementor-element .acf-field{
+	padding:0;
+	margin:0;
+  }

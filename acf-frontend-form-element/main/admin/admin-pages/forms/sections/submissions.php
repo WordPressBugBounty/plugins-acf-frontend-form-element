@@ -23,9 +23,18 @@ $data_types = array(
 	'term'    => __( 'Term', 'acf-frontend-form-element' ),
 	'options' => __( 'Site Options', 'acf-frontend-form-element' ),
 );
+$requirments = array(
+	'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
+	'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
+);
+
 if ( class_exists( 'woocommerce' ) ) {
 	$data_types['product'] = __( 'Product', 'acf-frontend-form-element' );
+
+	//$requirments['woo_checkout'] = __( 'Woocommerce Checkout', 'acf-frontend-form-element' );
+
 }
+
 
 $fields = array(
 	array(
@@ -78,10 +87,7 @@ $fields = array(
 		'instructions'      => __( 'Data will not be saved until these requirements are met.', 'acf-frontend-form-element' ),
 		'required'          => 0,
 		'conditional_logic' => $save_submissions,
-		'choices'           => array(
-			'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
-			'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
-		),
+		'choices'           => $requirments,
 		'allow_null'        => 1,
 		'multiple'          => 1,
 		'ui'                => 1,

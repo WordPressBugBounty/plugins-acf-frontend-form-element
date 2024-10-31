@@ -569,6 +569,7 @@ class Frontend_Forms_UI {
 					<div class="acf-headerbar-actions" id="submitpost">
 						<?php if( $form_type ){ ?>						
 							<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'acf' ); ?></a>
+							<a href="#" class="acf-btn acf-btn-secondary add-acf-fields"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add ACF Fields', 'acf' ); ?></a>
 						<?php } ?>
 						<button form="post" class="acf-btn acf-publish" type="submit"><?php esc_html_e( 'Save Changes', 'acf' ); ?></button>
 					</div>

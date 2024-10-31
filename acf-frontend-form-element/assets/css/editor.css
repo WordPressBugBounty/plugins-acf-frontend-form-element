@@ -82,3 +82,7 @@ div.elementor-control-fields_selection div.elementor-repeater-row-item-title{
 .elementor-control-old_permissions{
 	display:none
 }
+
+.elementor-control-section_nested_form{
+	display: none;
+}

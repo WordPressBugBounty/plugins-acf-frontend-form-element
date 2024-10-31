@@ -123,6 +123,77 @@
 		}
 	);
 
+	//when a user clicks on '.add-acf-fields', add a field and change the type to fields_select
+	var formFieldManager = new acf.Model({
+		id: 'formFieldManager',
+		events: {
+		  'click .add-acf-fields': 'onClickAddFields'
+		},
+
+		onClickAddFields: function (e, $el) {
+			let $list;
+			if ($el.hasClass('add-first-field')) {
+			  $list = $el.parents('.acf-field-list').eq(0);
+			} else if ($el.parent().hasClass('acf-headerbar-actions') || $el.parent().hasClass('no-fields-message-inner')) {
+			  $list = $('.acf-field-list:first');
+			} else if ($el.parent().hasClass('acf-sub-field-list-header')) {
+			  $list = $el.parents('.acf-input:first').find('.acf-field-list:first');
+			} else {
+			  $list = $el.closest('.acf-tfoot').siblings('.acf-field-list');
+			}
+			this.addField($list);
+		},
+		addField: function ($list) {
+			// vars
+			var html = $('#tmpl-acf-field').html();
+			var $el = $(html);
+			var prevId = $el.data('id');
+			var newKey = acf.uniqid('field_');
+	  
+			// duplicate
+			var $newField = acf.duplicate({
+			  target: $el,
+			  search: prevId,
+			  replace: newKey,
+			  append: function ($el, $el2) {
+				$list.append($el2);
+			  }
+			});
+	  
+			// get instance
+			var newField = acf.getFieldObject($newField);
+	  
+			// props
+			newField.prop('key', newKey);
+			newField.prop('ID', 0);
+			newField.prop('label', 'ACF Fields');
+			newField.prop('name', '');
+	  
+			// attr
+			$newField.attr('data-key', newKey);
+			$newField.attr('data-id', newKey);
+	  
+			// update parent prop
+			newField.updateParent();
+	  
+			// focus type
+			var $type = newField.$input('type');
+	  
+			// open
+			newField.open();
+			//change type to fields_select
+			$type.val('fields_select');
+			$type.change();
+	  
+			// set menu order
+			this.renderFields($list);
+	  
+			// action
+			acf.doAction('add_field_object', newField);
+			acf.doAction('append_field_object', newField);
+	  	}
+	
+	});
 
 })( jQuery );
 

@@ -946,6 +946,10 @@ if ( ! class_exists( 'upload_file' ) ) :
 		function move_folders( $value, $post_id = false, $field = false ) {
 			if( ! $value ) return $value;
 
+			global $fea_form;
+
+			if ( empty( $fea_form['record'] ) ) return $value;
+
 			$uploads = wp_upload_dir();
 			if( ! empty( $field['custom_directory'] ) && ! empty( $field['custom_directory_name'] ) ){
 				$dir_name = $field['custom_directory_name'];

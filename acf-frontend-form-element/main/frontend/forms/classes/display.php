@@ -819,6 +819,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 					$field = $this->get_field_data_type( $field, $form );
 
+					
 					if( ! $field ) continue;
 
 					
@@ -900,7 +901,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				if( $id && ! is_numeric( $id ) ){
 					$object_id = $id;
 				}elseif ( 'post' == $type || 'product' == $type ) {
-					if( '' == $id ){
+					if( '' == $id && isset( $post->ID ) ){
 						$id = $post->ID;
 					}
 					$object_id = $id;
@@ -1262,7 +1263,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				$form = apply_filters( 'frontend_admin/show_form', $form, 'form' );
 				if ( empty( $form['display'] ) ) {
 					return;
+				}else{
+					if( ! empty( $form['hide_if_no_post'] ) && 'none' == $form['post_id'] ){
+						return;
+					}
 				}
+
 			}
 
 			$this->show_messages( $form );

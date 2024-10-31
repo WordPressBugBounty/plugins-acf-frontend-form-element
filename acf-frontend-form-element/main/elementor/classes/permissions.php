@@ -21,7 +21,9 @@ class Permissions {
 		$section_settings = array(
 			'label' => __( 'Permissions', 'acf-frontend-form-element' ),
 			'tab'   => Controls_Manager::TAB_CONTENT,
-			'admin_forms_select' => '',
+			'condition'  => array(
+						'admin_forms_select' => '',
+					),
 		);
 		
 		$widget->start_controls_section( 'permissions_section', $section_settings );
@@ -36,7 +38,9 @@ class Permissions {
 			array(
 				'label' => __( 'Permissions', 'acf-frontend-form-element' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
-				
+				'condition'  => array(
+						'admin_forms_select' => '',
+					),
 			)
 		);
 		$this->elementor_controls( $widget );

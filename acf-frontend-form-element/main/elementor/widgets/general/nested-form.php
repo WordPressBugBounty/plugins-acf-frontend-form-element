@@ -120,21 +120,72 @@ class Nested_Form extends Widget_Nested_Base {
 	}
 
 	protected function register_controls() {
-
-		$this->start_controls_section( 'section_tabs', [
-			'label' => esc_html__( 'Steps (Coming Soon!)', 'elementor' ),
+		
+		$this->start_controls_section( 'section_form_submissions', [
+			'label' => esc_html__( 'Submissions', 'frontend-admin' ),
+			'tab' => Controls_Manager::TAB_CONTENT
 		] );
 
-		//upsale
-		$link_to_pro = 'https://www.dynamiapps.com/try-frontend-admin-pro/';
-		$this->add_control( 'form_steps_upsale', [
-			'type' => Controls_Manager::RAW_HTML,
-			'raw' => '
-				<h3>Multi Step Forms coming soon to the nested form widgets!</h3>
-				<br>
-				',
+		$this->add_control(
+			'admin_forms_select',
+			array(
+				'label'       => __( 'Choose Form...', 'acf-frontend-form-element' ),
+				'type'        => Controls_Manager::HIDDEN,
+				'default'     => '',
+			)
+		);
+
+		$defaults = $this->get_form_defaults();
+
+		$cf_save = $defaults['custom_fields_save'] ?? 'post';
+		$this->add_control( 'custom_fields_save', 
+			[
+				'label' => __( 'Save custom fields to...', 'frontend-admin' ),
+				'type' => Controls_Manager::SELECT,
+				'default' => $cf_save,
+				'options' => [
+					'submission' => __( 'Submission', 'acf-frontend-form-element' ),
+					'post' => __( 'Post', 'frontend-admin' ),
+					'user' => __( 'User', 'frontend-admin' ),
+					'term' => __( 'Term', 'frontend-admin' ),
+					'product' => __( 'Product', 'frontend-admin' ),
+					'options' => __( 'Options', 'frontend-admin' ),
+				],
+			]
+		);
+
+		$this->add_control(
+			'save_all_data',
+			array(
+				'label'     => __( 'Save Data After...', 'acf-frontend-form-element' ),
+				'type'      => Controls_Manager::SELECT2,
+				'multiple'  => true,
+				'default'   => '',
+				'options'   => array(
+					'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
+					'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
+				),
+				'condition' => array(
+					'admin_forms_select'    => '',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+
+		$this->form_defaults = $this->get_form_defaults();
+
+		do_action( 'frontend_admin/elementor/action_controls', $this, true );
+		do_action( 'frontend_admin/elementor/actions_controls', $this, true );
+		do_action( 'frontend_admin/elementor/permissions_controls', $this, true );
+		do_action( 'frontend_admin/elementor_widget/content_controls', $this );
+
+
+		$this->start_controls_section( 'section_nested_form', [
+			'label' => esc_html__( 'Nested Form', 'elementor' ),
 		] );
 
+		
 		$repeater = new Repeater();
 
 		$repeater->add_control( 'step_title', [
@@ -212,66 +263,6 @@ class Nested_Form extends Widget_Nested_Base {
 
 		$this->end_controls_section();
 		
-
-		$this->start_controls_section( 'section_form_submissions', [
-			'label' => esc_html__( 'Submissions', 'frontend-admin' ),
-			'tab' => Controls_Manager::TAB_CONTENT
-		] );
-
-		$this->add_control(
-			'admin_forms_select',
-			array(
-				'label'       => __( 'Choose Form...', 'acf-frontend-form-element' ),
-				'type'        => Controls_Manager::HIDDEN,
-				'default'     => '',
-			)
-		);
-
-		$defaults = $this->get_form_defaults();
-
-		$cf_save = $defaults['custom_fields_save'] ?? 'post';
-		$this->add_control( 'custom_fields_save', 
-			[
-				'label' => __( 'Save custom fields to...', 'frontend-admin' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => $cf_save,
-				'options' => [
-					'submission' => __( 'Submission', 'acf-frontend-form-element' ),
-					'post' => __( 'Post', 'frontend-admin' ),
-					'user' => __( 'User', 'frontend-admin' ),
-					'term' => __( 'Term', 'frontend-admin' ),
-					'product' => __( 'Product', 'frontend-admin' ),
-					'options' => __( 'Options', 'frontend-admin' ),
-				],
-			]
-		);
-
-		$this->add_control(
-			'save_all_data',
-			array(
-				'label'     => __( 'Save Data After...', 'acf-frontend-form-element' ),
-				'type'      => Controls_Manager::SELECT2,
-				'multiple'  => true,
-				'default'   => '',
-				'options'   => array(
-					'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
-					'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
-				),
-				'condition' => array(
-					'admin_forms_select'    => '',
-				),
-			)
-		);
-
-		$this->end_controls_section();
-
-		$this->form_defaults = $this->get_form_defaults();
-
-		do_action( 'frontend_admin/elementor/action_controls', $this, true );
-		do_action( 'frontend_admin/elementor/actions_controls', $this, true );
-		do_action( 'frontend_admin/elementor/permissions_controls', $this, true );
-		do_action( 'frontend_admin/elementor_widget/content_controls', $this );
-
 	}
 
 	public function get_form_defaults(){
