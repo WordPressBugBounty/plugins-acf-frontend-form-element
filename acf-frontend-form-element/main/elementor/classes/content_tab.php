@@ -2010,12 +2010,9 @@ class ContentTab {
 				'type'        => Controls_Manager::SELECT,
 				'default'     => 'clear',
 				'options'     => array(
-					''		=> __( 'Default', 'acf-frontend-form-element' ),
+					''		=> __( 'Nothing', 'acf-frontend-form-element' ),
 					'clear' => __( 'Clear Form', 'acf-frontend-form-element' ),
 					'edit'  => __( 'Edit Content', 'acf-frontend-form-element' ),
-				),
-				'condition'   => array(
-					'redirect' => 'current',
 				),
 				'render_type' => 'none',
 			)

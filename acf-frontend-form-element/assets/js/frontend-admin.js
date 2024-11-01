@@ -1058,6 +1058,10 @@
 				return;
 			}
 
+			$form      = $( this ).closest( 'form' );
+			//remove all 'clicked-on' classes
+			$( 'button.fea-submit-button',$form ).removeClass( 'clicked-on' );
+
 			button.addClass( 'disabled clicked-on' );
 
 			var spinner = button.siblings( '.fea-loader' );
@@ -1068,7 +1072,6 @@
 				button.after( spinner );
 			}
 
-			$form      = $( this ).closest( 'form' );
 			var $message = button.data( 'message' );
 			if ( $message ) {
 				$form.find( 'input[name=_acf_message]' ).val( $message );
@@ -1092,9 +1095,10 @@
 				$form.find( 'input[name=_acf_status]' ).val('save');
 				acf.submitFrontendForm( $form );
 				return;
-			} 
-
-			$form.find( 'input[name=_acf_status]' ).val(button.data( 'state' ));
+			} else {
+				//find _acf_status and change to submit
+				$form.find( 'input[name=_acf_status]' ).val('');
+			}
 
 			acf.disableFileInputs( $form );
 			acf.lockForm( $form );
@@ -1149,7 +1153,7 @@
 				$validator.reset();
 				acf.enableFileInputs( $form );
 				$form.removeClass('lock-form');
-				acf.removeClass('lock-form');
+				acf.unlockForm( $form );
 				return;
 			}
 
@@ -1192,7 +1196,7 @@
 		if (response.success && response.data?.form_element) {
 			window.onbeforeunload = null;
 			$( window ).off( 'beforeunload' );
-			acf.doAction( 'frontend_form_success', response );
+			//acf.doAction( 'frontend_form_success', response );
 
 			var data = response.data;
 			if( ! data ) {
@@ -1258,6 +1262,7 @@
 					if( data.objects ){
 						$form.find( 'input[name=_acf_objects]' ).val( data.objects );
 					}
+					console.log(data);
 
 					acf.doAction( 'frontend_form_success', data, $form );
 
@@ -4243,7 +4248,8 @@ acf.add_filter(
 					item_id: 		$el.val(),
 					type: this.getType(),
 					form_data:	formData,
-					current_url: url
+					current_url: url,
+					nonce: this.get( 'nonce' ),
 				};
 
 				// get HTML

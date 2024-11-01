@@ -663,7 +663,7 @@ class ACF_Form extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 
 		//if the current user is admin and there are no permission rules, print a message
-		if( ! wp_doing_ajax() && current_user_can('manage_options') && !empty( $settings['form_conditions'] ) && count( $settings['form_conditions'] ) == 0 && ! $fea_limit_visibility ){
+		if( ! wp_doing_ajax() && current_user_can('manage_options') && empty( $settings['form_conditions'] ) && ! $fea_limit_visibility ){
 			echo '<div class="fea-no-permissions-message">'.esc_html__('By default, this form is only visible to administrators. To change this, please set the visibilty for this element or the entire page.', 'frontend-admin').'</div>';
 		}
 

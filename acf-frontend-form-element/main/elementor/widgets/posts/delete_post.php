@@ -254,7 +254,7 @@ class Delete_Post_Widget extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 		
 		//if the current user is admin and there are no permission rules, print a message
-		if( ! $fea_limit_visibility && current_user_can('manage_options') && ! $settings['form_conditions'] && empty( $fea_form['form_conditions'] ) ){		
+		if( ! $fea_limit_visibility && current_user_can('manage_options') && empty( $settings['form_conditions'] ) && empty( $fea_form['form_conditions'] ) ){		
 			echo '<div class="fea-no-permissions-message">'.esc_html__('By default, this button is only visible to administrators. To change this, please set the visibilty for this element or the entire page.', 'frontend-admin').'</div>';
 		}	
 

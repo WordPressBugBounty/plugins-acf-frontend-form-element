@@ -497,7 +497,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( ! empty( $form['ajax_submit'] ) ) {
 				$response['location'] = 'current';
 			
-				if ( $form['ajax_submit'] === 'submission_form' ) {
+				if ( 'submission_form' == $form['ajax_submit'] ) {
 					$title  = $form['record']['submission_title'];
 					if ( ! empty( $form['submission_title'] ) ) {
 						$title = fea_instance()->dynamic_values->get_dynamic_values( $form['submission_title'], $form );
@@ -530,27 +530,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 						);
 					}
 
-					if ( isset( $form['redirect_action'] ) ) {
-						if ( 'clear' == $form['redirect_action'] ) {
-							foreach ( $types as $type ) {
-								if ( isset( $form[ "save_to_$type" ] ) && $form[ "save_to_$type" ] == "new_$type" ) {
-									$form[ $type . '_id' ]   = "add_$type";
-									$form[ "save_to_$type" ] = "new_$type";
-								}
-							}
-							unset( $form['submission'] );
-						}elseif ( 'edit' == $form['redirect_action'] ) {
-
-							foreach ( $types as $type ) {
-								if ( isset( $form[ "save_to_$type" ] ) && $form[ "save_to_$type" ] == "edit_$type" ) {
-									$form[ $type . '_id' ]   = $form['record'][ $type ];
-									$form[ "save_to_$type" ] = "edit_$type";
-								}
-							}
-						}else{
-							$as_is = true;
-						}
-					}
+					
 				}
 			} else {
 				$form['return'] = $this->get_redirect_url( $form );
@@ -592,6 +572,33 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					array(),
 					1
 				);
+			}
+
+			if ( isset( $form['redirect_action'] ) ) {
+				if ( 'clear' == $form['redirect_action'] ) {
+					foreach ( $types as $type ) {
+						if ( isset( $form[ "save_to_$type" ] ) && $form[ "save_to_$type" ] == "new_$type" ) {
+							$form[ $type . '_id' ]   = "add_$type";
+							$form[ "save_to_$type" ] = "new_$type";
+						}
+					}
+					unset( $form['submission'] );
+				}elseif ( 'edit' == $form['redirect_action'] ) {
+					$objects = array();
+					foreach ( $types as $type ) {
+						if ( isset( $form[ "save_to_$type" ] ) && $form[ "save_to_$type" ] == "edit_$type" ) {
+							$form[ $type . '_id' ]   = $form['record'][ $type ];
+							$form[ "save_to_$type" ] = "edit_$type";
+							$objects[ $type ] = $form['record'][ $type ];
+						}
+					}
+					$objects = json_encode( $objects );
+					$objects = fea_encrypt( $objects );
+					$response['objects'] = $objects;
+					
+				}else{
+					$as_is = true;
+				}
 			}
 
 			if( ! empty( $form['ajax_submit'] ) && empty( $as_is ) ){

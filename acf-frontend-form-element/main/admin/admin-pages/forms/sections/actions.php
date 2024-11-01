@@ -33,6 +33,18 @@ $fields = array(
 		'ajax'          => 0,
 		'placeholder'   => '',
 	),
+	array( 
+		'key'               => 'redirect_action',
+		'label'             => __( 'After Reload', 'acf-frontend-form-element' ),
+		'type'              => 'select',
+		'instructions'      => '',
+		'required'          => 0,
+		'choices'           => array(
+			'none' => __( 'None', 'acf-frontend-form-element' ),
+			'clear' => __( 'Clear Form', 'acf-frontend-form-element' ),
+			'edit' => __( 'Edit Content', 'acf-frontend-form-element' ),
+		),
+	),
 	array(
 		'key'               => 'custom_url',
 		'label'             => __( 'Custom Url', 'acf-frontend-form-element' ),

@@ -504,7 +504,7 @@ class Edit_Button_Widget extends Widget_Base {
 		$current_id = fea_instance()->elementor->get_current_post_id();
 
 		//if the current user is admin and there are no permission rules, print a message
-		if( current_user_can('manage_options') && count( $settings['form_conditions'] ) == 0 && ! $fea_limit_visibility ){
+		if( current_user_can('manage_options') && empty( $settings['form_conditions'] ) && ! $fea_limit_visibility ){
 			echo '<div class="fea-no-permissions-message">'.esc_html__('By default, this button is only visible to administrators. To change this, please set the visibilty for this element or the entire page.', 'frontend-admin').'</div>';
 		}
 
