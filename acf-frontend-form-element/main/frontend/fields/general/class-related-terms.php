@@ -81,8 +81,10 @@ if ( ! class_exists( 'related_terms' ) ) :
 			$field_key = $_POST['field_key'] ?? '';
 			$nonce = $_POST['nonce'] ?? '';
 			
+			$action = 'acf_field_' . $this->name . '_' . $field_key;
+			
 			// validate
-			if ( ! feadmin_verify_ajax( $nonce, $field_key ) ) {
+			if ( ! feadmin_verify_ajax( $nonce, $action ) ) {
 				die();
 			}
 
@@ -164,7 +166,6 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			$field = fea_instance()->frontend->get_field( $options['field_key'] );
 
-			error_log( print_r( $field, true ) );
 
 			if ( $field ) {
 				$args = apply_filters( 'acf/fields/related_terms/query', $args, $field, $options['post_id'] );
@@ -545,6 +546,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			// force value to array
 			$field['value'] = acf_get_array( $field['value'] );
+
+			$field['nonce']   = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
 
 			// vars
 			$div = array(

@@ -141,8 +141,10 @@ if ( ! class_exists( 'select' ) ) :
 			$field_key = $_POST['field_key'] ?? '';
 			$nonce = $_POST['nonce'] ?? '';
 			
+			$action = 'acf_field_' . $this->name . '_' . $field_key;
+			
 			// validate
-			if ( ! feadmin_verify_ajax( $nonce, $field_key ) ) {
+			if ( ! feadmin_verify_ajax( $nonce, $action ) ) {
 				die();
 			}
 

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.4.3
-Stable tag: 3.24.4
+Stable tag: 3.24.5
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -138,6 +138,10 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.24.5 - 3-11-2024 =
+ * Fixed conflict with ACF update causing multi select fields to show no results
+ * Added taxonomy field widget in Elementor
+
 = 3.24.4 - 1-11-2024 =
  * Fixed ACF image fields adding suffix
  * Added "ACF Fields" button in form builder

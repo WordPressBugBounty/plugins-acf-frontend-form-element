@@ -528,7 +528,7 @@ class Submit_Button_Widget extends Widget_Base {
 	protected function render() {
 		global $fea_form;
 
-		if( ! $fea_form || empty( $fea_form['rendered_field'] ) ){
+		if( ! feadmin_edit_mode() && ( ! $fea_form || empty( $fea_form['rendered_field'] ) ) ){
 			return;
 		}
 

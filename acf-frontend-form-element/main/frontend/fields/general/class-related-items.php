@@ -304,8 +304,10 @@ if ( ! class_exists( 'related_items' ) ) :
 			$field_key = $_POST['field_key'] ?? '';
 			$nonce = $_POST['nonce'] ?? '';
 			
+			$action = 'acf_field_' . $this->name . '_' . $field_key;
+			
 			// validate
-			if ( ! feadmin_verify_ajax( $nonce, $field_key ) ) {
+			if ( ! feadmin_verify_ajax( $nonce, $action ) ) {
 				die();
 			}
 
@@ -593,6 +595,8 @@ if ( ! class_exists( 'related_items' ) ) :
 		*/
 
 		function render_field( $field ) {
+
+			$field['nonce']   = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
 
 			// vars
 			$post_type = acf_get_array( $field['post_type'] );

@@ -286,6 +286,126 @@ class ACF_Form extends Widget_Base {
 
 
 	public function register_style_tab_controls() {
+		$this->start_controls_section(
+			'display_section',
+			array(
+				'label' => __( 'Display Options', 'acf-frontend-form-element' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			)
+		);
+		//margin around fields
+		$this->add_control(
+			'fields_margin',
+			array(
+				'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'default'    => array(
+					'top'    => '0',
+					'right'  => '0',
+					'bottom' => '20',
+					'left'   => '0',
+					'unit'   => 'px',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .acf-field' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		//padding around fields
+		$this->add_control(
+			'fields_padding',
+			array(
+				'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .acf-field' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'hide_field_labels',
+			array(
+				'label'        => __( 'Hide Field Labels', 'acf-frontend-form-element' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Hide', 'acf-frontend-form-element' ),
+				'label_off'    => __( 'Show', 'acf-frontend-form-element' ),
+				'return_value' => 'true',
+				'separator'    => 'before',
+				'selectors'    => array(
+					'{{WRAPPER}} .acf-label' => 'display: none',
+				),
+			)
+		);
+		$this->add_control(
+			'field_label_position',
+			array(
+				'label'     => __( 'Label Position', 'elementor-pro' ),
+				'type'      => Controls_Manager::SELECT,
+				'options'   => array(
+					'top'  => __( 'Above', 'elementor-pro' ),
+					'left' => __( 'Inline', 'elementor-pro' ),
+				),
+				'default'   => 'top',
+				'condition' => array(
+					'hide_field_labels!' => 'true',
+				),
+			)
+		);
+		$this->add_control(
+			'hide_mark_required',
+			array(
+				'label'        => __( 'Hide Required Mark', 'elementor-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Hide', 'elementor-pro' ),
+				'label_off'    => __( 'Show', 'elementor-pro' ),
+				'return_value' => 'true',
+				'condition'    => array(
+					'hide_field_labels!' => 'true',
+				),
+				'selectors'    => array(
+					'{{WRAPPER}} .acf-required' => 'display: none',
+				),
+			)
+		);
+
+		$this->add_control(
+			'field_instruction_position',
+			array(
+				'label'     => __( 'Instruction Position', 'elementor-pro' ),
+				'type'      => Controls_Manager::SELECT,
+				'options'   => array(
+					'label' => __( 'Above Field', 'elementor-pro' ),
+					'field' => __( 'Below Field', 'elementor-pro' ),
+				),
+				'default'   => 'label',
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'field_seperator',
+			array(
+				'label'        => __( 'Field Seperator', 'elementor-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Hide', 'elementor-pro' ),
+				'label_off'    => __( 'Show', 'elementor-pro' ),
+				'default'      => 'true',
+				'return_value' => 'true',
+				'separator'    => 'before',
+				'selectors'    => array(
+					'{{WRAPPER}} .acf-fields>.acf-field' => 'border-top: none',
+					'{{WRAPPER}} .acf-field[data-width]+.acf-field[data-width]' => 'border-left: none',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+		
+
 		if ( ! isset( fea_instance()->pro_features ) ) {
 
 			$this->start_controls_section(
@@ -293,6 +413,39 @@ class ACF_Form extends Widget_Base {
 				array(
 					'label' => __( 'Styles', 'acf-frontend-form-element' ),
 					'tab'   => Controls_Manager::TAB_STYLE,
+				)
+			);
+
+			//margin around fields
+			$this->add_control(
+				'fields_margin',
+				array(
+					'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
+					'type'       => Controls_Manager::DIMENSIONS,
+					'size_units' => array( 'px', 'em', '%' ),
+					'default'    => array(
+						'top'    => '10px',
+						'right'  => '0',
+						'bottom' => '0',
+						'left'   => '0',
+						'unit'   => 'px',
+					),
+					'selectors'  => array(
+						'{{WRAPPER}} .acf-fields' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					),
+				)
+			);
+
+			//padding around fields
+			$this->add_control(
+				'fields_padding',
+				array(
+					'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
+					'type'       => Controls_Manager::DIMENSIONS,
+					'size_units' => array( 'px', 'em', '%' ),
+					'selectors'  => array(
+						'{{WRAPPER}} .acf-fields' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					),
 				)
 			);
 

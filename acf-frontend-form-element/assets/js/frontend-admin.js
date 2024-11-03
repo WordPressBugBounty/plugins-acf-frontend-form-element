@@ -4249,7 +4249,6 @@ acf.add_filter(
 					type: this.getType(),
 					form_data:	formData,
 					current_url: url,
-					nonce: this.get( 'nonce' ),
 				};
 
 				// get HTML

@@ -61,9 +61,11 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 		function ajax_query() {
 			$field_key = $_POST['field_key'] ?? '';
 			$nonce = $_POST['nonce'] ?? '';
+
+			$action = 'acf_field_' . $this->name . '_' . $field_key;
 			
 			// validate
-			if ( ! feadmin_verify_ajax( $nonce, $field_key ) ) {
+			if ( ! feadmin_verify_ajax( $nonce, $action ) ) {
 				die();
 			}
 
@@ -353,6 +355,8 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			$field['type']       = 'select';
 			$field['ui']         = 1; 
 			$field['ajax']       = 1;
+			$field['nonce']   = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
+
 			if ( $field['add_new'] ) {
 				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New Post', 'acf-frontend-form-element' );
 				$field['choices'] = array( 'add_post' => $add_new_text );

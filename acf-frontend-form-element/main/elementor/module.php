@@ -41,6 +41,7 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 					'field' => 'Field',
 					'text-field' => 'Text_Field',
 					'textarea-field' => 'Textarea_Field',
+					'taxonomy-field' => 'Taxonomy_Field',
 					'number-field' => 'Number_Field',
 					'email-field' => 'Email_Field',
 					'image-field' => 'Image_Field',
@@ -57,6 +58,7 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 				array(
 					'posts' => array(
 						'post-title-field' => 'Post_Title_Field',
+						//'post-author-field' => 'Post_Author_Field',
 						'post-excerpt-field' => 'Post_Excerpt_Field',
 						'featured-image-field' => 'Featured_Image_Field',
 						'post-content-field' => 'Post_Content_Field',

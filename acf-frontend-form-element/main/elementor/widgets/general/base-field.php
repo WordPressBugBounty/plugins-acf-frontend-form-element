@@ -300,8 +300,9 @@ class Base_Field extends Widget_Base {
 		$this->field_specific_controls();
 		
 	
-		$this->custom_fields_control();
-		
+		if( $this->is_meta_field() ){
+			$this->custom_fields_control();
+		}
 		$this->end_controls_section();
 
 	}
@@ -371,14 +372,11 @@ class Base_Field extends Widget_Base {
 	}
 	
 	public function custom_fields_control( $repeater = false ) {
-		$cf_save = 'post';
-		if ( $this->get_name() != 'acf_ele_form' ) {
-			$cf_save = str_replace( array( 'new_', 'edit_', 'duplicate_' ), '', $this->get_name() );
-		}
+		
 		$controls_settings = array(
 			'label'     => __( 'Save Custom Fields to...', 'acf-frontend-form-element' ),
 			'type'      => Controls_Manager::SELECT,
-			'default'   => $cf_save,
+			'default'   => 'post',
 
 		);
 
@@ -457,7 +455,7 @@ class Base_Field extends Widget_Base {
 			'required_message' => $settings['field_required_message'],
 			'no_error_message' => 'true' !== $settings['show_error_message'],
 			'validation_message' => $settings['field_validation_message'],
-			'custom_fields_save' => $settings['custom_fields_save']
+			'custom_fields_save' => $settings['custom_fields_save'] ?? 'post',
 		);
 		$field = $this->get_field_data( $field );		
 

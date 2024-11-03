@@ -63,6 +63,26 @@ class Nested_New_Post extends Nested_Form {
 				'settings' => []
 			],
 			[
+				'widgetType' => 'fea_taxonomy_field',
+				'settings' => [
+					'field_label' => __( 'Category', 'frontend-admin' ),
+					'field_name' => 'category',
+					'taxonomy' => 'category',
+					'custom_fields_save' => 'post',
+					'field_type' => 'multi_select',
+				]
+			],
+			[
+				'widgetType' => 'fea_taxonomy_field',
+				'settings' => [
+					'field_label' => __( 'Tags', 'frontend-admin' ),
+					'field_name' => 'tags',
+					'taxonomy' => 'post_tag',
+					'custom_fields_save' => 'post',
+					'field_type' => 'multi_select',
+				]
+			],
+			[
 				'widgetType' => 'submit_button',
 				'settings' => [ 'text' => __( 'Submit', 'frontend-admin' ), ],
 			],

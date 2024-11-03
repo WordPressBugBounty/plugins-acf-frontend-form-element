@@ -812,7 +812,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			}
 
 			$post_id = $record['post'];
-			error_log($post_id);
 
 			// allow for custom save
 			$post_id = apply_filters( 'acf/pre_save_post', $post_id, $form );
@@ -928,7 +927,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				}
 
 				if ( isset( $form['approval'] ) ) {
-					error_log( $form['submitted_by'] );
 					if ( empty( $post_to_edit['post_author'] ) ) {
 						$post_to_edit['post_author'] = $form['submitted_by'];
 					}
