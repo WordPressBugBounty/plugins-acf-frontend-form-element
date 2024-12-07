@@ -33,7 +33,7 @@ if ( ! class_exists( 'term_slug' ) ) :
 				'append'        => '',
 				'change_slug'   => 0,
 			);
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -99,8 +99,10 @@ if ( ! class_exists( 'term_slug' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 $term_id  = explode( '_', $post_id )[1];
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} $term_id  = explode( '_', $post_id )[1];
 			$edit_term = get_term( $term_id );
 			if ( ! is_wp_error( $edit_term ) ) {
 				$update_args = array( 'slug' => $value );
@@ -109,7 +111,7 @@ if ( ! class_exists( 'term_slug' ) ) :
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
 
-			return $value;
+			return true;
 		}
 
 		public function update_value( $value, $post_id = false, $field = false ) {

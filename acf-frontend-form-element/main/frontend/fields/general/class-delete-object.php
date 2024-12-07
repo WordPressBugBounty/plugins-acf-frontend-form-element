@@ -246,7 +246,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			global $fea_form;
 			if ( empty( $fea_form[ $this->object . '_id' ] ) || ! is_numeric( $fea_form[ $this->object . '_id' ] ) ) {
 				return false;
-			}
+			} 
 
 			return $field;
 		}

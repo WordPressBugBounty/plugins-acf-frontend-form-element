@@ -105,7 +105,8 @@ class PermissionsTab {
 				if ( ! $active_user ) {
 					$settings['display'] = false;
 				} else {
-					$by_role    = $by_cap = $specific_user = $dynamic = false;
+					$by_role = true; 
+					$by_cap = $specific_user = $dynamic = false;
 					$user_roles = $condition['by_role'];
 
 					if ( $user_roles ) {

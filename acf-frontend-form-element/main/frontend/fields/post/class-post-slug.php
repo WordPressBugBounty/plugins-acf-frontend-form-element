@@ -34,7 +34,7 @@ if ( ! class_exists( 'post_slug' ) ) :
 				'append'        => '',
 			);
 			add_filter( 'acf/load_field/type=text', array( $this, 'load_post_slug_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -69,8 +69,10 @@ if ( ! class_exists( 'post_slug' ) ) :
 			return $value;
 		}
 
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $post_id && is_numeric( $post_id ) ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $post_id && is_numeric( $post_id ) ) {
 				$post_to_edit              = array(
 					'ID' => $post_id,
 				);
@@ -79,7 +81,7 @@ if ( ! class_exists( 'post_slug' ) ) :
 				wp_update_post( $post_to_edit );
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
-			return null;
+			return true;
 		}
 
 		public function update_value( $value, $post_id = false, $field = false ) {

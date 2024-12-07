@@ -184,10 +184,10 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 		}
 
 		public function load_data( $form ) {
+
 			if ( empty( $form['save_to_term'] ) ) {
 				return $form;
 			}
-
 			switch ( $form['save_to_term'] ) {
 				case 'new_term':
 					$form['term_id']                        = 'add_term';
@@ -352,6 +352,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 
 		public function run( $form ) {
 			$record = $form['record'];
+
 			if ( empty( $record['term'] ) || empty( $record['fields']['term'] ) ) {
 				return $form;
 			}

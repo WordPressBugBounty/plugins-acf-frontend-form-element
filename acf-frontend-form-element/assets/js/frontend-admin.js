@@ -771,7 +771,7 @@
 				acf.doAction( 'validation_begin', this.$el ); // lock form
 
 				acf.lockForm( this.$el ); // loading callback
-				$form.addClass( 'lock-form' );
+				this.$el.addClass( 'lock-form' );
 
 				args.loading( this.$el, this ); // update status
 
@@ -830,8 +830,12 @@
 						args.complete( this.$el,this );
 					}
 
+
 				if ( args.limit ) {
 					var formData = acf.serialize( args.limit );
+
+					//add _acf_form
+					formData['_acf_form'] = this.$el.find( 'input[name=_acf_form]' ).val();
 				} else {
 					var formData = acf.serialize( this.$el );
 				}
@@ -886,7 +890,7 @@
 				this.set( 'status', '' ); // unlock form
 
 				acf.unlockForm( this.$el );
-				$form.removeClass('lock-form');
+				this.$el.removeClass('lock-form');
 
 			}
 		}

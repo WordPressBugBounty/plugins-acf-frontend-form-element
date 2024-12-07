@@ -112,8 +112,11 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			}
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
-				$sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] ) );
+				$sql .= ! empty( $_REQUEST['order'] ) ? 
+					$wpdb->prepare( ' ' . esc_sql( $_REQUEST['order'] ) )
+					:
+					' ASC';
 			}else{
 				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
 			}
@@ -370,6 +373,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			add_action( 'wp_ajax_frontend_admin/plans/delete', [ $this, 'ajax_delete_plan'] );
 			add_action( 'frontend_admin/ajax_add_form', array( $this, 'render_form' ) );
 			add_filter( 'frontend_admin/forms/get_form', function( $form, $key ){
+				if( ! $key ) return $form;
 				$key = explode( 'plan_', $key );
 
 				if( isset( $key[1] ) ) return $this->get_form( $key[1] );

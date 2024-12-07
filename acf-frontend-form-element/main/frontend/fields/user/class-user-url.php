@@ -31,7 +31,7 @@ if ( ! class_exists( 'user_url' ) ) :
 				'prepend'       => '',
 				'append'        => '',
 			);
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -55,8 +55,10 @@ if ( ! class_exists( 'user_url' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 $user = explode( 'user_', $post_id );
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} $user = explode( 'user_', $post_id );
 
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];
@@ -70,7 +72,7 @@ if ( ! class_exists( 'user_url' ) ) :
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 
 			}
-			return null;
+			return true;
 		}
 
 		function render_field( $field ) {

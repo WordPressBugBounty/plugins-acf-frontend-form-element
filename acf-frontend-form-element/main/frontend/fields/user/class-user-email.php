@@ -32,7 +32,7 @@ if ( ! class_exists( 'user_email' ) ) :
 				'append'        => '',
 			);
 			add_filter( 'acf/load_field/type=email', array( $this, 'load_user_email_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 			add_filter( 'frontend_admin/add_to_record/' . $this->name, array( $this, 'add_to_record' ), 10, 3 );
 
 		}
@@ -115,8 +115,10 @@ if ( ! class_exists( 'user_email' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 $user = explode( 'user_', $post_id );
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} $user = explode( 'user_', $post_id );
 
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];
@@ -144,7 +146,7 @@ if ( ! class_exists( 'user_email' ) ) :
 
 				}
 			}
-			return null;
+			return true;
 		}
 
 		function render_field( $field ) {

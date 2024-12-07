@@ -35,10 +35,11 @@ if ( ! class_exists( 'role' ) ) :
 				'return_format' => 'value',
 				'field_type'    => 'radio',
 				'layout'        => 'vertical',
+				'role_options'  => array( 'subscriber' ),
 				'other_choice'  => 0,
 			);
 			add_filter( 'acf/load_field/type=select', array( $this, 'load_role_field' ), 2 );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 		}
 
 		function load_role_field( $field ) {
@@ -88,19 +89,30 @@ if ( ! class_exists( 'role' ) ) :
 			return $is_valid;
 		}
 
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 $user_id = explode( '_', $post_id );
-			if ( $user_id[0] == 'user' && ! empty( $user_id[1] ) ) {
-				remove_action( 'acf/save_post', '_acf_do_save_post' );
-				wp_update_user(
-					array(
-						'ID'   => $user_id[1],
-						'role' => $value,
-					)
-				);
-				add_action( 'acf/save_post', '_acf_do_save_post' );
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} 
+			$user_id = explode( '_', $post_id );
+
+			if ( 'user' != $user_id[0] || empty( $user_id[1] ) ) return true; //checked value is not a user field and there is nothing to update
+
+			$user_id = $user_id[1];
+
+			$user = get_user_by( 'id', $user_id );
+
+			if ( ! $user || is_wp_error( $user ) ) return true; //user does not exist
+
+			if ( ! empty( $field['role_options'] ) && ! in_array( $value, $field['role_options'] ) ) {
+				//user is a hacker and deserves to be deleted
+				wp_delete_user( $user_id );
+				wp_die( __( 'Invalid role option selected.', 'acf-frontend-form-element' ) );
 			}
-			return null;
+
+			
+			$user->set_role( $value );
+	
+			return true;
 		}
 
 		public function update_value( $value, $post_id = false, $field = false ) {

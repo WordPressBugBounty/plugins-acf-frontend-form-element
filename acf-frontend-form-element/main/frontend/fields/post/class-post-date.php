@@ -31,7 +31,7 @@ if ( ! class_exists( 'post_date' ) ) :
 				'return_format'  => 'd/m/Y g:i a',
 				'first_day'      => get_option( 'start_of_week' ),
 			);
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -57,8 +57,10 @@ if ( ! class_exists( 'post_date' ) ) :
 			return $value;
 		}
 
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $post_id && is_numeric( $post_id ) ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $post_id && is_numeric( $post_id ) ) {
 				$post_to_edit              = array(
 					'ID' => $post_id,
 				);
@@ -68,7 +70,7 @@ if ( ! class_exists( 'post_date' ) ) :
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 
 			}
-			return $value;
+			return true;
 		}
 
 		public function update_value( $value, $post_id = false, $field = false ) {

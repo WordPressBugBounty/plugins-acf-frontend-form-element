@@ -246,7 +246,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					'instructions'      => '',
 					'required'          => 0,
 					'choices'           => array_merge(
-					   [ 'any' => __( 'Any', 'acf-frontend-form-element' ) ],
 					   $post_types
 					),
 					'conditional_logic' => array(
@@ -517,7 +516,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 						$post_type = $post->post_type;
 
-						if( ! in_array( 'any', $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
+						if( is_array( $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
 							$form['post_id'] = 'none';
 						}
 						
@@ -648,7 +647,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					'default'     => ['any'],
 					'multiple'    => true,
 					'options'     => array_merge(
-						[ 'any' => __( 'Any', 'acf-frontend-form-element' ) ],
 						$post_type_choices
 					 ),
 					'condition'   => $condition,

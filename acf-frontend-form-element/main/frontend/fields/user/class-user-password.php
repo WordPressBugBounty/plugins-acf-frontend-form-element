@@ -33,7 +33,7 @@ if ( ! class_exists( 'user_password' ) ) :
 				'password_strength' => '3',
 			);
 			add_filter( 'acf/load_field/type=password', array( $this, 'load_user_password_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -132,8 +132,10 @@ if ( ! class_exists( 'user_password' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( empty( $_POST['edit_user_password'] ) ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( empty( $_POST['edit_user_password'] ) ) {
 				return null;
 			}
 			$user = explode( 'user_', $post_id );
@@ -149,7 +151,7 @@ if ( ! class_exists( 'user_password' ) ) :
 				);
 					add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
-			return null;
+			return true;
 		}
 
 		function update_value( $field ) {

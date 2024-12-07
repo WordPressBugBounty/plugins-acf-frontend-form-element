@@ -157,21 +157,22 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 					 
 					 foreach( $content_types as $type ){
-						if( $object['type'] == $type.'_to_edit' ){
-							$args[$type.'_id'] = $object['value'] ?? $args[$type.'_id'] ?? 'none';
-
+						if( $object['type'] == $type.'_to_edit' ){						
 							$url_query_key = $object['url_query'] ?? $type.'_id';
 
 							if( ! empty( $_GET[$url_query_key] ) ){
 								$args[$type.'_id'] = absint( $_GET[$url_query_key] );
+							}else{
+								continue;
 							}
+							$args[$type.'_id'] = $object['value'] ?? $args[$type.'_id'] ?? 'none';
 							$is_correct_post_type = true;
 							if( 'post' == $type && ! empty( $args['post_type'] ) && ! empty( $args[$type.'_id'] ) ){
 								$args['post_type'] = (array) $object['post_type'];
 								$post_type = get_post_type( $args[$type.'_id'] );
 
 								$allowed_types = (array) $args['post_type'];
-								if(  ! in_array( 'any', $allowed_types  ) && ! in_array( $post_type, $allowed_types ) ){
+								if( is_array( $allowed_types ) && ! in_array( $post_type, $allowed_types ) ){
 									$is_correct_post_type = false;
 								}else{
 									if( 'add_post' == $args[$type.'_id'] ){

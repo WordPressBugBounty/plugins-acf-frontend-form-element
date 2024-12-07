@@ -33,7 +33,7 @@ if ( ! class_exists( 'username' ) ) :
 				'append'        => '',
 				'allow_edit'	=> 0,
 			);
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 		}
 
 		public function prepare_field( $field ) {
@@ -108,8 +108,10 @@ if ( ! class_exists( 'username' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 $user = explode( 'user_', $post_id );
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} $user = explode( 'user_', $post_id );
 			if ( ! empty( $user[1] ) ) {
 				$user_id     = $user[1];
 				$user_object = get_user_by( 'ID', $user_id );
@@ -123,7 +125,7 @@ if ( ! class_exists( 'username' ) ) :
 				global $wpdb;
 				$wpdb->update( $wpdb->users, array( 'user_login' => $value ), array( 'ID' => $user_id ) );
 			}
-			return null;
+			return true;
 		}
 
 		/*

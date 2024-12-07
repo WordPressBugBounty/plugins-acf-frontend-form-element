@@ -109,8 +109,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_Crud' ) ) :
 			}
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
-				$sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $args['orderby'] ) );
+				$sql .= ! empty( $args['order'] ) ? ' ' . $wpdb->prepare( esc_sql( $args['order'] ) ) : ' ASC';
 			}else{
 				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
 			}

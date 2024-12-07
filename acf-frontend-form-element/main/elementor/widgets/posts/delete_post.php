@@ -309,14 +309,17 @@ class Delete_Post_Widget extends Widget_Base {
 		
 
 		if( ! $fea_form ){
+			$args = $fea_instance->form_display->validate_form( $args );
+
 			$args = apply_filters( 'frontend_admin/show_form', $args );
 
-			if( ! $args ){
+			if( ! $args && ! feadmin_edit_mode() ){
 				$fea_form = null;
 				return false;
 			} 
 
-			$args = $fea_instance->form_display->validate_form( $args );
+			$fea_form = $args;
+
 		}else{
 			$key = $current_id . '_elementor_' . $this->get_id();
 			$fea_form['fields'][$key] = $args;
@@ -337,7 +340,13 @@ class Delete_Post_Widget extends Widget_Base {
 			$settings_to_pass[] = "{$type}_to_edit";
 			$settings_to_pass[] = "url_query_{$type}";
 			$settings_to_pass[] = "{$type}_select";
+
+			if( 'post' == $type ){
+				$settings_to_pass[] = 'post_type'; 
+			}
 		}
+
+
 
 		foreach ( $settings_to_pass as $setting ) {
 			if ( isset( $settings[ $setting ] ) ) {

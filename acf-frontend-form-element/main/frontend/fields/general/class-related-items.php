@@ -159,7 +159,7 @@ if ( ! class_exists( 'related_items' ) ) :
 						}
 					}
 
-					if ( empty( $type_of_choice ) ) {
+					if ( empty( $type_of_choice ) && $chosen_fields ) {
 						$type_of_choice = explode( '_', $chosen_fields );
 					}
 					if ( empty( $type_of_choice[1] ) ) {

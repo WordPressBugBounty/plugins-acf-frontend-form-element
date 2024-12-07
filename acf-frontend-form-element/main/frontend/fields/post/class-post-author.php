@@ -32,7 +32,7 @@ if ( ! class_exists( 'post_author' ) ) :
 			$this->field_types = array( 'post_author', 'product_author' );
 
 			add_filter( 'acf/load_field/type=user', array( $this, 'load_post_author_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 					// Add AJAX query.
 			add_action( 'wp_ajax_fea/fields/post_author/query', array( $this, 'ajax_query' ) );
@@ -228,8 +228,10 @@ if ( ! class_exists( 'post_author' ) ) :
 		 * @param  mixed $field
 		 * @return mixed
 		 */
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $post_id && is_numeric( $post_id ) ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $post_id && is_numeric( $post_id ) ) {
 				$post_to_edit                = array(
 					'ID' => $post_id,
 				);
@@ -239,7 +241,7 @@ if ( ! class_exists( 'post_author' ) ) :
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 
 			}
-			return $value;
+			return true;
 		}
 
 		/**

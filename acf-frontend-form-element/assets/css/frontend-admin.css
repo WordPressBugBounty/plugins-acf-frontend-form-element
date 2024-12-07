@@ -1089,7 +1089,7 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
   }
   
 
-  .elementor-element .acf-field{
+  .elementor-element:not(.elementor-widget-shortcode) .acf-field{
 	padding:0;
 	margin:0;
   }

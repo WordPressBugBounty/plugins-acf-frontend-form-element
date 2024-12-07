@@ -33,7 +33,7 @@ if ( ! class_exists( 'nickname' ) ) :
 				'append'        => '',
 			);
 			add_filter( 'acf/load_field/type=text', array( $this, 'load_nickname_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -62,8 +62,10 @@ if ( ! class_exists( 'nickname' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $field['name'] == 'nickname' ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $field['name'] == 'nickname' ) {
 				return $value;
 			}
 

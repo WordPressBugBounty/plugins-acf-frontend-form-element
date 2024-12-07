@@ -33,7 +33,7 @@ if ( ! class_exists( 'last_name' ) ) :
 				'append'        => '',
 			);
 			add_filter( 'acf/load_field/type=text', array( $this, 'load_last_name_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 			add_filter( 'frontend_admin/add_to_record/' . $this->name, array( $this, 'add_to_record' ), 10, 3 );
 		}
@@ -70,8 +70,10 @@ if ( ! class_exists( 'last_name' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $field['name'] == 'last_name' ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $field['name'] == 'last_name' ) {
 				return $value;
 			}
 
@@ -87,7 +89,7 @@ if ( ! class_exists( 'last_name' ) ) :
 				);
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
-			return null;
+			return true;
 		}
 
 		public function prepare_field( $field ) {

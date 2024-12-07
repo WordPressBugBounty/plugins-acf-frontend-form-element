@@ -38,7 +38,7 @@ if ( ! class_exists( 'display_name' ) ) :
 			);
 
 			add_filter( 'acf/load_field/type=text', array( $this, 'load_display_name_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -159,8 +159,10 @@ if ( ! class_exists( 'display_name' ) ) :
 			  $field['name'] = $field['type'];
 			 return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-				 $user = explode( 'user_', $post_id );
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}	 $user = explode( 'user_', $post_id );
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];
 				remove_action( 'acf/save_post', '_acf_do_save_post' );
@@ -172,7 +174,7 @@ if ( ! class_exists( 'display_name' ) ) :
 				);
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
-				return null;
+			return true;
 		}
 
 

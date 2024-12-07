@@ -33,7 +33,7 @@ if ( ! class_exists( 'user_bio' ) ) :
 				'rows'          => '',
 			);
 			add_filter( 'acf/load_field/type=textarea', array( $this, 'load_user_bio_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -61,8 +61,10 @@ if ( ! class_exists( 'user_bio' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			if ( $field['name'] == 'display_name' ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}if ( $field['name'] == 'display_name' ) {
 				return $value;
 			}
 
@@ -79,7 +81,7 @@ if ( ! class_exists( 'user_bio' ) ) :
 				);
 				add_action( 'acf/save_post', '_acf_do_save_post' );
 			}
-			return null;
+			return true;
 		}
 
 		public function update_value( $value, $post_id = false, $field = false ) {

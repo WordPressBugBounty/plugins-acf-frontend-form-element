@@ -32,7 +32,7 @@ if ( ! class_exists( 'allow_comments' ) ) :
 				'ui_on_text'    => '',
 				'ui_off_text'   => '',
 			);
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -58,7 +58,10 @@ if ( ! class_exists( 'allow_comments' ) ) :
 			return $value;
 		}
 
-		function pre_update_value( $value, $post_id = false, $field = false ) {
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			}
 			if ( $post_id && is_numeric( $post_id ) ) {
 				$post_to_edit = array(
 					'ID' => $post_id,

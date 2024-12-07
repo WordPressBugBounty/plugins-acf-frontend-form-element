@@ -53,7 +53,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 								//$object            = get_field_object( $key, $source );
 								$field['value'] = $value;
 								$json['updates'][] = array(
-									'html' => fea_instance()->dynamic_values->display_field( $field ),
+									'html' => $fea_instance->dynamic_values->display_field( $field ),
 								);
 							}
 						}
@@ -61,7 +61,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					if ( ! empty( $fields_select ) ) {
 						$object            = get_field_object( $fields_select, $source );
 						$json['updates'][] = array(
-							'html' => fea_instance()->dynamic_values->display_field( $object ),
+							'html' => $fea_instance->dynamic_values->display_field( $object ),
 						);
 					}
 				}
@@ -99,6 +99,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			global $fea_instance, $fea_form;
 			
 			$form = $fea_instance->form_display->validate_form( $_POST['_acf_form'] );	
+
 
 			//$fea_form = $form;
 			// bail ealry if form is corrupt
@@ -139,18 +140,17 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				}
 					
 			}
-
+			global $fea_form, $fea_instance;
 
 			if ( ! empty( $form['dynamic_title'] ) ) {
-				$form['submission_title'] = fea_instance()->dynamic_values->get_dynamic_values( $form['submission_title'], $form );
+				$form['submission_title'] = sanitize_text_field( $fea_instance->dynamic_values->get_dynamic_values( $form['submission_title'], $form ) );
 			}	
 
 			// add global for backwards compatibility
 			$GLOBALS['admin_form'] = $form;
-			global $fea_form;
 			//$fea_form = $form;
 
-			$form = fea_instance()->dynamic_values->get_form_dynamic_values( $form );
+			$form = $fea_instance->dynamic_values->get_form_dynamic_values( $form );
 
 			if ( $save ) {
 				$save = get_option( 'frontend_admin_save_submissions' );
@@ -174,7 +174,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			} 
 
 			// vars
-			$errors = fea_instance()->form_validate->get_errors();
+			$errors = $fea_instance->form_validate->get_errors();
 
 			// bail ealry if no errors
 			if ( $errors ) {
@@ -227,7 +227,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				'post_title', 'text', 'username', 'term_name'
 			];
 			if ( $input && in_array( $field['type'], $text_based ) && empty( $form['dynamic_title'] ) && empty( $form['submission_title'] ) ) {
-				$form['submission_title'] = $input;
+				$form['submission_title'] = sanitize_text_field( $input );
 			}
 
 
@@ -256,7 +256,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 				if ( in_array( $field['type'], array( 'email', 'user_email', 'mailchimp_email' ) ) ) {
 					if ( $input ) {
-						$emails_handler = fea_instance()->emails_handler ?? false;
+						$emails_handler = $fea_instance->emails_handler ?? false;
 						if ( $emails_handler ) {
 							$verified = $emails_handler->is_email_verified( $input );
 							if ( !$verified ) {
@@ -317,13 +317,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		public function save_objects( $form ){
+			global $fea_instance;
 			if ( ! empty( $form['save_all_data'] ) ) {
 				$form['submission_status'] = implode( ',', $form['save_all_data'] );
 
 				if ( in_array( 'verify_email', $form['save_all_data'] ) ) {
 					$current_user = wp_get_current_user();
 					if ( ! empty( $current_user->ID ) ) {
-						$emails_handler = fea_instance()->emails_handler ?? false;
+						$emails_handler = $fea_instance->emails_handler ?? false;
 						if ( $emails_handler ) {							
 							$verified = $emails_handler->is_email_verified( $current_user->user_email ); 
 							if ( ! $verified ) {
@@ -354,6 +355,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		public function submit_form( $form ) {
+			global $fea_instance;
 			$form = $this->create_record( $form, true );
 
 			if ( empty( $form['approval'] ) ) {
@@ -369,8 +371,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$save = apply_filters( 'frontend_admin/form/save_data', $save, $form );
 
 			$form = $this->save_objects( $form );
-
-			foreach ( fea_instance()->local_actions as $name => $action ) {
+			foreach ( $fea_instance->local_actions as $name => $action ) {
 				if ( $save ) {
 					$form = $action->run( $form );
 				} else {
@@ -386,6 +387,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		public function run_actions( $form ) {
+			global $fea_instance;
 			$run_actions = apply_filters( 'frontend_admin/form/run_actions', true, $form );
 			if ( ! $run_actions ) {
 				return $form;
@@ -400,7 +402,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$GLOBALS['admin_form'] = $form;
 
 
-			$remote_actions = fea_instance()->remote_actions ?? false;
+			$remote_actions = $fea_instance->remote_actions ?? false;
 
 			if ( ! empty( $remote_actions ) ) {
 
@@ -456,6 +458,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		public function return_form( $form ) {
+			global $fea_instance;
 			$types = array( 'post', 'user', 'term', 'product' );
 
 			$form = apply_filters( 'frontend_admin/form/return', $form );
@@ -470,7 +473,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$update_message = $form['update_message'];
 			if ( is_string( $update_message ) && strpos( $update_message, '[' ) !== 'false' ) {
-				$update_message = fea_instance()->dynamic_values->get_dynamic_values( $update_message, $form );
+				$update_message = $fea_instance->dynamic_values->get_dynamic_values( $update_message, $form );
 			}
 			$response = array(
 				'to_top' => true,
@@ -500,10 +503,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				if ( 'submission_form' == $form['ajax_submit'] ) {
 					$title  = $form['record']['submission_title'];
 					if ( ! empty( $form['submission_title'] ) ) {
-						$title = fea_instance()->dynamic_values->get_dynamic_values( $form['submission_title'], $form );
+						$title = $fea_instance->dynamic_values->get_dynamic_values( $form['submission_title'], $form );
 					}
 					$response['submission']       = $form['submission'];
-					$response['submission_title'] = $title;
+					$response['submission_title'] = sanitize_text_field( $title );
 					$response['close_modal']      = 1;
 					$submission_form              = true;
 				} else {
@@ -512,7 +515,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 						$response['field_key'] = $form['form_attributes']['data-field'];
 						$response['modal'] = true;
 
-						$host_field = fea_instance()->frontend->get_field( $response['field_key'] );
+						$host_field = $fea_instance->frontend->get_field( $response['field_key'] );
 
 						if ( ! $host_field ) {
 							wp_send_json_error( __( 'Post Added. No Field found to update.', 'acf-frontend-form-element' ) );
@@ -549,6 +552,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 					}
 
+					$return = $fea_instance->dynamic_values->get_dynamic_values( $return, $form, true );
+
 					$return = remove_query_arg( array( 'pagename' ), $return );
 
 					$response['redirect'] = $return;
@@ -567,7 +572,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 
 			if ( isset( $submission_form ) ) {
-				$form = fea_instance()->submissions_handler->get_form(
+				$form = $fea_instance->submissions_handler->get_form(
 					$form['submission'],
 					array(),
 					1
@@ -607,7 +612,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				if( $form['show_in_modal'] ){
 					$form['show_in_modal'] = false;
 				}
-				fea_instance()->form_display->render_form( $form );
+				$fea_instance->form_display->render_form( $form );
 				$response['reload_form'] = ob_get_clean();
 			}
 
@@ -668,7 +673,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				$status = 'approved';
 			}
 
-			global $wpdb;
+			global $wpdb, $fea_instance;
 
 			$title = isset( $form['submission_title'] ) ? $form['submission_title'] : $form['form_title'];
 
@@ -682,9 +687,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( empty( $form['submission'] ) ) {
 				$args['created_at'] = current_time( 'mysql' );
 				$args['form']       = 'admin_form' == get_post_type( $form['ID'] ) ? $form['ID'] : $form['ID']. ':' .$form['id'];
-				$form['submission'] = fea_instance()->submissions_handler->insert_submission( $args );
+				$form['submission'] = $fea_instance->submissions_handler->insert_submission( $args );
 			} else {
-				fea_instance()->submissions_handler->update_submission( $form['submission'], $args );
+				$fea_instance->submissions_handler->update_submission( $form['submission'], $args );
 			}
 
 			if ( empty( $no_cookie ) ) {
@@ -737,7 +742,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		
 
 		public function verify_email_address() {
-			global $wp;
+			global $wp, $fea_instance;
 
             if( 'fea/verify-email' !== $wp->request  ) return;
 
@@ -759,9 +764,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$address = $request['email-address'];
 
-			$fea = fea_instance();
 
-			$submission = $fea->submissions_handler->get_submission( $request['submission'] );
+			$submission = $fea_instance->submissions_handler->get_submission( $request['submission'] );
 			if ( empty( $submission->fields ) ) {
 				wp_redirect( home_url( $url ) );
 			}
@@ -773,7 +777,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				unset( $record['emails_to_verify'][ $address ] );
 				$record['verified_emails'][ $address ] = $address;
 
-				$emails_handler = $fea->emails_handler ?? false;
+				$emails_handler = $fea_instance->emails_handler ?? false;
 				if ( $emails_handler ) {
 					$emails_handler->approve_email( $address );
 				}
@@ -783,9 +787,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					if ( $submission->status ) {
 						$old_status = explode( ',', $submission->status );
 						if ( ! in_array( 'require_approval', $old_status ) ) {
-							   $form           = $fea->form_display->get_form( $submission->form );
+							   $form           = $fea_instance->form_display->get_form( $submission->form );
 							   $form['record'] = $record;
-							foreach ( $fea->local_actions as $name => $action ) {
+							foreach ( $fea_instance->local_actions as $name => $action ) {
 								$form = $action->run( $form );
 							}
 							$record = $form['record'];
@@ -797,7 +801,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				}
 
 				$args['fields'] = fea_encrypt( json_encode( $record ) );
-				$fea->submissions_handler->update_submission( $request['submission'], $args );
+				$fea_instance->submissions_handler->update_submission( $request['submission'], $args );
 
 				$response = array(
 					'success_message' => __( 'Email Verified', 'acf-frontend-form-element' ),

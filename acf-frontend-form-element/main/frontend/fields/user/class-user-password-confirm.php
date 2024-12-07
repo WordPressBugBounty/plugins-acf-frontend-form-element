@@ -31,7 +31,7 @@ if ( ! class_exists( 'user_password_confirm' ) ) :
 				'append'      => '',
 			);
 			add_filter( 'acf/load_field/type=password', array( $this, 'load_user_password_confirm_field' ) );
-			add_filter( 'acf/update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 3 );
+			add_filter( 'acf/pre_update_value/type=' . $this->name, array( $this, 'pre_update_value' ), 9, 4 );
 
 		}
 
@@ -98,8 +98,12 @@ if ( ! class_exists( 'user_password_confirm' ) ) :
 			 $field['name'] = $field['type'];
 			return $field;
 		}
-		function pre_update_value( $value, $post_id = false, $field = false ) {
-			 return null;
+		function pre_update_value( $checked, $value, $post_id, $field ) {
+			if( $this->name !== $field['type'] ){
+				return $checked;
+			} 
+			return true;
+
 		}
 
 		function render_field( $field ) {

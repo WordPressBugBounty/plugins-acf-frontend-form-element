@@ -102,7 +102,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			return false;
 		}
 
-		function get_dynamic_values( $text, $form = false ) {
+		function get_dynamic_values( $text, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -112,6 +112,20 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				return $text;
 			}
 			foreach ( $matches[1] as $i => $tag ) {
+				if( $plain ){
+					$tags = explode( ':', $tag );
+					if( ! empty( $tags[1] ) ){
+						$object = $tags[0];
+						$field = $tags[1];
+						$value = $form['record']['fields'][$object][$field]['_input'] ?? '';
+						if( $value ){
+							$text = str_replace( $matches[0][ $i ], $value, $text );
+							continue;	
+						}
+					}
+
+				}
+
 				$replaced = false;
 				$value    = false;
 
@@ -122,32 +136,32 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 				
 				if ( preg_match_all( '/acf\s*:\s*(.*)/', $tag, $args ) ) {
-					$value = $this->get_field_value( $args, $form );
+					$value = $this->get_field_value( $args, $form, $plain );
 					if ( ! $value ) {
-						$value = $this->get_sub_field_value( $args, $form );
+						$value = $this->get_sub_field_value( $args, $form, $plain );
 					}
 					$replaced = true;
 				}
 
 				if ( ! $value && preg_match_all( '/current\s*:\s*(.*)/', $tag, $args ) ) {
-					$value = $this->get_current_data( $args, $form );
+					$value = $this->get_current_data( $args, $form, $plain );
 					$replaced = true;
 				}
 
 				if ( ! $value && preg_match_all( '/post\s*:\s*(.*)/', $tag, $args ) ) {
-					$value    = $this->get_post_value( $args, $form );
+					$value    = $this->get_post_value( $args, $form, $plain );
 					$replaced = true;
 				}
 				if ( ! $value && preg_match_all( '/product\s*:\s*(.*)/', $tag, $args ) ) {
-					$value    = $this->get_product_value( $args, $form );
+					$value    = $this->get_product_value( $args, $form, $plain );
 					$replaced = true;
 				}
 				if ( ! $value && preg_match_all( '/user\s*:\s*(.*)/', $tag, $args ) ) {
-					$value    = $this->get_user_value( $args, $form );
+					$value    = $this->get_user_value( $args, $form, $plain );
 					$replaced = true;
 				}
 				if ( ! $value && preg_match_all( '/term\s*:\s*(.*)/', $tag, $args ) ) {
-					$value    = $this->get_term_value( $args, $form );
+					$value    = $this->get_term_value( $args, $form, $plain );
 					$replaced = true;
 				}
 				if ( $replaced ) {
@@ -242,7 +256,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			return $return;
 		}
 
-		function get_user_value( $matches, $form = false ) {
+		function get_user_value( $matches, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -328,7 +342,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			}
 			return $value;
 		}
-		function get_post_value( $matches, $form = false ) {
+		function get_post_value( $matches, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -458,7 +472,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			return $value;
 
 		}
-		function get_product_value( $matches, $form = false ) {
+		function get_product_value( $matches, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -572,7 +586,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			return $value;
 
 		}
-		function get_term_value( $matches, $form = false ) {
+		function get_term_value( $matches, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -634,7 +648,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 		}
 
-		function get_sub_field_value( $matches, $form = false ) {
+		function get_sub_field_value( $matches, $form = false, $plain = false ) {
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -677,7 +691,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			return '';
 		}
 
-		function get_current_data( $matches, $form = false ) {
+		function get_current_data( $matches, $form = false, $plain = false ) {
 			if( empty( $matches[1][0] ) ) return '';
 
 			switch ( $matches[1][0] ) {
@@ -689,7 +703,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			}
 		}
 
-		function get_field_value( $matches, $form = false ) {
+		function get_field_value( $matches, $form = false, $plain = false ) {
 			$post_id = isset( $form['record']['post_id'] ) ? $form['record']['post_id'] : false;
 			$record  = array();
 			if ( ! empty( $form['record']['fields'] ) ) {
@@ -861,6 +875,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 			
 			$value = $field['_input'] ?? $field['value'] ?? '';
+
 	
 			if ( is_array( $value ) && isset( $value['id'] ) && ! $value['id'] ) {
 				$value = $value['id'];

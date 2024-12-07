@@ -592,6 +592,14 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 		}
 
+		public function pre_update_value( $checked, $value, $post_id = false, $field = false ){
+			if( empty( $field['type'] ) ) return $checked;
+
+			$type = $field['type'];
+
+			return apply_filters( 'acf/pre_update_value/type=' . $type, $checked, $value, $post_id, $field );
+		}
+
 		public function __construct() {
 			 global $fea_field_types;
 			$fea_field_types = $this->get_field_types();
@@ -617,6 +625,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			add_filter( 'acf/update_value', array( $this, 'update_dynamic_value' ), 17, 3 );
 
+			add_filter( 'acf/pre_update_value', array( $this, 'pre_update_value' ), 10, 4 );
+
 			add_filter( 'acf/load_field_group', array( $this, 'exclude_groups' ) );
 			add_filter( 'acf/load_field', array( $this, 'load_invisible_field' ) );
 
@@ -639,6 +649,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			do_action( 'frontend_admin/forms/included_files' );
 		}
+
 
 	}
 

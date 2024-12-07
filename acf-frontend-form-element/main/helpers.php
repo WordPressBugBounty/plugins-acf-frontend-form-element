@@ -295,7 +295,7 @@ function feadmin_sanitize_array ($data = array()) {
 		if (!is_array($v) && !is_object($v)) {
 
 			//if $k is "to", "cc", or "bcc" get the text between the < and the >
-			if( in_array( $k, [ 'email_to', 'email_to_cc', 'email_to_bcc' ] ) ) {
+			if( in_array( $k, [ 'email_to', 'email_to_cc', 'email_to_bcc', 'email_from', 'email_reply_to' ] ) ) {
 				$addresses = explode( ',', $v );
 				foreach( $addresses as $key => $address ) {
 					$address = trim( $address );

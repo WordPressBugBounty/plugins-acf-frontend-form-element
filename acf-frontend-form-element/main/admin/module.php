@@ -558,6 +558,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			
 
 			add_filter( 'frontend_admin/forms/get_form', function( $form, $key ){
+				if( ! $key ) return $form;
 				$key = explode( 'fea_admin_', $key );
 
 				if( isset( $key[1] ) ) return $this->get_form( $key[1] );
