@@ -1403,6 +1403,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				echo ' clone';
 			}
 			echo '">';
+			
 			$file_data = array(
 				array(
 					'label' => __( 'Title' ),
@@ -1418,7 +1419,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				array(
 					'label' => __( 'Caption' ),
 					'type'  => 'textarea',
-					'name'  => 'capt',
+					'name'  => 'caption',
 					'rows'  => 3,
 				),
 				array(
@@ -1466,7 +1467,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 				$values['title']       = $attachment->post_title;
 				$values['description'] = $attachment->post_content;
-				$values['capt']        = $attachment->post_excerpt;
+				$values['caption']        = $attachment->post_excerpt;
 				$values['alt']         = get_post_meta( $id, '_wp_attachment_image_alt', true );
 			}
 

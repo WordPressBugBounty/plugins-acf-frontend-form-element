@@ -53,10 +53,10 @@ if ( ! class_exists( 'upload_file' ) ) :
 			add_filter( 'ajax_query_attachments_args', [ $this, 'hide_uploads_media_overlay_view' ] );
 
 
-			$file_fields = array( 'file', 'image', 'upload_file', 'featured_image', 'main_image', 'site_logo' );
+			$file_fields = array( 'file', 'image', 'upload_file', 'featured_image', 'main_image', 'site_logo', 'upload_image', 'upload_files' );
 			foreach ( $file_fields as $type ) {
 				add_filter( 'acf/prepare_field/type=' . $type, array( $this, 'prepare_image_or_file_field' ), 5 );
-				add_filter( 'acf/update_value/type=' . $type, array( $this, 'update_file_value' ), 8, 3 );
+				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'update_file_value' ), 10, 4 );
 				add_filter( 'acf/validate_value/type=' . $type, array( $this, 'validate_file_value' ), 5, 4 );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'upload_button_text_setting' ) );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'extra_file_settings' ) );
@@ -70,7 +70,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			$file_fields = array_merge( $file_fields, array( 'gallery', 'product_images', 'upload_files' ) );
 			foreach ( $file_fields as $type ) {
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'extra_file_settings' ) );
-				add_filter( 'acf/update_value/type=' . $type, array( $this, 'move_folders' ), 9, 3 );
+				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'move_folders' ), 9, 4 );
 			}
 
 			if ( defined( 'HAPPYFILES_VERSION' ) ) {
@@ -943,7 +943,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 		}
 
-		function move_folders( $value, $post_id = false, $field = false ) {
+		function move_folders( $checked, $value, $post_id = false, $field = false ) {
 			if( ! $value ) return $value;
 
 			global $fea_form;
@@ -992,16 +992,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			//$upload_dir = apply_filters( 'frontend_admin/files/folder_path', $upload_dir, $field );
 
-			if( is_array( $value ) ){
-				foreach( $value as $attachment ){
-					$attachment = (int) $attachment;        
-					$this->move_file( $attachment, $upload_dir, $field );
-				}
-			}else{	
+			
 				$value = (int) $value;        			
 				$this->move_file( $value, $upload_dir, $field );
-			}
-			return $value;
+			
+			return $checked;
 		}
 
 		function move_file( $attachment, $upload_dir, $field ){
@@ -1052,44 +1047,41 @@ if ( ! class_exists( 'upload_file' ) ) :
 			}
 		}
 
-		function update_file_value( $value, $post_id = false, $field = false ) {
+		function update_file_value( $checked, $value, $post_id = false, $field = false ) {
 			if ( is_numeric( $post_id ) ) {
-				remove_filter( 'acf/update_value/type=' . $field['type'], array( $this, 'update_file_value' ), 8, 3 );
 				$value = (int) $value;
 				$post  = get_post( $post_id );
 				if ( wp_is_post_revision( $post ) ) {
 					$post_id = $post->post_parent;
 				}
 
-				global $fea_form;
+				acf_connect_attachment_to_post( $value, $post_id );
+			}
 
-				if ( ! empty( $fea_form['record']['fields']['file_data'][$field['name']] ) ) {
-					$meta = $fea_form['record']['fields']['file_data'][$field['name']];
-					if ( isset( $meta['alt'] ) ) {
-						update_post_meta( $value, '_wp_attachment_image_alt', sanitize_text_field( $meta['alt'] ) );
-					}
+			global $fea_form;
 
-					$edit = array( 'ID' => $value );
-					if ( ! empty( $meta['title'] ) ) {
-						$edit['post_title'] = sanitize_text_field( $meta['title'] );
-					}
-
-					if ( isset( $meta['description'] ) ) {
-						$edit['post_content'] = sanitize_textarea_field( $meta['description'] );
-					}
-					if ( isset( $meta['capt'] ) ) {
-						$edit['post_excerpt'] = sanitize_textarea_field( $meta['capt'] );
-					}
-
-					wp_update_post( $edit );
+			if ( ! empty( $fea_form['record']['fields']['file_data'][$field['name']] ) ) {
+				$meta = $fea_form['record']['fields']['file_data'][$field['name']];
+				if ( isset( $meta['alt'] ) ) {
+					update_post_meta( $value, '_wp_attachment_image_alt', sanitize_text_field( $meta['alt'] ) );
 				}
 
-				acf_connect_attachment_to_post( $value, $post_id );
+				$edit = array( 'ID' => $value );
+				if ( ! empty( $meta['title'] ) ) {
+					$edit['post_title'] = sanitize_text_field( $meta['title'] );
+				}
 
-				add_filter( 'acf/update_value/type=' . $field['type'], array( $this, 'update_file_value' ), 8, 3 );
+				if ( isset( $meta['description'] ) ) {
+					$edit['post_content'] = sanitize_textarea_field( $meta['description'] );
+				}
+				if ( isset( $meta['caption'] ) ) {
+					$edit['post_excerpt'] = sanitize_textarea_field( $meta['caption'] );
+				}
 
+				wp_update_post( $edit );
 			}
-			return $value;
+
+			return $checked;
 		}
 
 	}

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.4.3
-Stable tag: 3.25.1
+Stable tag: 3.25.2
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,6 +141,11 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.25.2 - 17-12-2024 =
+ * Fixed orderby error
+ * Fixed file meta not saving
+ * Fixed permisions not working
+
 = 3.25.1 - 06-12-2024 =
  * Fixed Delete Post widget for Elementor not rendering
  * Fixed role field issue

@@ -168,10 +168,10 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			}
 
 			if ( ! empty( $args['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $args['orderby'] ) );
+				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $args['orderby'] ) );
 				$sql .= ! empty( $args['order'] ) ? ' ' . $wpdb->prepare( esc_sql( $args['order'] ) ) : ' ASC';
 			} else {
-				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
+				$sql .= ' ORDER BY created_at DESC' ;
 			}
 
 			if ( $args['per_page'] != '-1' ) {

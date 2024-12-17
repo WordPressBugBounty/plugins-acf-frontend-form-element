@@ -109,10 +109,10 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_Crud' ) ) :
 			}
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $args['orderby'] ) );
+				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $args['orderby'] ) );
 				$sql .= ! empty( $args['order'] ) ? ' ' . $wpdb->prepare( esc_sql( $args['order'] ) ) : ' ASC';
 			}else{
-				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
+				$sql .= ' ORDER BY created_at DESC' ;
 			}
 
 			$sql .= $wpdb->prepare( " LIMIT %d", $args['per_page'] );

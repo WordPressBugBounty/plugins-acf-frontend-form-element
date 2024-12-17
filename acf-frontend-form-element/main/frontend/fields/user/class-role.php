@@ -104,8 +104,6 @@ if ( ! class_exists( 'role' ) ) :
 			if ( ! $user || is_wp_error( $user ) ) return true; //user does not exist
 
 			if ( ! empty( $field['role_options'] ) && ! in_array( $value, $field['role_options'] ) ) {
-				//user is a hacker and deserves to be deleted
-				wp_delete_user( $user_id );
 				wp_die( __( 'Invalid role option selected.', 'acf-frontend-form-element' ) );
 			}
 

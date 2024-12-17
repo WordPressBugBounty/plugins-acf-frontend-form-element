@@ -139,13 +139,13 @@ if( ! class_exists( 'FEA_Emails_Crud' ) ) :
 			}
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] ) );
+				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
 				$sql .= ! empty( $_REQUEST['order'] ) ? 
 					$wpdb->prepare( ' ' . esc_sql( $_REQUEST['order'] ) )
 					:
 					' ASC';
 			}else{
-				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
+				$sql .= ' ORDER BY created_at DESC' ;
 			}
 
 			$sql .= $wpdb->prepare( " LIMIT %d", $args['per_page'] );

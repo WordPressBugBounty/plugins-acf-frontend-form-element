@@ -41,13 +41,13 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 			$sql = "SELECT * FROM {$wpdb->prefix}fea_plans";
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] ) );
+				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
 				$sql .= ! empty( $_REQUEST['order'] ) ? 
 					$wpdb->prepare( ' ' . esc_sql( $_REQUEST['order'] ) )
 					:
 					' ASC';
 			}else{
-				$sql .= ' ORDER BY ' . sanitize_sql_orderby( 'created_at DESC' );
+				$sql .= ' ORDER BY created_at DESC' ;
 			}
 
 			$sql .= " LIMIT $per_page";

@@ -113,6 +113,8 @@ class PermissionsTab {
 						if ( is_array( $condition['by_role'] ) ) {
 							if ( count( array_intersect( $condition['by_role'], (array) $active_user->roles ) ) != false || in_array( 'all', $condition['by_role'] ) ) {
 								$by_role = true;
+							}else{
+								$by_role = false;
 							}
 						}
 					}

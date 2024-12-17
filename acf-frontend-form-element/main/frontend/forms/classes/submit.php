@@ -137,6 +137,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 							$form = $this->add_value_to_record( $form, $key, $input, $group );
 						}
 					}
+
 				}
 					
 			}
@@ -148,7 +149,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			// add global for backwards compatibility
 			$GLOBALS['admin_form'] = $form;
-			//$fea_form = $form;
+			$fea_form = $form;
 
 			$form = $fea_instance->dynamic_values->get_form_dynamic_values( $form );
 

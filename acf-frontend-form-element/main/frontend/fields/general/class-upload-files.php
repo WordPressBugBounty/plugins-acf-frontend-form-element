@@ -55,7 +55,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 			$multiple_files = array( 'gallery', 'upload_files', 'product_images' );
 			foreach ( $multiple_files as $type ) {
-				add_filter( 'acf/update_value/type=' . $type, array( $this, 'update_attachments_value' ), 8, 3 );
+				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'update_attachments_value' ), 10, 4 );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'upload_button_text_setting' ) );
 				add_filter( 'acf/validate_value/type=' . $type, array( $this, 'validate_files_value' ), 5, 4 );
 
@@ -135,7 +135,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				)
 			);
 		}
-		function update_attachments_value( $value, $post_id = false, $field = false ) {
+		function update_attachments_value( $checked, $value, $post_id = false, $field = false ) {
 			if ( isset( $value['{file-index}'] ) ) {
 				unset( $value['{file-index}'] );
 			}
@@ -153,31 +153,37 @@ if ( ! class_exists( 'upload_files' ) ) :
 			$new_value = array();
 			global $fea_form;
 			foreach ( $value as $index => $attachment ) {
-				if ( ! empty( $fea_form['record']['fields']['file_data'][$field['name']][$index] ) ) {
-					$meta = $fea_form['record']['fields']['file_data'][$field['name']][$index];
-					if ( isset( $meta['alt'] ) ) {
-						update_post_meta( $attachment, '_wp_attachment_image_alt', $meta['alt'] );
-					}
+				$meta = $fea_form['record']['fields']['file_data'][$field['name']][$attachment] ?? false;
 
-					$edit = array( 'ID' => $attachment );
-					if ( ! empty( $meta['title'] ) ) {
-						$edit['post_title'] = $meta['title'];
-					}
-
-					if ( isset( $meta['description'] ) ) {
-						$edit['post_content'] = $meta['description'];
-					}
-					if ( isset( $meta['capt'] ) ) {
-						$edit['post_excerpt'] = $meta['capt'];
-					}
-
-					wp_update_post( $edit );
+				error_log( print_r( $fea_form['record']['fields']['file_data'][$field['name']], true ) );
+				if( empty( $meta ) ){
+					continue;
 				}
+				
+				error_log( 'meta: ' . print_r( $meta, true ) );
+				if ( isset( $meta['alt'] ) ) {
+					update_post_meta( $attachment, '_wp_attachment_image_alt', $meta['alt'] );
+				}
+
+				$edit = array( 'ID' => $attachment );
+				if ( ! empty( $meta['title'] ) ) {
+					$edit['post_title'] = sanitize_text_field( $meta['title'] );
+				}
+
+				if ( isset( $meta['description'] ) ) {
+					$edit['post_content'] = sanitize_textarea_field( $meta['description'] );
+				}
+				if ( isset( $meta['caption'] ) ) {
+					$edit['post_excerpt'] = sanitize_textarea_field( $meta['caption'] );
+				}
+
+				wp_update_post( $edit );
+				
 				$attachment = (int) $attachment;
 				acf_connect_attachment_to_post( $attachment, $post_id );
 			}
 
-			return $value;
+			return $checked;
 		}
 
 		/*
@@ -409,7 +415,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				fea_instance()->form_display->render_field_wrap(
 					array(
 						// 'key'        => "{$field['key']}-caption",
-						'name'   => 'caption',
+						'name'   => 'capt',
 						'prefix' => $prefix,
 						'type'   => 'textarea',
 						'label'  => __( 'Caption', 'acf-frontend-form-element' ),
@@ -672,8 +678,9 @@ if ( ! class_exists( 'upload_files' ) ) :
 									<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
 								</div>
 					<?php
-					$prefix = 'acff[file_data][' . $field['key'] . '][' . $i . ']';
-					fea_instance()->form_display->render_meta_fields( $prefix, $a, false );
+					$prefix = 'acff[file_data][' . $field['key'] . '][' . $a['id'] . ']';
+				
+					fea_instance()->form_display->render_meta_fields( $prefix, $a['id'], false );
 					?>
 							</div>
 				<?php endforeach; ?>
@@ -1064,40 +1071,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 		}
 
 
-		/*
-		*  update_value()
-		*
-		*  This filter is appied to the $value before it is updated in the db
-		*
-		*  @type    filter
-		*  @since    3.6
-		*  @date    23/01/13
-		*
-		*  @param    $value - the value which will be saved in the database
-		*  @param    $post_id - the $post_id of which the value will be saved
-		*  @param    $field - the field array holding all the field options
-		*
-		*  @return    $value - the modified value
-		*/
 
-		/*
-			 function update_value( $value, $post_id, $field ) {
-
-		// bail early if no value
-		if( empty($value) || !is_array($value) ) return false;
-
-		// loop
-		foreach( $value as $i => $v ) {
-
-			$value[ $i ] = $this->update_single_value( $v );
-
-		}
-
-
-		// return
-		return $value;
-
-		} */
 
 
 		/*
