@@ -155,12 +155,10 @@ if ( ! class_exists( 'upload_files' ) ) :
 			foreach ( $value as $index => $attachment ) {
 				$meta = $fea_form['record']['fields']['file_data'][$field['name']][$attachment] ?? false;
 
-				error_log( print_r( $fea_form['record']['fields']['file_data'][$field['name']], true ) );
 				if( empty( $meta ) ){
 					continue;
 				}
 				
-				error_log( 'meta: ' . print_r( $meta, true ) );
 				if ( isset( $meta['alt'] ) ) {
 					update_post_meta( $attachment, '_wp_attachment_image_alt', $meta['alt'] );
 				}

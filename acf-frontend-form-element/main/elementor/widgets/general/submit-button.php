@@ -13,8 +13,8 @@ use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Core\Schemes;
-
+use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 /**
 
  *
@@ -338,7 +338,9 @@ class Submit_Button_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'typography',
-				'scheme'   => Schemes\Typography::TYPOGRAPHY_4,
+				'global'    => array(
+					'default' => Global_Typography::TYPOGRAPHY_ACCENT,
+				),
 				'selector' => '{{WRAPPER}} .elementor-button',
 			)
 		);
@@ -411,9 +413,8 @@ class Submit_Button_Widget extends Widget_Base {
 			array(
 				'label'     => __( 'Background Color', 'elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'scheme'    => array(
-					'type'  => Schemes\Color::get_type(),
-					'value' => Schemes\Color::COLOR_4,
+				'global'    => array(
+					'default'  => Global_Colors::COLOR_ACCENT,
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-button' => 'background-color: {{VALUE}};',
