@@ -141,7 +141,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			}
 
 			if ( ! is_array( $value ) || ! $value ) {
-				return $value;
+				return $checked;
 			}
 
 			if ( is_numeric( $post_id ) && $value ) {

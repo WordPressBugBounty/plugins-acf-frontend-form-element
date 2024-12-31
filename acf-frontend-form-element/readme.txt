@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.3
+Stable tag: 3.25.4
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,6 +141,10 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.25.4 - 31-12-2024 =
+ * Fixed conflict with ACF gallery field
+ * Updated Freemius sdk for pro version
+
 = 3.25.3 - 18-12-2024 =
  * Fixed conflict with Elementor 3.26 
 
