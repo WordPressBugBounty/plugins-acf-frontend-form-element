@@ -155,6 +155,8 @@ if ( ! class_exists( 'upload_files' ) ) :
 			foreach ( $value as $index => $attachment ) {
 				$meta = $fea_form['record']['fields']['file_data'][$field['name']][$attachment] ?? false;
 
+				if( empty( $meta ) ) $meta = $fea_form['record']['fields']['file_data'][$field['name']][$index] ?? false;
+
 				if( empty( $meta ) ){
 					continue;
 				}

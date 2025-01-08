@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.4
+Stable tag: 3.25.6
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,6 +141,18 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.25.6 - 07-01-2024 =
+ * Fixed upload files field
+ * Fixed new file not saving meta
+ * Added option to disable users from adding new attribute terms
+
+= 3.25.5 - 07-01-2024 =
+ * Fixed edit post form not showing when no post types selected
+ * Fixed Elementor padding and margin controls repeating
+ * Added option to show Product Attributes as Dropdowns
+ * Added option to hide Visibilty Field in Product Attributes and to enable visibilty by default
+ * Added option to exclude the custom attributes from Attributes field
+
 = 3.25.4 - 31-12-2024 =
  * Fixed conflict with ACF gallery field
  * Updated Freemius sdk for pro version

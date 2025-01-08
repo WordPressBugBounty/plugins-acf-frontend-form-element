@@ -6,6 +6,10 @@
 			var copyText = "[" + $( this ).data( 'prefix' ) + "=" + $( this ).data( 'value' ) + "]";
 
 			/* Copy the text */
+			if (!navigator.clipboard) {
+				alert('Clipboard API not supported');
+				return;
+			}
 			navigator.clipboard.writeText( copyText );
 
 			var normalText = $( this ).html();
@@ -20,6 +24,10 @@
 		}
 	);
 
+	if (typeof acf === 'undefined') {
+		console.error('ACF is not defined');
+		return;
+	}
 	acf.addAction(
 		'add_field_object',
 		function(newField){

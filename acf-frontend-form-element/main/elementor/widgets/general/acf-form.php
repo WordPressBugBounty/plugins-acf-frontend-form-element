@@ -293,38 +293,6 @@ class ACF_Form extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
-		//margin around fields
-		$this->add_control(
-			'fields_margin',
-			array(
-				'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
-				'default'    => array(
-					'top'    => '0',
-					'right'  => '0',
-					'bottom' => '20',
-					'left'   => '0',
-					'unit'   => 'px',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .acf-field' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
-
-		//padding around fields
-		$this->add_control(
-			'fields_padding',
-			array(
-				'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .acf-field' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
 
 		$this->add_control(
 			'hide_field_labels',
@@ -491,7 +459,6 @@ class ACF_Form extends Widget_Base {
 				$fields['product_downloadable'] = $groups['product_downloadable'];
 				$fields['product_shipping']     = $groups['product_shipping'];
 				$fields['product_external']              = $groups['product_external'];
-				$fields['product_attributes']            = $groups['product_attributes'];
 				$fields['product_advanced']              = $groups['product_advanced'];
 			}
 		}

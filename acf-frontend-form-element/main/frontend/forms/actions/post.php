@@ -516,7 +516,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 						$post_type = $post->post_type;
 
-						if( is_array( $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
+						if( is_array( $form['post_type'] ) && ! in_array( 'any', $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
 							$form['post_id'] = 'none';
 						}
 						

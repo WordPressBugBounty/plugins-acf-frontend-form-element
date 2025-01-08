@@ -205,6 +205,10 @@
 					processData: false,
 					contentType: false,
 					success: function(response){
+						$form.removeClass( 'lock-form' );
+						$form.find('button').removeAttr('disabled');
+						$form.find('button').removeClass( 'disabled' );
+						acf.unlockForm( $form );
 						if ( response.success ) {
 							if ( response.data.errors ) {
 								response.data.errors.map( acf.showErrors, $form );
@@ -223,7 +227,6 @@
 									);
 								}
 							}
-							$form.find('button').removeAttr('disabled').removeClass( 'disabled' );
 							spinner.hide();
 						}
 					},

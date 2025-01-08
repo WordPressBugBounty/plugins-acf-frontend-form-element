@@ -53,10 +53,10 @@ if ( ! class_exists( 'upload_file' ) ) :
 			add_filter( 'ajax_query_attachments_args', [ $this, 'hide_uploads_media_overlay_view' ] );
 
 
-			$file_fields = array( 'file', 'image', 'upload_file', 'featured_image', 'main_image', 'site_logo', 'upload_image', 'upload_files' );
+			$file_fields = array( 'file', 'image', 'upload_file', 'featured_image', 'main_image', 'site_logo', 'upload_image' );
 			foreach ( $file_fields as $type ) {
 				add_filter( 'acf/prepare_field/type=' . $type, array( $this, 'prepare_image_or_file_field' ), 5 );
-				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'update_file_value' ), 10, 4 );
+				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'update_file_value' ), 8, 4 );
 				add_filter( 'acf/validate_value/type=' . $type, array( $this, 'validate_file_value' ), 5, 4 );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'upload_button_text_setting' ) );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'extra_file_settings' ) );
@@ -599,7 +599,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if( ! $fea_form && empty( $GLOBALS['admin_form'] ) ){
 				return $field;
 			}
-			if ( in_array( $field['type'], array( 'image', 'featured_image', 'main_image', 'site_logo' ) ) ) {
+			if ( in_array( $field['type'], array( 'image', 'featured_image', 'main_image', 'site_logo', 'upload_image' ) ) ) {
 				$field['type'] = 'upload_image';
 			}else{
 				$field['type'] = 'upload_file';
