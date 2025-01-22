@@ -102,7 +102,7 @@ class PermissionsTab {
 				$settings['display'] = ! (bool) $active_user->ID;
 			}
 			if ( 'logged_in' == $condition['who_can_see'] ) {
-				if ( ! $active_user ) {
+				if ( empty( $active_user->ID ) ) {
 					$settings['display'] = false;
 				} else {
 					$by_role = true; 

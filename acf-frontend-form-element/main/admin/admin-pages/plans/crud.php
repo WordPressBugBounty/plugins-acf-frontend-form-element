@@ -221,8 +221,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 				];
 			}
 
-			if( function_exists( 'feadmin_get_stripe_currencies' ) ){	
-				$currencies = feadmin_get_stripe_currencies();
+			if( function_exists( 'feadmin_get_currencies' ) ){	
+				$currencies = feadmin_get_currencies();
 			}else{
 				$currencies = [];
 			}		

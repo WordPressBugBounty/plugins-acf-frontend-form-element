@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.6
+Stable tag: 3.25.9
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,7 +141,17 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
-= 3.25.6 - 07-01-2024 =
+= 3.25.9 - 22-01-2024 =
+ * Fixed missing formatting in long text shortcodes
+
+= 3.25.8 - 16-01-2024 =
+ * Added option to Upload Files field to download uploads when clicked
+ * Fixed Custom Directory Folder feature
+ * Fixed Secure Directory feature and moved it to the pro version
+ * Fixed Attributes and Variations fields in Elementor widgets
+ * Added Nestable Add Product Form (pro feature) 
+
+= 3.25.7 - 07-01-2024 =
  * Fixed upload files field
  * Fixed new file not saving meta
  * Added option to disable users from adding new attribute terms

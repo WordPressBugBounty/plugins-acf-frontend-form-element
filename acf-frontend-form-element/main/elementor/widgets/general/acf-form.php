@@ -459,7 +459,10 @@ class ACF_Form extends Widget_Base {
 				$fields['product_downloadable'] = $groups['product_downloadable'];
 				$fields['product_shipping']     = $groups['product_shipping'];
 				$fields['product_external']              = $groups['product_external'];
+				$fields['product_linked']              = $groups['product_linked'];
+				$fields['product_attributes']              = $groups['product_attributes'];
 				$fields['product_advanced']              = $groups['product_advanced'];
+				
 			}
 		}
 		if( isset( $groups['security'] ) ){
@@ -544,7 +547,7 @@ class ACF_Form extends Widget_Base {
 	}
 
 	public function get_form_structure( $form, $wg_id ) {	
-		$wg_id = str_replace( 'elementor_', '', $form['id'] );
+		$wg_id = $this->get_id();
 
 		$form['fields'] = array();
 
@@ -696,7 +699,7 @@ class ACF_Form extends Widget_Base {
 							if ( $form_field['field_type'] == 'message' ) {
 								$local_field['type']    = 'message';
 								$local_field['message'] = $form_field['field_message'];
-								$local_field['name']    = $local_field['key'] = $wg_id . '_' . $form_field['_id'];
+								$local_field['name']    = $local_field['key'];
 							}
 	
 							break;
@@ -708,10 +711,18 @@ class ACF_Form extends Widget_Base {
 								$action_name = explode( '_', $name )[0];
 								if ( isset( fea_instance()->local_actions[ $action_name ] ) ) {
 									$action   = fea_instance()->local_actions[ $action_name ];
+									$sub_fields = null;
+									if( 'attributes' == $form_field['field_type'] ){
+										$sub_fields = $form['attribute_fields'];
+									}
+									if( 'variables' == $form_field['field_type'] ){
+										$sub_fields = $form['variable_fields'];
+									}
 									$local_field = $action->get_fields_display(
 										$form_field,
 										$local_field,
-										$wg_id
+										$wg_id,
+										$sub_fields
 									);
 	
 									if ( isset( $form_field['field_label_on'] ) ) {
@@ -725,14 +736,7 @@ class ACF_Form extends Widget_Base {
 											$local_field['default_value'] = $form_field['number_default_value'];
 										}
 	
-										if ( $form_field['field_type'] == 'taxonomy' ) {
-											$taxonomy            = ( isset( $form_field['field_taxonomy'] ) ? $form_field['field_taxonomy'] : 'category' );
-											$local_field['name'] = $wg_id . '_' . $taxonomy;
-											$local_field['key']  = $wg_id . '_' . $taxonomy;
-										} else {
-											$local_field['name'] = $wg_id . '_' . $form_field['field_type'];
-											$local_field['key']  = $wg_id . '_' . $form_field['field_type'];
-										}
+									
 									}
 	
 									if ( ! empty( $form_field['default_terms'] ) ) {
@@ -756,7 +760,9 @@ class ACF_Form extends Widget_Base {
 						$local_field['button_text'] = $form_field['button_text'];
 					}
 	
-					$local_field['key'] = 'field_' . $wg_id . $form_field['_id'];
+					$current_id = fea_instance()->elementor->get_current_post_id();
+
+					$local_field['key'] = $current_id . '_elementor_' . $wg_id . '_' . $form_field['_id'];
 					$local_field['name'] = $local_field['key'];
 					$local_field['wrapper']['class'] = ' elementor-repeater-item-' . $form_field['_id'];
 	

@@ -40,6 +40,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				'insert'      => 'append',			
 				'button_text' => __( 'Add Files', 'acf-frontend-form-element' ),
 				'add_button_locations' => array( 'bottom' ),
+				'click_event' => 'edit'
 			);
 
 			// actions
@@ -66,12 +67,9 @@ if ( ! class_exists( 'upload_files' ) ) :
 			if( empty( $GLOBALS['admin_form'] ) ){
 				return $field;
 			}
-			$uploader = acf_get_setting( 'uploader' );
-			// enqueue
-			if ( $uploader == 'basic' || ! empty( $field['button_text'] ) ) {
+	
 				$field['type'] = 'upload_files';
 				$field         = $this->prepare_field( $field );
-			}
 
 			return $field;
 		}
@@ -321,6 +319,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'placeholder' => __( 'Add Image', 'acf-frontend-form-element' ),
 				)
 			);
+		
 		}
 
 		/*
@@ -545,8 +544,10 @@ if ( ! class_exists( 'upload_files' ) ) :
 				acf_enqueue_uploader();
 			}
 
-			// get images
 			$value = $field['value'];
+
+			$click_event = $field['click_event'] ?? 'edit';
+
 			// vars
 			$atts = array(
 				'id'                 => $field['id'],
@@ -566,8 +567,10 @@ if ( ! class_exists( 'upload_files' ) ) :
 				'data-max_size'      => $field['max_size'],
 				'data-max_width'     => $field['max_width'],
 				'data-max_height'    => $field['max_height'],
+				'data-click_event'   => $click_event,
 			);
-			
+
+
 			$button_locations = $field['add_button_locations'] ?? array( 'bottom' );
 
 			if( is_string( $button_locations ) ){
@@ -661,6 +664,13 @@ if ( ! class_exists( 'upload_files' ) ) :
 					?>
 							<div class="<?php esc_attr_e( $a['class'] ); ?>" data-id="<?php esc_attr_e( $a['id'] ); ?>">
 					<?php
+						if( 'download' == $click_event ){ 
+					?>
+							<a href="<?php esc_attr_e( $a['url'] ); ?>" download>
+					<?php
+						}
+					?>
+					<?php
 					acf_hidden_input(
 						array(
 							'name'  => $field['name'] . '[' . $a['id'] . ']',
@@ -669,20 +679,32 @@ if ( ! class_exists( 'upload_files' ) ) :
 					);
 					?>
 					<div class="thumbnail">
+						
 						<img src="<?php esc_attr_e( $thumbnail['url'] ); ?>" alt="" title="<?php esc_attr_e( $a['title'] ); ?>"/>
+						
 					</div>
 					<?php if ( $a['filename'] ) : ?>
 									<div class="filename"><?php esc_html_e( acf_get_truncated( $a['filename'], 30 ) ); ?></div>    
 					<?php endif; ?>
-								<div class="actions">
-									<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
-								</div>
+						<div class="actions">
+							<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
+						</div>
 					<?php
-					$prefix = 'acff[file_data][' . $field['key'] . '][' . $a['id'] . ']';
+					if( 'edit' == $click_event ){ 
+					
+						$prefix = 'acff[file_data][' . $field['key'] . '][' . $a['id'] . ']';
 				
-					fea_instance()->form_display->render_meta_fields( $prefix, $a['id'], false );
+						fea_instance()->form_display->render_meta_fields( $prefix, $a['id'], false );
+					}
 					?>
-							</div>
+					<?php
+						if( 'download' == $click_event ){ 
+					?>
+						</a>
+					<?php
+						}
+					?>
+					</div>
 				<?php endforeach; ?>
 						
 				
@@ -707,8 +729,11 @@ if ( ! class_exists( 'upload_files' ) ) :
 				</div>
 
 				<?php
-				$prefix = 'acff[file_data][' . $field['key'] . '][{file-index}]';
-				fea_instance()->form_display->render_meta_fields( $prefix, 'clone', false );
+				if( 'edit' == $click_event ){ 
+					
+					$prefix = 'acff[file_data][' . $field['key'] . '][{file-index}]';
+					fea_instance()->form_display->render_meta_fields( $prefix, 'clone', false );
+				}
 				?>
 				
 			</div>
@@ -851,6 +876,22 @@ if ( ! class_exists( 'upload_files' ) ) :
 				
 				)
 			);
+
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'When User Clicks Image...', 'acf' ),
+					'instructions' => '',
+					'type'         => 'radio',
+					'name'         => 'click_event',
+					'choices'      => array(
+						'edit' => __( 'Edit Image', 'acf-frontend-form-element' ),
+						'download'    => __( 'Download Image', 'acf-frontend-form-element' ),
+					),
+				
+				)
+			);
+
 
 			// min
 			acf_render_field_setting(

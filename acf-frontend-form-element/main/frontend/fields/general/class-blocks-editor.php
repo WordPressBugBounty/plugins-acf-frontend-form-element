@@ -134,6 +134,7 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 		*/
 
 		function form_assets( $field ) {
+			return;
 			if( isset( $field['field_type'] ) && 'blocks_editor' != $field['field_type'] ){
 				return;
 			}

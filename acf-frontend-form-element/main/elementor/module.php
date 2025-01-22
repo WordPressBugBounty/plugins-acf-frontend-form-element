@@ -56,39 +56,44 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			$widget_list = array_merge(
 				$widget_list,
 				array(
-					'posts' => array(
-						'post-title-field' => 'Post_Title_Field',
-						//'post-author-field' => 'Post_Author_Field',
-						'post-excerpt-field' => 'Post_Excerpt_Field',
+					'post' => array(
+						'title-field' => 'Post_Title_Field',
+						//'author-field' => 'Post_Author_Field',
+						'excerpt-field' => 'Post_Excerpt_Field',
 						'featured-image-field' => 'Featured_Image_Field',
-						'post-content-field' => 'Post_Content_Field',
-						'edit_post'      => 'Edit_Post_Widget',
-						'new_post'       => 'New_Post_Widget',
-						'duplicate_post' => 'Duplicate_Post_Widget',
-						'delete_post'    => 'Delete_Post_Widget',
+						'content-field' => 'Post_Content_Field',
+						'edit-post'      => 'Edit_Post_Widget',
+						'new-post'       => 'New_Post_Widget',
+						'duplicate-post' => 'Duplicate_Post_Widget',
+						'delete-post'    => 'Delete_Post_Widget',
 					),
-					'terms' => array(
-						'edit_term'   => 'Edit_Term_Widget',
-						'new_term'    => 'New_Term_Widget',
-						'delete_term' => 'Delete_Term_Widget',
+					'term' => array(
+						'edit-term'   => 'Edit_Term_Widget',
+						'new-term'    => 'New_Term_Widget',
+						'delete-term' => 'Delete_Term_Widget',
 						'term-name-field' => 'Term_Name_Field',
 						'term-slug-field' => 'Term_Slug_Field',
 					),
-					'users' => array(
-						'edit_user'   => 'Edit_User_Widget',
-						'new_user'    => 'New_User_Widget',
-						'delete_user' => 'Delete_User_Widget',
+					'user' => array(
+						'edit-user'   => 'Edit_User_Widget',
+						'new-user'    => 'New_User_Widget',
+						'delete-user' => 'Delete_User_Widget',
 					),
 				)
 			);
 
+			$widget_list = $this->get_nestable_widgets( $widget_list );
 			$widget_list = apply_filters( 'frontend_admin/elementor/widget_types', $widget_list );
 
 			 $elementor = $this->get_elementor_instance();
 
 			 foreach ( $widget_list as $folder => $widgets ) {
+
 				 foreach ( $widgets as $filename => $classname ) {
-					 include_once __DIR__ . "/widgets/$folder/$filename.php";
+					if( 'path' == $filename ) continue;
+					$folder_path = $widgets['path'] ?? __DIR__ . "/widgets/$folder";
+
+					 include_once "$folder_path/$filename.php";
 					 $classname = 'Frontend_Admin\Elementor\Widgets\\' . $classname;
 					 $elementor->widgets_manager->register( new $classname() );
 				 }
@@ -99,23 +104,19 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 
 		}
 
-		public function experimental_widgets() {
+		public function get_nestable_widgets( $widget_list ){
 			if( ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'nested-elements' ) ){
-				return;
+				return $widget_list;
 			}
 
-			include_once __DIR__ . "/widgets/general/nested-form.php";
-			include_once __DIR__ . "/widgets/posts/nested-new-post.php";
-			include_once __DIR__ . "/widgets/terms/nested-new-term.php";
-			include_once __DIR__ . "/widgets/terms/nested-edit-term.php";
-			include_once __DIR__ . "/widgets/posts/nested-edit-post.php";
-			$elementor = $this->get_elementor_instance();
-			$elementor->widgets_manager->register_widget_type( new Elementor\Widgets\Nested_Form() );
-			$elementor->widgets_manager->register_widget_type( new Elementor\Widgets\Nested_New_Post() );
-			$elementor->widgets_manager->register_widget_type( new Elementor\Widgets\Nested_New_Term() );
-			$elementor->widgets_manager->register_widget_type( new Elementor\Widgets\Nested_Edit_Term() );
-			$elementor->widgets_manager->register_widget_type( new Elementor\Widgets\Nested_Edit_Post() );
+			$widget_list['general']['nested-form'] = 'Nested_Form';
+			$widget_list['post']['nested-edit-post'] = 'Nested_Edit_Post';
+			$widget_list['post']['nested-new-post'] = 'Nested_New_Post';
+			$widget_list['term']['nested-edit-term'] = 'Nested_Edit_Term';
+			$widget_list['term']['nested-new-term'] = 'Nested_New_Term';
+			
 
+			return $widget_list;
 		}
 
 		public function documents(){
@@ -212,6 +213,8 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			'copy_product_title_text',
 			'copy_date',
 			'copy_product_date',
+			'attribute_fields',
+			'variable_fields'
 		];	 
 
 		$types = array( 'post', 'user', 'term', 'product' );
@@ -303,6 +306,7 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 
 				if ( $document ) {
 					$form = $this->find_element_recursive( $document->get_elements_data(), $widget_id );
+
 				}
 
 				if ( ! empty( $form['templateID'] ) ) {
@@ -366,7 +370,6 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 		}
 
 		public function get_field_widget( $key ){
-
 			if ( strpos( $key, '_elementor_' ) === false ) {
 				return false;
 			}
@@ -378,9 +381,16 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			// If there is no widget id, there is no reason to continue 
 			if( empty( $ids[1] ) ) return false; 
 
-			$widget = $this->get_the_widget( $ids );
+			$widget_ids = explode( '_', $ids[1] );
+
+			$widget = $this->get_the_widget( [ $ids[0], $widget_ids[0] ] );
+
 			if( $widget ){	
-				return $widget->prepare_field( $key );
+				if( empty( $widget_ids[1] ) ) return $widget->prepare_field( $key );
+
+				$form = $widget->prepare_form( $key );
+			
+				if( ! empty( $form['fields'][$key] ) ) return $form['fields'][$key];
 			}
 			return false;
 	
@@ -403,14 +413,13 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 		}
 
 		public function __construct() {
-			include_once __DIR__ . '/classes/content_tab.php';
+			include_once __DIR__ . '/classes/content-tab.php';
 			include_once __DIR__ . '/classes/modal.php';
 			include_once __DIR__ . '/classes/permissions.php';
 
 			add_action( 'elementor/elements/categories_registered', array( $this, 'widget_categories' ) );
 			add_action( 'elementor/controls/register', array( $this, 'controls' ) );
 			add_action( 'elementor/widgets/register', array( $this, 'widgets' ) );
-			add_action( 'elementor/widgets/register', array( $this, 'experimental_widgets' ) );
 			//add_action( 'elementor/documents/register', array( $this, 'documents' ) );
 
 			add_action( 'elementor/dynamic_tags/register', array( $this, 'dynamic_tags' ) );

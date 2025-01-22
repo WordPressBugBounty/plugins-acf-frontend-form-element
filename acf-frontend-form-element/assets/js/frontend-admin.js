@@ -1996,6 +1996,12 @@
 
 			selectAttachment: function( $el ){
 				// bail early if already active
+				const clickEvent = this.get('click_event');
+
+				if( 'download' == clickEvent ){					
+					return;
+				}
+
 				if ( $el.hasClass( 'active' ) ) {
 					return;
 				}

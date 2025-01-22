@@ -80,6 +80,42 @@ if ( ! class_exists( 'upload_file' ) ) :
 				add_filter( 'ajax_query_attachments_args', array( $this, 'happy_files_folder' ) );
 			}
 
+			add_action('init', [$this, 'handle_file_upload_request']);
+
+
+		}
+	
+	
+		function handle_file_upload_request() {
+			// Check if it's a file upload request.
+			if (isset($_GET['fea-file-upload']) && isset($_GET['file'])) {
+				$file = sanitize_text_field(wp_unslash($_GET['file']));
+				$upload_dir = wp_upload_dir();
+				$file_path = $upload_dir['basedir'] . '/' . $file;
+		
+				// Ensure the file exists.
+				if (!file_exists($file_path)) {
+					wp_die(__('File not found.', 'your-plugin-textdomain'), '404 Not Found', ['response' => 404]);
+				}
+		
+				// Check permissions.
+				$attachment_id = attachment_url_to_postid($upload_dir['baseurl'] . '/' . $file);
+				$uploader_id = get_post_field('post_author', $attachment_id);
+				$current_user = wp_get_current_user();
+		
+				if (
+					!$current_user->exists() || // User not logged in
+					($uploader_id != $current_user->ID && !current_user_can('administrator') && !current_user_can('editor'))
+				) {
+					wp_die(__('Unauthorized access.', 'your-plugin-textdomain'), '403 Forbidden', ['response' => 403]);
+				}
+		
+				// Serve the file with proper headers.
+				header('Content-Type: ' . mime_content_type($file_path));
+				header('Content-Disposition: inline; filename="' . basename($file_path) . '"');
+				readfile($file_path);
+				exit;
+			}
 		}
 
 		/**
@@ -168,25 +204,27 @@ if ( ! class_exists( 'upload_file' ) ) :
 					),
 				)
 			);
-			acf_render_field_setting(
-				$field,
-				array(
-					'label'        => __( 'Secure Directory', 'acf-frontend-form-element' ),
-					'name'         => 'secure_directory',
-					'type'         => 'true_false',
-					'ui'           => 1,
-					'instructions' => __( "Block external access to this directory. (Takes affect when file is added. Requires .htaccess support)", 'acf-frontend-form-element' ),
-					'conditions' => array(
-						array(
+			if( fea_instance()->is_license_active() ){
+				acf_render_field_setting(
+					$field,
+					array(
+						'label'        => __( 'Secure Directory', 'acf-frontend-form-element' ),
+						'name'         => 'secure_directory',
+						'type'         => 'true_false',
+						'ui'           => 1,
+						'instructions' => __( "Block external access to this directory. (Takes affect when file is added. Requires .htaccess support)", 'acf-frontend-form-element' ),
+						'conditions' => array(
 							array(
-								'field'    => 'custom_directory',
-								'operator' => '==',
-								'value'    => 1,
+								array(
+									'field'    => 'custom_directory',
+									'operator' => '==',
+									'value'    => 1,
+								),
 							),
 						),
-					),
-				)
-			);
+					)
+				);
+			}
 			acf_render_field_setting(
 				$field,
 				array(
@@ -946,14 +984,16 @@ if ( ! class_exists( 'upload_file' ) ) :
 		function move_folders( $checked, $value, $post_id = false, $field = false ) {
 			if( ! $value ) return $checked;
 
-			global $fea_form;
+			global $fea_form, $fea_instance;
 
 			if ( empty( $fea_form['record'] ) ) return $checked;
 
 			$uploads = wp_upload_dir();
 			if( ! empty( $field['custom_directory'] ) && ! empty( $field['custom_directory_name'] ) ){
 				$dir_name = $field['custom_directory_name'];
+
 				$dir_name = fea_instance()->dynamic_values->get_dynamic_values( $dir_name );
+
 								
 				$create_directory = wp_mkdir_p( $uploads['basedir'] . '/' . $dir_name );
 			
@@ -961,15 +1001,22 @@ if ( ! class_exists( 'upload_file' ) ) :
 					$upload_dir = $uploads['basedir'] . '/' . $dir_name;
 					$_htaccess = $upload_dir . '/.htaccess';			
 			
-					if( ! empty ( $field['secure_directory'] ) ){
+					if( ! empty ( $field['secure_directory'] ) && $fea_instance->is_license_active() ){
 						// Protect uploads directory for the servers that support .htaccess
+
 						if ( ! file_exists( $_htaccess ) ) {
-							file_put_contents( $_htaccess, "<IfModule mod_rewrite.c>
-							RewriteEngine on 
-							RewriteCond %{HTTP_REFERER} !^http://(www\.)?localhost [NC] 
-							RewriteCond %{HTTP_REFERER} !^http://(www\.)?localhost.*$ [NC] 
-							RewriteRule \.(png|jpg|pdf|doc|docx|odt)$ - [F]
-							</IfModule>" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+							$site_url = site_url();
+							$rules = <<<HTACCESS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /wp-content/uploads/
+
+    # Redirect file requests to WordPress with query parameters
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^(.*)$ "{$site_url}/?fea-file-upload&file={$dir_name}/$1" [R=302,L]
+</IfModule>
+HTACCESS;
+							file_put_contents( $_htaccess, $rules ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 						} 
 					
 						if ( ! file_exists( $upload_dir . '/index.php' ) ) {
@@ -990,11 +1037,15 @@ if ( ! class_exists( 'upload_file' ) ) :
 				$upload_dir = $uploads['path'];
 			}				
 
-			//$upload_dir = apply_filters( 'frontend_admin/files/folder_path', $upload_dir, $field );
+			$upload_dir = apply_filters( 'frontend_admin/files/folder_path', $upload_dir, $field );
 
-			
-				$value = (int) $value;        			
-				$this->move_file( $value, $upload_dir, $field );
+			if( is_array( $value ) ){
+				foreach( $value as $attach_id ){
+					$this->move_file( $attach_id, $upload_dir, $field );
+				}
+			}else{
+				if(  is_numeric( $value ) ) $this->move_file( $value, $upload_dir, $field );
+			} 							
 			
 			return $checked;
 		}
@@ -1011,11 +1062,13 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if( $reached_dest ) return;
 
 			$path = get_attached_file( $attachment );
-			
+
 			if( $path ){
 
 				$file_base = basename( $path );
 				$new_path = $this->upload_file( $upload_dir, $file_base );
+
+				if ( !file_exists($path) ) return;
 
 				$moved = rename( $path, $new_path );
 				if( $moved ){

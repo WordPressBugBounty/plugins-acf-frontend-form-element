@@ -721,7 +721,6 @@ body.acf-keydown-shift .acf-list-items .acf-row:hover>.acf-row-handle .acf-icon.
 
 .fea-uploads .fea-uploads-attachments{
 	padding:5px;
-	overflow:auto;
 	display: flex;
 	flex-wrap: wrap;
     align-items: center;
@@ -1024,8 +1023,6 @@ html[dir="rtl"] .fea-uploads .fea-uploads-side-info img{
 .fea-uploads-attachments {
 	display: flex;
 	gap: 5px;
-	overflow-y: hidden;
-	overflow-x: scroll;
 }
 
 .fea-uploads-attachments-container {

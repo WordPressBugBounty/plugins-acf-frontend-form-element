@@ -398,7 +398,6 @@ Click <a target="_blank" href="https://developer.paypal.com/developer/applicatio
 
     public function __construct() {
 		require_once( __DIR__ . '/crud.php');
-		require_once( __DIR__ . '/currencies.php');
 		require_once( FEAP_DIR . '/includes/vendor/autoload.php' );
 
 		$this->initialize_gateways();
