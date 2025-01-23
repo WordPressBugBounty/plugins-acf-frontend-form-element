@@ -1134,7 +1134,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				case 'post_excerpt':
 				case 'post_content':
 				case 'user_bio':
-					$return .= '<div style="white-space:pre">';
+					$return .= '<div class="fea-textarea-display"';
 					$return .= wp_kses_post( stripslashes( $value ) );
 					$return .= '</div>';
 					break;
