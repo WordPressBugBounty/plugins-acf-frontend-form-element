@@ -134,7 +134,6 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 		*/
 
 		function form_assets( $field ) {
-			return;
 			if( isset( $field['field_type'] ) && 'blocks_editor' != $field['field_type'] ){
 				return;
 			}
@@ -145,87 +144,7 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 			
 			//return if there are no editor assets
 			if( empty( $editor_assets ) ) return;
-
-			if( ! $block_assets ){
-				$block_assets = true;			
-				//$can_upload = true;
-
-				//$this->load_extra_blocks();
-
-				// Restrict tinymce buttons
-				add_filter( 'tiny_mce_before_init', [ $this, 'tiny_mce_before_init' ] );
-
-						// Keep Jetpack out of things
-				add_filter(
-					'jetpack_blocks_variation',
-					function() {
-						return 'no-post-editor';
-					}
-				);
-
-						// Only call the editor assets if we are not dynamically loading.
-				if ( ! defined( '__EXPERIMENTAL_DYNAMIC_LOAD' ) ) {
-					wp_tinymce_inline_scripts();
-
-					wp_enqueue_editor();
-
-					do_action( 'enqueue_block_editor_assets' );
-
-					add_action( 'wp_print_footer_scripts', array( '_WP_Editors', 'print_default_editor_scripts' ), 45 );
-				}
-
-
-				// Gutenberg scripts
-				wp_enqueue_script( 'wp-block-library' );
-				wp_enqueue_script( 'wp-format-library' );
-				wp_enqueue_script( 'wp-editor' );
-				wp_enqueue_script( 'wp-plugins' );
-
-				// Gutenberg styles
-				wp_enqueue_style( 'wp-edit-post' );
-				wp_enqueue_style( 'wp-format-library' );
-
-				// Keep Jetpack out of things
-				add_filter(
-					'jetpack_blocks_variation',
-					function() {
-						return 'no-post-editor';
-					}
-				);
-
-				wp_tinymce_inline_scripts();
-				wp_enqueue_editor();
-
-				//do_action( 'enqueue_block_editor_assets' );
-
-				add_action( 'wp_print_footer_scripts', array( '_WP_Editors', 'print_default_editor_scripts' ), 45 );
-
-				$this->setup_rest_api();
-
-				set_current_screen( 'front' );
-				wp_styles()->done = array( 'wp-reset-editor-styles' );
-
-				$categories = wp_json_encode( get_block_categories( $post ) );
-
-				if ( $categories !== false ) {
-					wp_add_inline_script(
-						'wp-blocks',
-						sprintf( 'wp.blocks.setCategories( %s );', $categories ),
-						'after'
-					);
-				}
-
-				/**
-				 * @psalm-suppress PossiblyFalseOperand
-				 */
-				wp_add_inline_script(
-					'wp-blocks',
-					'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
-				);
-
-				//if( $can_upload ) $this->setup_media();
-					
-			} 
+				
 			
 			wp_enqueue_script( 'fea-block-editor', FEA_URL . 'main/gutenberg/build/frontend-block-editor/index.js', $editor_assets['dependencies'], $editor_assets['version'], true );
 			wp_enqueue_style( 'fea-isolated-editor', FEA_URL . 'main/gutenberg/build/frontend-block-editor.css', [], $editor_assets['version'] );

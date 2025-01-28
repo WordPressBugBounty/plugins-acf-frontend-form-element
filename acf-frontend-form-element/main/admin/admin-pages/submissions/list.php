@@ -81,11 +81,13 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 					return $title;
 				case 'status':
 					$statuses = explode( ',', $item[ $column_name ] );
-					$state    = '';
+					$states    = '';
 					foreach ( $statuses as $status ) {
-						$state .= fea_instance()->submissions_handler->get_status_label( $status ) . '<br>';
+						$state = fea_instance()->submissions_handler->get_status_label( $status ) . '<br>';
+						$state = apply_filters( 'frontend_admin/submissions_list/status_label', $state, $item );
+						$states .= $state;
 					}
-					return $state;
+					return $states;
 				case 'form':
 					$form = fea_instance()->form_display->get_form( $item[ $column_name ] );
 					

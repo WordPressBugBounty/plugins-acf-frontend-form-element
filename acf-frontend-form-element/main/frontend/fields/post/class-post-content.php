@@ -102,7 +102,7 @@ if ( ! class_exists( 'post_content' ) ) :
 					'type'    => 'radio',
 					'choices' => array(
 						'wysiwyg'  => __( 'Wysiwyg', 'acf-frontend-form-element' ),
-						'blocks_editor'  => __( 'Blocks Editor (NEW!)', 'acf-frontend-form-element' ),
+						//'blocks_editor'  => __( 'Blocks Editor (NEW!)', 'acf-frontend-form-element' ),
 						'textarea' => __( 'Text Area', 'acf-frontend-form-element' ),
 					),
 				)

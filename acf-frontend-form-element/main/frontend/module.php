@@ -513,7 +513,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'related-terms',
 					'plans',
 					'text-editor',
-					'blocks-editor',
+					//'blocks-editor',
 					'custom-terms',
 					'delete-object',
 					'upload-file',

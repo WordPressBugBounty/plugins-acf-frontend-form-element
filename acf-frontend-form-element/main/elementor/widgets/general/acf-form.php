@@ -272,7 +272,7 @@ class ACF_Form extends Widget_Base {
 			'user' => __( 'User', 'acf-frontend-form-element' ),
 			'term' => __( 'Term', 'acf-frontend-form-element' ),
 		);
-		if ( isset( fea_instance()->pro_features ) ) {
+		if ( ! empty( fea_instance()->pro_features ) ) {
 			$custom_fields_options['options'] = __( 'Site Options', 'acf-frontend-form-element' );
 			if ( class_exists( 'woocommerce' ) ) {
 				$custom_fields_options['product'] = __( 'Product', 'acf-frontend-form-element' );
@@ -374,7 +374,7 @@ class ACF_Form extends Widget_Base {
 		$this->end_controls_section();
 		
 
-		if ( ! isset( fea_instance()->pro_features ) ) {
+		if ( empty( fea_instance()->pro_features ) ) {
 
 			$this->start_controls_section(
 				'style_promo_section',
@@ -449,7 +449,7 @@ class ACF_Form extends Widget_Base {
 				'term' => $groups['term'],
 			)
 		);
-		if ( isset( fea_instance()->pro_features ) ) {
+		if ( ! empty( fea_instance()->pro_features ) ) {
 			$fields['options'] = $groups['options'];
 			// $fields['comment'] = $groups['comment'];
 			if ( class_exists( 'woocommerce' ) ) {

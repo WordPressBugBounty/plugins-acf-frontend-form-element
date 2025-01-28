@@ -2138,19 +2138,19 @@ class ContentTab {
 
 	public function action_controls_section( $widget ) {
 		global $fea_instance;
-		$local_actions = $fea_instance->local_actions;
-
-		$object = $widget->form_defaults['custom_fields_save'] ?? 'all';
-		
-		foreach ( $local_actions as $name => $action ) {			
-			$action->register_settings_section( $widget );
-		}
 		if ( isset( $fea_instance->remote_actions ) ) {
 			$remote_actions = $fea_instance->remote_actions;
 			foreach ( $remote_actions as $action ) {
 				$action->register_settings_section( $widget );
 			}
 		}
+		
+		$local_actions = $fea_instance->local_actions;
+		
+		foreach ( $local_actions as $name => $action ) {			
+			$action->register_settings_section( $widget );
+		}
+		
 	}
 
 	public function control_tab( $tab, $element ) {

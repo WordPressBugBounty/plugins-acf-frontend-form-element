@@ -339,7 +339,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 
 			$response = array(
 				'modal' => true,
-				'plan' => $plan_args
+				'plan' => $plan_args,
+				'form_element' => 'plan',
 			);
 
 			if( is_numeric( $form['plan_id'] ) ){

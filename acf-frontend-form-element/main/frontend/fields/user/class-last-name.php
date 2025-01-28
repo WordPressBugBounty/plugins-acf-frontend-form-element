@@ -73,21 +73,12 @@ if ( ! class_exists( 'last_name' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			}if ( $field['name'] == 'last_name' ) {
-				return $value;
 			}
 
 			$user = explode( 'user_', $post_id );
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];
-				remove_action( 'acf/save_post', '_acf_do_save_post' );
-				wp_update_user(
-					array(
-						'ID'        => $user_id,
-						'last_name' => $value,
-					)
-				);
-				add_action( 'acf/save_post', '_acf_do_save_post' );
+				update_user_meta( $user_id, 'last_name', $value );
 			}
 			return true;
 		}

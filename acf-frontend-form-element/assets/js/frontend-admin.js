@@ -3862,6 +3862,7 @@ acf.add_filter(
 						$( this ).find( '> .order:not(.ids) > span' ).html( i + 1 );
 					}
 				);
+				
 
 				// Extract vars.
 				var $controll = this.$control();

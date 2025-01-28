@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.10
+Stable tag: 3.25.12
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,6 +141,15 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.25.12 - 28-01-2024 =
+ * Added Checkout action to forms
+ * Fixed issue with user fields
+ * Fixed Elementor error when Nested Elements feature is not active
+
+= 3.25.12 - 26-01-2024 =
+ * Fixed conflict with ACF validation
+ * Temporarily removed Blocks Editor field because of Gutenberg instability 
+
 = 3.25.10 - 22-01-2024 =
  * Fixed missing formatting in long text shortcodes
 

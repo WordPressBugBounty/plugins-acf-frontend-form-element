@@ -210,7 +210,7 @@ class Delete_Post_Widget extends Widget_Base {
 
 		do_action( 'frontend_admin/elementor/permissions_controls', $this );
 
-		if ( ! isset( fea_instance()->pro_features ) ) {
+		if ( empty( fea_instance()->pro_features ) ) {
 
 			$this->start_controls_section(
 				'style_promo_section',

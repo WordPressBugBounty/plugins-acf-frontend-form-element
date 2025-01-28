@@ -111,16 +111,18 @@ if ( ! class_exists( 'username' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			} $user = explode( 'user_', $post_id );
+			} 
+			$user = explode( 'user_', $post_id );
 			if ( ! empty( $user[1] ) ) {
 				$user_id     = $user[1];
 				$user_object = get_user_by( 'ID', $user_id );
 				if ( $user_object->user_login == $value ) {
-					return null;
+					return $checked;
 				}
 
 				if ( get_current_user_id() == $user_id ) {
-					$_POST['log_back_in'] = array( $user_id, $value );
+					global $log_back_in;
+					$log_back_in = array( $user_id, $value );
 				}
 				global $wpdb;
 				$wpdb->update( $wpdb->users, array( 'user_login' => $value ), array( 'ID' => $user_id ) );

@@ -138,7 +138,8 @@ if ( ! class_exists( 'user_email' ) ) :
 					}
 
 					if ( get_current_user_id() == $user_id ) {
-						$_POST['log_back_in'] = array( $user_id, $value );
+						global $log_back_in;
+						$log_back_in = array( $user_id, $value );
 					}
 					wp_clear_auth_cookie();
 					global $wpdb;

@@ -17,7 +17,11 @@
   },
   "description": "",
   "dependencies": {
-    "@automattic/isolated-block-editor": "^2.28.0",
+    "@automattic/isolated-block-editor": "^2.29.0",
+    "@wordpress/block-editor": "^14.11.0",
+    "@wordpress/blocks": "^14.5.0",
+    "@wordpress/components": "^29.2.0",
+    "@wordpress/data": "^10.16.0",
     "@wordpress/element": "^5.25.0",
     "@wordpress/i18n": "^4.48.0",
     "react": "^18.2.0",

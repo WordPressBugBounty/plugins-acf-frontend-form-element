@@ -547,28 +547,19 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					if ( isset( $user_to_insert['user_login'] ) && $user_to_insert['user_login'] == $old_user_data->user_login ) {
 						   unset( $user_to_insert['user_login'] );
 					} else {
+
 						 $log_back_in = true;
 					}
 
-					$updated = $wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
-
-					clean_user_cache( $user_id );
 
 					if ( isset( $user_to_insert['user_pass'] ) ) {
 						$log_back_in = true;
 					}
 
-					if ( isset( $log_back_in ) && get_current_user_id() == $user_id ) {
+					if ( ! empty( $log_back_in ) && get_current_user_id() == $user_id ) {
 						 $user_object = get_user_by( 'ID', $user_id );
 						if ( $user_object ) {
-							$user_login = $user_object->user_login;
-							wp_clear_auth_cookie();
-							wp_set_current_user( $user_id, $user_login );
-							wp_set_auth_cookie( $user_id, true, true );
-							do_action( 'wp_login', $user_login, $user_object );
-							update_user_caches( $user_object );
-							$response['message_token'] = wp_generate_password();
-							update_user_meta( $user_id, 'message_token', $response['message_token'] );
+							$wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
 						}
 					}
 					do_action( 'profile_update', $user_id, $old_user_data, $user_to_insert );

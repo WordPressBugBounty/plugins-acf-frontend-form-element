@@ -203,7 +203,7 @@ class Permissions {
 
 		//pro only features
 		$fea_instance = fea_instance();
-		if ( isset( $fea_instance->pro_features ) ) {
+		if ( ! empty ( $fea_instance->pro_features ) ) {
 			$widget->add_control(
 				'allowed_submits',
 				array(

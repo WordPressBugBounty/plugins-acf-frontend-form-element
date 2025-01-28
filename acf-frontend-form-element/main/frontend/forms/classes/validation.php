@@ -39,6 +39,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Validate_Form' ) ) :
 		}
 
 		public function validate_acf_value( $valid, $value, $field, $input ) {
+			if( empty( $_POST['acff'] ) ) return $valid;
+
 			// allow $valid to be a custom error message
 			if ( ! empty( $valid ) && is_string( $valid ) ) {
 

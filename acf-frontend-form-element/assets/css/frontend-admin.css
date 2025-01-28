@@ -657,6 +657,7 @@ body.acf-keydown-shift .acf-list-items .acf-row:hover>.acf-row-handle .acf-icon.
 }
 
 .fea-display-field{
+	white-space: break-lines;
 	position: relative;
 	display: inline-block;
 }

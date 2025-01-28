@@ -165,7 +165,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				$save = apply_filters( 'frontend_admin/save_submission', $save, $form );
 
 				if ( $save ) {
-					$form = $this->save_record( $form, $save );
+					$form = $this->save_record( $form );
 				}
 			}
 
@@ -317,8 +317,11 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			return $form;
 		}
 
-		public function save_objects( $form ){
+		public function should_save_content( $form ){
 			global $fea_instance;
+
+			$save = empty( $form['save_all_data'] ) || isset( $form['approval'] );
+
 			if ( ! empty( $form['save_all_data'] ) ) {
 				$form['submission_status'] = implode( ',', $form['save_all_data'] );
 
@@ -349,8 +352,34 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				
 			}
 
-			
-			
+			if ( ! empty( $form['submit_actions'] ) ) {
+				if ( ! empty( $form['checkout_items'] ) ) {
+					$checkout_items = $form['checkout_items'];
+				} else {
+					if ( ! empty( $form['submit_actions'] ) ) {
+						$actions = $form['submit_actions'];
+						if ( $actions ) {
+							   $checkout_items = array();
+							foreach ( $actions as $action ) {
+								if ( $action['fea_block_structure'] == 'checkout' ) {
+									   $checkout_items[] = $action;
+								}
+							}
+						}
+					}
+				}
+	
+				if ( ! empty( $checkout_items ) ) {
+					$save = false;
+					$form['submission_status'] = 'pending_payment';
+				}else{
+					$save = true;
+				}
+			}
+
+			$save = apply_filters( 'frontend_admin/form/should_save_content', $save, $form );
+
+			$form['save_data'] = $save;
 
 			return $form;
 		}
@@ -367,13 +396,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$form['submission_status'] = 'approved';
 
-			$save = empty( $form['save_all_data'] ) || isset( $form['approval'] );
-
-			$save = apply_filters( 'frontend_admin/form/save_data', $save, $form );
-
-			$form = $this->save_objects( $form );
+			$form = $this->should_save_content( $form );
 			foreach ( $fea_instance->local_actions as $name => $action ) {
-				if ( $save ) {
+				if ( $form['save_data'] ) {
 					$form = $action->run( $form );
 				} else {
 					if ( $name != 'options' && isset( $form[ "{$name}_id" ] ) ) {
@@ -403,7 +428,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$GLOBALS['admin_form'] = $form;
 
 
-			$remote_actions = $fea_instance->remote_actions ?? false;
+			$remote_actions = $fea_instance->remote_actions ?? null;
 
 			if ( ! empty( $remote_actions ) ) {
 
@@ -819,12 +844,41 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			die;
 		}
 
+		public function change_submission_status( $submission_id, $status ) {
+			global $fea_instance;
+
+			$submission = $fea_instance->submissions_handler->get_submission( $submission_id );
+			if ( ! $submission ) {
+				return false;
+			}
+
+			$args = array(
+				'status' => $status,
+			);
+
+			$fea_instance->submissions_handler->update_submission( $submission_id, $args );
+
+			if ($status !== 'pending') {
+				$form = $fea_instance->form_display->get_form($submission->form);
+				$form['record'] = json_decode(fea_decrypt($submission->fields), true);
+				foreach ($fea_instance->local_actions as $name => $action) {
+					
+					$form = $action->run($form);
+					$submission->fields = fea_encrypt(json_encode($form['record']));
+				}
+				$fea_instance->submissions_handler->update_submission($submission_id, array('fields' => $submission->fields));
+			}
+
+			return true;
+		}
+
 		public function __construct() {
 			add_action( 'wp_ajax_frontend_admin/form_submit', array( $this, 'check_submit_form' ) );
 			add_action( 'wp_ajax_nopriv_frontend_admin/form_submit', array( $this, 'check_submit_form' ) );
 			add_action( 'wp_ajax_frontend_admin/forms/update_field', array( $this, 'check_inline_field' ) );
 			add_action( 'wp_ajax_nopriv_frontend_admin/forms/update_field', array( $this, 'check_inline_field' ) );
 
+			add_action( 'frontend_admin/submission/change_status', array( $this, 'change_submission_status' ), 10, 2 );
 
 			add_action( 'wp', array( $this, 'verify_email_address' ) );
 		}
