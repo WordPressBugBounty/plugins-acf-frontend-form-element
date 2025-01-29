@@ -105,6 +105,8 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 					return __( 'Email Verified', 'acf-frontend-form-element' );
 				case 'pending_payment':
 					return __( 'Pending Payment', 'acf-frontend-form-element' );
+				case 'payment_received':
+					return __( 'Payment Received', 'acf-frontend-form-element' );
 				case 'approved':
 					return __( 'Approved', 'acf-frontend-form-element' );
 				default:

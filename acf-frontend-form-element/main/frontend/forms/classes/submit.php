@@ -352,32 +352,15 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				
 			}
 
-			if ( ! empty( $form['submit_actions'] ) ) {
-				if ( ! empty( $form['checkout_items'] ) ) {
-					$checkout_items = $form['checkout_items'];
-				} else {
-					if ( ! empty( $form['submit_actions'] ) ) {
-						$actions = $form['submit_actions'];
-						if ( $actions ) {
-							   $checkout_items = array();
-							foreach ( $actions as $action ) {
-								if ( $action['fea_block_structure'] == 'checkout' ) {
-									   $checkout_items[] = $action;
-								}
-							}
-						}
-					}
-				}
-	
-				if ( ! empty( $checkout_items ) ) {
-					$save = false;
-					$form['submission_status'] = 'pending_payment';
-				}else{
-					$save = true;
+			$requirments = apply_filters( 'frontend_admin/form/check_requirements', [], $form );
+			
+			if( $requirments ){
+				$save = false;
+				$form['submission_status'] = str_replace( ['approved', 'approved,'], '', $form['submission_status'] );
+				foreach( $requirments as $requirment ){
+					$form['submission_status'] .= $form['submission_status'] ? ',' . $requirment : $requirment;
 				}
 			}
-
-			$save = apply_filters( 'frontend_admin/form/should_save_content', $save, $form );
 
 			$form['save_data'] = $save;
 
@@ -867,6 +850,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					$submission->fields = fea_encrypt(json_encode($form['record']));
 				}
 				$fea_instance->submissions_handler->update_submission($submission_id, array('fields' => $submission->fields));
+
+				$redirect_url = $this->get_redirect_url( $form );
+				wp_redirect( $redirect_url );
 			}
 
 			return true;
