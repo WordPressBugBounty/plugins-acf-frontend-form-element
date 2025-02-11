@@ -65,6 +65,48 @@ class ContentTab {
 				'groups'      => $widget->get_field_type_options(),
 			)
 		);
+		$repeater->add_control(
+			'step_tab_text',
+			array(
+				'label'        => __( 'Step Tab Text', 'acf-frontend-form-element' ),
+				'type'         => Controls_Manager::TEXT,
+				'default'      => __( 'Step Text', 'acf-frontend-form-element' ),
+				'dynamic'      => array(
+					'active' => true,
+				),
+				'condition'   => array(
+					'field_type' => 'step',
+				),
+			)
+		);
+		$repeater->add_control(
+			'next_button_text',
+			array(
+				'label'        => __( 'Next button', 'acf-frontend-form-element' ),
+				'type'         => Controls_Manager::TEXT,						
+				'default'      => __( 'Next', 'acf-frontend-form-element' ),
+				'dynamic'      => array(
+					'active' => true,
+				),
+				'condition'   => array(
+					'field_type' => 'step',
+				),
+			)
+		);
+		$repeater->add_control(
+			'prev_button_text',
+			array(
+				'label'        => __( 'Prev button', 'acf-frontend-form-element' ),
+				'type'         => Controls_Manager::TEXT,
+				'default'      => __( 'Previous', 'acf-frontend-form-element' ),
+				'dynamic'      => array(
+					'active' => true,
+				),
+				'condition'   => array(
+					'field_type' => 'step',
+				),
+			)
+		);
 
 		$repeater->add_control(
 			'field_groups_select',
@@ -114,7 +156,7 @@ class ContentTab {
 		);
 
 
-		$custom_layouts   = array( 'ACF_field_groups', 'ACF_fields', 'recaptcha', 'step', 'column', 'tab' );
+		$custom_layouts   = array( 'ACF_field_groups', 'ACF_fields', 'recaptcha', 'step', 'tab' );
 		$base_text_fields = array(
 			'term_name',
 			'username',
@@ -1272,6 +1314,7 @@ class ContentTab {
 						),
 					)
 				);
+				
 				$repeater->add_control(
 					'field_label_on',
 					array(
@@ -1656,159 +1699,7 @@ class ContentTab {
 		);
 	}
 
-	public function multi_step_settings( $widget ) {
-		$widget->add_control(
-			'validate_steps',
-			array(
-				'label'        => __( 'Validate Each Step', 'acf-frontend-form-element' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
-				'return_value' => 'true',
-			)
-		);
-		$widget->add_control(
-			'steps_display',
-			array(
-				'label'       => __( 'Steps Display', 'acf-frontend-form-element' ),
-				'type'        => Controls_Manager::SELECT2,
-				'label_block' => true,
-				'default'     => array(
-					'tabs',
-				),
-				'multiple'    => 'true',
-				'options'     => array(
-					'tabs'    => __( 'Tabs', 'acf-frontend-form-element' ),
-					'counter' => __( 'Counter', 'acf-frontend-form-element' ),
-				),
-
-			)
-		);
-		$widget->add_control(
-			'responsive_description',
-			array(
-				'raw'             => __( 'Responsive visibility will take effect only on preview or live page, and not while editing in Elementor.', 'elementor' ),
-				'type'            => Controls_Manager::RAW_HTML,
-				'content_classes' => 'elementor-descriptor',
-			)
-		);
-		$widget->add_control(
-			'steps_tabs_display',
-			array(
-				'label'       => __( 'Step Tabs Display', 'acf-frontend-form-element' ),
-				'type'        => Controls_Manager::SELECT2,
-				'label_block' => 'true',
-				'default'     => array(
-					'desktop',
-					'tablet',
-				),
-				'multiple'    => 'true',
-				'options'     => array(
-					'desktop' => __( 'Desktop', 'acf-frontend-form-element' ),
-					'tablet'  => __( 'Tablet', 'acf-frontend-form-element' ),
-					'phone'   => __( 'Mobile', 'acf-frontend-form-element' ),
-				),
-				'condition'   => array(
-					'steps_display' => 'tabs',
-				),
-			)
-		);
-		$widget->add_control(
-			'tabs_align',
-			array(
-				'label'     => __( 'Tabs Position', 'elementor' ),
-				'type'      => Controls_Manager::SELECT,
-				'default'   => 'horizontal',
-				'options'   => array(
-					'horizontal' => __( 'Top', 'elementor' ),
-					'vertical'   => __( 'Side', 'elementor' ),
-				),
-				'condition' => array(
-					'steps_display' => 'tabs',
-				),
-			)
-		);
-
-		$widget->add_control(
-			'steps_counter_display',
-			array(
-				'label'       => __( 'Step Counter Display', 'acf-frontend-form-element' ),
-				'type'        => Controls_Manager::SELECT2,
-				'label_block' => 'true',
-				'default'     => array(
-					'desktop',
-					'tablet',
-					'phone',
-				),
-				'multiple'    => 'true',
-				'options'     => array(
-					'desktop' => __( 'Desktop', 'acf-frontend-form-element' ),
-					'tablet'  => __( 'Tablet', 'acf-frontend-form-element' ),
-					'phone'   => __( 'Mobile', 'acf-frontend-form-element' ),
-				),
-				'condition'   => array(
-					'steps_display' => 'counter',
-				),
-			)
-		);
-		$widget->add_control(
-			'counter_prefix',
-			array(
-				'label'       => __( 'Counter Prefix', 'acf-frontend-form-element' ),
-				'type'        => Controls_Manager::TEXT,
-				'placeholder' => __( 'Step ', 'acf-frontend-form-element' ),
-				'default'     => __( 'Step ', 'acf-frontend-form-element' ),
-				'dynamic'     => array(
-					'active' => true,
-				),
-				'condition'   => array(
-					'steps_display' => 'counter',
-				),
-			)
-		);
-		$widget->add_control(
-			'counter_suffix',
-			array(
-				'label'     => __( 'Counter Suffix', 'acf-frontend-form-element' ),
-				'type'      => Controls_Manager::TEXT,
-				'dynamic'   => array(
-					'active' => true,
-				),
-				'condition' => array(
-					'steps_display' => 'counter',
-				),
-			)
-		);
-
-		$widget->add_control(
-			'step_number',
-			array(
-				'label'        => __( 'Step Number in Tabs', 'acf-frontend-form-element' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'show', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'hide', 'acf-frontend-form-element' ),
-				'return_value' => 'true',
-				'condition'    => array(
-					'steps_display' => 'tabs',
-				),
-			)
-		);
-
-		$widget->add_control(
-			'tab_links',
-			array(
-				'label'        => __( 'Link to Step in Tabs', 'acf-frontend-form-element' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
-				'return_value' => 'true',
-				'condition'    => array(
-					'steps_display' => 'tabs',
-				),
-			)
-		);
-
-	}
+	
 
 	public function submit_limit_setting( $widget ) {
 		$widget->add_control(

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.13
+Stable tag: 3.25.18
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -141,6 +141,19 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.25.18 - 09-02-2024 =
+ * Fixed image upload preview element to update <source>
+
+= 3.25.17 - 09-02-2024 =
+ * Added hook for multi step buttons
+ * Fixed bug on admin submissions page
+
+= 3.25.15 - 04-02-2024 =
+ * Fixed mmissing step tab text setting
+
+= 3.25.14 - 02-02-2024 =
+ * Fixed multi step in Elementor widgets
+
 = 3.25.13 - 28-01-2024 =
  * Added automatic redirect to checkout 
 

@@ -1170,7 +1170,7 @@
 
 		formData.append( 'action','frontend_admin/form_submit' );
 
-		var currentButton = $form.find( '.clicked-on' );
+		let currentButton = $form.find( '.clicked-on' );
 
 		if ( currentButton.data( 'redirect' ) ) {
 			formData.append( 'redirect',currentButton.data( 'redirect' ) );
@@ -1211,8 +1211,24 @@
 			}
 
 			if ( data?.redirect ) {
+
 				$( window ).off( 'beforeunload' );
 				var url = data?.redirect.replace(/&amp;/g, "&");
+
+				let currentButton = $form.find( 'button.clicked-on' );
+				
+				let reloadParams = currentButton.attr( 'data-reload' ); 
+				if ( reloadParams ) {
+					
+					reloadParams.split(",").forEach(param => {
+						let [key, value] = param.split("=");
+						let params = new URLSearchParams(window.location.search);
+						params.set(key, value);
+						url = window.location.pathname + "?" + params.toString();
+					});
+					
+				}
+
 				window.location = decodeURIComponent(url);
 				return;
 			} else {
@@ -2603,6 +2619,7 @@
 							previewElement.attr('src',url).attr('srcset',url);
 						}else{
 							previewElement.find('img').attr('src',url).attr('srcset',url);
+							previewElement.find('source').attr('src',url).attr('srcset',url);
 						}
 					}else{
 						previewElement.style.backgroundImage = 'url(' + attachment.url + ')';

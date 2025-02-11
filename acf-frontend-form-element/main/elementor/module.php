@@ -214,7 +214,18 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			'copy_date',
 			'copy_product_date',
 			'attribute_fields',
-			'variable_fields'
+			'variable_fields',
+			'validate_steps',
+			'steps_display',
+			'responsive_description',
+			'steps_tabs_display',
+			'tabs_align',
+			'steps_counter_display',
+			'counter_prefix',
+			'counter_suffix',
+			'step_number',
+			'tab_links',
+			'between_tabs_display'
 		];	 
 
 		$types = array( 'post', 'user', 'term', 'product' );

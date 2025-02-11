@@ -54,7 +54,7 @@ div.acf-field{
 
 .acf-field-submit-button .acf-input,.frontend-form-title,.fea-submit-buttons,.save-progress-buttons,
 .frontend-admin-tabs-view-horizontal .frontend-admin-tabs-wrapper{
-	display:flex;margin-left:auto;margin-right:auto;width:100%;align-items:center;
+	display:flex;margin-left:auto;margin-right:auto;width:100%;align-items:center;gap:5px;
 }
 
 .form-tab{

@@ -293,6 +293,59 @@ class ACF_Form extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
+		$this->add_control(
+			'fields_spacing',
+			array(
+				'label'     => __( 'Spacing Between Fields', 'elementor-pro' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 15,
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .acf-fields' => 'gap: {{SIZE}}{{UNIT}};',
+				),
+				'size_units' => [ 'px', 'em', 'rem', 'vw', 'custom' ],
+			)
+		);
+
+		//margin around fields
+		$this->add_control(
+			'fields_margin',
+			array(
+				'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'default'    => array(
+					'top'    => '0',
+					'right'  => '0',
+					'bottom' => '0',
+					'left'   => '0',
+					'unit'   => 'px',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .acf-fields' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		//padding around fields
+		$this->add_control(
+			'fields_padding',
+			array(
+				'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .acf-fields' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
 
 		$this->add_control(
 			'hide_field_labels',
@@ -381,39 +434,6 @@ class ACF_Form extends Widget_Base {
 				array(
 					'label' => __( 'Styles', 'acf-frontend-form-element' ),
 					'tab'   => Controls_Manager::TAB_STYLE,
-				)
-			);
-
-			//margin around fields
-			$this->add_control(
-				'fields_margin',
-				array(
-					'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
-					'type'       => Controls_Manager::DIMENSIONS,
-					'size_units' => array( 'px', 'em', '%' ),
-					'default'    => array(
-						'top'    => '10px',
-						'right'  => '0',
-						'bottom' => '0',
-						'left'   => '0',
-						'unit'   => 'px',
-					),
-					'selectors'  => array(
-						'{{WRAPPER}} .acf-fields' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					),
-				)
-			);
-
-			//padding around fields
-			$this->add_control(
-				'fields_padding',
-				array(
-					'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
-					'type'       => Controls_Manager::DIMENSIONS,
-					'size_units' => array( 'px', 'em', '%' ),
-					'selectors'  => array(
-						'{{WRAPPER}} .acf-fields' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					),
 				)
 			);
 
@@ -610,22 +630,6 @@ class ACF_Form extends Widget_Base {
 					}
 				}else{
 					switch ( $form_field['field_type'] ) {							
-						case 'column':
-							if ( $form_field['endpoint'] == 'true' ) {
-								$fields[] = array(
-									'column' => 'endpoint',
-								);
-							} else {
-								$column = array(
-									'column' => $form_field['_id'],
-								);
-								if ( $form_field['nested'] ) {
-									$column['nested'] = true;
-								}
-	
-								$fields[] = $column;
-							}
-							break;
 						case 'tab':
 							if ( $form_field['endpoint'] == 'true' ) {
 								$fields[] = array(
@@ -699,7 +703,6 @@ class ACF_Form extends Widget_Base {
 							if ( $form_field['field_type'] == 'message' ) {
 								$local_field['type']    = 'message';
 								$local_field['message'] = $form_field['field_message'];
-								$local_field['name']    = $local_field['key'];
 							}
 	
 							break;

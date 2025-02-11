@@ -63,8 +63,8 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 					} else {
 						$title = sprintf( 'Submission #%d', $item['id'] );
 					}
-
-					$page    = sanitize_text_field( $_REQUEST['page'] );
+					
+					$page    = 'fea-settings-submissions';
 					$title   = sprintf( '<a href="?page=%s&action=%s&id=%s">%s</a>', $page, 'edit', $item['id'], $title );
 					$actions = array(
 						'edit'   => sprintf( '<a href="?page=%s&action=%s&id=%s">%s</a>', $page, 'edit', $item['id'], __( 'Review', 'acf-frontend-form-element' ) ),

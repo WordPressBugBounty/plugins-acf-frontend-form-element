@@ -401,7 +401,6 @@ function feadmin_get_field_type_groups( $type = 'all' ) {
 			'label'   => __( 'Layout', 'acf-frontend-form-element' ),
 			'options' => array(
 				'message' => __( 'Message', 'acf-frontend-form-element' ),
-				'column'  => __( 'Column', 'acf-frontend-form-element' ),
 			// 'tab'  => __( 'Tab', 'acf-frontend-form-element' ),
 			),
 		);
