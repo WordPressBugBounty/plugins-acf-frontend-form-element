@@ -359,7 +359,9 @@ class Nested_Form extends Widget_Nested_Base {
 			'aria-labelledby' => $item_settings['tab_id'],
 			'data-tab-index' => $item_settings['tab_count'],
 			'style' => '--n-tabs-title-order: ' . $item_settings['tab_count'] . ';',
-			'class' => 0 === $item_settings['index'] ? 'e-active' : '',
+			'class' => [
+				0 === $item_settings['index'] ? 'e-active' : '',
+			]
 		] );
 	}
 
@@ -541,6 +543,10 @@ class Nested_Form extends Widget_Nested_Base {
 		return array_key_exists( 'tab_icon_active', $item ) && ! empty( $item['tab_icon_active'] ) && ! empty( $item['tab_icon_active']['value'] );
 	}
 
+	public function has_widget_inner_wrapper(): bool {
+		return false;
+	}
+
 
 	protected function step_controls(){
 		$start = is_rtl() ? 'right' : 'left';
@@ -549,10 +555,10 @@ class Nested_Form extends Widget_Nested_Base {
 		$end_logical = is_rtl() ? 'start' : 'end';
 		$logical_dimensions_inline_start = is_rtl() ? '{{RIGHT}}{{UNIT}}' : '{{LEFT}}{{UNIT}}';
 		$logical_dimensions_inline_end = is_rtl() ? '{{LEFT}}{{UNIT}}' : '{{RIGHT}}{{UNIT}}';
-		$heading_selector_non_touch_device = '{{WRAPPER}} > .elementor-widget-container > .e-n-tabs[data-touch-mode="false"] > .e-n-tabs-heading';
-		$heading_selector_touch_device = '{{WRAPPER}} > .elementor-widget-container > .e-n-tabs[data-touch-mode="true"] > .e-n-tabs-heading';
-		$heading_selector = '{{WRAPPER}} > .elementor-widget-container > .e-n-tabs > .e-n-tabs-heading';
-		$content_selector = ':where( {{WRAPPER}} > .elementor-widget-container > .e-n-tabs > .e-n-tabs-content ) > .e-con';
+		$heading_selector_non_touch_device = '{{WRAPPER}} > .e-n-tabs[data-touch-mode="false"] > .e-n-tabs-heading';
+		$heading_selector_touch_device = '{{WRAPPER}} > .e-n-tabs[data-touch-mode="true"] > .e-n-tabs-heading';
+		$heading_selector = '{{WRAPPER}} > .e-n-tabs > .e-n-tabs-heading';
+		$content_selector = ':where( {{WRAPPER}} > .e-n-tabs > .e-n-tabs-content ) > .e-con';
 
 		$this->start_controls_section( 'section_tabs', [
 			'label' => esc_html__( 'Form', 'elementor' ),
@@ -875,7 +881,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'name' => 'tabs_title_background_color',
 				'types' => [ 'classic', 'gradient' ],
 				'exclude' => [ 'image' ],
-				'selector' => '{{WRAPPER}} > .elementor-widget-container > .e-n-tabs > .e-n-tabs-heading > .e-n-tab-title[aria-selected="false"]:not( :hover )',
+				'selector' => '{{WRAPPER}} > .e-n-tabs > .e-n-tabs-heading > .e-n-tab-title[aria-selected="false"]:not( :hover )',
 				'fields_options' => [
 					'color' => [
 						'label' => esc_html__( 'Background Color', 'elementor' ),

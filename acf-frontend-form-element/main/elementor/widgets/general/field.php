@@ -105,6 +105,7 @@ class Field extends \Elementor\Widget_Base {
 	public function get_categories() {
 		return array( 'frontend-admin-fields' );
 	}
+	
 
 	/**
 	 * Register acf ele form widget controls.
@@ -290,7 +291,7 @@ class Field extends \Elementor\Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-widget-container' => 'display:flex; flex-direction:column; gap: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}}' => 'display:flex; flex-direction:column; gap: {{SIZE}}{{UNIT}};',
 				),
 				'size_units' => [ 'px', 'em', 'rem', 'vw', 'custom' ],
 			)
@@ -434,8 +435,11 @@ class Field extends \Elementor\Widget_Base {
 		}
 	}
 
-	
+	public function has_widget_inner_wrapper(): bool {
+		return false;
+	}
 
+	
 	/**
 	 * Render fields widget output on the frontend.
 	 *
@@ -450,7 +454,7 @@ class Field extends \Elementor\Widget_Base {
 		
 		$settings = $this->get_settings_for_display();
 		
-
+		
 
 		$chosen = $settings['choose_from'];
 

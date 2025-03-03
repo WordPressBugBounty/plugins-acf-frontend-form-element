@@ -675,14 +675,19 @@
 						{
 							type: 'error',
 							text: errorMessage,
-							target: this.$el
+							target: this.$el,
+							location: 'after'
 							}
 					);
 					this.set( 'notice', notice );
 				} // if no $scrollTo, set to message
 
 				if ( ! $scrollTo) {
-					$scrollTo = this.get( 'notice' ).$el;
+					if( errors.length > 0 ){
+						$scrollTo = errors[0];
+					}else{
+						$scrollTo = this.get( 'notice' ).$el;
+					}
 				} // timeout
 
 				setTimeout(
@@ -1285,7 +1290,6 @@
 					if( data.objects ){
 						$form.find( 'input[name=_acf_objects]' ).val( data.objects );
 					}
-					console.log(data);
 
 					acf.doAction( 'frontend_form_success', data, $form );
 
@@ -1817,7 +1821,6 @@
 					this.$( 'input.images-preview' ).prop( 'disabled',false );
 				}
 				this.$( '.images-preview' ).click();
-				console.log( 'clicked' );
 			},
 
 			appendAttachment: function( attachment, i ){
@@ -2587,10 +2590,11 @@
 					parent.find( '[data-key="' + this.get( 'destination' ) + '"' ).find( '.acf-url' ).addClass( '-valid' ).find( 'input' ).val( attachment.url );
 				} else {
 
-					this.updatePreview( attachment.url, attachment.alt );
+					this.updatePreview( attachment );
 
 					if (attachment.id) {
 						this.val( attachment.id );
+						this.trigger('change');
 						this.$control().addClass( 'has-value' );
 					} else {
 						this.val( '' );
@@ -2601,7 +2605,9 @@
 				}
 
 			},
-			updatePreview: function (url, alt) {
+			updatePreview: function (file) {
+				const { url, alt } = file;
+			 
 				this.$img()?.attr(
 					{
 						src: url,
@@ -2793,7 +2799,17 @@
 				reader.onload = function()
 				{
 
-					field.updatePreview( reader.result, '' );
+					const attachment = {
+						url: reader.result,
+						alt: file.name,
+						title: file.name,
+					};
+					field.updatePreview( attachment );
+
+					field.$('.file-meta-data .fea-file-meta.title').val(file.name);
+					field.$('.file-meta-data .fea-file-meta.alt').val(file.name);
+
+					
 
 					feaResizeFile( file, reader.result, field );
 					field.$( '.image-preview' ).val( '' );
@@ -3102,6 +3118,8 @@
 				var val = attachment.id || ''; // update val
 		  
 				acf.val(this.$input(), val); // update class
+				
+				//this.$el.find('input[data-name=id]').trigger('change');
 		  
 				if (val) {
 				  this.$control().addClass('has-value');
@@ -4777,4 +4795,93 @@ document.addEventListener('click', function (e) {
             e.target.classList.add('dashicons-visibility');
         }
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    function getFieldValue(field) {
+        if (!field) return null;
+
+        if (field.type === "radio" || field.type === "checkbox") {
+            const checked = document.querySelector(`[name="${field.name}"]:checked`);
+            return checked ? checked.value : null;
+        }
+        
+        return field.value || null;
+    }
+
+    function evaluateConditions(field) {
+        const conditionsData = field.getAttribute("data-conditions");
+        if (!conditionsData) return true;
+
+        const conditions = JSON.parse(conditionsData);
+        let fieldShouldBeVisible = false;
+
+        conditions.forEach((conditionGroup) => {
+            let groupMet = true;
+
+            conditionGroup.forEach((condition) => {
+                const dependentFields = document.querySelectorAll(`[data-key="${condition.field}"] input, 
+                                                                   [data-key="${condition.field}"] select, 
+                                                                   [data-key="${condition.field}"] textarea`);
+
+                if (!dependentFields.length) return;
+
+                let valueMatches = false;
+                dependentFields.forEach((dependentField) => {
+                    const value = getFieldValue(dependentField);
+
+                    switch (condition.operator) {
+                        case "!=empty":
+                            if (value) valueMatches = true;
+                            break;
+                        case "==empty":
+                            if (!value) valueMatches = true;
+                            break;
+                        case "==":
+                            if (value === condition.value) valueMatches = true;
+                            break;
+                        case "!=":
+                            if (value !== condition.value) valueMatches = true;
+                            break;
+                    }
+                });
+
+                if (!valueMatches) groupMet = false;
+            });
+
+            if (groupMet) fieldShouldBeVisible = true;
+        });
+
+        return fieldShouldBeVisible;
+    }
+
+    function toggleFieldState(field, showField) {
+        field.style.display = showField ? "block" : "none";
+
+        const inputs = field.querySelectorAll("input, select, textarea");
+        inputs.forEach((input) => {
+            if (showField) {
+                input.removeAttribute("disabled");
+                input.style.visibility = "visible";
+            } else {
+                input.setAttribute("disabled", "disabled");
+                input.style.visibility = "hidden";
+            }
+        });
+    }
+
+    function checkAndApplyConditions() {
+        document.querySelectorAll("[data-conditions]").forEach((field) => {
+            const shouldShow = evaluateConditions(field);
+            toggleFieldState(field, shouldShow);
+        });
+    }
+
+    document.addEventListener("change", function (event) {
+        if (event.target.matches("input, select, textarea")) {
+            checkAndApplyConditions();
+        }
+    });
+
+    checkAndApplyConditions();
 });

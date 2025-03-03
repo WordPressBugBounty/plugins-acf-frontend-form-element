@@ -680,6 +680,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			// taxonomy
 			$taxonomy_obj = get_taxonomy( $field['taxonomy'] );
 
+			if( ! $taxonomy_obj ) return;
+
 			// include walker
 			acf_include( 'includes/walkers/class-acf-walker-taxonomy-field.php' );
 

@@ -194,8 +194,8 @@ class Frontend_Forms_UI {
 			return;
 		}
 
-		add_meta_box( 'acf-field-group-fields', esc_html( 'Fields', 'acf-frontend-form-element' ), array( $this, 'render_fields' ), $screen->id, 'normal', 'default' );
-		add_meta_box( 'acf-field-group-options', esc_html( 'Settings', 'acf-frontend-form-element' ), array( $this, 'render_options' ), $screen->id, 'normal', 'default' );
+		add_meta_box( 'acf-field-group-fields', esc_html( __( 'Fields', 'acf-frontend-form-element' ) ), array( $this, 'render_fields' ), $screen->id, 'normal', 'default' );
+		add_meta_box( 'acf-field-group-options', esc_html( __( 'Settings', 'acf-frontend-form-element' ) ), array( $this, 'render_options' ), $screen->id, 'normal', 'default' );
 
 	}
 
@@ -568,10 +568,10 @@ class Frontend_Forms_UI {
 
 					<div class="acf-headerbar-actions" id="submitpost">
 						<?php if( $form_type ){ ?>						
-							<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'acf' ); ?></a>
-							<a href="#" class="acf-btn acf-btn-secondary add-acf-fields"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add ACF Fields', 'acf' ); ?></a>
+							<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'acf-frontend-form-element' ); ?></a>
+							<a href="#" class="acf-btn acf-btn-secondary add-acf-fields"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add ACF Fields', 'acf-frontend-form-element' ); ?></a>
 						<?php } ?>
-						<button form="post" class="acf-btn acf-publish" type="submit"><?php esc_html_e( 'Save Changes', 'acf' ); ?></button>
+						<button form="post" class="acf-btn acf-publish" type="submit"><?php esc_html_e( 'Save Changes', 'acf-frontend-form-element' ); ?></button>
 					</div>
 
 				</div>
@@ -698,11 +698,13 @@ class Frontend_Forms_UI {
 		if ( empty( $field['dynamic_value_choices'] ) ) {
 			return $field;
 		}
+		$types = [ 'text', 'textarea' ];
 		$field['wrapper']['data-dynamic_values'] = '1';
-		if ( $field['type'] == 'text' ) {
+		if ( ! in_array( $field['type'], $types ) ) {
 			$field['type'] = 'text';
-			$field['no_autocomplete'] = 1;
 		}
+		$field['no_autocomplete'] = 1;
+
 		return $field;
 	}
 

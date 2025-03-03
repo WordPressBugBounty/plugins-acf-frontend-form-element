@@ -130,10 +130,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( ! empty( $_POST['acff'] ) ) {
 				foreach ( array_keys( $_POST['acff'] ) as $group ) {
 					$group = sanitize_text_field( $group );
-					
 					$inputs = $_POST['acff'][$group];
 					if ( is_array( $inputs ) ) {
 						foreach ( $inputs as $key => $input ) {
+
 							$form = $this->add_value_to_record( $form, $key, $input, $group );
 						}
 					}
@@ -225,7 +225,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 
 			$text_based = [
-				'post_title', 'text', 'username', 'term_name'
+				'post_title', 'text', 'username', 'term_name', 'product_title', 'user_email', 'email', 'mailchimp_email', 
 			];
 			if ( $input && in_array( $field['type'], $text_based ) && empty( $form['dynamic_title'] ) && empty( $form['submission_title'] ) ) {
 				$form['submission_title'] = sanitize_text_field( $input );
@@ -726,12 +726,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					}
 					
 					if( ! $redirect_url ) {
-						$redirect_url = sanitize_url( $_POST['_acf_current_url'] );
+						$redirect_url = sanitize_url( $_POST['_acf_current_url'] ?? home_url() );
 					}
 
 					break;					
 				case 'referer_url':
-					$redirect_url = sanitize_url( $_POST['_acf_referer_url'] );
+					$redirect_url = sanitize_url( $_POST['_acf_referer_url'] ?? home_url() );
 					break;
 				case 'post_url':
 					$redirect_url = '%post_url%';

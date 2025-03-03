@@ -75,10 +75,10 @@ class Dashboard_Settings {
 		global $current_user;
 		$checked = ( isset( $user->hide_admin_area ) && $user->hide_admin_area ) ? ' checked="checked"' : '';
 
-		echo '<h3>'. esc_html( 'Hide WordPress Admin Area', 'acf-frontend-form-element' ) . '</h3>
+		echo '<h3>'. esc_html__( 'Hide WordPress Admin Area', 'acf-frontend-form-element' ) . '</h3>
 			<table class="form-table">
 				<tr>
-					<th><label for="hide_admin_area">'. esc_html( 'Hide Admin Area', 'acf-frontend-form-element' ) . '</label></th>
+					<th><label for="hide_admin_area">'. esc_html__( 'Hide Admin Area', 'acf-frontend-form-element' ) . '</label></th>
 					<td><input name="hide_admin_area" type="checkbox" id="hide_admin_area" value="1"' . esc_html( $checked ) . '></td>
 				</tr>
 			</table>';

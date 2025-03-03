@@ -88,7 +88,22 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				?>
 			<style>p.frontend-admin-text{font-size:20px}</style>
 			<h3><?php esc_html_e( 'Hello and welcome', 'acf-frontend-form-element' ); ?></h3>
-			<p class="frontend-admin-text"><?php printf( esc_html( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'acf-frontend-form-element' ), 'Frontend Admin' ); ?></p>
+
+			<p class="frontend-admin-text">
+				<?php printf( 
+					esc_html__( 'Welcome to %s, the plugin that allows you to create and manage forms and content from the front end of your website.', 'acf-frontend-form-element' ), 
+					esc_html( 'Frontend Admin' ) 
+				); ?>
+			</p>
+
+			<p class="frontend-admin-text"><?php printf('Frontend Forms in Elementor Pro Off Canvas Widget');?></p>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/UII4uwpMP0I?si=wbE1l0spGseaQWXX" title="Frontend Forms in Elementor Pro Off Canvas Widget" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+			<p class="frontend-admin-text"><?php printf('Frontend Admin\'s Elementor Nestable Forms Widget');?></p>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/gxN5X54LNuk?si=xc6z6mwradx35CCt" title="Elementor Nestable Forms Widget" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+			<p class="frontend-admin-text"><?php printf( esc_html( __( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'acf-frontend-form-element' ) ), 'Frontend Admin' ); ?></p>
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/ZR7UAegiljQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					
 			

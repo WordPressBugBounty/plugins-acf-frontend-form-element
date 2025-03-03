@@ -483,8 +483,8 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				$edit_post = get_post( $post_id );
 			}
 			if ( empty( $edit_post->ID ) ) {
-				if ( isset( $form['record']['fields']['product'] ) ) {
-					$record = $form['record']['fields']['product'];
+				if ( isset( $form['record']['fields']['woo_product'] ) ) {
+					$record = $form['record']['fields']['woo_product'];
 				} else {
 					global $post;
 					if ( empty( $post->ID ) || $post->post_type != 'product' ) {
@@ -534,6 +534,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				break;
 				case 'main_image':
 					if ( isset( $record['main_image']['value'] ) ) {
+						error_log(print_r($record['main_image']['value'],true));
 						$post_thumb_id  = $record['main_image']['value']['ID'];
 						$post_thumb_url = $record['main_image']['value']['url'];
 					} else {
@@ -542,9 +543,9 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 					}
 					$max_width = '500px';
 					if ( $return_type ) {
-						if ( $return_type == 'image_link' ) {
+						if ( 'image_id' == $return_type ) {
 							return $post_thumb_id;
-						} elseif ( $return_type == 'image_id' ) {
+						} elseif ( 'image_link' == $return_type) {
 							return $post_thumb_url;
 						} else {
 							$max_width = $return_type;

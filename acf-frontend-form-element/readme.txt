@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.25.18
+Stable tag: 3.26.0
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -111,6 +111,12 @@ https://www.youtube.com/watch?v=FsLSrd-11-g
 = Bjorn from WPLearningLab shows how to create a WordPress Client Portal =
 https://www.youtube.com/watch?v=yjhd8GPi28o
 
+= Frontend Forms in Elementor Pro Off Canvas Widget =
+https://www.youtube.com/watch?v=UII4uwpMP0I
+
+= Frontend Admin's Elementor Nestable Forms Widget on Wordpress =
+https://www.youtube.com/watch?v=gxN5X54LNuk&t=2s
+
 = Enable Users To Add Content From The Front End Without Logging Into WordPress Using Frontend Admin =
 https://www.youtube.com/watch?v=6yT2E2IV-JU
 
@@ -141,6 +147,28 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.26.0 - 03-03-2024 =
+ * Fixed non translatble strings
+ * Fixed Chceckout items error
+ * Added Freemius to free version 
+
+= 3.25.22 - 21-02-2024 =
+ * Fixed submissions not saving product data after Woo Checkout
+ * Fixed conditional logic in Elementor widgets
+ * Added Dynamic Values dropdown to textarea field settings.  
+
+= 3.25.21 - 19-02-2024 =
+ * Moved main validation error to show after form
+ * Changed validation to scroll to first error message rather than to the top of the form
+ * Fixed product form submissions not loading values
+
+= 3.25.20 - 17-02-2024 =
+ * Fixed OR logic in conditional rules
+
+= 3.25.19 - 12-02-2024 =
+ * Added Completed Step style in multi step form
+ * Fixed conditional logic when fields are in two seperate widgets
+
 = 3.25.18 - 09-02-2024 =
  * Fixed image upload preview element to update <source>
 

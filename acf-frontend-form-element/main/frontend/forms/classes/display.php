@@ -920,18 +920,23 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			$field_name = $field['name'];
 
 			if ( isset( $form['record'] ) ) {
+				if( 'product' == $type ){
+					$group = 'woo_product';
+				}
 
 				$field_name = str_replace( 'fea_'.$field['type'], $field['type'], $field_name );
 				
-				$field_record = $form['record']['fields'][ $type ][ $field_name ] ?? false;
+				$field_record = $form['record']['fields'][ $group ][ $field_name ] ?? false;
 
 				if( ! $field_record ){
-					$field_record = $form['record']['fields'][ $type ][ $field['key'] ] ?? false;
+					$field_record = $form['record']['fields'][ $group ][ $field['key'] ] ?? false;
 				}
 
 				if ( $field_record && $field_record['_input'] ) {
 					
 					$field['value'] = $field_record['_input'];
+
+					$form['save_to_'.$type] = $form['save_to_'.$type] ?? 'edit_'.$type;
 
 					if( 'edit_'.$type == $form['save_to_'.$type] && isset( $field_record['prev'] ) ){
 						$field['prev_value'] = $field_record['prev'] ?? '';
@@ -1059,8 +1064,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		public function show_messages( $form ) {
 			if ( feadmin_edit_mode() && ! empty( $form['style_messages'] ) ) {
 				echo '<div class="acf-notice -success acf-sucess-message -dismiss"><p >' . esc_html( $form['update_message'] ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
-				echo '<div class="acf-notice -error acf-error-message -dismiss"><p>'. esc_html( 'Validation failed.', 'acf-frontend-form-element' ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
-				echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>'. esc_html( 'Limit Reached.', 'acf-frontend-form-element' ) . '</p></div>';
+				echo '<div class="acf-notice -error acf-error-message -dismiss"><p>'. esc_html( __( 'Validation failed.', 'acf-frontend-form-element' ) ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
+				echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>'. esc_html( __( 'Limit Reached.', 'acf-frontend-form-element' ) ) . '</p></div>';
 			}
 		}
 
@@ -1435,7 +1440,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			foreach ( $file_data as $data ) {
 				$data['prefix'] = $prefix;
 				$data['disabled'] = true;
-				$data['class']  = 'fea-file-meta';
+				$data['class']  = 'fea-file-meta' . ' ' .  $data['name'];
 				if ( isset( $values[ $data['name'] ] ) ) {
 					$data['value'] = $values[ $data['name'] ];
 				}

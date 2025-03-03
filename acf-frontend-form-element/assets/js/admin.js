@@ -80,7 +80,7 @@
 					} else {
 
 						// Regular field
-						var $input = $option.parents( '.dynamic-values' ).siblings( 'input[type=text]' );
+						var $input = $option.parents( '.dynamic-values' ).siblings( 'input[type=text], textarea' );
 						insert_at_caret( $input.get( 0 ), value );
 
 					}
@@ -93,7 +93,7 @@
 			// Toggle dropdown
 			$( document ).on(
 				'focusin click',
-				'.acf-field[data-dynamic_values] input, a.dynamic-value-options',
+				'.acf-field[data-dynamic_values] input, a.dynamic-value-options, .acf-field[data-dynamic_values] textarea',
 				function(e) {
 					e.stopPropagation();
 

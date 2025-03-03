@@ -3,7 +3,7 @@
  * Plugin Name: Frontend Admin
  * Plugin URI: https://wordpress.org/plugins/acf-frontend-form-element/
  * Description: This awesome plugin allows you to easily display admin forms to the frontend of your site so your clients can easily edit content on their own from the frontend.
- * Version:     3.25.18
+ * Version:     3.26.0
  * Author:      Shabti Kaplan
  * Author URI:  https://www.dynamiapps.com/
  * Text Domain: acf-frontend-form-element
@@ -20,6 +20,47 @@ if ( ! function_exists( 'feap_fs' ) ) {
 }
 
 if ( ! class_exists( 'Front_End_Admin' ) ) {
+	if ( ! function_exists( 'fea_freemius' ) ) {
+		function fea_freemius() {
+			global $fea_freemius;
+
+			if ( isset( $fea_freemius ) ) {
+				return $fea_freemius;
+			}
+
+			if ( ! defined( 'WP_FS__PRODUCT_5212_MULTISITE' ) ) {
+				define( 'WP_FS__PRODUCT_5212_MULTISITE', true );
+			}
+
+			require_once dirname( __FILE__ ) . '/main/freemius/start.php';
+			$fea_freemius = fs_dynamic_init(
+				array(
+					'id'              => '5212',
+					'slug'            => 'acf-frontend-form-element',
+					'premium_slug'    => 'frontend-admin-pro',
+					'type'            => 'plugin',
+					'public_key'      => 'pk_771aff8259bcf0305b376eceb7637',
+					'is_premium'      => false,
+					'premium_suffix'  => 'Pro',
+					'has_addons'      => false,
+					'has_paid_plans'  => true,
+					'trial'           => array(
+						'days'               => 7,
+						'is_require_payment' => true,
+					),
+					'has_affiliation' => false,
+					'menu'            => array(
+						'slug'        => 'fea-settings',
+						'contact'     => false,
+						'support'     => false,
+						'affiliation' => false,
+					),
+				)
+			);
+			return $fea_freemius;
+		}
+		fea_freemius();
+	}
 
 	/**
 	 * Main Frontend Admin Class

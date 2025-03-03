@@ -342,6 +342,12 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 		}
 
 		function get_current_post_id() {
+			global $fea_current_post_id;
+
+			if ( isset( $fea_current_post_id ) ) {
+				return $fea_current_post_id;
+			}
+
 			$el = $this->get_elementor_instance();
 			if ( isset( $el->documents ) ) {
 				$current_page = $el->documents->get_current();
@@ -394,12 +400,25 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 
 			$widget_ids = explode( '_', $ids[1] );
 
-			$widget = $this->get_the_widget( [ $ids[0], $widget_ids[0] ] );
+			$post_id = $ids[0];
+
+			global $fea_current_post_id;
+			$fea_current_post_id = $post_id;	
+
+			$widget_id = $widget_ids[0];
+			$field_id = $widget_ids[1] ?? false;
+
+			$widget = $this->get_the_widget( [ $post_id, $widget_id ] );
+			
 
 			if( $widget ){	
-				if( empty( $widget_ids[1] ) ) return $widget->prepare_field( $key );
+
+				
+				if( empty( $field_id ) ) return $widget->prepare_field( $key );
 
 				$form = $widget->prepare_form( $key );
+								error_log( print_r( $form, true ) );
+
 			
 				if( ! empty( $form['fields'][$key] ) ) return $form['fields'][$key];
 			}

@@ -249,9 +249,11 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 					?>
 					<h2><?php echo sprintf( 'Submission #%d: %s', esc_html( $submission_id ), esc_html( $title ) ); ?></h2>
 					<?php
+
 					$action = fea_instance()->submissions_list->current_action();
 					if ( $action == 'edit' ) {
 						$form = $this->get_form( $submission, array(), true, true );
+
 						if( ! $form ){
 							echo '<div class="notice notice-error"><p>'. esc_html__( 'Form not found.', 'acf-frontend-form-element' ) .'</p></div>';
 							return;
@@ -266,7 +268,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						}
 						if ( ! empty( $form['record']['emails_to_verify'] ) ) {
 							 echo '<div class="emails-to-verify">';
-							 echo '<h3>'. esc_html( 'Pending Verification:', 'acf-frontend-form-element' ) . '</h3><ul>';
+							 echo '<h3>'. esc_html( __( 'Pending Verification:', 'acf-frontend-form-element' ) ) . '</h3><ul>';
 							foreach ( $form['record']['emails_to_verify'] as $address ) {
 								echo '<li>' . esc_html( $address ) . '</li>';
 							}
@@ -274,7 +276,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						}
 						if ( ! empty( $form['record']['verified_emails'] ) ) {
 							echo '<div class="verified-emails">';
-							echo '<h3>'. esc_html( 'Verified Emails:', 'acf-frontend-form-element' ) . '</h3><ul>';
+							echo '<h3>'. esc_html( __( 'Verified Emails:', 'acf-frontend-form-element' ) ) . '</h3><ul>';
 							foreach ( $form['record']['verified_emails'] as $address ) {
 								echo '<li>' . esc_html( $address ) . '</li>';
 							}
