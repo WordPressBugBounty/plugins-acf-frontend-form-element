@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.26.0
+Stable tag: 3.26.2
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -147,6 +147,14 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.26.2 - 07-03-2024 =
+ * Added option to pay to publish using Easy Digital Downloads
+ * Fixed Exclude typo
+ * Fixed submissions not loading post and user data
+
+= 3.26.1 - 04-03-2024 =
+ * Added Elementor widget conditions
+
 = 3.26.0 - 03-03-2024 =
  * Fixed non translatble strings
  * Fixed Chceckout items error

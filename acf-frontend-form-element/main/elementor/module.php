@@ -437,14 +437,17 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 		public function controls( $controls_manager ) {
 
 			require_once( __DIR__ . '/controls/custom-select.php' );
+			require_once( __DIR__ . '/controls/conditions.php' );
 		
 			$controls_manager->register( new Elementor\Controls\Custom_Select() );
+			$controls_manager->register( new Elementor\Controls\Conditions_Control() );
 		
 		}
 
 		public function __construct() {
 			include_once __DIR__ . '/classes/content-tab.php';
 			include_once __DIR__ . '/classes/modal.php';
+			include_once __DIR__ . '/classes/conditions.php';
 			include_once __DIR__ . '/classes/permissions.php';
 
 			add_action( 'elementor/elements/categories_registered', array( $this, 'widget_categories' ) );

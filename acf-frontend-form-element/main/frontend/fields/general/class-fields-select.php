@@ -119,7 +119,7 @@ if ( ! class_exists( 'fields_select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Exlude Fields from Field Groups', 'acf' ),
+					'label'        => __( 'Exclude Fields from Field Groups', 'acf' ),
 					'instructions' => __( 'Select one or more fields from the field groups to exclude', 'acf-frontend-form-element' ),
 					'type'         => 'select',
 					'name'         => 'fields_exclude',

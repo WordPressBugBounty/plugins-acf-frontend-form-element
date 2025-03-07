@@ -922,6 +922,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			if ( isset( $form['record'] ) ) {
 				if( 'product' == $type ){
 					$group = 'woo_product';
+				}else{
+					$group = $type;
 				}
 
 				$field_name = str_replace( 'fea_'.$field['type'], $field['type'], $field_name );
