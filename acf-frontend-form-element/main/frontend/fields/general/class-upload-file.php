@@ -514,7 +514,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			// validate nonce
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Invalid Nonce', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 			}
 
 			// bail early if no attachments
@@ -589,7 +589,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			// validate nonce
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Invalid Nonce', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 			}
 
 			// bail early if no attachments

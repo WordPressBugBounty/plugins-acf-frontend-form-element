@@ -27,17 +27,7 @@ class API_KEYS {
 					'id'    => '',
 				),
 			),
-			'frontend_admin_google_maps_client' => array(
-				'label'        => __( 'Google Maps Client Key', 'acf-frontend-form-element' ),
-				'type'         => 'text',
-				'instructions' => '',
-				'required'     => 0,
-				'wrapper'      => array(
-					'width' => '50.1',
-					'class' => '',
-					'id'    => '',
-				),
-			)
+			
 		);
 
 		$site_key   = get_option( 'frontend_admin_google_recaptcha_site' );
@@ -142,7 +132,6 @@ class API_KEYS {
 	}
 	public function frontend_admin_update_maps_api() {
 		acf_update_setting( 'google_api_key', get_option( 'frontend_admin_google_maps_api' ) );
-		acf_update_setting( 'google_api_client', get_option( 'frontend_admin_google_maps_client' ) );
 		
 	}
 

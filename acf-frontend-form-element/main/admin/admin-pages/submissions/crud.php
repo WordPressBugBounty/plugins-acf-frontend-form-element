@@ -285,7 +285,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						$display_list = false;
 					} elseif ( $action == 'delete' ) {
 						if ( empty( $_REQUEST['nonce'] ) ) {
-							die( 'Nonce required to perform this action.' );
+							die( 'Authentication Error. Please try refreshing the page.' );
 						}
 						$nonce = esc_attr( wp_kses( $_REQUEST['nonce'], 'strip' ) );
 

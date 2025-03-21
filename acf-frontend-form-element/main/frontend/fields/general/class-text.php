@@ -48,6 +48,11 @@ if ( ! class_exists( 'text' ) ) :
 		function render_field( $field ) {
 			$html = '';
 
+			$field = wp_parse_args( $field, [
+				'prepend' => '',
+				'append' => '',
+			] );
+
 			// Prepend text.
 			if ( $field['prepend'] !== '' ) {
 				$field['class'] .= ' acf-is-prepended';

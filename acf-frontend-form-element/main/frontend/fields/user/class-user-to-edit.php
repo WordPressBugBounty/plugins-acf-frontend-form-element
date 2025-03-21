@@ -126,12 +126,17 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				);
 			}
 
-			$args      = array();
+			$args      = array(
+				'fields' => [
+					'ID', 'display_name', 'user_login', 'nicename'
+				],
+				'include' => []
+			);
 			$s         = false;
 			$is_search = false;
 
 			// paged
-			$args['users_per_page'] = 20;
+			$args['number'] = 20;
 			$args['paged']          = $options['paged'];
 
 			// search
@@ -147,8 +152,9 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			}
 
 			// Add specific roles.
-			if ( $options['role'] ) {
-				$args['role__in'] = acf_array( $options['role'] );
+			
+			if ( $field['role'] ) {
+				$args['role__in'] = acf_array( $field['role'] );
 			}
 
 			// taxonomy
@@ -172,79 +178,40 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				}
 			}
 
-			if ( ! empty( $field['user_author'] ) ) {
+			/* if ( ! empty( $field['user_author'] ) ) {
 				$args['author'] = get_current_user_id();
 			}
-
+ */
 			// filters
 			$args = apply_filters( 'frontend_admin/fields/user_to_edit/query', $args, $field, $options['user_id'] );
 			$args = apply_filters( 'frontend_admin/fields/user_to_edit/query/name=' . $field['name'], $args, $field, $options['user_id'] );
 			$args = apply_filters( 'frontend_admin/fields/user_to_edit/query/key=' . $field['key'], $args, $field, $options['user_id'] );
 
+
 			// get users grouped by user type
-			$groups = acf_get_users(
+			$users = acf_get_users(
 				$args
 			);
 
+
+
 			// bail early if no users
-			if ( empty( $groups ) && ! isset( $new_item ) ) {
+			if ( empty( $users ) && ! isset( $new_item ) ) {
 				return false;
 			}
 
-			// loop
-			foreach ( array_keys( $groups ) as $group_title ) {
+			foreach ( $users as $user ) {
 
-				// vars
-				$users = acf_extract_var( $groups, $group_title );
-
-				// data
-				$data = array(
-					'text'     => $group_title,
-					'children' => array(),
+				$results[] = array(
+					'id'   => $user->ID,
+					'text' => $this->get_user_title( $user, $field, $options['user_id'], $is_search ),
 				);
-
-				// convert user objects to user titles
-				foreach ( array_keys( $users ) as $user_id ) {
-
-					$users[ $user_id ] = $this->get_user_title( $users[ $user_id ], $field, $options['user_id'], $is_search );
-
-				}
-
-				// order users by search
-				if ( $is_search && empty( $args['orderby'] ) && isset( $args['s'] ) ) {
-
-					$users = acf_order_by_search( $users, $args['s'] );
-
-				}
-
-				// append to $data
-				foreach ( array_keys( $users ) as $user_id ) {
-
-					$data['children'][] = $this->get_user_result( $user_id, $users[ $user_id ] );
-
-				}
-
-				// append to $results
-				$results[] = $data;
-
-			}
-
-			// optgroup or single
-			$user_type = acf_get_array( $args['user_type'] );
-			if ( count( $user_type ) == 1 ) {
-				if ( isset( $new_item ) ) {
-					if ( count( $results ) > 1 ) {
-						$results = array_merge( array( $results[0] ), $results[1]['children'] );
-					}
-				} else {
-					$results = $results[0]['children'];
-				}
 			}
 
 			// vars
 			$response = array(
 				'results' => $results,
-				'limit'   => $args['users_per_page'],
+				'limit'   => $args['number'],
 			);
 
 			// return
@@ -313,7 +280,17 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			}
 
 			// vars
-			$title = acf_get_user_title( $user, $is_search );
+			$title = $user->display_name;
+
+			if( ! $title ){
+				$title = $user->nicename ?? '';
+			}
+			if( ! $title ){
+				$title = $user->user_login;
+			}
+
+		
+
 
 			// filters
 			$title = apply_filters( 'frontend_admin/fields/user_to_edit/result', $title, $user, $field, $user_id );
@@ -372,7 +349,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				// Append.
 				if ( $users ) {
 					foreach ( $users as $user ) {
-						$field['choices'][ $user->ID ] = $this->get_result( $user, $field );
+						$field['choices'][ $user->ID ] = $this->get_user_title( $user, $field, $field['value'] );
 					}
 				}
 			}
@@ -509,9 +486,12 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 		*  @return  $value
 		*/
 
-		function load_value( $value, $user_id, $field ) {
+		function load_value( $value, $post_id, $field ) {
+			global $fea_form;
+			$user_id = $fea_form['user_id'] ?? 'none';
+
 			if ( $user_id == 'none' ) {
-				return null;
+				return '';
 			}
 
 			// return

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.26.2
+Stable tag: 3.26.5
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -75,9 +75,35 @@ Accept payments through Stripe or Paypal upon form submission.
 
 7. Woocommerce Intergration 
 Easily add Woocomerce products from the frontend.
- 
 
 Purchase your copy here at the official website: [Frontend Admin website](https://www.dynamiapps.com/)
+
+
+== Intergrations ==
+
+### Page Builders ###
+Frontend Admin works with all WordPress page builders, including:
+
+* Elementor
+* Bricks Builder
+* Spectra Website Builder
+* Divi Builder
+* Beaver Builder
+* Thrive Architect
+* Gutenberg
+* Oxygen Builder
+* And others
+
+### Other Plugins ###
+Frontend Admin has built-in integrations with very popular plugins, such as:
+
+* WooCommmerce
+* Easy Digital Downloads
+* SureCart
+* Advanced Custom Fields
+* Pods
+* And more
+ 
 
 
 == Useful Links ==
@@ -101,6 +127,7 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 6. Configure the fields permisions, display, and other settings as you please.
 7. Copy and paste the shortcode on any page. You can also use our Gutenberg block.
 8. You should now see a form on the frontend for editing a post, adding a post, editing or adding a user, and more.
+
 
 
 == Tutorials ==  
@@ -147,6 +174,19 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.26.5 - 21-03-2024 =
+ * Fixed Free and Pro versions conflicting
+ * Fixed Nonce errors to say "Authentication Error. Please try refreshing the page."
+ * Added "default_terms" setting to taxonomy field
+
+= 3.26.4 - 18-03-2024 =
+ * Fixed user email and password not saving in edit user form
+ * Fixed color input field warning
+ * Removed Google maps secret key setting which is no longer required 
+
+= 3.26.3 - 13-03-2024 =
+ * Added User To Edit field
+
 = 3.26.2 - 07-03-2024 =
  * Added option to pay to publish using Easy Digital Downloads
  * Fixed Exclude typo

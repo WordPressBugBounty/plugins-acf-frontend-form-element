@@ -291,8 +291,8 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			wp_enqueue_style( 'acf-global' );
 
 			if( \Elementor\Plugin::$instance->experiments->is_feature_active( \Elementor\Modules\NestedElements\Module::EXPERIMENT_NAME ) ){
-				$js_deps = include_once FEA_DIR . '/main/gutenberg/build/el-nested-form-editor/index.asset.php';
-				$js_url = FEA_URL . 'main/gutenberg/build/el-nested-form-editor/index.js';
+				$js_deps = include_once FEA_DIR . '/assets/build/el-nested-form-editor/index.asset.php';
+				$js_url = FEA_URL . 'assets/build/el-nested-form-editor/index.js';
 				wp_enqueue_script( 'nested-form', $js_url, [
 					'nested-elements',
 				], $js_deps['version'], true );

@@ -520,7 +520,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'upload-image',
 					'upload-files',
 					'list-items',
-					'fields-select',
 					'recaptcha',
 				),
 				 'post' => array(
@@ -539,6 +538,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					 'delete-post',
 				 ),
 				 'user' => array(
+					 'user-to-edit',
 					 'username',
 					 'user-email',
 					 'user-password',
@@ -560,7 +560,11 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				 ),
 			 );
 
-			 $field_types = apply_filters( 'frontend_admin/field_types', $field_types );
+			 if(  function_exists( 'acf_get_field_groups' ) ){
+				 $field_types['general'][] = 'fields-select';
+			 }
+
+			$field_types = apply_filters( 'frontend_admin/field_types', $field_types );
 
 
 			 return $field_types;

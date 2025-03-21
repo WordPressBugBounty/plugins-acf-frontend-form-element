@@ -182,7 +182,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			);
 
 			if ( ! wp_verify_nonce( $args['nonce'], 'frontend-admin-addon' ) ) {
-				esc_html_e( 'Nonce error', 'acf-frontend-form-element' );
+				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' );
 			}
 
 			$addon_zip = 'https://www.dynamiapps.com/wp-content/uploads/frontend-'.$addon.'.zip';
@@ -221,7 +221,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			}
 
 			if ( ! wp_verify_nonce( $args['nonce'], 'frontend-admin-addon' ) ) {
-				esc_html_e( 'Nonce error', 'acf-frontend-form-element' );
+				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' );
 			}
 
 			$addon_slug = fea_addon_slug( 'frontend-admin-' . $args['addon'] );

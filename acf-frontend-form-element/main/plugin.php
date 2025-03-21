@@ -101,7 +101,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.26.2.2' );
+			define( 'FEA_VERSION', '3.26.5' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page
@@ -180,6 +180,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 		 * @access public
 		 */
 		public function plugin_includes() {
+			
 			$this->include_custom_fields();
 
 			include_once __DIR__ . '/helpers.php';
@@ -208,8 +209,8 @@ if ( ! class_exists( 'Plugin' ) ) {
 		 * @access public
 		 */
 		public function is_license_active() {
-			if ( function_exists( 'fea_freemius' ) ) {
-				return fea_freemius()->is__premium_only();
+			if ( function_exists( 'feap_freemius' ) ) {
+				return feap_freemius()->is__premium_only();
 			}
 
 			return get_option( 'fea_main_license_valid' );

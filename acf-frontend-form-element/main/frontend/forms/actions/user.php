@@ -556,11 +556,9 @@ if ( ! class_exists( 'ActionUser' ) ) :
 						$log_back_in = true;
 					}
 
-					if ( ! empty( $log_back_in ) && get_current_user_id() == $user_id ) {
-						 $user_object = get_user_by( 'ID', $user_id );
-						if ( $user_object ) {
-							$wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
-						}
+					
+					if ( $user_to_insert ) {
+						$wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
 					}
 					do_action( 'profile_update', $user_id, $old_user_data, $user_to_insert );
 				}
@@ -637,17 +635,16 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					if ( $form['user_to_edit'] == 'current_user' ) {
 						$form['user_id'] = get_current_user_id();
 					}
+				
 
 					if ( empty( $form['user_id'] ) || ! feadmin_user_exists( $form['user_id'] ) ) {
 						$form['user_id'] = 'none';
 					}
-
 					$user = get_userdata( $form['user_id'] );
 					if( ! $user ){
 						$form['user_id'] = 'none';
 					}else{
 						$current_user = get_current_user_id();
-
 						if( ! empty( $form['roles'] ) && $current_user != $form['user_id'] ){
 							$roles = $user->roles;
 							//check if the roles are valid

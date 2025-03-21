@@ -45,7 +45,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 			
 			$local_actions = fea_instance()->local_actions;
-			foreach ( $local_actions as $type => $action ) {
+			foreach ( $local_actions as $type => $action ) {		
+
 				if( empty( $form[ $type . '_id' ] ) ){
 					if ( empty( $form['record'][ $type ] ) ) {
 						$form = $action->load_data( $form );
@@ -141,7 +142,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			 );
 
 			 $fields = get_posts( $fields_args );
-			 $content_types = array( 'post', 'product' );
+			 $content_types = array( 'post', 'product', 'user' );
 
 
 			 if ( $fields ) {
@@ -185,6 +186,34 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 								$is_correct_post_type = false;
 							}
 
+							if( 'user' == $type ){
+								$allowed_roles = (array) $args['roles'];
+
+								$user_id = $args[$type.'_id'];
+								$user = get_userdata( $user_id );
+
+								if( ! $user ){
+									$args['user_id'] = 'none';
+								}else{
+									$current_user = get_current_user_id();
+
+									if( ! empty( $args['roles'] ) && $current_user != $args['user_id'] ){
+										$roles = $user->roles;
+										//check if the roles are valid
+										$roles = array_intersect( $roles, $args['roles'] );
+										if( empty( $roles ) ){
+											$args['user_id'] = 'none';
+										}else{
+											$args['user_id'] = $user_id;
+										}
+										
+									}
+								}
+
+
+							}
+
+
 							if( ! $is_correct_post_type ){
 								$args[$type.'_id'] = 'none';
 							}
@@ -226,7 +255,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					'form_title'            => '',
 					'show_form_title'       => false,
 					'form_attributes'       => array(
-						'data-id' 	 => $form['id'], 
+						'data-id' 	 => $form['id'] ?? $form['ID'] ?? '', 
 						'class'      => $form_class,
 						'action'     => '',
 						'method'     => 'post',
@@ -255,9 +284,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				)
 			);
 
-			
-
-			$form = $this->get_form_data( $form );
+	
+						$form = $this->get_form_data( $form );
 
 			// filter
 			$form = apply_filters( 'frontend_admin/forms/validate_form', $form );
@@ -1566,11 +1594,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function change_form() {
-			if ( ! feadmin_verify_ajax() ) wp_send_json_error( __( 'Nonce Error', 'acf-frontend-form-element' ) );
+			if ( ! feadmin_verify_ajax() ) wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 
 			if ( empty( $_REQUEST['form_data'] ) ) {
 				wp_send_json_error();
 			}
+
 
 			$request = wp_parse_args(  $_REQUEST,
 				[

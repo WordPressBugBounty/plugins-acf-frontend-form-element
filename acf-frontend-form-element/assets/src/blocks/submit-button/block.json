@@ -1,0 +1,30 @@
+{
+    "name": "frontend-admin/submit-button",
+    "title": "Submit Button",
+    "parent": [ "core/buttons" ],
+    "description": "A submit button for a Frontend Admin Form block.",
+    "category": "design",
+    "icon": "editor-insertmore",
+    "keywords": ["submit", "button", "form"],
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "text": {
+            "type": "string",
+            "default": "Submit"
+        },
+        "type": {
+            "type": "string",
+            "default": "submit"
+        },
+        "className": {
+            "type": "string"
+        }
+    },
+    "variations": [],
+    "textdomain": "my-plugin",
+    "usesContext": ["postId"],
+    "editorScript": "file:./index.js",
+    "render": "file:./index.php"
+}

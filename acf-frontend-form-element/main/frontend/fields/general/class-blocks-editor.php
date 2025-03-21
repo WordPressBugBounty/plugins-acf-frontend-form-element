@@ -140,14 +140,14 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 			global $block_assets, $post, $editor_assets;
 
 			//try to get editor assets
-			if( empty( $editor_assets ) ) $editor_assets = include_once FEA_DIR . '/main/gutenberg/build/frontend-block-editor/index.asset.php';
+			if( empty( $editor_assets ) ) $editor_assets = include_once FEA_DIR . '/assets/build/frontend-block-editor/index.asset.php';
 			
 			//return if there are no editor assets
 			if( empty( $editor_assets ) ) return;
 				
 			
-			wp_enqueue_script( 'fea-block-editor', FEA_URL . 'main/gutenberg/build/frontend-block-editor/index.js', $editor_assets['dependencies'], $editor_assets['version'], true );
-			wp_enqueue_style( 'fea-isolated-editor', FEA_URL . 'main/gutenberg/build/frontend-block-editor.css', [], $editor_assets['version'] );
+			wp_enqueue_script( 'fea-block-editor', FEA_URL . 'assets/build/frontend-block-editor/index.js', $editor_assets['dependencies'], $editor_assets['version'], true );
+			wp_enqueue_style( 'fea-isolated-editor', FEA_URL . 'assets/build/frontend-block-editor.css', [], $editor_assets['version'] );
 			wp_enqueue_style( 'fea-block-editor', FEA_URL . 'assets/css/block-editor-min.css', [], $editor_assets['version'] ); 
 		}
 

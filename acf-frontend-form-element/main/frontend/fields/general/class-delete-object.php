@@ -16,7 +16,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 
 		public function delete_object() {
 			if ( ! feadmin_verify_nonce( 'fea_form' ) ) {
-				wp_send_json_error( __( 'Nonce Error', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 			}
 
 			

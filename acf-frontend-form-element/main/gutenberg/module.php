@@ -20,7 +20,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
             foreach( $blocks as $block => $name ){
                 register_block_type(
-                    __DIR__ . "/build/blocks/$block", [
+                    FEA_DIR . "/assets/build/blocks/$block", [
                     'render_callback' => [ $this, 'render_' . $name ],
                     ] 
                 );
@@ -34,9 +34,9 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                     
                     if ( $type instanceof Field_Types\Field_Base ) {
                         $name = str_replace( '_', '-', $type->name );
-                        if( ! empty( $name ) && file_exists( FEA_DIR . "/main/gutenberg/build/$name/index.js" ) ){
+                        if( ! empty( $name ) && file_exists( FEA_DIR . "/assets/build/$name/index.js" ) ){
                             register_block_type(
-                                FEA_DIR . "/main/gutenberg/build/blocks/$name", [
+                                FEA_DIR . "/assets/build/blocks/$name", [
                                 'render_callback' => [ $this, 'render_field_block' ],
                                 ] 
                             );        
@@ -48,9 +48,13 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
         public function render_field_block( $attr, $content, $block )
         {
+            global $fea_instance, $fea_form;
+            $form_display = $fea_instance->form_display;
+
             $render = '';        
             $field = acf_get_valid_field($attr);
-
+            $field['builder'] = 'gutenberg';
+            $field = $form_display->get_field_data_type( $field, $fea_form );
             
             $field['type'] = str_replace(
                 array( 'frontend-admin/', '-field', '-' ),
@@ -71,23 +75,19 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                 $field['choices'] = $choices;
             }
 
+            global $fea_form;
+
+
+
             ob_start();
             fea_instance()->form_display->render_field_wrap( $field );
+
             $render = ob_get_contents();
             ob_end_clean();    
             return $render;
         }
         
-        public function render_text_field($attr, $content)
-        {
-            $render = '';        
-            $field = acf_get_valid_field($attr);
-            ob_start();
-            fea_instance()->form_display->render_field_wrap( $field );
-            $render = ob_get_contents();
-            ob_end_clean();    
-            return $render;
-        }
+     
 
         public function render_form($attr, $content){
 		
@@ -99,12 +99,19 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             global $fea_form, $fea_instance, $fea_scripts;
 
             $fea_form =  $fea_instance->form_display->validate_form( $attr );
+            $GLOBALS['admin_form'] = $fea_form;
+
+
+           /*  echo '<pre>';
+            print_r($fea_form);
+            echo '</pre>'; */
             do_action( 'frontend_admin/gutenberg/before_render', $fea_form );
 
             $fea_instance->frontend->enqueue_scripts( 'frontend_admin_form' );
             $fea_scripts = true;
 
-            echo '<form '. feadmin_get_esc_attrs( $form['form_attributes'] ) .'>';
+
+            echo '<form '. feadmin_get_esc_attrs( $fea_form['form_attributes'] ) .'>';
             echo $content;
             $fea_instance->form_display->form_render_data( $fea_form );
             echo '</form>';
@@ -183,7 +190,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             // Load the compiled blocks into the editor.
             wp_enqueue_script(
                 'fea-dynamic-values',
-                FEA_URL . '/main/gutenberg/build/dynamic-values/index.js',
+                FEA_URL . '/assets/build/dynamic-values/index.js',
                 ['wp-edit-post'],
                 '1.0',
                 true
@@ -196,6 +203,18 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             add_action('init', array( $this, 'register_blocks' ), 20);
 
             //add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+            add_filter( 'render_block', function( $block_content, $block ) {                
+                if ( $block['blockName'] === 'core/button' ) {
+                    // Parse attributes if needed
+                    $url = isset( $block['attrs']['url'] ) ? esc_url( $block['attrs']['url'] ) : '#';
+                    $text = isset( $block['innerHTML'] ) ? wp_kses_post( $block['innerHTML'] ) : 'Click Me';
+                    
+                    // Custom render
+                    $block_content = '<a href="' . $url . '" class="custom-btn">' . $text . '</a>';
+                }
+            
+                return $block_content;
+            }, 10, 2 );
         }
     }
 

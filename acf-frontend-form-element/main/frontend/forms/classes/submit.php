@@ -11,7 +11,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		public function check_inline_field() {
 			// validate
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Invalid Nonce', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 			}
 			do_action( 'frontend_admin/validate_field' );
 
@@ -87,7 +87,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		public function check_submit_form() {
 			// verify nonce
 			if ( ! feadmin_verify_nonce( 'fea_form' ) ) {
-				wp_send_json_error( __( 'Nonce Error', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
 			}
 
 			// bail ealry if form not submit

@@ -118,7 +118,8 @@ if ( ! class_exists( 'user_email' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			} $user = explode( 'user_', $post_id );
+			} 
+			$user = explode( 'user_', $post_id );
 
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];

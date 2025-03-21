@@ -1032,10 +1032,6 @@ function feadmin_get_currencies(){
 		return get_woocommerce_currencies();
 	}
 
-	if( class_exists( 'SureCart\Support\Currency' ) ){
-		return \SureCart\Support\Currency::getSupportedCurrencies();
-	}
-
 	if ( class_exists( 'Easy_Digital_Downloads' ) ) {
 		return edd_get_currencies();
 	}

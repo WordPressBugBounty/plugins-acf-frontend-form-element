@@ -49,9 +49,13 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			// actions
 			add_filter( 'frontend_admin/prepare_field/type=taxonomy', array( $this, 'load_taxonomy_field' ) );
-			add_filter( 'acf/load_value/type=taxonomy', array( $this, 'load_value' ), 9, 3 );
+			add_filter( 'acf/load_value/type=taxonomy', array( $this, 'load_value' ), 12, 3 );
+
+			//add default terms option to taxonomy field
+			add_filter( 'acf/render_field_settings/type=taxonomy', array( $this, 'add_default_terms' ) );
 
 		}
+
 
 		function load_taxonomy_field( $field ) {
 			$field['type'] = 'related_terms';
@@ -336,11 +340,10 @@ if ( ! class_exists( 'related_terms' ) ) :
 		*/
 
 		function load_value( $value, $post_id, $field ) {
-
 			// get valid terms
 			$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 
-			if ( is_numeric( $post_id ) && ! empty( $field['load_post_terms'] ) ) {
+			if ( is_numeric( $post_id ) ) {
 				$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 				// get terms
 				$info     = acf_get_post_id_info( $post_id );
@@ -380,6 +383,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 					if ( is_array( $field['default_terms'] ) ) {
 						return $field['default_terms'];
 					} else {
+						//remove spaces 
+						$field['default_terms'] = str_replace( ' ', '', $field['default_terms'] );
 						return explode( ',', $field['default_terms'] );
 					}
 				}
@@ -708,6 +713,19 @@ if ( ! class_exists( 'related_terms' ) ) :
 		}
 
 
+		function add_default_terms( $field ){
+			//default terms
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'name'        => 'default_terms',
+					'type'        => 'text',
+					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
+				)
+			);
+		}
+
 		/*
 		*  render_field_settings()
 		*
@@ -723,7 +741,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 		function render_field_settings( $field ) {
 
-			// default_value
+			// default_terms
 			acf_render_field_setting(
 				$field,
 				array(
@@ -735,6 +753,16 @@ if ( ! class_exists( 'related_terms' ) ) :
 				)
 			);
 
+			//default terms
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'name'        => 'default_terms',
+					'type'        => 'text',
+					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
+				)
+			);
 
 			// field_type
 			acf_render_field_setting(

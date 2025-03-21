@@ -4331,6 +4331,7 @@ acf.add_filter(
 
 		}
 	);
+	
 	acf.registerFieldType( Field );
 	var Field = acf.models.PostToEditField.extend(
 		{
@@ -4345,6 +4346,76 @@ acf.add_filter(
 		}
 	);
 	acf.registerFieldType( Field );
+
+	var Field = acf.models.UserField.extend(
+		{
+			type: 'user_to_edit',
+			events: {
+				'change .acf-input > select': 	'onChangeUser',
+			},
+			getType: function(){
+				return 'user';
+			},
+			onChangeUser: function( e, $el ){
+				// Bail early if is disabled.
+				if ( $el.hasClass( 'disabled' ) ) {
+					return;
+				}
+
+				if( ! $el.val() ){
+					return;
+				}
+
+				let $form = $el.parents( '.frontend-form' );
+				$form.addClass( 'disabled' );
+				let field = this;
+
+				$el.after( '<span class="fea-loader"></span>' );
+				let formData = $form.find( 'input[name=_acf_form]' ).val();
+				let url = $form.find( 'input[name=_acf_current_url]' ).val();
+
+				let ajaxData = {
+					action:		'frontend_admin/forms/change_form',
+					item_id: 		$el.val(),
+					type: this.getType(),
+					form_data:	formData,
+					current_url: url,
+				};
+
+				// get HTML
+				$.ajax(
+					{
+						url: acf.get( 'ajaxurl' ),
+						data: acf.prepareForAjax( ajaxData ),
+						type: 'post',
+						dataType: 'json',
+						cache: false,
+						success: function(response){
+							if (response.success && response.data.reload_form) {
+								$form.removeClass( 'disabled' );
+								field.$( '.fea-loader' ).remove();
+								let newForm = $( response.data.reload_form );
+								$form.replaceWith( newForm );
+								acf.doAction( 'append',newForm );
+
+								const url = new URL( window.location.href );
+
+								const url_query = field.$el.data( 'url_query' ) || 'user_id';
+
+								url.searchParams.set( url_query, $el.val() );
+								window.history.pushState(  { user_id: $el.val() }, '', url );
+							}
+						}
+					}
+				);
+
+			},
+
+		}
+	);
+	acf.registerFieldType( Field );
+
+
 	var Field = acf.models.ImageField.extend(
 		{
 
@@ -4885,3 +4956,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     checkAndApplyConditions();
 });
+
+   
