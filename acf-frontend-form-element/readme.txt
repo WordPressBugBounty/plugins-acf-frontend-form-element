@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.26.5
+Stable tag: 3.26.6
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -174,6 +174,9 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.26.6 - 22-03-2024 =
+ * Fixed conflict with Button Block
+
 = 3.26.5 - 21-03-2024 =
  * Fixed Free and Pro versions conflicting
  * Fixed Nonce errors to say "Authentication Error. Please try refreshing the page."

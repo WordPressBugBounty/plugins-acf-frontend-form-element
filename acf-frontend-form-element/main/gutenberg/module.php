@@ -202,19 +202,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             add_filter('block_categories_all', array( $this, 'add_block_categories' ));
             add_action('init', array( $this, 'register_blocks' ), 20);
 
-            //add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
-            add_filter( 'render_block', function( $block_content, $block ) {                
-                if ( $block['blockName'] === 'core/button' ) {
-                    // Parse attributes if needed
-                    $url = isset( $block['attrs']['url'] ) ? esc_url( $block['attrs']['url'] ) : '#';
-                    $text = isset( $block['innerHTML'] ) ? wp_kses_post( $block['innerHTML'] ) : 'Click Me';
-                    
-                    // Custom render
-                    $block_content = '<a href="' . $url . '" class="custom-btn">' . $text . '</a>';
-                }
-            
-                return $block_content;
-            }, 10, 2 );
+          
         }
     }
 
