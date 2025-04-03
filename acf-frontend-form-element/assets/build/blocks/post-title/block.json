@@ -6,11 +6,16 @@
   "description": "Displays a post title field.",
   "category": "frontend-admin",
   "textdomain": "frontend-admin",
+  "icon": "list-view",
   "supports": {
     "align": [
       "wide"
     ]
   },
+  "usesContext": [
+    "frontend-admin/form/form_settings",
+    "frontend-admin/form/form_key"
+  ],
   "attributes": {
     "label": {
       "type": "string",

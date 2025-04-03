@@ -6,6 +6,7 @@
   "description": "Displays ACF fields and field groups.",
   "category": "frontend-admin",
   "textdomain": "frontend-admin",
+  "icon": "list-view",
   "supports": {
     "align": [
       "wide"
@@ -21,5 +22,9 @@
       "default": []
     }
   },
+  "usesContext": [
+    "frontend-admin/form/form_settings",
+    "frontend-admin/form/form_key"
+  ],
   "editorScript": "file:../../fields-select/index.js"
 }

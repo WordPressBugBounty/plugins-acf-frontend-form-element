@@ -57,11 +57,12 @@ if ( ! class_exists( 'post_title' ) ) :
 		}
 
 		public function load_value( $value, $post_id = false, $field = false ) {
+			
 			if ( $post_id && is_numeric( $post_id ) ) {
 				$edit_post = get_post( $post_id );
-
+				
 				$value     = ( empty( $edit_post->post_title ) || $edit_post->post_title == 'Auto Draft' ) ? '' : $edit_post->post_title;
-			
+				
 				global $fea_form;
 				if( ! empty( $fea_form['save_to_post'] ) && 'duplicate_post' == $fea_form['save_to_post'] ){
 					$copy = $fea_form['copy_title_text'] ??  __( 'Copy of', 'acf-frontend-form-element' );
@@ -75,6 +76,7 @@ if ( ! class_exists( 'post_title' ) ) :
 					$value = $copy . ' ' . $value;
 				}
 			}
+
 			return $value;
 		}
 

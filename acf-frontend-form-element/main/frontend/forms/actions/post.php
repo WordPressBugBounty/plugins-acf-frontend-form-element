@@ -516,6 +516,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 						$post_type = $post->post_type;
 
+						
 						if( is_array( $form['post_type'] ) && ! in_array( 'any', $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
 							$form['post_id'] = 'none';
 						}
@@ -804,6 +805,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 		public function run( $form ) {
 
 			$record = $form['record'];
+
 
 			if ( empty( $record['post'] ) || empty( $record['fields']['post'] ) ) {
 				return $form;

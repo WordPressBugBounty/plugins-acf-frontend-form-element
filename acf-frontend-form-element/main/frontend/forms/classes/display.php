@@ -66,6 +66,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 
 		public function get_form( $key, $element = false ) {
+			if( ! $key ) return false;
+
 			if ( is_numeric( $key ) && get_post_type( $key ) == 'admin_form' ) {
 				$form = get_post( $key );
 				return $this->get_form_args( $form );
@@ -230,6 +232,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function validate_form( $form ) {
+			if( ! $form ) return false;
+
 			if ( ! is_array( $form ) ) {
 				$form = $this->get_form( $form );
 			}
@@ -437,7 +441,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 
 		public function render_field_wrap( $field, $element = 'div', $instruction = 'label' ) {
-
 			//enqueue required scripts
 			do_action( 'frontend_admin/field/enqueue_scripts', $field );
 
@@ -900,6 +903,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 		function get_field_value( $field, $form = array() ) {
 			$type = $field['custom_fields_save'] ?? $form['custom_fields_save'] ?? 'post';
+			$type = strtolower( $type );
 			
 			$id = $form['source'] ?? 0;
 			if( ! $id ){
@@ -946,6 +950,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			
 			// Get field name.
 			$field_name = $field['name'];
+
 
 			if ( isset( $form['record'] ) ) {
 				if( 'product' == $type ){

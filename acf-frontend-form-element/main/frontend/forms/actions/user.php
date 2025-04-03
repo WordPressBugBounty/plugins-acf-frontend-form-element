@@ -506,6 +506,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					$user_to_insert['user_nicename'] = $user_to_insert['user_login'];
 				}
 
+				//$user_id = wp_insert_user( $user_to_insert );
 				$wpdb->insert( $wpdb->users, $user_to_insert );
 				$user_id = $wpdb->insert_id;
 
@@ -559,6 +560,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					
 					if ( $user_to_insert ) {
 						$wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
+						do_action( 'wp_update_user', $user_id, $user_to_insert, $old_user_data );
 					}
 					do_action( 'profile_update', $user_id, $old_user_data, $user_to_insert );
 				}

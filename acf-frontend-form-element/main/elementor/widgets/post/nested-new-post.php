@@ -7,12 +7,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Nested_New_Post extends Nested_Form {
 
+	public $post_type;
+
 	public function get_name() {
-		return 'nested-new-post-form';
+		$type = $this->post_type->name ?? 'post';
+ 		return 'nested-new-post-form';
 	}
 
 	public function get_title() {
-		return esc_html__( 'New Post Form (Nestable)', 'elementor' );
+		$type = $this->post_type->labels->singular_name ?? 'Post';
+		return sprintf( esc_html__( 'New %s Form (Nestable)', 'elementor' ), $type );
 	}
 
 	public function get_icon() {
@@ -37,6 +41,7 @@ class Nested_New_Post extends Nested_Form {
 		return array(
 			'custom_fields_save' => 'post',
 			'save_to_post'  => 'new_post',
+			'new_post_type' => 'post'
 		);
 	}
 
@@ -102,6 +107,15 @@ class Nested_New_Post extends Nested_Form {
 	 */
 	public function get_categories() {
 		return array( 'frontend-admin-posts' );
+	}
+
+	public function __construct( $data = array(), $args = null ) {
+		parent::__construct( $data, $args );
+
+		global $fea_elementor_post_type;
+		$this->post_type = $fea_elementor_post_type;
+		
+
 	}
 
 

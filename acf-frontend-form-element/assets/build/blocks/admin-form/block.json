@@ -6,6 +6,7 @@
   "description": "Display a frontend admin form so that your users can update content from the frontend.",
   "category": "frontend-admin",
   "textdomain": "frontend-admin",
+  "icon": "list-view",
   "supports": {
     "align": [
       "wide"

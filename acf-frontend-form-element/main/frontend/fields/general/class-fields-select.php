@@ -248,10 +248,13 @@ if ( ! class_exists( 'fields_select' ) ) :
 		function load_value( $value, $post_id, $field ) {
 			global $post, $form_preview;
 
+
 			// bail early if no sub fields
 			if ( empty( $field['fields_select'] ) ) {
 				return $value;
 			}
+
+			$fields = $this->get_selected_fields( $field );
 
 			if ( $value ) {
 				return $value;
@@ -262,7 +265,9 @@ if ( ! class_exists( 'fields_select' ) ) :
 
 
 			// loop
-			foreach ( $field['fields_select'] as $index => $sub_field ) {
+			foreach ( $fields as $index => $sub_field ) {
+				
+
 				if( is_string( $sub_field ) ){
 					$sub_field = fea_instance()->frontend->get_field( $sub_field );
 					if( ! $sub_field ) continue;

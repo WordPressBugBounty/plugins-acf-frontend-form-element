@@ -269,9 +269,13 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 
 			foreach ( $this->tabs as $tab => $label ) {
 				if ( ! in_array( $tab, array( 'welcome', 'payments', 'pdf', 'tools', 'license' ) ) ) {
-					include_once __DIR__ . "/admin-pages/main/$tab.php";
+					$file_path = __DIR__ . "/admin-pages/main/$tab.php";
+					if ( file_exists( $file_path ) ) {
+						include_once $file_path;
+					}
 				}
 			}
+			
 
 			//include_once __DIR__ . '/admin-pages/main/admin-tools.php';
 

@@ -568,7 +568,14 @@ if ( ! class_exists( 'upload_files' ) ) :
 				'data-max_width'     => $field['max_width'],
 				'data-max_height'    => $field['max_height'],
 				'data-click_event'   => $click_event,
+				'data-open_in_lightbox' => $field['open_in_lightbox'] ?? 0,
 			);
+
+			if ( ! empty( $field['open_in_lightbox'] ) ) {
+				$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
+				wp_enqueue_script( 'fea-lightbox', FEA_URL . 'assets/js/lightbox' . $min . '.js', array(), FEA_VERSION, true );
+				wp_enqueue_style( 'fea-lightbox', FEA_URL . 'assets/css/lightbox' . $min . '.css', array(), FEA_VERSION );
+			}
 
 
 			$button_locations = $field['add_button_locations'] ?? array( 'bottom' );
@@ -648,28 +655,33 @@ if ( ! class_exists( 'upload_files' ) ) :
 					$thumbnail = acf_get_post_thumbnail( $a['id'], 'medium' );
 
 					// remove filename if is image
-					if ( $a['type'] == 'image' ) {
+					if ( 'image' == $a['type'] ) {
 						$a['filename'] = '';
+					}else{
+						$thumbnail['url'] = $default_icon;
 					}
 
 					// class
 					$a['class'] .= ' -' . $a['type'];
 
-					if ( $thumbnail['type'] == 'icon' ) {
+					if ( 'icon' == $thumbnail['type'] ) {
 
 						$a['class'] .= ' -icon';
 
 					}
 
+					$extra_attr = 'data-href="'.esc_attr($a['url']).'"';
+					if ( !empty( $field['open_in_lightbox'] ) && 'image' == $a['type'] ) {
+						$extra_attr .= ' data-lightbox="'.esc_attr( $field['key'] ).'"';
+						$extra_attr .= ' data-title="'.esc_attr( $a['title'] ).'"';						
+					}
+
+					if( 'download' == $click_event ){
+						$extra_attr .= ' data-download=true';
+					}
 					?>
-							<div class="<?php esc_attr_e( $a['class'] ); ?>" data-id="<?php esc_attr_e( $a['id'] ); ?>">
-					<?php
-						if( 'download' == $click_event ){ 
-					?>
-							<a href="<?php esc_attr_e( $a['url'] ); ?>" download>
-					<?php
-						}
-					?>
+							<div <?php echo $extra_attr; ?> class="<?php esc_attr_e( $a['class'] ); ?>" data-id="<?php esc_attr_e( $a['id'] ); ?>">
+					
 					<?php
 					acf_hidden_input(
 						array(
@@ -696,13 +708,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				
 						fea_instance()->form_display->render_meta_fields( $prefix, $a['id'], false );
 					}
-					?>
-					<?php
-						if( 'download' == $click_event ){ 
-					?>
-						</a>
-					<?php
-						}
+					
 					?>
 					</div>
 				<?php endforeach; ?>
@@ -892,6 +898,19 @@ if ( ! class_exists( 'upload_files' ) ) :
 				)
 			);
 
+			//open images in lightbox
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Open Images in Lightbox', 'acf' ),
+					'instructions' => '',
+					'type'         => 'true_false',
+					'name'         => 'open_in_lightbox',
+					'ui'           => 1,
+					'ui_on_text'   => __( 'Yes', 'acf-frontend-form-element' ),
+					'ui_off_text'  => __( 'No', 'acf-frontend-form-element' ),
+				)
+			);
 
 			// min
 			acf_render_field_setting(

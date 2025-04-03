@@ -146,7 +146,9 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				$s = wp_unslash( strval( $options['s'] ) );
 
 				// update vars
-				$args['s'] = $s;
+				$args['search'] = '*'.$s.'*';
+				$args['search_columns'] = [ 'user_login', 'user_nicename', 'user_email' ];
+
 				$is_search = true;
 
 			}
@@ -193,6 +195,8 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				$args
 			);
 
+			error_log( print_r( $args, true ) );
+			error_log( print_r( $users, true ) );
 
 
 			// bail early if no users

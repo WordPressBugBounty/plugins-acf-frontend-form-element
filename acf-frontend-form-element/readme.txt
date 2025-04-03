@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.26.6
+Stable tag: 3.27.2
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -174,8 +174,19 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.27.2 - 03-04-2024 =
+ * Added post excerpt block
+ * Added wp_update_user hook
+
+= 3.27.1 - 27-03-2024 =
+ * Added Lightbox to gallery field
+ * Fixed frontend form Gutenberg blocks
+ * Added Custom post type variations for New Post Form block
+ * Fixed broken conditions in repeater fields
+ * Fixed User to Edit field search function
+
 = 3.26.6 - 22-03-2024 =
- * Fixed conflict with Button Block
+ * Fixed conflict with Gutenberg Button Block
 
 = 3.26.5 - 21-03-2024 =
  * Fixed Free and Pro versions conflicting

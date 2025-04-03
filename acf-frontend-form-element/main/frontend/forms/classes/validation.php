@@ -108,7 +108,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Validate_Form' ) ) :
 
 		function validate_values( $values, $input_prefix = '' ) {
 			global $fea_instance;
-			$form = $fea_instance->form_display->get_form( $_POST['_acf_form'] );
+			$form_key = $_POST['_acf_form'] ?? '';
+
+			$form = $fea_instance->form_display->get_form( $form_key );
 
 			
 			// bail ealry if form is corrupt

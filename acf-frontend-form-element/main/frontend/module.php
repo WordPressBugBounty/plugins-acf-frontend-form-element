@@ -13,6 +13,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 		/** @var array Contains an array of field type instances */
 		public $field_types = array();
 
+
 		public function extra_field_setting( $field ) {
 			global $post;
 			if ( isset( $post->post_type ) && $post->post_type == 'acf-field-group' ) {
@@ -44,10 +45,29 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				'type'			=> 'select',
 				'choices'		=> array(
 					'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-					'read_only'	=> __( 'Read Only', 'acf-frontend-form-element' ),
+					'read_only'	=> __( 'Read', 'acf-frontend-form-element' ),
 					'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
 				)
 			), true );
+
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'No Value Messge', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show.', 'acf-frontend-form-element' ),
+					'type'         => 'textarea',
+					'name'         => 'no_values_message',
+					'rows'         => 3,
+					'conditions'   => array(
+							array(
+								'field'    => 'frontend_admin_display_mode',
+								'operator' => '==',
+								'value'    => 'read_only',
+							),
+						),
+				),
+				true
+			);
 
 			$short_key = str_replace( 'field_', '', $field['key'] );
 			$icon_path = '<span class="dashicons dashicons-admin-page"></span>';
@@ -67,17 +87,9 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				),
 				true
 			);
-			acf_render_field_setting(
-				$field,
-				array(
-					'label'        => __( 'No Value Messge', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show.', 'acf-frontend-form-element' ),
-					'type'         => 'textarea',
-					'name'         => 'no_values_message',
-					'rows'         => 3,
-				),
-				true
-			);
+
+
+			
 		}
 
 		public function extra_field_group_setting( $group ) {
@@ -351,7 +363,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			if( $acf_support ){
 				if( function_exists( 'acf_register_field_type' ) ){
-					acf_register_field_type( $class );
+					$instance = acf_register_field_type( $class );
+					$this->field_types[ $field ] = $instance;
 				}
 			}else{
 				$instance = new $class( [ 'fea' => true ] );
@@ -379,8 +392,11 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				'true-false',
 				'url',
 				'related-items',
-				'fields-select',
 			);
+
+			if ( class_exists( 'ACF' ) ){
+				$general[] = 'fields-select';
+			}
 			foreach ( $general as $type ) {
 				include_once 'fields/general/class-' . $type . '.php';
 				$this->register_field_type( $type );
@@ -588,7 +604,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				if( $field ) return $field;
 			}
 
-			$field = apply_filters( 'frontend_admin/fields/get_field', $key );
+			$field = apply_filters( 'frontend_admin/fields/get_field', $field, $key );
 
 			if( is_array( $field ) ) return $field;
 

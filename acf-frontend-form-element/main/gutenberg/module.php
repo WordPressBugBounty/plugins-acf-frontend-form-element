@@ -7,21 +7,26 @@ if (! defined('ABSPATH') ) {
 
 if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
-    class Frontend_Admin_Gutenberg
+    class Gutenberg
     {
 
         public function register_blocks()
         {
             $blocks = [ 
-                'form' => 'form',
-                'admin-form' => 'admin_form',
-                'submissions' => 'submissions',
+                'form' => 'Form',
+                'admin-form' => 'Form_Select',
+                'submissions' => 'Submissions_Select'
+               // 'field' => 'field'
             ];
 
-            foreach( $blocks as $block => $name ){
+            foreach( $blocks as $block => $className ){
+                include_once( FEA_DIR . 'main/gutenberg/blocks/' . $block . '.php' );
+                $className = "\Frontend_Admin\Gutenberg\\".$className;
+                $class = new $className;
+                $name = str_replace( '_', '-', $block );
                 register_block_type(
-                    FEA_DIR . "/assets/build/blocks/$block", [
-                    'render_callback' => [ $this, 'render_' . $name ],
+                    FEA_DIR . "/assets/build/blocks/$name", [
+                    'render_callback' => [ $class, 'render' ],
                     ] 
                 );
             }
@@ -48,20 +53,38 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
         public function render_field_block( $attr, $content, $block )
         {
-            global $fea_instance, $fea_form;
+            global $fea_instance, $fea_form, $post;
             $form_display = $fea_instance->form_display;
-
+            
             $render = '';        
             $field = acf_get_valid_field($attr);
+
+            $field_key = $field['field_key'] ?? uniqid();
+            $field['key'] = $fea_form['id'] . '_' . $field_key;
             $field['builder'] = 'gutenberg';
-            $field = $form_display->get_field_data_type( $field, $fea_form );
-            
+           
             $field['type'] = str_replace(
                 array( 'frontend-admin/', '-field', '-' ),
                 array( '', '', '_' ),
                 $block->name
             );
 
+            $field['name'] = $attr['name'] ?? 'fea_' . $field['type'];
+
+            $field = $form_display->get_field_data_type( $field, $fea_form );
+
+
+            if( ! $field ) return false;
+
+            if ( ! isset( $field['value'] )
+                || $field['value'] === null
+            ) {
+                $field = $form_display->get_field_value( $field, $fea_form );
+                
+            }
+
+           
+                
             //fix options. They have to be an array of key => values, not array of index => [key,label]
             if( isset( $field['choices'] ) && is_array( $field['choices'] ) ){
                 $choices = [];
@@ -75,8 +98,6 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                 $field['choices'] = $choices;
             }
 
-            global $fea_form;
-
 
 
             ob_start();
@@ -87,79 +108,10 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             return $render;
         }
         
-     
+      
 
-        public function render_form($attr, $content){
-		
-            $_settings = apply_filters( 'frontend_admin/show_form', $attr, 'form' );
+        
 
-            if( ! $_settings ) return;
-            
-            ob_start();
-            global $fea_form, $fea_instance, $fea_scripts;
-
-            $fea_form =  $fea_instance->form_display->validate_form( $attr );
-            $GLOBALS['admin_form'] = $fea_form;
-
-
-           /*  echo '<pre>';
-            print_r($fea_form);
-            echo '</pre>'; */
-            do_action( 'frontend_admin/gutenberg/before_render', $fea_form );
-
-            $fea_instance->frontend->enqueue_scripts( 'frontend_admin_form' );
-            $fea_scripts = true;
-
-
-            echo '<form '. feadmin_get_esc_attrs( $fea_form['form_attributes'] ) .'>';
-            echo $content;
-            $fea_instance->form_display->form_render_data( $fea_form );
-            echo '</form>';
-
-            do_action( 'frontend_admin/gutenberg/after_render', $fea_form );
-            return ob_get_clean();
-
-        }
-
-
-        public function render_admin_form($attr, $content)
-        {
-            $render = '';
-            if ($attr['formID'] == 0 ) {
-                   return $render;
-            }
-            if (get_post_type($attr['formID']) == 'admin_form' ) {
-                ob_start();
-                if(is_admin() ) {
-                    $attr['editMode'] = true;
-                }else{
-                    $attr['editMode'] = false;
-                }
-                fea_instance()->form_display->render_form($attr['formID'], $attr['editMode']);
-                $render = ob_get_contents();
-                ob_end_clean();    
-            }
-            return $render;
-        }
-        public function render_submissions($attr, $content)
-        {
-            $render = '';
-            if ($attr['formID'] == 0 ) {
-                return $render;
-            }
-            if (get_post_type($attr['formID']) == 'admin_form' ) {
-                ob_start();
-                if(is_admin() ) { $attr['editMode'] = true;
-                }
-                fea_instance()->form_display->render_submissions($attr['formID'], $attr['editMode']);
-                $render = ob_get_contents();
-                ob_end_clean();    
-            }
-            if(! $render ) {
-                return __('No Submissions Found', 'acf-frontend-form-element');
-            }
-            return $render;
-        }
 
         function add_block_categories( $block_categories )
         {
@@ -189,23 +141,101 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         {
             // Load the compiled blocks into the editor.
             wp_enqueue_script(
-                'fea-dynamic-values',
-                FEA_URL . '/assets/build/dynamic-values/index.js',
+                'fea-block-settings',
+                FEA_URL . '/assets/build/block-settings/index.js',
                 ['wp-edit-post'],
                 '1.0',
                 true
             );
+
         }
+
+        function block_render( $block_content, $block ) {  
+            global $fea_form;
+
+            if( 'core/button' == $block['blockName'] ){
+                $submit = $block['attrs']['submitButton'] ?? false;
+               if( $submit ) {
+                    if( ! $fea_form ){
+                        return $block_content;
+                    }else{                      
+                        if (!empty($block_content)) {
+                            $block_content = preg_replace('/<a\s+([^>]*?)class="([^"]*)"/is', '<a $1class="fea-submit-button $2"', $block_content);
+                        }                        
+                        return $block_content;
+                    }
+               }
+
+            }
+
+        
+
+            return $block_content;
+        }
+
+       
+
+        public function get_the_block( $ids, $type = 'form' ) {
+            $post_id = $ids[0];
+            $key = $ids[1];
+
+            $post_content = get_post_field( 'post_content', $post_id );
+
+            if ( empty( $post_content ) ) {
+                return null;
+            }
+
+            $blocks = parse_blocks( $post_content );
+
+            foreach ( $blocks as $block ) {
+                $block = $this->recursive_block_search( $block, $key, $type );
+                if ( $block ) {
+                    return $block;
+                }
+            }
+
+            return null;
+        }
+
+        public function recursive_block_search( $block, $key, $type = 'form' ) {
+            if ( ! is_array( $block ) ) {
+                return null;
+            }
+
+            if ( ! empty( $block['attrs'][$type.'_key'] ) && $block['attrs'][$type.'_key'] === $key ) {
+                return $block;
+            }
+
+            if ( ! empty( $block['innerBlocks'] ) ) {
+
+                foreach ( $block['innerBlocks'] as $inner_block ) {
+                    $result = $this->recursive_block_search( $inner_block, $key, $type );
+                    if ( $result ) {
+                        return $result;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+      
+      
+
 
         public function __construct()
         {
             add_filter('block_categories_all', array( $this, 'add_block_categories' ));
             add_action('init', array( $this, 'register_blocks' ), 20);
 
-          
+            add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+
+            add_filter( 'render_block', [ $this, 'block_render' ], 10, 2 );
+
+
         }
     }
 
-    fea_instance()->gutenberg = new Frontend_Admin_Gutenberg();
+    fea_instance()->gutenberg = new Gutenberg();
 
 endif;    

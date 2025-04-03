@@ -13,7 +13,10 @@
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
-    "@wordpress/scripts": "^26.19.0"
+    "@types/wordpress__block-editor": "^11.5.16",
+    "@types/wordpress__blocks": "^12.5.17",
+    "@wordpress/scripts": "^26.19.0",
+    "ts-loader": "^9.5.2"
   },
   "description": "",
   "dependencies": {
@@ -26,6 +29,7 @@
     "@wordpress/i18n": "^4.48.0",
     "react": "^18.2.0",
     "react-select": "^5.7.0",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "typescript": "^5.8.2"
   }
 }

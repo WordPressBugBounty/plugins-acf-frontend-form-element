@@ -4,6 +4,7 @@
   "name": "frontend-admin/form",
   "title": "Frontend Form",
   "description": "Displays a form that allows users to edit and add content from the frontend.",
+  "icon": "feedback",
   "category": "frontend-admin",
   "textdomain": "frontend-admin",
   "supports": {
@@ -11,14 +12,31 @@
       "wide"
     ]
   },
+  "providesContext": {
+    "frontend-admin/form/form_settings": "form_settings"
+  },
   "attributes": {
-    "label": {
+    "form_key": {
       "type": "string",
-      "default": "Frontend Form"
+      "default": ""
     },
-    "custom_fields_save": {
+    "form_title": {
       "type": "string",
-      "default": "Post"
+      "default": ""
+    },
+    "form_settings": {
+      "type": "object",
+      "default": {
+        "post_type": [
+          "post"
+        ],
+        "post_status": "draft",
+        "custom_fields_save": "post",
+        "post_to_edit": "current_post",
+        "url_query_post": "post_id",
+        "select_post": 0,
+        "hide_if_no_post": 0
+      }
     }
   },
   "editorScript": "file:../../form/index.js"

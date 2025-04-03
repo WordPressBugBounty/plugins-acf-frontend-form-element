@@ -95,7 +95,18 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 
 					 include_once "$folder_path/$filename.php";
 					 $classname = 'Frontend_Admin\Elementor\Widgets\\' . $classname;
+
+					 /* if( 'nested-new-post' == $filename ){
+						global $fea_elementor_post_type;
+						$post_types = get_post_types( [ 'public' => true, 'publicly_queryable' => true, 'exclude_from_search' => false ], 'objects' );
+
+						foreach( $post_types as $post_type ){
+							$fea_elementor_post_type = $post_type;
+							$elementor->widgets_manager->register( new $classname() );
+						}
+					 }*/
 					 $elementor->widgets_manager->register( new $classname() );
+					 
 				 }
 			 }
 		
@@ -386,9 +397,9 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			return false;
 		}
 
-		public function get_field_widget( $key ){
-			if ( strpos( $key, '_elementor_' ) === false ) {
-				return false;
+		public function get_field_widget( $field, $key ){
+			if ( $field || strpos( $key, '_elementor_' ) === false ) {
+				return $field;
 			}
 	
 			// Get Template/page id and widget id
@@ -412,13 +423,10 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 			
 
 			if( $widget ){	
-
 				
 				if( empty( $field_id ) ) return $widget->prepare_field( $key );
 
 				$form = $widget->prepare_form( $key );
-								error_log( print_r( $form, true ) );
-
 			
 				if( ! empty( $form['fields'][$key] ) ) return $form['fields'][$key];
 			}
@@ -464,7 +472,7 @@ if ( ! class_exists( 'Frontend_Admin\Elementor' ) ) :
 
 			add_action( 'init', array( $this, 'delete_ghost_fields' ) );
 
-			add_filter( 'frontend_admin/fields/get_field', [ $this, 'get_field_widget' ], 10 );
+			add_filter( 'frontend_admin/fields/get_field', [ $this, 'get_field_widget' ], 10, 2 );
 		}
 	}
 

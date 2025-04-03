@@ -1060,11 +1060,11 @@
 
 	$( 'body' ).on(
 		'click',
-		'.frontend-form button.fea-submit-button',
+		'.frontend-form .fea-submit-button',
 		function(e){
 			e.preventDefault();
-			var button = $( this );
 
+			var button = $( this );
 
 			if ( button.hasClass( 'disabled' )) {
 				return;
@@ -1072,7 +1072,7 @@
 
 			$form      = $( this ).closest( 'form' );
 			//remove all 'clicked-on' classes
-			$( 'button.fea-submit-button',$form ).removeClass( 'clicked-on' );
+			$( '.fea-submit-button',$form ).removeClass( 'clicked-on' );
 
 			button.addClass( 'disabled clicked-on' );
 
@@ -1157,7 +1157,7 @@
 		if ( $validator ) {
 			if ( $validator.hasErrors() ) {
 				$( '.fea-loader',$form ).addClass( 'acf-hidden' );
-				$( 'button.fea-submit-button',$form ).removeClass( 'disabled' );
+				$( '.fea-submit-button',$form ).removeClass( 'disabled' );
 				var formModal = $form.closest( 'div.edit-modal' );
 				if ( typeof formModal != 'undefined' ) {
 					$( formModal ).animate( {scrollTop:$form.offset().top - 50}, 'slow' );
@@ -1308,7 +1308,7 @@
 		var $validator = acf.getFrontendValidator( $form );
 		$validator.reset();
 		$( '.fea-loader' ).addClass( 'acf-hidden' );
-		$( 'button.fea-submit-button' ).removeClass( 'disabled' );
+		$( '.fea-submit-button' ).removeClass( 'disabled' );
 	}
 
 	acf.updateSubmission = function(data){
@@ -2013,14 +2013,30 @@
 				}
 			},
 
-			selectAttachment: function( $el ){
+			selectAttachment: function( $el, e ){
 				// bail early if already active
 				const clickEvent = this.get('click_event');
+				const openLightBox = $el.attr('data-lightbox');
 
-				if( 'download' == clickEvent ){					
+				if( openLightBox ){					
 					return;
 				}
 
+				const download = $el.attr('data-download');
+				if( download ){
+					const url = $el.attr('data-href');
+					var link = document.createElement("a");
+
+					link.setAttribute('download', '');
+					link.href = url;
+					document.body.appendChild(link);
+					link.click();
+					link.remove();
+					return;
+				}
+
+				//if data-open_in_lightbox, then open in lgithbox
+				
 				if ( $el.hasClass( 'active' ) ) {
 					return;
 				}
@@ -2835,7 +2851,7 @@
 				fileData.append( 'file',file );
 				fileData.append( 'field_key',fieldKey );
 				fileData.append( 'nonce',acf.data.nonce );
-				form.find( 'button.fea-submit-button' ).addClass( 'disabled' );
+				form.find( '.fea-submit-button' ).addClass( 'disabled' );
 				control.find( '.acf-actions' ).hide();
 
 				$.ajax({
@@ -2870,7 +2886,7 @@
 						acf.doAction( 'feaUploadFile', file, fileID, fileUrl, self.$el);
 
 						self.$id().val(fileID);
-						form.find('button.fea-submit-button').removeClass('disabled');
+						form.find('.fea-submit-button').removeClass('disabled');
 						progPrc.text('100%');
 						progBar.css('width', '100%');
 						setTimeout(function() {
@@ -4880,66 +4896,96 @@ document.addEventListener("DOMContentLoaded", function () {
         return field.value || null;
     }
 
-    function evaluateConditions(field) {
-        const conditionsData = field.getAttribute("data-conditions");
-        if (!conditionsData) return true;
-
-        const conditions = JSON.parse(conditionsData);
-        let fieldShouldBeVisible = false;
-
-        conditions.forEach((conditionGroup) => {
-            let groupMet = true;
-
-            conditionGroup.forEach((condition) => {
-                const dependentFields = document.querySelectorAll(`[data-key="${condition.field}"] input, 
-                                                                   [data-key="${condition.field}"] select, 
-                                                                   [data-key="${condition.field}"] textarea`);
-
-                if (!dependentFields.length) return;
-
-                let valueMatches = false;
-                dependentFields.forEach((dependentField) => {
-                    const value = getFieldValue(dependentField);
-
-                    switch (condition.operator) {
-                        case "!=empty":
-                            if (value) valueMatches = true;
-                            break;
-                        case "==empty":
-                            if (!value) valueMatches = true;
-                            break;
-                        case "==":
-                            if (value === condition.value) valueMatches = true;
-                            break;
-                        case "!=":
-                            if (value !== condition.value) valueMatches = true;
-                            break;
-                    }
-                });
-
-                if (!valueMatches) groupMet = false;
-            });
-
-            if (groupMet) fieldShouldBeVisible = true;
-        });
-
-        return fieldShouldBeVisible;
-    }
+	function evaluateConditions(field) {
+		console.log(field.getAttribute('data-name'));
+		const conditionsData = field.getAttribute("data-conditions");
+		if (!conditionsData) return true;
+	
+		const conditions = JSON.parse(conditionsData);
+		let fieldShouldBeVisible = false;
+	
+		// Find the nearest .acf-row parent (if applicable)
+		const parentRow = field.closest(".acf-row");
+	
+		conditions.forEach((conditionGroup) => {
+			let groupMet = true;
+	
+			if (!conditionGroup || conditionGroup.length < 1) return;
+	
+			conditionGroup.forEach((condition) => {
+				let dependentFields;
+	
+				// If the condition field is inside an acf-row, check only within the same row
+				if (parentRow && document.querySelector(`[data-key="${condition.field}"]`).closest(".acf-row")) {
+					dependentFields = parentRow.querySelectorAll(`[data-key="${condition.field}"] input, 
+																  [data-key="${condition.field}"] select, 
+																  [data-key="${condition.field}"] textarea`);
+				} else {
+					// Otherwise, check globally (e.g., post title or fields outside repeaters)
+					dependentFields = document.querySelectorAll(`[data-key="${condition.field}"] input, 
+																 [data-key="${condition.field}"] select, 
+																 [data-key="${condition.field}"] textarea`);
+				}
+	
+				if (!dependentFields.length) return;
+	
+				let valueMatches = false;
+				dependentFields.forEach((dependentField) => {
+					const value = getFieldValue(dependentField);
+					console.log('condition.value', condition.value);
+					console.log(value);
+	
+					switch (condition.operator) {
+						case "!=empty":
+							if (value) valueMatches = true;
+							break;
+						case "==empty":
+							if (!value) valueMatches = true;
+							break;
+						case "==":
+							if (value == condition.value) valueMatches = true;
+							break;
+						case "!=":
+							if (value != condition.value) valueMatches = true;
+							break;
+					}
+				});
+	
+				if (!valueMatches) groupMet = false;
+			});
+	
+			if (groupMet) fieldShouldBeVisible = true;
+		});
+	
+		return fieldShouldBeVisible;
+	}
 
     function toggleFieldState(field, showField) {
-        field.style.display = showField ? "block" : "none";
-
-        const inputs = field.querySelectorAll("input, select, textarea");
-        inputs.forEach((input) => {
-            if (showField) {
-                input.removeAttribute("disabled");
-                input.style.visibility = "visible";
-            } else {
-                input.setAttribute("disabled", "disabled");
-                input.style.visibility = "hidden";
-            }
-        });
-    }
+		// Check if the parent is visible
+		let parent = field.parent().closest('[data-conditions]');
+		while (parent) {
+			const parentStyle = window.getComputedStyle(parent);
+			if (parentStyle.display === "none" || parentStyle.visibility === "hidden") {
+				showField = false;
+				break;
+			}
+			parent = field.parent().closest('[data-conditions]');
+		}
+	
+		// Toggle field visibility
+		field.style.display = showField ? "block" : "none";
+	
+		const inputs = field.querySelectorAll("input, select, textarea");
+	
+		inputs.forEach((input) => {
+			if (showField) {
+				input.removeAttribute("disabled");
+			} else {
+				input.setAttribute("disabled", "disabled");
+			}
+		});
+	}
+	
 
     function checkAndApplyConditions() {
         document.querySelectorAll("[data-conditions]").forEach((field) => {
