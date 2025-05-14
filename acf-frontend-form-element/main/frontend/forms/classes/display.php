@@ -449,6 +449,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				$field = fea_instance()->frontend->get_field( $field );
 			}
 
+
 			if ( ! $field ) {
 				return;
 			}
@@ -497,6 +498,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			if ( ! $field ) {
 				return;
 			}
+
 
 			if( isset( $field['prev_value'] ) ){
 				$field['wrapper']['data-prev-value'] = '1';
@@ -1415,7 +1417,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		function maybe_show_success_message( $form = array() ) {
 			global $form_success;
 			if ( isset( $form_success ) ) {
-				
 				if ( empty( $form_success['frontend-form-nonce'] ) || ! wp_verify_nonce( $form_success['frontend-form-nonce'], 'frontend-form' ) ) {
 					return;
 					

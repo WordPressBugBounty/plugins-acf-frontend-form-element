@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.27.2
+Stable tag: 3.28.3
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -174,104 +174,114 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
-= 3.27.2 - 03-04-2024 =
+= 3.28.3 - 11-05-2025 =
+ * Fixed "orderby" issue
+ * Fixed email "all fields" not showing properly 
+
+= 3.28.1 - 07-05-2025 =
+ * Fixed error with _() function
+ 
+= 3.28.0 - 04-05-2025 =
+ * Added Bricks Elements to easily and intuitivly build frontend dashboards with Bricks 
+
+= 3.27.2 - 03-04-2025 =
  * Added post excerpt block
  * Added wp_update_user hook
 
-= 3.27.1 - 27-03-2024 =
+= 3.27.1 - 27-03-2025 =
  * Added Lightbox to gallery field
  * Fixed frontend form Gutenberg blocks
  * Added Custom post type variations for New Post Form block
  * Fixed broken conditions in repeater fields
  * Fixed User to Edit field search function
 
-= 3.26.6 - 22-03-2024 =
+= 3.26.6 - 22-03-2025 =
  * Fixed conflict with Gutenberg Button Block
 
-= 3.26.5 - 21-03-2024 =
+= 3.26.5 - 21-03-2025 =
  * Fixed Free and Pro versions conflicting
  * Fixed Nonce errors to say "Authentication Error. Please try refreshing the page."
  * Added "default_terms" setting to taxonomy field
 
-= 3.26.4 - 18-03-2024 =
+= 3.26.4 - 18-03-2025 =
  * Fixed user email and password not saving in edit user form
  * Fixed color input field warning
  * Removed Google maps secret key setting which is no longer required 
 
-= 3.26.3 - 13-03-2024 =
+= 3.26.3 - 13-03-2025 =
  * Added User To Edit field
 
-= 3.26.2 - 07-03-2024 =
+= 3.26.2 - 07-03-2025 =
  * Added option to pay to publish using Easy Digital Downloads
  * Fixed Exclude typo
  * Fixed submissions not loading post and user data
 
-= 3.26.1 - 04-03-2024 =
+= 3.26.1 - 04-03-2025 =
  * Added Elementor widget conditions
 
-= 3.26.0 - 03-03-2024 =
+= 3.26.0 - 03-03-2025 =
  * Fixed non translatble strings
  * Fixed Chceckout items error
  * Added Freemius to free version 
 
-= 3.25.22 - 21-02-2024 =
+= 3.25.22 - 21-02-2025 =
  * Fixed submissions not saving product data after Woo Checkout
  * Fixed conditional logic in Elementor widgets
  * Added Dynamic Values dropdown to textarea field settings.  
 
-= 3.25.21 - 19-02-2024 =
+= 3.25.21 - 19-02-2025 =
  * Moved main validation error to show after form
  * Changed validation to scroll to first error message rather than to the top of the form
  * Fixed product form submissions not loading values
 
-= 3.25.20 - 17-02-2024 =
+= 3.25.20 - 17-02-2025 =
  * Fixed OR logic in conditional rules
 
-= 3.25.19 - 12-02-2024 =
+= 3.25.19 - 12-02-2025 =
  * Added Completed Step style in multi step form
  * Fixed conditional logic when fields are in two seperate widgets
 
-= 3.25.18 - 09-02-2024 =
+= 3.25.18 - 09-02-2025 =
  * Fixed image upload preview element to update <source>
 
-= 3.25.17 - 09-02-2024 =
+= 3.25.17 - 09-02-2025 =
  * Added hook for multi step buttons
  * Fixed bug on admin submissions page
 
-= 3.25.15 - 04-02-2024 =
+= 3.25.15 - 04-02-2025 =
  * Fixed mmissing step tab text setting
 
-= 3.25.14 - 02-02-2024 =
+= 3.25.14 - 02-02-2025 =
  * Fixed multi step in Elementor widgets
 
-= 3.25.13 - 28-01-2024 =
+= 3.25.13 - 28-01-2025 =
  * Added automatic redirect to checkout 
 
-= 3.25.12 - 28-01-2024 =
+= 3.25.12 - 28-01-2025 =
  * Added Checkout action to forms
  * Fixed issue with user fields
  * Fixed Elementor error when Nested Elements feature is not active
 
-= 3.25.11 - 26-01-2024 =
+= 3.25.11 - 26-01-2025 =
  * Fixed conflict with ACF validation
  * Temporarily removed Blocks Editor field because of Gutenberg instability 
 
-= 3.25.10 - 22-01-2024 =
+= 3.25.10 - 22-01-2025 =
  * Fixed missing formatting in long text shortcodes
 
-= 3.25.8 - 16-01-2024 =
+= 3.25.8 - 16-01-2025 =
  * Added option to Upload Files field to download uploads when clicked
  * Fixed Custom Directory Folder feature
  * Fixed Secure Directory feature and moved it to the pro version
  * Fixed Attributes and Variations fields in Elementor widgets
  * Added Nestable Add Product Form (pro feature) 
 
-= 3.25.7 - 07-01-2024 =
+= 3.25.7 - 07-01-2025 =
  * Fixed upload files field
  * Fixed new file not saving meta
  * Added option to disable users from adding new attribute terms
 
-= 3.25.5 - 07-01-2024 =
+= 3.25.5 - 07-01-2025 =
  * Fixed edit post form not showing when no post types selected
  * Fixed Elementor padding and margin controls repeating
  * Added option to show Product Attributes as Dropdowns

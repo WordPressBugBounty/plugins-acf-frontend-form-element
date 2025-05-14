@@ -257,13 +257,13 @@ if ( ! class_exists( 'ActionPost' ) ) :
 							),
 						),
 					),
-					'default_value'     => [ 'any' ],
+					'default_value'     => [],
 					'allow_null'        => 0,
 					'multiple'          => 1,
 					'ui'                => 1,
 					'return_format'     => 'value',
 					'ajax'              => 0,
-					'placeholder'       => '',
+					'placeholder'       => __('Any', 'acf-frontend-form-element' ),
 				),
 				 array(
 					 'key'               => 'select_post',
@@ -559,6 +559,181 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				acf_add_local_field( $field );
 			}
 
+		}
+		public function bricks_settings_section( $widget ) {
+			$widget->add_control_group(
+				'post_edit_section',
+				array(
+					'title' => __( 'Post', 'acf-frontend-form-element' ),
+					'tab'   => 'content',
+				)
+			);
+
+			$type = $widget->settings[ 'save_to_post'] ?? 'edit_post';
+
+			$widget->add_control(
+				'save_to_post',
+				[
+					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'default' => $type,
+					'options' => [
+						'edit_post'      => esc_html__( 'Edit Post', 'acf-frontend-form-element' ),
+						'new_post'       => esc_html__( 'New Post', 'acf-frontend-form-element' ),
+						'duplicate_post' => esc_html__( 'Duplicate Post', 'acf-frontend-form-element' ),
+						'delete_post'    => esc_html__( 'Delete Post', 'acf-frontend-form-element' ),
+					],
+				]
+			);
+
+			$post_type_choices = feadmin_get_post_type_choices();
+
+			$widget->add_control(
+				'post_to_edit',
+				[
+					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'default' => 'current_post',
+					'options' => [
+						'current_post'    => esc_html__( 'Current Post', 'acf-frontend-form-element' ),
+						'url_query'       => esc_html__( 'URL Query', 'acf-frontend-form-element' ),
+						'select_post'     => esc_html__( 'Specific Post', 'acf-frontend-form-element' ),
+						'user_first_post' => esc_html__( 'User\'s First Post', 'acf-frontend-form-element' ),
+						'user_last_post'  => esc_html__( 'User\'s Most Recent Post', 'acf-frontend-form-element' ),
+					],
+					'required' => [
+						'save_to_post', '=', [ 'edit_post', 'delete_post', 'duplicate_post' ],
+					],
+				]
+			);
+
+			$widget->add_control(
+				'post_type',
+				[
+					'label' => esc_html__( 'Post Types', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'multiple' => true,
+					'label_block' => true,
+					'default' => ['any'],
+					'options' => $post_type_choices,
+					'required' => [
+						'save_to_post', '=', [ 'edit_post', 'delete_post', 'duplicate_post' ],
+					],
+				]
+			);
+
+			$widget->add_control(
+				'url_query_post',
+				[
+					'label' => esc_html__( 'URL Query', 'acf-frontend-form-element' ),
+					'type' => 'text',
+					'default' => 'post_id',
+					'description' => esc_html__( 'Enter the URL query parameter containing the post ID.', 'acf-frontend-form-element' ),
+					'required' => [
+						'post_to_edit', '=', 'url_query',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'post_select',
+				[
+					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'type' => 'text',
+					'placeholder' => '18',
+					'description' => esc_html__( 'Enter the post ID.', 'acf-frontend-form-element' ),
+					'required' => [
+						'post_to_edit', '=', 'select_post',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'new_post_type',
+				[
+					'label' => esc_html__( 'New Post Type', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'label_block' => true,
+					'default' => 'post',
+					'options' => $post_type_choices,
+					'required' => [
+						'save_to_post', '=', 'new_post',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'new_post_terms',
+				[
+					'label' => esc_html__( 'New Post Terms', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'label_block' => true,
+					'default' => 'post',
+					'options' => [
+						'current_term' => esc_html__( 'Current Term', 'acf-frontend-form-element' ),
+						'select_terms' => esc_html__( 'Specific Term', 'acf-frontend-form-element' ),
+					],
+					'required' => [
+						'save_to_post', '=', 'new_post',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'new_terms_select',
+				[
+					'label' => esc_html__( 'Terms', 'acf-frontend-form-element' ),
+					'type' => 'text', // optionally replace with a taxonomy selector
+					'placeholder' => '18, 12, 11',
+					'description' => esc_html__( 'Enter a comma-separated list of term IDs.', 'acf-frontend-form-element' ),
+					'required' => [
+						'new_post_terms', '=', 'select_terms',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'new_post_status',
+				[
+					'label' => esc_html__( 'Post Status', 'acf-frontend-form-element' ),
+					'type' => 'select',
+					'default' => 'no_change',
+					'options' => [
+						'no_change' => esc_html__( 'No Change', 'acf-frontend-form-element' ),
+						'draft'     => esc_html__( 'Draft', 'acf-frontend-form-element' ),
+						'private'   => esc_html__( 'Private', 'acf-frontend-form-element' ),
+						'pending'   => esc_html__( 'Pending Review', 'acf-frontend-form-element' ),
+						'publish'   => esc_html__( 'Published', 'acf-frontend-form-element' ),
+					],
+					'required' => [
+						'save_to_post', '=', [ 'edit_post', 'new_post', 'duplicate_post' ],
+					],
+				]
+			);
+
+			$widget->add_control(
+				'copy_title_text',
+				[
+					'label' => esc_html__( 'Copy Title Text', 'acf-frontend-form-element' ),
+					'type' => 'text',
+					'default' => esc_html__( 'Copy of', 'acf-frontend-form-element' ),
+					'required' => [
+						'save_to_post', '=', 'duplicate_post',
+					],
+				]
+			);
+
+			$widget->add_control(
+				'copy_date',
+				[
+					'label' => esc_html__( 'Copy Date', 'acf-frontend-form-element' ),
+					'type' => 'checkbox',
+					'default' => true,
+					'required' => [
+						'save_to_post', '=', 'duplicate_post',
+					],
+				]
+			);
 		}
 
 		public function register_settings_section( $widget ) {
@@ -857,12 +1032,15 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 			$core_fields = $this->get_core_fields();
 
+
 			if ( ! empty( $record['fields']['post'] ) ) {
 				foreach ( $record['fields']['post'] as $name => $_field ) {
 					if ( ! isset( $_field['key'] ) ) {
 						continue;
 					}
 					$field = fea_instance()->frontend->get_field( $_field['key'] );
+
+					
 
 					if ( ! $field ) {
 						continue;
@@ -960,7 +1138,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						$new_terms = $form['new_terms_select'];
 					}
 					if ( 'current_term' == $form['new_post_terms'] ) {
-						$current_term = $form['term_id'];
+						$current_term = $form['term_id'] ?? false;
 						if( is_numeric( $current_term ) ){
 							$new_terms = $current_term;
 						}

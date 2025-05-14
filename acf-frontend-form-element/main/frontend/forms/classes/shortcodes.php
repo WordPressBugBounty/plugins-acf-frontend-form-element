@@ -173,6 +173,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 		}
 
 		function get_all_fields_values( $form = false, $format_values = false ) {
+			global $fea_instance;
 			if ( ! $form ) {
 				$form = $this->get_current_form();
 			}
@@ -180,76 +181,41 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			if ( empty( $form['fields'] ) ) {
 				return false;
 			}
-			$fields = $form['fields'];
-
-			$_fields = array();
-			foreach ( $fields as $index => $field ) {
-				if ( ! empty( $field['fields_select'] ) ) {
-
-					foreach ( $field['fields_select'] as $sub_field ) {
-						if( is_string( $sub_field )  ){
-							if( strpos( $sub_field, 'group_' ) !== false ){
-								echo $sub_field;
-								$_fields = array_merge( $_fields, acf_get_fields( $sub_field ) );
-							}else{
-								$_fields[] = fea_instance()->frontend->get_field( $sub_field );
-							}
-						}
-
-						if( is_array( $sub_field ) ){
-							$_fields[$sub_field['key']] = $sub_field;
-						}
-
-						
-					}
-				}else{
-					$_fields[] = $field;
-				}
-			}
-			$fields = $_fields;
+		
 
 			$record = $form['record'];
 			$return = '<table class="acf-display-values" border="1" cellspacing="0" cellpadding="5">';
+			$fields = $record['fields'];
 
-
-			foreach ( $fields as $field ) {
-				if( in_array( $field['type'], [
-					'submit_button'
-				] ) ){
-					continue;
-				}
+			foreach ( $fields as $content_type => $field_group ) {
+				foreach ( $field_group as $key => $field ) {
+					if ( ! is_array( $field ) ) {
+						continue;
+					}
+	
+					
+					if( 'file_data' == $content_type ){
+						continue;
+					}
 				
-				$field = fea_instance()->form_display->get_field_data_type( $field, $form );
-				if ( ! $field ) {
-					continue;
-				}
-				$field = fea_instance()->form_display->get_field_value( $field, $form );
-
-				//$field['value'] = $_field['_input'];
-
-				if ( $format_values ) {
-					$field['value'] = acf_format_value( $field['value'], 'form', $field );
-				}
-
-				if ( 'clone' == $field['type'] ) {
-					foreach ( $field['sub_fields'] as $sub_field ) {
-						$return .= sprintf( '<tr><th>%s</th></tr>', $sub_field['label'] );
-						$sub_field['value'] = $field['value'][ $sub_field['name'] ];
-						$return .= sprintf( '<tr><td>%s</td></tr>', $this->display_field( $sub_field ) );
+					$_field = $fea_instance->frontend->get_field( $field['key'] );
+					if ( ! $field ) {
+						$return .= '<tr><td colspan="2">Field not found</td></tr>';
+						continue;
 					}
-				} else {
-					if( 'password' != $field['type'] && 'user_password' != $field['type'] ){
+					$field = array_merge( $field, $_field );
+					$field['value'] = $field['_input'] ?? $field['value'];
 
-						$return .= sprintf( '<tr><td width="%s">%s</td>', '30%', $field['label'] );
-						$return .= sprintf(
-							'<td width="%s">%s</td></tr>',
-							'70%',
-							$this->display_field( $field )
-						);
-					}
+					$return .= '<tr>';
+					$return .= '<td>' . $field['label'] . '</td>';
+					$return .= '<td>';
+					$return .= $this->display_field( $field );
+					$return .= '</td>';
+					$return .= '</tr>';
+
 				}
 			}
-			
+				
 
 			$return .= '</table>';
 
@@ -851,8 +817,9 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 		}
 
 		function display_field( $field, $object_id = false, $form = false ) {
+			global $fea_instance;
 			if ( is_string( $field ) ) {
-				$field = get_field_object( $field, $object_id );
+				$field = $fea_instance->frontend->get_field( $field['key'] );
 				if ( ! $field ) {
 					$object = explode( '_', $object_id );
 					if ( isset( $object[1] ) ) {
@@ -870,9 +837,11 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				}
 			}else{
 				if( empty( $field['name'] ) ){
-					$field = array_merge( $field, get_field_object( $field['key'], $object_id ) );
+					$_field = $fea_instance->frontend->get_field( $field['key'] );
+					$field = array_merge( $field, $_field );
 				}
 			}
+
 
 			
 			$value = $field['_input'] ?? $field['value'] ?? '';
@@ -934,9 +903,10 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 
 		function display_value( $field, $value ){
+			global $fea_instance;
 			$return = '';
 			if ( empty( $field['type'] ) ) {
-				$field = acf_get_field( $field['key'] );
+				$field = $fea_instance->frontend->get_field( $field['key'] );
 				if ( ! $field ) {
 					if( $form && ! empty( $form['fields'][$_field['key']] ) ){
 						$field = $form['fields'][$field['key']];

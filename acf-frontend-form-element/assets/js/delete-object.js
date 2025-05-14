@@ -35,15 +35,26 @@
             button.after( '<span class="fea-loader"></span>' )
             $form = button.closest( 'form' );
 
-            $form.find( 'button.fea-submit-button' ).addClass( 'disabled' );
+            if( ! $form[0] ){
+                $form = button.siblings('form');
+                console.log($form);
+                if( ! $form[0] ){
+                    console.log('Object data not found');
+                    return;
+                }
+            }
+
+            $form.find( '.fea-submit-button' ).addClass( 'disabled' );
     
             let formData = new FormData( $form[0] );
+
+            console.log(formData)
     
             let fieldWrap = button.closest( '.acf-field' );
     
             let fieldKey = $form.data('field');
             if( ! fieldKey ){
-                fieldKey = fieldWrap.data('key');   
+                fieldKey = fieldWrap.data('key') || button.data('key');   
             }
     
             if( ! fieldKey ){

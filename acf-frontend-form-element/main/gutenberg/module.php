@@ -101,6 +101,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
 
             ob_start();
+            
             fea_instance()->form_display->render_field_wrap( $field );
 
             $render = ob_get_contents();

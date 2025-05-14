@@ -43,34 +43,37 @@ if ( ! class_exists( 'delete_object' ) ) :
 			}
 
 			global $fea_instance;
+			$field = apply_filters( 'frontend_admin/forms/get_delete_button', null, $key );
 
-			if( $form_id != $key ){
-				// load form
-				$form = $fea_instance->form_display->get_form( $_POST['_acf_form'] );
+			if( ! $field ){
 
-				// bail ealry if form is corrupt
-				if ( empty( $form ) ) {
-					wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
-				}
+				if( $form_id != $key ){
+					// load form
+					$form = $fea_instance->form_display->get_form( $_POST['_acf_form'] );
+
+					// bail ealry if form is corrupt
+					if ( empty( $form ) ) {
+						wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+					}
+					
+					if ( ! empty( $form['fields'][ $key ] ) ) {
+						$field = $form['fields'][ $key ];
+					}else{
+						$field = $fea_instance->frontend->get_field( $key );
+
+						
+					}	
+
+					if( empty( $field ) ) {
+						wp_send_json_error( __( 'Invalid Delete Button', 'acf-frontend-form-element' ) );
+					}
+
+					$field = array_merge( $form, $field );
 				
-				if ( ! empty( $form['fields'][ $key ] ) ) {
-					$field = $form['fields'][ $key ];
 				}else{
 					$field = $fea_instance->frontend->get_field( $key );
-
-					
-				}	
-
-				if( empty( $field ) ) {
-					wp_send_json_error( __( 'Invalid Delete Button', 'acf-frontend-form-element' ) );
 				}
-
-				$field = array_merge( $form, $field );
-			
-			}else{
-				$field = $fea_instance->frontend->get_field( $key );
-			}
-						
+			}		
 
 			if ( ! $field ) {                                      
 				wp_send_json_error( __( 'Invalid Delete Button', 'acf-frontend-form-element' ) );
@@ -79,7 +82,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			$field['message_location'] = 'other';
 
 			$redirect_args = array(
-				'redirect'    => fea_instance()->form_submit->get_redirect_url( $field ),
+				'redirect'    => $fea_instance->form_submit->get_redirect_url( $field ),
 				'form_element' => $field['id'],
 				'location'     => $field['message_location'],
 				'frontend-form-nonce' => wp_create_nonce( 'frontend-form' ),

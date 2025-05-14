@@ -65,4 +65,8 @@ abstract class ActionBase {
 
 	abstract public function register_settings_section( $widget );
 
+	public function bricks_settings_section( $widget ){
+		return;
+	}
+
 }

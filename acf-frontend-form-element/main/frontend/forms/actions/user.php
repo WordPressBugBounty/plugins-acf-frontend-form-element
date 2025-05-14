@@ -441,6 +441,10 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				'user_email',
 				'display_name',
 				'user_url',
+				'first_name',
+				'last_name',
+				'user_bio',
+				'role'
 			);
 
 			if ( ! empty( $record['fields']['user'] ) ) {
@@ -484,6 +488,9 @@ if ( ! class_exists( 'ActionUser' ) ) :
 							}
 							$user_to_insert['user_pass'] = $field['value'];
 							break;
+						case 'user_bio':
+							$user_to_insert['description'] = $field['value'];
+							break;
 						default:
 							$user_to_insert[ $field_type ] = $field['value'];
 					}
@@ -506,9 +513,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					$user_to_insert['user_nicename'] = $user_to_insert['user_login'];
 				}
 
-				//$user_id = wp_insert_user( $user_to_insert );
-				$wpdb->insert( $wpdb->users, $user_to_insert );
-				$user_id = $wpdb->insert_id;
+				$user_id = wp_insert_user( $user_to_insert );
 
 				if ( is_wp_error( $user_id ) ) {
 					return $form;
@@ -544,12 +549,13 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			} else {
 				if ( $user_to_insert ) {
 					$old_user_data = get_userdata( $user_id );
-
-					if ( isset( $user_to_insert['user_login'] ) && $user_to_insert['user_login'] == $old_user_data->user_login ) {
-						   unset( $user_to_insert['user_login'] );
-					} else {
-
-						 $log_back_in = true;
+					if ( isset( $user_to_insert['user_login'] ) ){
+						if( $user_to_insert['user_login'] == $old_user_data->user_login ) {
+							unset( $user_to_insert['user_login'] );
+						} else {
+							$wpdb->update( $wpdb->users, array( 'user_login' => $user_to_insert['user_login'] ), array( 'ID' => $user_id ) );
+							$log_back_in = true;
+						}
 					}
 
 
@@ -559,8 +565,8 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 					
 					if ( $user_to_insert ) {
-						$wpdb->update( $wpdb->users, $user_to_insert, array( 'ID' => $user_id ) );
-						do_action( 'wp_update_user', $user_id, $user_to_insert, $old_user_data );
+						$user_to_insert['ID'] = $user_id;
+						wp_update_user(  $user_to_insert );
 					}
 					do_action( 'profile_update', $user_id, $old_user_data, $user_to_insert );
 				}
@@ -576,6 +582,8 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 			if ( ! empty( $metas ) ) {
 				foreach ( $metas as $meta ) {
+					error_log( 'meta: ' . $meta['_input'] );
+					error_log( 'type: ' . $meta['type'] );
 					acf_update_value( $meta['_input'], 'user_' . $user_id, $meta );
 				}
 			}

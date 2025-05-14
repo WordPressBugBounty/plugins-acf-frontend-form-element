@@ -55,6 +55,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 
 		//integrations
 		public $elementor = null;
+		public $bricks = null;
 		public $gutenberg = null;
 
 		/**
@@ -101,7 +102,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.27.2' );
+			define( 'FEA_VERSION', '3.28.3' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page
@@ -188,6 +189,10 @@ if ( ! class_exists( 'Plugin' ) ) {
 			if ( did_action( 'elementor/loaded' ) ) {
 				include_once __DIR__ . '/elementor/module.php';
 			}
+			if ( class_exists( '\Bricks\Theme' ) ) {
+				include_once __DIR__ . '/bricks/module.php';
+			}
+		
 
 			include_once __DIR__ . '/frontend/module.php';
 		
