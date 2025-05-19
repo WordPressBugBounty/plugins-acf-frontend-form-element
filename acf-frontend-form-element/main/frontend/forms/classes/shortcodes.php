@@ -178,10 +178,6 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				$form = $this->get_current_form();
 			}
 
-			if ( empty( $form['fields'] ) ) {
-				return false;
-			}
-		
 
 			$record = $form['record'];
 			$return = '<table class="acf-display-values" border="1" cellspacing="0" cellpadding="5">';

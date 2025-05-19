@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.28.5
+Stable tag: 3.28.6
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -174,6 +174,9 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.6 - 19-05-2025 =
+ * Fixed issue with "all_fields" in email and pdf
+
 = 3.28.5 - 19-05-2025 =
  * Fixed "orderby" issue
  * Fixed gallery field issue
