@@ -138,15 +138,13 @@ if( ! class_exists( 'FEA_Emails_Crud' ) ) :
 				$sql .= $wpdb->prepare( ' WHERE address LIKE %s', $value );
 			}
 
-			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
-				$sql .= ! empty( $_REQUEST['order'] ) ? 
-					$wpdb->prepare( ' ' . esc_sql( $_REQUEST['order'] ) )
-					:
-					' ASC';
-			}else{
-				$sql .= ' ORDER BY created_at DESC' ;
-			}
+			$allowed_orderby = [ 'created_at', 'status' ]; // Modify this list to match your DB columns
+			$allowed_order   = [ 'ASC', 'DESC' ];
+
+			$orderby = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'created_at';
+			$order   = in_array( $args['order'], $allowed_order, true ) ? $args['order'] : 'DESC';
+
+			$sql .= " ORDER BY `$orderby` $order";
 
 			$sql .= $wpdb->prepare( " LIMIT %d", $args['per_page'] );
 			$sql .= $wpdb->prepare( " OFFSET %d", ( $args['current_page'] - 1 ) * $args['per_page'] );	

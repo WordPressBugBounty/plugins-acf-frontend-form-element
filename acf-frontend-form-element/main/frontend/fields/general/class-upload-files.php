@@ -64,9 +64,9 @@ if ( ! class_exists( 'upload_files' ) ) :
 		}
 
 		function prepare_gallery_field( $field ) {
-			if( empty( $GLOBALS['admin_form'] ) ){
-				return $field;
-			}
+			global $fea_form;
+			if( ! $fea_form ) return $field;
+			
 	
 				$field['type'] = 'upload_files';
 				$field         = $this->prepare_field( $field );
@@ -89,6 +89,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 		function prepare_field( $field ) {
 			$uploader = acf_get_setting( 'uploader' );
+		
 			// enqueue
 			if ( $uploader == 'basic' ) {
 				if ( isset( $field['wrapper']['class'] ) ) {

@@ -121,70 +121,55 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 		 *
 		 * @return mixed
 		 */
+		
+		/**
+		 * Retrieve submissions data from the database
+		 *
+		 * @param array $args query arguments
+		 *
+		 * @return mixed
+		 */
 		public static function get_submissions( $args = array() ) {
-			 global $wpdb;
-
-			if ( ! empty( $_REQUEST ) ) {
-				$args = array_merge( wp_parse_args(
-					$_REQUEST,
-					[
-						'form'     => '',
-						'form_key' => '',
-						'form_id'  => '',
-						's'        => '',
-						'orderby'  => '',
-						'order'    => 'DESC',
-						'per_page'     => 20,
-						'current_page' => 1,
-					]
-					), $args );
-			}
-			
-			$sql  = "SELECT * FROM {$wpdb->prefix}fea_submissions";
-
-			if ( ! empty( $args['form'] ) ) {
-				$form = true;
-				$sql .= $wpdb->prepare( ' WHERE form = %s', $args['form'] );
-			}
-			if ( ! empty( $args['form_key'] ) ) {
-				if ( isset( $form ) ) {
-					$sql .= ' OR';
-				} else {
-					$sql .= ' WHERE';
-				}
-				$sql .= $wpdb->prepare( ' form = %s', $args['form_key'] );
-				$form = true;
-			}
-			if ( ! empty( $args['form_id'] ) ) {
-				if ( isset( $form ) ) {
-					$sql .= ' OR';
-				} else {
-					$sql .= ' WHERE';
-				}
-				$sql .= $wpdb->prepare( ' form = %d', $args['form_id'] );
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				return false;
 			}
 
-			if ( ! empty( $args['s'] ) ) {
-				$value = $args['s'] . '%';
-				$sql  .= $wpdb->prepare( ' WHERE title LIKE %s', $value );
+			// Parse and sanitize request parameters
+			$args = [
+				'orderby'      => isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : '',
+				'order'        => isset( $_REQUEST['order'] ) ? strtoupper( sanitize_text_field( $_REQUEST['order'] ) ) : '',
+				'per_page'     => isset( $_REQUEST['per_page'] ) ? (int) $_REQUEST['per_page'] : 10,
+				'current_page' => isset( $_REQUEST['current_page'] ) ? max( 1, (int) $_REQUEST['current_page'] ) : 1,
+			];
+
+			// Allowlisted columns and order directions
+			$allowed_orderby = [ 'created_at', 'title', 'status' ]; // Modify this list to match your DB columns
+			$allowed_order   = [ 'ASC', 'DESC' ];
+
+			$orderby = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'created_at';
+			$order   = in_array( $args['order'], $allowed_order, true ) ? $args['order'] : 'DESC';
+
+			// Base query - update table name accordingly
+			global $wpdb;
+			$table = $wpdb->prefix . 'fea_submissions';
+			$sql   = "SELECT * FROM `$table`";
+
+			// Append ORDER BY
+			$sql .= " ORDER BY `$orderby` $order";
+
+			// Pagination
+			if ( $args['per_page'] !== -1 ) {
+				$offset = ( $args['current_page'] - 1 ) * $args['per_page'];
+				$sql   .= $wpdb->prepare( ' LIMIT %d OFFSET %d', $args['per_page'], $offset );
 			}
 
-			if ( ! empty( $args['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $args['orderby'] ) );
-				$sql .= ! empty( $args['order'] ) ? ' ' . $wpdb->prepare( esc_sql( $args['order'] ) ) : ' ASC';
-			} else {
-				$sql .= ' ORDER BY created_at DESC' ;
-			}
+			// Execute query
+			$results = $wpdb->get_results( $sql, ARRAY_A );
 
-			if ( $args['per_page'] != '-1' ) {
-				$sql .= $wpdb->prepare( ' LIMIT %d', $args['per_page'] );
-				$sql .= $wpdb->prepare( ' OFFSET %d', ( $args['current_page'] - 1 ) * (int) $args['per_page'] );
-			}
-
-			$result = wp_unslash( $wpdb->get_results( $sql, 'ARRAY_A' ) );
-
-			return $result;
+			// Send response
+			return $results;
 		}
+
 
 		/**
 		 * Returns the count of records in the database.
@@ -261,7 +246,12 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						$form['wp_uploader'] = 1;
 
 						if( empty( $form['object'] ) ){
+					
+			
+
 							fea_instance()->form_display->render_form( $form );
+
+
 						}else{
 						
 							$form['object']->print_element();
@@ -326,8 +316,16 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 				
 				$form = fea_instance()->form_display->get_form( $submission->form, $element );
 
-				if( ! $form ) return false;
+				if( ! $form ){ 
+					$form_id = explode( ':', $submission->form );
+					$form_id = $form_id[0];
+					$form = fea_instance()->form_display->get_form( $form_id, $element );
+					if( ! $form ){
+						esc_html_e( 'Form not found. Did you erase it?', 'acf-frontend-form-element' );
+						return false;
+					}
 				
+				}
 				$current_user = wp_get_current_user();
 				if ( $current_user && $current_user->ID == $submission->user ) {
 					$form['display'] = true;
@@ -406,6 +404,8 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			}
 			$fea_form = $approval_form;
 
+			$approval_form['fields'] = apply_filters( 'frontend_admin/submissions/form_fields', $approval_form['fields'], $approval_form, $approval_form['id'] );
+
 			return $approval_form;
 		}
 
@@ -475,32 +475,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			}
 
 		}
-		public function transfer_fa_rows_to_new_table() {
-			global $wpdb;
-
-			$old_name = $wpdb->prefix . 'frontend_admin_submissions';
-			$query    = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $old_name ) );
-
-			if ( $wpdb->get_var( $query ) !== $old_name ) {
-				return;
-			}
-
-			$sql     = "SELECT * FROM $old_name";
-			$results = $wpdb->get_results( $sql, 'ARRAY_A' );
-
-			if ( $results ) {
-				foreach ( $results as $result ) {
-					$submission = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $old_name WHERE id = %d", $result['id'] ) );
-					if ( $submission ) {
-						$this->insert_submission( $result );
-						$wpdb->delete( $old_name, array( 'id' => $result['id'] ) );
-					}
-				}
-			} else {
-				$wpdb->query( "DROP TABLE IF EXISTS $old_name" );
-			}
-
-		}
+	
 
 		public function render_form( $args ) {
 			if ( 'submission' != $args['data_type'] ) return;
@@ -518,8 +493,6 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			$this->create_submissions();
 			add_filter( 'set-screen-option', array( $this, 'set_submissions_per_page' ), 11, 3 );
 
-			add_action( 'init', array( $this, 'transfer_acff_rows_to_new_table' ) );
-			add_action( 'init', array( $this, 'transfer_fa_rows_to_new_table' ) );
 			add_action( 'frontend_admin/ajax_add_form', array( $this, 'render_form' ) );
 			add_filter( 'frontend_admin/forms/get_submission', function( $form, $submission ){
 				if( empty( $submission ) ){

@@ -250,6 +250,7 @@ class FrontendForm extends \Bricks\Element {
 		if ( strpos( $key, '_bricks_' ) === false ) {
 			return false;
 		}
+		$key = explode( ':', $key )[0];
 
 		// Get Template/page id and element id
 		$ids = explode( '_bricks_', $key );
@@ -272,8 +273,13 @@ class FrontendForm extends \Bricks\Element {
 		global $fea_instance, $fea_form, $wp_query;
 		$form_display = $fea_instance->form_display;
 
-		$current_post_id = $wp_query->get_queried_object_id();
 
+		$current_post_id = $wp_query->get_queried_object_id();
+		if( $id ){
+			$element_id = explode( '_bricks_', $id )[1] ?? null;	
+		}else{
+			$element_id = $form_data['key'] ?? null;
+		}
 		$form_data['submit_actions'] = true;
 
 		$form_data['post_to_edit'] = $post_to_edit = $form_data['post_to_edit'] ?? 'current_post';
@@ -286,8 +292,13 @@ class FrontendForm extends \Bricks\Element {
 
 		$id = $id ?? $this->id ?? null;
 
-		$fea_form =  $form_display->validate_form( $form_data );
+		
+	
+		if( empty( $fea_form['id'] ) || $fea_form['id'] !== $id ){
+			$fea_form =  $form_display->validate_form( $form_data );
+		}
 
+	
 		if( $children ){
 			$fields = [];
 			foreach( $children as $child ){
@@ -296,44 +307,111 @@ class FrontendForm extends \Bricks\Element {
 
 				if( ! $name || ! $settings ) continue;
 
-				if ( strpos( $name, 'fea-' ) === 0 && strpos( $name, '-field' ) !== false ) {
-					$field_type = str_replace( [ 'fea-', '-field' ], '', $name );
-					$field_type = str_replace( '-', '_', $field_type );
+				if( $child['id'] != $element_id ) continue;
 
-					$field = [
-						'type' => $field_type,
-						'key'   => $id . '_' . $child['id'],
-						'builder' => 'bricks',
-						'label' => $settings['field_label'] ?? '',
-						'name' => $settings['field_name'] ?? '',
-						'placeholder' => $settings['field_placeholder'] ?? '',
-						'default_value' => $settings['field_default_value'] ?? '',
-						'required' => $settings['field_required'] ?? false,
-						'maxlength' => $settings['field_maxlength'] ?? 0,
-					];
-					$field = $form_display->get_field_data_type( $field, $fea_form );
+				if( ! empty( $child['children'] ) ){
+					foreach( $child['children'] as $child_id ){
 
-					if( ! $field ) return false;
-
-					if ( ! isset( $field['value'] )
-						|| $field['value'] === null
-					) {
-						$field = $form_display->get_field_value( $field, $fea_form );
+						$_fields = $this->prepare_fields( $child_id, $children, $fields, $id );
+						if( $_fields ){
+							$fields = array_merge( $fields, $_fields );
+						}
 					}
-
-					$fields[$id . '_' . $child['id']] = $field;
-
 				}
+
 
 			}
 
 			$fea_form['fields'] = $fields;
+
+
 		}
 
 
 		return $fea_form;
 
 		
+	}
+
+	public function prepare_fields( $child_id, $children, $fields = [], $id = null ){
+
+		global $fea_instance, $fea_form;
+		$form_display = $fea_instance->form_display;
+
+		//find the child with the id
+		$child = array_filter( $children, function( $child ) use ( $child_id ){
+			return $child['id'] == $child_id;
+		} );
+		$child = array_shift( $child );
+		if( ! $child ) return false;
+
+		$name = $child['name'] ?? null;
+		$settings = $child['settings'] ?? null;
+
+		if( ! $name || ! $settings ) return false;
+
+		
+
+		if( ! empty( $child['children'] ) ){
+			foreach( $child['children'] as $child_id ){
+				$_fields = $this->prepare_fields( $child_id, $children, $fields, $id );
+			
+
+				if( $_fields ){
+					$fields = array_merge( $fields, $_fields );
+				}
+
+			}
+		}else{
+			$field = $this->prepare_field( $name, $settings, $child_id );
+		
+			if( ! $field ) return false;
+			$name = $fea_form['ID'] . '_' . $child_id;
+			$fields[ $name ] = $field;
+		}
+		
+		return $fields;
+		
+	}
+
+	public function prepare_field( $name, $settings, $id = null ){
+		global $fea_instance, $fea_form;
+		$form_display = $fea_instance->form_display;
+
+		$id = $fea_form['ID'] . '_' . $id;
+				
+		if ( strpos( $name, 'fea-' ) === 0 && strpos( $name, '-field' ) !== false ) {
+
+			$field_type = str_replace( [ 'fea-', '-field' ], '', $name );
+			$field_type = str_replace( '-', '_', $field_type );
+
+			$field = [
+				'type' => $field_type,
+				'key'   => $id,
+				'builder' => 'bricks',
+				'label' => $settings['field_label'] ?? '',
+				'name' => $settings['field_name'] ?? $id,
+				'placeholder' => $settings['field_placeholder'] ?? '',
+				'default_value' => $settings['field_default_value'] ?? '',
+				'required' => $settings['field_required'] ?? false,
+				'maxlength' => $settings['field_maxlength'] ?? false,
+			];
+		
+			$field = $form_display->get_field_data_type( $field, $fea_form );
+		
+			if( ! $field ) return false;
+
+			if ( ! isset( $field['value'] )
+				|| $field['value'] === null
+			) {
+				$field = $form_display->get_field_value( $field, $fea_form );
+			}
+
+			return $field;
+
+		}
+		return false;
+
 	}
 
 	public function render() {
@@ -364,10 +442,32 @@ class FrontendForm extends \Bricks\Element {
 		$fea_form = null;
 	}
 
+	public function get_form_fields( $fields, $form, $key ) {
+		if ( strpos( $key, '_bricks_' ) === false ) {
+			return $fields;
+		}
+
+		$key = explode( ':', $key )[0];
+
+		// Get Template/page id and element id
+		$ids = explode( '_bricks_', $key );
+
+		// If there is no element id, there is no reason to continue 
+		if( empty( $ids[1] ) ) return $fields; 
+
+		$element = \Bricks\Helpers::get_element_data( $ids[0], $ids[1] );
+		if( $element ){
+			$fields = $this->prepare_fields( $ids[1], $element['elements'], $fields, $key );
+
+		}
+		return $fields;
+	}
+
 	public function __construct( $settings = [] ) {
 		parent::__construct( $settings );
 
 		add_filter( 'frontend_admin/forms/get_form', [ $this, 'get_form_element' ], 10, 2 );
+		add_filter( 'frontend_admin/submissions/form_fields', [ $this, 'get_form_fields' ], 10, 3 );
 
 	}
  

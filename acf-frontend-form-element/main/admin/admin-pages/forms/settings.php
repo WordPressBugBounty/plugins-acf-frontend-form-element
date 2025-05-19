@@ -698,7 +698,7 @@ class Frontend_Forms_UI {
 		if ( empty( $field['dynamic_value_choices'] ) ) {
 			return $field;
 		}
-		$types = [ 'text', 'textarea' ];
+		$types = [ 'text', 'textarea', 'wysiwyg' ];
 		$field['wrapper']['data-dynamic_values'] = '1';
 		if ( ! in_array( $field['type'], $types ) ) {
 			$field['type'] = 'text';

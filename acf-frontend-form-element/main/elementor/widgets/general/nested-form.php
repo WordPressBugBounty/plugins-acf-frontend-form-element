@@ -375,13 +375,14 @@ class Nested_Form extends Widget_Nested_Base {
 		}
 
 		global $fea_instance, $fea_form, $fea_scripts, $fea_limit_visibility;
+		$form = $this->prepare_form( $settings );
+		if( ! $form ) return;
+
 		//if the current user is admin and there are no permission rules, print a message
-		if( current_user_can('manage_options') && empty( $settings['form_conditions'] ) && ! $fea_limit_visibility ){
+		if( current_user_can('manage_options') && empty( $settings['form_conditions'] ) && ! $fea_limit_visibility && ! $form['approval'] ){
 			echo '<div class="fea-no-permissions-message">'.esc_html__('By default, this form is only visible to administrators. To change this, please set the visibilty for this element or the entire page.', 'frontend-admin').'</div>';
 		}
 	
-		$form = $this->prepare_form( $settings );
-		if( ! $form ) return;
 		$form = apply_filters( 'frontend_admin/show_form', $form );
 
 		if( ! $form ){
