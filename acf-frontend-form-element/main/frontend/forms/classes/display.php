@@ -21,7 +21,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				return $form;
 			}
 
-			$types = array( 'post', 'user', 'term', 'product', 'plan', 'subscription', 'taxonomy' );
+			$types = array( 'post', 'user', 'term', 'product', 'plan', 'subscription', 'taxonomy', 'post_type' );
 			if( ! empty(  $_POST['_acf_objects'] ) ){
 				$objects = fea_decrypt( $_POST['_acf_objects'] );
 				$objects = json_decode( $objects, true );
@@ -40,6 +40,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 				if ( isset( $objects['taxonomy_type'] ) ) {
 					$form['record']['taxonomy_type'] = sanitize_text_field( $objects['taxonomy_type'] );
+				}
+				if ( isset( $objects['post_type'] ) ) {
+					$form['record']['post_type'] = sanitize_text_field( $objects['post_type'] );
 				}
 			}
 
@@ -135,6 +138,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function get_form_fields( $form, $args = array() ) {
+			global $fea_instance;
 			 $fields_args = array(
 				 'post_type'      => 'acf-field',
 				 'posts_per_page' => '-1',
@@ -150,7 +154,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			 if ( $fields ) {
 
 				 foreach ( $fields as $index => $field ) {
-					 $object = acf_get_field( $field->ID );
+					 $object = $fea_instance->frontend->get_field( $field->post_name );
 
 					 if ( ! $object ) {
 						 continue;
@@ -158,30 +162,35 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					 $object['parent'] = $form;
 					 do_action( 'frontend_admin/form_assets/type=' . $object['type'], $object );
 
-					 
 					 foreach( $content_types as $type ){
 						if( $object['type'] == $type.'_to_edit' ){						
 							$url_query_key = $object['url_query'] ?? $type.'_id';
 
 							if( ! empty( $_GET[$url_query_key] ) ){
-								$args[$type.'_id'] = absint( $_GET[$url_query_key] );
+								$args[$type.'_id'] = sanitize_text_field( $_GET[$url_query_key] );
 							}else{
 								continue;
 							}
 							$args[$type.'_id'] = $object['value'] ?? $args[$type.'_id'] ?? 'none';
+
 							$is_correct_post_type = true;
-							if( 'post' == $type && ! empty( $args['post_type'] ) && ! empty( $args[$type.'_id'] ) ){
+
+							if( empty( $args['post_type'] ) && ! empty( $object['post_type'] ) ){
+								$args['post_type'] = (array) $object['post_type'];
+							}
+
+							if( ! empty( $args['post_type'][0] ) ) $args['hidden_fields']['post_type'] = $args['post_type'][0];
+
+							if( 'post' == $type && ! empty( $args['post_type'] ) && is_numeric( $args[$type.'_id'] ) ){
 								$args['post_type'] = (array) $object['post_type'];
 								$post_type = get_post_type( $args[$type.'_id'] );
 
 								$allowed_types = (array) $args['post_type'];
 								if( is_array( $allowed_types ) && ! in_array( $post_type, $allowed_types ) ){
 									$is_correct_post_type = false;
-								}else{
-									if( 'add_post' == $args[$type.'_id'] ){
-										$args['new_post_type'] = $allowed_types[0];
-									}
 								}
+								
+
 							}
 
 							if( 'product' == $type && get_post_type( $args[$type.'_id'] ) != 'product' ){
@@ -212,14 +221,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 									}
 								}
 
-
 							}
-
 
 							if( ! $is_correct_post_type ){
 								$args[$type.'_id'] = 'none';
 							}
-						
+
 
 						}
 					 }
@@ -331,7 +338,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			if( isset( $_SERVER['QUERY_STRING'] ) ){
-				$data['current_url'] .= '?' . sanitize_text_field( $_SERVER['QUERY_STRING'] );
+				$query_string = sanitize_text_field( $_SERVER['QUERY_STRING'] );
+				if( $query_string ){
+					$data['current_url'] .= '?' . $query_string;
+				}
 			}
 
 			$data['referer_url'] = $data['current_url'];
@@ -364,7 +374,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			<div class="acf-form-data acf-hidden">
 			<?php
 
-			$types = array( 'post', 'user', 'term', 'product', 'plan', 'subscription', 'submission', 'taxonomy' );
+			$types = array( 'post', 'user', 'term', 'product', 'plan', 'subscription', 'submission', 'taxonomy', 'post_type' );
 
 			$objects = array();
 			// loop
@@ -727,7 +737,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		public function get_field_to_display( $field_data, $fields ) {
 			
 			if ( is_string( $field_data ) ) {
-				$field_data = acf_get_field( $field_data );
+				$field_data = fea_instance()->frontend->get_field( $field_data );
 			}
 
 			if ( ! empty( $field_data['sub_fields'] ) ) {
@@ -1547,7 +1557,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 						)
 					);
 					$GLOBALS['form_fields']['product_types'] = $field_key;
-					$fields[]                                = acf_get_field( $field_key );
+					$fields[]                                = fea_instance()->frontend->get_field( $field_key );
 				} else {
 					acf_hidden_input(
 						array(
@@ -1558,18 +1568,19 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				}
 				if ( empty( $GLOBALS['form_fields']['manage_stock'] ) ) {
 					$field_key = $element_id . '_manage_stock';
+					$_field = array(
+						'name'            => $field_key,
+						'key'             => $field_key,
+						'type'            => 'manage_stock',
+						'no_data_collect' => 1,
+						'ui'              => 0,
+						'wrapper'         => array( 'style' => 'display:none !important' ),
+					);
 					acf_add_local_field(
-						array(
-							'name'            => $field_key,
-							'key'             => $field_key,
-							'type'            => 'manage_stock',
-							'no_data_collect' => 1,
-							'ui'              => 0,
-							'wrapper'         => array( 'style' => 'display:none !important' ),
-						)
+						$_field
 					);
 					$GLOBALS['form_fields']['manage_stock'] = $field_key;
-					$fields[]                               = acf_get_field( $field_key );
+					$fields[] = $_field;
 
 				}
 			}
@@ -1612,11 +1623,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					'item_id' => '',
 					'type' => '',
 					'form_data' => '',
-					'step' => false
+					'step' => false,
+					'field_key' => '',
+					'current_url' => '',
 				]
 			);
 
 			$form = $this->get_form( $request['form_data'] );
+			$field = fea_instance()->frontend->get_field( $request['field_key'] );
 			if ( ! $form ) {
 				wp_send_json_error();
 			}
@@ -1631,7 +1645,20 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 						$form[ 'save_to_' . $type ] = 'new_' . $type;
 					}
 				}
+
+				if( $field && 'post' == $type ){
+					//get the post type from the field
+					if( ! empty( $field['post_type'][0] ) ){
+						$form['new_post_type'] = $field['post_type'][0] ?? 'post';
+						$form['hidden_fields']['post_type'] = $form['new_post_type'];
+					}
+				}
 			} 
+
+			if( $request['current_url'] ){
+				$form['hidden_fields']['current_url'] = $request['current_url'];
+			}
+
 			$form['show_in_modal'] = false;
 			$GLOBALS['admin_form'] = $form;
 

@@ -4306,15 +4306,24 @@ acf.add_filter(
 
 				$el.after( '<span class="fea-loader"></span>' );
 				let formData = $form.find( 'input[name=_acf_form]' ).val();
-				let url = $form.find( 'input[name=_acf_current_url]' ).val();
+				const url = new URL( window.location.href );
+
+				const url_query = field.$el.data( 'url_query' ) || 'post_id';
+
+				url.searchParams.set( url_query, $el.val() );
+				console.log(url.href);
 
 				let ajaxData = {
 					action:		'frontend_admin/forms/change_form',
 					item_id: 		$el.val(),
 					type: this.getType(),
 					form_data:	formData,
-					current_url: url,
+					current_url: url.href,
+					field_key: this.get( 'key' ),
 				};
+
+				console.log(this.get('key'));
+				
 
 				// get HTML
 				$.ajax(
@@ -4332,11 +4341,7 @@ acf.add_filter(
 								$form.replaceWith( newForm );
 								acf.doAction( 'append',newForm );
 
-								const url = new URL( window.location.href );
-
-								const url_query = field.$el.data( 'url_query' ) || 'post_id';
-
-								url.searchParams.set( url_query, $el.val() );
+								
 								window.history.pushState(  { post_id: $el.val() }, '', url );
 							}
 						}

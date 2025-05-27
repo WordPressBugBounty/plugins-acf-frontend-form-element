@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.28.6
+Stable tag: 3.28.8
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -174,6 +174,15 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.8 - 27-05-2025 =
+ * Fixed 'fea-upload-file' function to show hidden files to 
+ * Fixed post to edit "new post" feature not saving to correct post type
+ * Fixed submissions page igonoring current page parameter
+
+= 3.28.7 - 21-05-2025 =
+ * Added option to show CSV download option on users page
+ * Fixed files showing in PDF
+
 = 3.28.6 - 19-05-2025 =
  * Fixed issue with "all_fields" in email and pdf
 

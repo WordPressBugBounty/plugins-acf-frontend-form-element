@@ -552,6 +552,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				'uploads_privacy' => 'Uploads Privacy',
 				'dashboard'       => 'Dashboard',
 				'apis'            => 'APIs',
+				'csv'             => 'CSV',
 				//'tools'           => 'Tools',
 			);
 

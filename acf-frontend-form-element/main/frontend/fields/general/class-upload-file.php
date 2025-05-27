@@ -87,35 +87,48 @@ if ( ! class_exists( 'upload_file' ) ) :
 	
 	
 		function handle_file_upload_request() {
+			
 			// Check if it's a file upload request.
-			if (isset($_GET['fea-file-upload']) && isset($_GET['file'])) {
-				$file = sanitize_text_field(wp_unslash($_GET['file']));
-				$upload_dir = wp_upload_dir();
-				$file_path = $upload_dir['basedir'] . '/' . $file;
-		
-				// Ensure the file exists.
-				if (!file_exists($file_path)) {
-					wp_die(__('File not found.', 'your-plugin-textdomain'), '404 Not Found', ['response' => 404]);
-				}
-		
-				// Check permissions.
-				$attachment_id = attachment_url_to_postid($upload_dir['baseurl'] . '/' . $file);
-				$uploader_id = get_post_field('post_author', $attachment_id);
-				$current_user = wp_get_current_user();
-		
-				if (
-					!$current_user->exists() || // User not logged in
-					($uploader_id != $current_user->ID && !current_user_can('administrator') && !current_user_can('editor'))
-				) {
-					wp_die(__('Unauthorized access.', 'your-plugin-textdomain'), '403 Forbidden', ['response' => 403]);
-				}
-		
-				// Serve the file with proper headers.
-				header('Content-Type: ' . mime_content_type($file_path));
-				header('Content-Disposition: inline; filename="' . basename($file_path) . '"');
-				readfile($file_path);
-				exit;
+			if ( empty($_GET['fea-file-upload']) || empty( $_GET['file'] ) ) return;
+			
+			$file = sanitize_text_field(wp_unslash($_GET['file']));
+
+			//check nonce 
+			if ( empty( $_GET['nonce'] ) || wp_verify_nonce( $_GET['nonce'], 'fea-file-upload_'. $file ) === false ) {
+				wp_die(__('Invalid nonce.', 'acf-frontend-form-element'), '403 Forbidden', ['response' => 403]);
 			}
+
+
+			$upload_dir = wp_upload_dir();
+			$file_path = $upload_dir['basedir'] . '/' . $file;
+			$real_file_path = realpath( $file_path );
+			if ($real_file_path === false || strpos($real_file_path, $upload_dir['basedir']) !== 0) {
+				wp_die(__('Invalid file path.', 'acf-frontend-form-element'), '400 Bad Request', ['response' => 400]);
+			}
+	
+			// Ensure the file exists.
+			if (!file_exists( $real_file_path )) {
+				wp_die(__('File not found.', 'acf-frontend-form-element'), '404 Not Found', ['response' => 404]);
+			}
+	
+			// Check permissions.
+			$attachment_id = attachment_url_to_postid($upload_dir['baseurl'] . '/' . $file);
+			$uploader_id = get_post_field('post_author', $attachment_id);
+			$current_user = wp_get_current_user();
+	
+			if (
+				!$current_user->exists() || // User not logged in
+				($uploader_id != $current_user->ID && !current_user_can('administrator') && !current_user_can('editor'))
+			) {
+				wp_die(__('Unauthorized access.', 'acf-frontend-form-element'), '403 Forbidden', ['response' => 403]);
+			}
+	
+			// Serve the file with proper headers.
+			header('Content-Type: ' . mime_content_type($real_file_path));
+			header('Content-Disposition: inline; filename="' . basename($real_file_path) . '"');
+			readfile($real_file_path);
+			exit;
+		
 		}
 
 		/**
@@ -1006,16 +1019,17 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 						if ( ! file_exists( $_htaccess ) ) {
 							$site_url = site_url();
+							$nonce = wp_create_nonce( 'fea-file-upload_' . $dir_name );
 							$rules = <<<HTACCESS
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /wp-content/uploads/
+							<IfModule mod_rewrite.c>
+								RewriteEngine On
+								RewriteBase /wp-content/uploads/
 
-    # Redirect file requests to WordPress with query parameters
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^(.*)$ "{$site_url}/?fea-file-upload&file={$dir_name}/$1" [R=302,L]
-</IfModule>
-HTACCESS;
+								# Redirect file requests to WordPress with query parameters
+								RewriteCond %{REQUEST_FILENAME} -f
+								RewriteRule ^(.*)$ "{$site_url}/?fea-file-upload&nonce={$nonce}&file={$dir_name}/$1" [R=302,L]
+							</IfModule>
+							HTACCESS;
 							file_put_contents( $_htaccess, $rules ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 						} 
 					

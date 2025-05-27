@@ -600,7 +600,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			if( function_exists( 'acf_maybe_get_field' ) ){
 				$field = acf_maybe_get_field( $key );
-
 				if( $field ) return $field;
 			}
 

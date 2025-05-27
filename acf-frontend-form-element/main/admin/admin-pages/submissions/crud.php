@@ -135,12 +135,12 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			}
 
 			// Parse and sanitize request parameters
-			$args = [
+			$args = wp_parse_args( $args, [
 				'orderby'      => isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : '',
 				'order'        => isset( $_REQUEST['order'] ) ? strtoupper( sanitize_text_field( $_REQUEST['order'] ) ) : '',
 				'per_page'     => isset( $_REQUEST['per_page'] ) ? (int) $_REQUEST['per_page'] : 10,
-				'current_page' => isset( $_REQUEST['current_page'] ) ? max( 1, (int) $_REQUEST['current_page'] ) : 1,
-			];
+				'paged' => isset( $_REQUEST['paged'] ) ? max( 1, (int) $_REQUEST['paged'] ) : 1,
+			] );
 
 			// Allowlisted columns and order directions
 			$allowed_orderby = [ 'created_at', 'title', 'status' ]; // Modify this list to match your DB columns
@@ -149,19 +149,35 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			$orderby = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'created_at';
 			$order   = in_array( $args['order'], $allowed_order, true ) ? $args['order'] : 'DESC';
 
+			$per_page	 = (int) $args['per_page'];
+			$current_page = (int) $args['paged'];
+			$offset		 = ( $current_page - 1 ) * $per_page;
+
 			// Base query - update table name accordingly
 			global $wpdb;
 			$table = $wpdb->prefix . 'fea_submissions';
 			$sql   = "SELECT * FROM `$table`";
 
+			// Append search query if any
+			if ( ! empty( $_REQUEST['s'] ) ) {
+				$search = sanitize_text_field( $_REQUEST['s'] );
+				$sql    .= $wpdb->prepare( ' WHERE title LIKE %s', '%' . $wpdb->esc_like( $search ) . '%' );
+			}
+
 			// Append ORDER BY
 			$sql .= " ORDER BY `$orderby` $order";
 
 			// Pagination
-			if ( $args['per_page'] !== -1 ) {
-				$offset = ( $args['current_page'] - 1 ) * $args['per_page'];
-				$sql   .= $wpdb->prepare( ' LIMIT %d OFFSET %d', $args['per_page'], $offset );
+			if ( $per_page !== -1 ) {
+				$sql   .= $wpdb->prepare( ' LIMIT %d OFFSET %d', $per_page, $offset );
 			}
+
+			// Append WHERE clause if any filters are applied
+			if ( ! empty( $args['form'] ) ) {
+				$sql .= $wpdb->prepare( ' WHERE form = %s', $args['form'] );
+			}
+
+			global $current_screen;
 
 			// Execute query
 			$results = $wpdb->get_results( $sql, ARRAY_A );

@@ -230,10 +230,13 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			} else {
 				$user_id = get_current_user_id();
 			}
-			$edit_user = get_user_by( 'ID', $user_id );
 
-			if ( empty( $edit_user->user_login ) ) {
-				return $value;
+			if( 'add_user' != $user_id ){
+				$edit_user = get_user_by( 'ID', $user_id );
+
+				if ( empty( $edit_user->user_login ) ) {
+					return $value;
+				}
 			}
 
 			if ( isset( $form['record']['fields']['user'] ) ) {
@@ -275,6 +278,23 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				case 'display_name':
 					if ( isset( $record[ $field_name ]['_input'] ) ) {
 						return $record[ $field_name ]['_input'];
+					}else{
+						$display_name = '';
+						if ( isset( $record['first_name']['_input'] ) ) {
+							$display_name .= $record['first_name']['_input'];
+						} else {
+							$display_name .= $edit_user->first_name;
+						}
+
+						if ( isset( $record['last_name']['_input'] ) ) {
+							$display_name .= ' ' . $record['last_name']['_input'];
+						} else {
+							$display_name .= ' ' . $edit_user->last_name;
+						}
+
+						if ( $display_name ) {
+							return $display_name;
+						}
 					}
 					return $edit_user->display_name;
 				break;
@@ -1083,18 +1103,27 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 								$image = acf_get_attachment( $image );
 							}
 							if ( empty( $image['sizes'] ) ) {
-								continue;
-							}
-							$return .= sprintf( '<img class="lightbox-image" data-url="%s" width="200" height="200" src="%s" alt="%s" />', 
+								//if it's not an image, show the link
+								$return .= sprintf( '<a href="%s">%s</a>', $image['url'], htmlspecialchars( $image['title'] ) );
+							}else{
+							$return .= sprintf( '<div><img class="lightbox-image" data-url="%s" width="200" height="200" src="%s" alt="%s" /></div><br>', 
 								esc_attr( $image['url'] ),
 								esc_attr( $image['sizes']['medium'] ), 
 								esc_attr( $image['alt'] )
-							);
+								);
+							}
 						}
 						$return .= '</div>';
 					break;
 				case 'file':
-					$return .= sprintf( '<a href="%s">%s</a>', $value['url'], htmlspecialchars( $value['title'] ) );
+					if ( isset( $value['id'] ) ) {
+						$value = $value['id'];
+					}
+					$attachment = acf_get_attachment( $value );
+					if ( ! $attachment ) {
+						break;
+					}
+					$return .= sprintf( '<a href="%s">%s</a>', $attachment['url'], htmlspecialchars( $attachment['title'] ) );
 					break;
 				case 'wysiwyg':
 				case 'textarea':
