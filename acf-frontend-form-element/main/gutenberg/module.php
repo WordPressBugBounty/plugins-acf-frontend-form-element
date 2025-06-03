@@ -155,6 +155,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             global $fea_form;
 
             if( 'core/button' == $block['blockName'] ){
+         
                 $submit = $block['attrs']['submitButton'] ?? false;
                if( $submit ) {
                     if( ! $fea_form ){

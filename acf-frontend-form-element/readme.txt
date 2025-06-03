@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.7.1
-Stable tag: 3.28.8
+Stable tag: 3.28.9
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -132,11 +132,17 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 
 == Tutorials ==  
 
+= Paul from WPTuts shows how to build a fully functional front-end dashboard in WordPress using the free Front-End Admin plugin and Bricks Builder. 
+https://www.youtube.com/watch?v=O0TYRap8U24
+
 = Paul from WP Tuts shows how to use Frontend Admin to create a frontend dashboard =
 https://www.youtube.com/watch?v=FsLSrd-11-g
 
 = Bjorn from WPLearningLab shows how to create a WordPress Client Portal =
 https://www.youtube.com/watch?v=yjhd8GPi28o
+
+= Integrating Bricks Builder with Frontend Admin =
+https://www.youtube.com/watch?v=ju2J4d7wYZk
 
 = Frontend Forms in Elementor Pro Off Canvas Widget =
 https://www.youtube.com/watch?v=UII4uwpMP0I
@@ -174,6 +180,10 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.9 - 03-06-2025 =
+ * Fixed Gutenberg form blocks not saving submissions
+ * Fixed trials not showing pro features 
+
 = 3.28.8 - 27-05-2025 =
  * Fixed 'fea-upload-file' function to show hidden files to 
  * Fixed post to edit "new post" feature not saving to correct post type

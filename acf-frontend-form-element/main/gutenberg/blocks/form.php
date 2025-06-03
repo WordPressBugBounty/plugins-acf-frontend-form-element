@@ -157,7 +157,19 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 }
             }
 
-            $inner_blocks[] = ['core/button', [ 'text' => 'Submit', 'submitButton' => 'true' ] ];
+            $inner_blocks[] = [
+                'core/buttons',
+                ['className' => 'fea-form-buttons'],
+                [
+                    ['core/button', [
+                        'className' => 'fea-submit-button',
+                        'isPrimary' => true,
+                        'text' => __( 'Submit', 'frontend-admin' ),
+                        'submitButton' => true,
+                    ]],
+                ]
+            ];
+
             return array(
                 'name'        => $args['save_type'] . '_' . $args['post_type'],
                 'title'       => $form_title,
@@ -212,10 +224,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
       
         public function get_form_block( $form, $key, $element = false ){
+         
             if ( ! is_string( $key ) && strpos( $key, '_gutenberg_' ) === false ) {
                 return $form;
             }
-
             // Get Template/page id and block id
             $ids = explode( '_gutenberg_', $key );
 
@@ -225,6 +237,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
             global $fea_instance, $fea_form, $post;
             $block = $fea_instance->gutenberg->get_the_block( $ids );
+
 
             if( $block ){		
                 $form_display = $fea_instance->form_display;
@@ -244,7 +257,6 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
                 $fea_form['fields'] = $this->get_form_fields( $block, $fea_form );
 
-                error_log( print_r( $fea_form, true ) );
 
                 return $fea_form;
                 /* $form = $block->prepare_form();
@@ -257,25 +269,98 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
             return false;
         }
 
+        public function get_fields_from_select( $fields_select, $fields_exclude, $form ){
+            $fields = [];
+            if( empty( $fields_select ) ) return $fields;
+            
+            foreach( $fields_select as $field_key ){
+                if( strpos( $field_key, 'group_' ) === 0 ){
+                    // if the field key is a group, get the fields from the group
+                    $field_group = acf_get_field_group( $field_key );
+                    if( ! $field_group ) continue;
+                    $group_fields = acf_get_fields( $field_group );
+                    if( ! $group_fields ) continue;
+                    foreach( $group_fields as $group_field ){
+                        //if the field is in fields exclude, skip it
+                        if( in_array( $group_field['key'], $fields_exclude ) || in_array( $group_field['name'], $fields_exclude ) ){
+                            continue;
+                        }
+                        $fields[$group_field['key']] = $group_field;
+                        $fields[$group_field['key']]['builder'] = 'gutenberg';
+                    }
+                }else{
+                    // if the field key is a field, get the field
+                    $field = acf_get_field( $field_key );
+                    if( ! $field ) continue;
+                    $field['builder'] = 'gutenberg';
+                    $fields[$field['key']] = $field;
+                }
+            }
+
+            return $fields;
+        }
+
         public function get_form_fields( $block, $form ){
             $fields = [];
             if( ! empty( $block['innerBlocks'] ) ){
                 foreach( $block['innerBlocks'] as $inner_block ){
                     if( empty( $inner_block['attrs']['field_key'] ) ){
+                        // if the inner block does not have a field_key, it is not a field block. But if it is a frontend-admin/fields-select-field, then get the fields from the selected field groups or the keys
+                        if( 'frontend-admin/fields-select-field' == $inner_block['blockName'] ){
+                            if( ! empty( $inner_block['attrs']['fields_select'] ) ){
+                                $select_attrs = $inner_block['attrs'];
+                                if( ! isset( $select_attrs['fields_exclude'] ) ){
+                                    $select_attrs['fields_exclude'] = [];
+                                }
+                                $fields = array_merge( $fields, $this->get_fields_from_select( $select_attrs['fields_select'], $select_attrs['fields_exclude'], $form ) );
+                            }
+                            continue;
+                        }
                         if( empty( $inner_block['innerBlock'] ) ){
                             continue;
                         }
                         $fields = array_merge( $fields, $this->get_form_fields( $inner_block, $form ) );
                     }
+
+                    $field_type = str_replace(
+                        array( 'frontend-admin/', '-field' ),
+                        array( '', '' ),
+                        $inner_block['blockName']
+                    );
+
+                    //get field type attributes from the block json located at assets/build/blocks/{$field_type}/block.json
+                    $field_json_path = FEA_DIR . 'assets/build/blocks/' . $field_type . '/block.json';
+                    if( ! file_exists( $field_json_path ) ){
+                        error_log( 'Field type block json not found: ' . $field_json_path );
+                        continue;
+                    }
+
+                    $field_json = json_decode( file_get_contents( $field_json_path ), true );
+                    if( ! $field_json || ! isset( $field_json['attributes'] ) ){
+                        error_log( 'Field type block json is invalid: ' . $field_json_path );
+                        continue;
+                    }
+
+                    $field_type_attributes = $field_json['attributes'] ?? [];
+
+                    foreach( $field_type_attributes as $attr_key => $attr_value ){
+                        if( ! isset( $inner_block['attrs'][$attr_key] ) ){
+                            $inner_block['attrs'][$attr_key] = $attr_value['default'] ?? '';
+                        }
+                    }
+                    // Get the field attributes and set the field type
+
+
                     $field = acf_get_valid_field($inner_block['attrs']);
+
+                    $field['type'] = str_replace( '-', '_', $field_type );
+
+
+
                     $field_key = $field['field_key'] ?? uniqid();
                     $field['key'] = $form['id'] . '_' .$field_key;
                     $field['builder'] = 'gutenberg';
-                    $field['type'] = str_replace(
-                        array( 'frontend-admin/', '-field', '-' ),
-                        array( '', '', '_' ),
-                        $inner_block['blockName']
-                    );
+                    
                     $field['name'] = $inner_block['attrs']['name'] ?? 'fea_' . $field['type'];
                     $fields[$field['key']] = $field;
                 }

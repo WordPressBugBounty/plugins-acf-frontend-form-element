@@ -4967,14 +4967,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function toggleFieldState(field, showField) {
 		// Check if the parent is visible
-		let parent = field.parent().closest('[data-conditions]');
+		if (!field) return;	
+
+		console.log(field)
+		
+		let parent = field.closest('[data-conditions]');
 		while (parent) {
 			const parentStyle = window.getComputedStyle(parent);
 			if (parentStyle.display === "none" || parentStyle.visibility === "hidden") {
 				showField = false;
 				break;
 			}
-			parent = field.parent().closest('[data-conditions]');
+			parent = field.closest('[data-conditions]');
 		}
 	
 		// Toggle field visibility
@@ -4994,6 +4998,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function checkAndApplyConditions() {
         document.querySelectorAll("[data-conditions]").forEach((field) => {
+			
             const shouldShow = evaluateConditions(field);
             toggleFieldState(field, shouldShow);
         });

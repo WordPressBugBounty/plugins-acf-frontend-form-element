@@ -695,7 +695,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			if ( empty( $form['submission'] ) ) {
 				$args['created_at'] = current_time( 'mysql' );
-				$args['form']       = 'admin_form' == get_post_type( $form['ID'] ) ? $form['ID'] : $form['ID']. ':' .$form['id'];
+				$args['form']       = 'admin_form' == get_post_type( $form['ID'] ) ? $form['ID'] : $form['id'];
 				$form['submission'] = $fea_instance->submissions_handler->insert_submission( $args );
 			} else {
 				$fea_instance->submissions_handler->update_submission( $form['submission'], $args );

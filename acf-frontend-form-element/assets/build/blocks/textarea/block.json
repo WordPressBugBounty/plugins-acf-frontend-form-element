@@ -12,6 +12,10 @@
     ]
   },
   "attributes": {
+    "field_key": {
+      "type": "string",
+      "default": ""
+    },
     "name": {
       "type": "string",
       "default": ""

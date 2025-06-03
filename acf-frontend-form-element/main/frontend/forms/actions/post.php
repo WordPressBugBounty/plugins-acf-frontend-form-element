@@ -1000,7 +1000,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			if ( 'add_post' == $post_id ) {
 				$post_to_edit['ID']        = 0;
 				$post_to_edit['post_type'] = $record['post_type'] ?? $form['new_post_type'] ?? 'post';
-				error_log( 'Saving new post with type: ' . $post_to_edit['post_type'] );
 		   }else{
 				if( 'duplicate_post' == $form['save_to_post'] ){
 					$post_to_duplicate           = get_post( $post_id );

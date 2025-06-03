@@ -17,6 +17,10 @@
     "frontend-admin/form/form_key"
   ],
   "attributes": {
+    "field_key": {
+      "type": "string",
+      "default": ""
+    },
     "label": {
       "type": "string",
       "default": "Post Title"
