@@ -52,7 +52,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			add_filter( 'acf/load_value/type=taxonomy', array( $this, 'load_value' ), 12, 3 );
 
 			//add default terms option to taxonomy field
-			add_filter( 'acf/render_field_settings/type=taxonomy', array( $this, 'add_default_terms' ) );
+			add_filter( 'acf/render_field_settings/type=taxonomy', array( $this, 'add_default_value' ) );
 
 		}
 
@@ -64,6 +64,10 @@ if ( ! class_exists( 'related_terms' ) ) :
 				$field['load_terms']      = 0;
 			}
 
+			if( !empty( $field['default_terms'] ) && empty( $field['default_value'] ) ){
+				//convert default_terms to default_value
+				$field['default_value'] = $field['default_terms'];
+			}
 			return $field;
 		}
 
@@ -340,10 +344,13 @@ if ( ! class_exists( 'related_terms' ) ) :
 		*/
 
 		function load_value( $value, $post_id, $field ) {
+
 			// get valid terms
 			$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 
 			if ( is_numeric( $post_id ) ) {
+				if( ! $field['load_terms'] ) return $value;
+
 				$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 				// get terms
 				$info     = acf_get_post_id_info( $post_id );
@@ -379,13 +386,13 @@ if ( ! class_exists( 'related_terms' ) ) :
 				// update value
 				$value = $term_ids;
 			} else {
-				if ( isset( $field['default_terms'] ) ) {
-					if ( is_array( $field['default_terms'] ) ) {
-						return $field['default_terms'];
+				if ( ! empty( $field['default_value'] ) ) {
+					if ( is_array( $field['default_value'] ) ) {
+						return $field['default_value'];
 					} else {
 						//remove spaces 
-						$field['default_terms'] = str_replace( ' ', '', $field['default_terms'] );
-						return explode( ',', $field['default_terms'] );
+						$field['default_value'] = str_replace( ' ', '', $field['default_value'] );
+						return explode( ',', $field['default_value'] );
 					}
 				}
 			}
@@ -713,13 +720,18 @@ if ( ! class_exists( 'related_terms' ) ) :
 		}
 
 
-		function add_default_terms( $field ){
+		function add_default_value( $field ){
+
+			if( !empty( $field['default_terms'] ) && empty( $field['default_value'] ) ){
+				//convert default_terms to default_value
+				$field['default_value'] = $field['default_terms'];
+			}
 			//default terms
 			acf_render_field_setting(
 				$field,
 				array(
 					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
-					'name'        => 'default_terms',
+					'name'        => 'default_value',
 					'type'        => 'text',
 					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
 				)
@@ -741,7 +753,6 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 		function render_field_settings( $field ) {
 
-			// default_terms
 			acf_render_field_setting(
 				$field,
 				array(
@@ -754,11 +765,15 @@ if ( ! class_exists( 'related_terms' ) ) :
 			);
 
 			//default terms
+			if( !empty( $field['default_terms'] ) && empty( $field['default_value'] ) ){
+				//convert default_terms to default_value
+				$field['default_value'] = $field['default_terms'];
+			}
 			acf_render_field_setting(
 				$field,
 				array(
 					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
-					'name'        => 'default_terms',
+					'name'        => 'default_value',
 					'type'        => 'text',
 					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
 				)

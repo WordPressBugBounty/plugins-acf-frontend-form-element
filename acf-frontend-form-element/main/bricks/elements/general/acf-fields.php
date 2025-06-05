@@ -383,7 +383,7 @@ class ACF_Fields extends \Bricks\Element {
 
 		if( ! empty( $settings['field_display_mode'] ) && 'read_only' == $settings['field_display_mode'] ){
 			$field['frontend_admin_display_mode'] = 'read_only';
-			$field['with_edit'] = $settings['field_inline_edit'];
+			$field['with_edit'] = $settings['field_inline_edit'] ?? false;
 			$field['no_values_message'] = $field['no_values_message'] ?? $settings['no_values_message'];
 		}
 

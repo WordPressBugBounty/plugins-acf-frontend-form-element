@@ -24,7 +24,7 @@ button.button.fea-delete-button:hover,button.button.fea-delete-button:focus{
 	display:block
 }
 
-.acf-fields{
+.acf-form-fields{
 	display:flex;flex-wrap:wrap
 }
 .acf-field-settings{
@@ -40,7 +40,7 @@ div.acf-field{
 	width:100%
 }
 
-.acf-fields.-left>.acf-field:before{
+.acf-form-fields.-left>.acf-field:before{
 	width:auto!important
 }
 
@@ -622,7 +622,7 @@ body.acf-keydown-shift .acf-list-items .acf-row:hover>.acf-row-handle .acf-icon.
 	width:100%;padding:15px 12px
 }
 
-.frontend-form .acf-fields > .acf-field{
+.frontend-form .acf-form-fields > .acf-field{
 	border-top: none;
 }
 .frontend-form .acf-field[data-width] {

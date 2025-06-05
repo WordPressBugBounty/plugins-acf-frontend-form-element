@@ -161,12 +161,18 @@ public $current_control_group = null;
 	$form_display = $fea_instance->form_display;
 	$current_post_id = $wp_query->get_queried_object_id();
 
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
+	wp_enqueue_script( 'fea-delete-object',  FEA_URL . 'assets/js/delete-object' . $min . '.js', array('acf-input','fea-public'), FEA_VERSION, true );	
 
 	$this->set_attribute( '_root', 'class', 'fea-delete-button' );
 
 	$this->tag = 'button';
 	$this->set_attribute( '_root', 'type', 'button' );
 	$this->set_attribute( '_root', 'data-key', $current_post_id . '_bricks_' . $this->id );
+
+	if ( ! empty( $this->settings['confirm_delete_message'] ) ) {
+		$this->set_attribute( '_root', 'data-confirm', esc_attr( $this->settings['confirm_delete_message'] ) );
+	}
 
 
 	if( ! $fea_form ){
@@ -175,7 +181,6 @@ public $current_control_group = null;
 		$form_data['id'] = $form_data['ID'] = $current_post_id . '_bricks_' . $this->id;
 		$fea_form =  $form_display->validate_form( $form_data );
 	}
-
 
 
     $this->render_button();

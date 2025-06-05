@@ -422,8 +422,8 @@ class Base_Field extends \Bricks\Element {
 
 		if( ! empty( $settings['field_display_mode'] ) && 'read_only' == $settings['field_display_mode'] ){
 			$field['frontend_admin_display_mode'] = 'read_only';
-			$field['no_values_message'] = $settings['no_values_message'];
-			$field['with_edit'] = 'true' == $settings['field_inline_edit'];
+			$field['no_values_message'] = $settings['no_values_message'] ?? '';
+			$field['with_edit'] = $settings['field_inline_edit'] ?? false;
 			$field['display'] = true;
 			$field['wrapper'] = [
 				'class' => 'fea-read-only-field',
