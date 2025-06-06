@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.10
+Stable tag: 3.28.11
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -180,9 +180,12 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.11 - 06-06-2025 =
+ * Fixed conflicts with Advanced Themer
+ * Fixed conditons not working in frontend facing forms
+
 = 3.28.10 - 05-06-2025 =
  * Fixed Taxonomy field nside of repeater not loading values
- * Fixed conflict with Advanced Themer
  * Fixed Delete button confirmation text not working
  * Fixed read only dislay mode in Bricks elements
 

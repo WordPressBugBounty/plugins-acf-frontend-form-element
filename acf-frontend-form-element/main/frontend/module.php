@@ -607,7 +607,16 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			if( is_array( $field ) ) return $field;
 
-			return false;
+			return array(
+				'key' => $key,
+				'type' => 'text',
+				'hide_label' => true,
+				'label' => __( 'Field not found', 'acf-frontend-form-element' ),
+				'name' => $key,
+				'wrapper' => array(
+					'class' => 'hidden fea-field-not-found',
+				),
+			);
 
 		}
 

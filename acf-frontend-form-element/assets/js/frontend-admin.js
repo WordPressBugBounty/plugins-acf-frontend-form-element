@@ -4311,7 +4311,6 @@ acf.add_filter(
 				const url_query = field.$el.data( 'url_query' ) || 'post_id';
 
 				url.searchParams.set( url_query, $el.val() );
-				console.log(url.href);
 
 				let ajaxData = {
 					action:		'frontend_admin/forms/change_form',
@@ -4322,7 +4321,6 @@ acf.add_filter(
 					field_key: this.get( 'key' ),
 				};
 
-				console.log(this.get('key'));
 				
 
 				// get HTML
@@ -4812,7 +4810,6 @@ acf.add_filter(
 							if (response.success) {
 								plan.remove();
 							} else {
-								console.log( response );
 								plan.find('.fea-loader').remove();
 								$el.removeClass( 'disabled' )
 							}
@@ -4890,6 +4887,11 @@ document.addEventListener('click', function (e) {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+	//if there is no ".frontend-form" return
+	if (!document.querySelector(".frontend-form") ) return;
+
+	if(  document.querySelector("[data-id=fea_admin_dashboard]") ) return;
+
     function getFieldValue(field) {
         if (!field) return null;
 
@@ -4901,8 +4903,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return field.value || null;
     }
 
-	function evaluateConditions(field) {
-		console.log(field.getAttribute('data-name'));
+	function evaluateConditions(field,form) {
 		const conditionsData = field.getAttribute("data-conditions");
 		if (!conditionsData) return true;
 	
@@ -4927,7 +4928,7 @@ document.addEventListener("DOMContentLoaded", function () {
 																  [data-key="${condition.field}"] textarea`);
 				} else {
 					// Otherwise, check globally (e.g., post title or fields outside repeaters)
-					dependentFields = document.querySelectorAll(`[data-key="${condition.field}"] input, 
+					dependentFields = form.querySelectorAll(`[data-key="${condition.field}"] input, 
 																 [data-key="${condition.field}"] select, 
 																 [data-key="${condition.field}"] textarea`);
 				}
@@ -4937,9 +4938,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				let valueMatches = false;
 				dependentFields.forEach((dependentField) => {
 					const value = getFieldValue(dependentField);
-					console.log('condition.value', condition.value);
-					console.log(value);
-	
+					
 					switch (condition.operator) {
 						case "!=empty":
 							if (value) valueMatches = true;
@@ -4969,9 +4968,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Check if the parent is visible
 		if (!field) return;	
 
-		console.log(field)
+		let fieldQuery = $(field);
 		
-		let parent = field.closest('[data-conditions]');
+		let parent = fieldQuery.parent().closest('[data-conditions]');
 		while (parent) {
 			const parentStyle = window.getComputedStyle(parent);
 			if (parentStyle.display === "none" || parentStyle.visibility === "hidden") {
@@ -4996,21 +4995,27 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 
-    function checkAndApplyConditions() {
-        document.querySelectorAll("[data-conditions]").forEach((field) => {
-			
-            const shouldShow = evaluateConditions(field);
+    function checkAndApplyConditions(form) {
+    	form.querySelectorAll("[data-conditions]").forEach((field) => {
+            const shouldShow = evaluateConditions(field,form);
+
             toggleFieldState(field, shouldShow);
         });
     }
 
     document.addEventListener("change", function (event) {
         if (event.target.matches("input, select, textarea")) {
-            checkAndApplyConditions();
+			//get the closest form
+			const form = event.target.closest(".frontend-form");
+			if (!form) return;
+            checkAndApplyConditions(form);
         }
     });
 
-    checkAndApplyConditions();
+	let forms = document.querySelectorAll(".frontend-form");
+	forms.forEach(function(form) {
+    	checkAndApplyConditions(form);
+	});
 });
 
    
