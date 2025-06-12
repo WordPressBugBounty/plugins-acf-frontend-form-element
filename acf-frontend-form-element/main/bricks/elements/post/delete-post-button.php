@@ -157,13 +157,15 @@ public $current_control_group = null;
 
 
   public function render(){
-	global $fea_form, $fea_instance, $wp_query;
+	global $fea_form, $fea_instance, $wp_query, $fea_scripts;
 	$form_display = $fea_instance->form_display;
 	$current_post_id = $wp_query->get_queried_object_id();
 
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
-	wp_enqueue_script( 'fea-delete-object',  FEA_URL . 'assets/js/delete-object' . $min . '.js', array('acf-input','fea-public'), FEA_VERSION, true );	
-
+	if( ! $fea_scripts ){
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
+		wp_enqueue_script( 'fea-delete-object',  FEA_URL . 'assets/js/delete-object' . $min . '.js', array('acf-input','fea-public'), FEA_VERSION, true );	
+		$fea_scripts = true;
+	}
 	$this->set_attribute( '_root', 'class', 'fea-delete-button' );
 
 	$this->tag = 'button';

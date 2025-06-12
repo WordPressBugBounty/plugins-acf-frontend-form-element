@@ -4968,16 +4968,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Check if the parent is visible
 		if (!field) return;	
 
-		let fieldQuery = $(field);
 		
-		let parent = fieldQuery.parent().closest('[data-conditions]');
+		let parent = field.parentElement?.closest('[data-conditions]');
 		while (parent) {
 			const parentStyle = window.getComputedStyle(parent);
 			if (parentStyle.display === "none" || parentStyle.visibility === "hidden") {
 				showField = false;
 				break;
 			}
-			parent = field.closest('[data-conditions]');
+			// Move to the next parent with [data-conditions]
+			parent = parent.parentElement?.closest('[data-conditions]');
 		}
 	
 		// Toggle field visibility
@@ -5003,14 +5003,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    document.addEventListener("change", function (event) {
+	function triggerChecks(event) {
         if (event.target.matches("input, select, textarea")) {
 			//get the closest form
 			const form = event.target.closest(".frontend-form");
 			if (!form) return;
             checkAndApplyConditions(form);
         }
-    });
+    }
+    document.addEventListener("change", triggerChecks);
+    document.addEventListener("input", triggerChecks);
 
 	let forms = document.querySelectorAll(".frontend-form");
 	forms.forEach(function(form) {
