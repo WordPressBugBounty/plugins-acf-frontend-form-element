@@ -4895,10 +4895,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function getFieldValue(field) {
         if (!field) return null;
 
-        if (field.type === "radio" || field.type === "checkbox") {
+        if (field.type === "radio") {
             const checked = document.querySelector(`[name="${field.name}"]:checked`);
             return checked ? checked.value : null;
         }
+
+		if (field.type === "checkbox") {
+			let values = [];
+			const checkboxes = document.querySelectorAll(`[name="${field.name}"]:checked`);
+			checkboxes.forEach((checkbox) => {
+				values.push(checkbox.value);
+			});
+			return values.length > 0 ? values : null;
+		}
         
         return field.value || null;
     }
@@ -4947,10 +4956,27 @@ document.addEventListener("DOMContentLoaded", function () {
 							if (!value) valueMatches = true;
 							break;
 						case "==":
-							if (value == condition.value) valueMatches = true;
+							//handle the case where condition.value is an array
+							if (Array.isArray(value)) {
+								if (value.includes(condition.value)) valueMatches = true;
+							}else if (condition.value === value) {
+								valueMatches = true;
+							}
 							break;
 						case "!=":
-							if (value != condition.value) valueMatches = true;
+							if (Array.isArray(value)) {
+								if (value.includes(condition.value)){
+									valueMatches = false;
+								} else {
+									valueMatches = true;
+								}
+							}else{
+								if (condition.value === value) {
+									valueMatches = false;
+								}else {
+									valueMatches = true;
+								}
+							}
 							break;
 					}
 				});
@@ -4982,9 +5008,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 		// Toggle field visibility
 		field.style.display = showField ? "block" : "none";
-	
+
+		//remove or show acf-hidden class
+		if (showField) {
+			field.classList.remove("acf-hidden");
+		} else {
+			field.classList.add("acf-hidden");
+		}
+
 		const inputs = field.querySelectorAll("input, select, textarea");
-	
+
 		inputs.forEach((input) => {
 			if (showField) {
 				input.removeAttribute("disabled");
