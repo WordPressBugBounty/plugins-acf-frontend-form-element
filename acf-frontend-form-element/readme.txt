@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.13
+Stable tag: 3.28.14
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -180,8 +180,10 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
-= 3.28.13 - 30-06-2025 =
+= 3.28.14 - 01-07-2025 =
  * Fixed conditional logic in checkboxes and radio buttons
+
+= 3.28.13 - 30-06-2025 =
  * Fixed Admin Columns conflict
 
 = 3.28.12 - 12-06-2025 =

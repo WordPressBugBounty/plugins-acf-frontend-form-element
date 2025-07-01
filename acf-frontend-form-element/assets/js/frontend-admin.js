@@ -4895,6 +4895,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function getFieldValue(field) {
         if (!field) return null;
 
+		//if the field is disabled and has .acf-hidden class, return null
+		if (field.disabled) {
+			return null;
+		}
+		
+
+
         if (field.type === "radio") {
             const checked = document.querySelector(`[name="${field.name}"]:checked`);
             return checked ? checked.value : null;
