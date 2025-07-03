@@ -246,9 +246,8 @@ class FrontendForm extends \Bricks\Element {
 	}
 
 	public function get_form_element( $form, $key ){
-
 		if ( strpos( $key, '_bricks_' ) === false ) {
-			return false;
+			return $form;
 		}
 		$key = explode( ':', $key )[0];
 
@@ -256,7 +255,7 @@ class FrontendForm extends \Bricks\Element {
 		$ids = explode( '_bricks_', $key );
 
 		// If there is no element id, there is no reason to continue 
-		if( empty( $ids[1] ) ) return false; 
+		if( empty( $ids[1] ) ) return $form; 
 
 		$element = \Bricks\Helpers::get_element_data( $ids[0], $ids[1] );
 
