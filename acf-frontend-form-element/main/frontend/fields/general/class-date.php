@@ -105,6 +105,8 @@ if ( ! class_exists( 'date' ) ) :
 					'type'                  => 'date',
 					'name'                  => 'default_value',
 					'dynamic_value_choices' => 1,
+					'prepend'               => '',
+					'append'                => '',	
 				)
 			);
 

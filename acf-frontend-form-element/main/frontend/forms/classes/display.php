@@ -296,7 +296,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			);
 
 	
-						$form = $this->get_form_data( $form );
+			$form = $this->get_form_data( $form );
 
 			// filter
 			$form = apply_filters( 'frontend_admin/forms/validate_form', $form );
@@ -683,6 +683,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function get_field_data_type( $field, $form ) {
+			if( ! $field ) return $field;
 			$data_type = fea_instance()->frontend->find_field_type_group( $field['type'] );
 
 			if ( ! $data_type || in_array( $data_type, array( 'general', 'mailchimp', 'pro-form', 'advanced' ) ) ) {
@@ -1308,9 +1309,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					return;
 				}
 			}
-			
-			$form = $this->validate_form( $form );
-			
+
+			$form = $this->validate_form( $form );			
+
+			if( ! $form ){
+				return;
+			}
 
 			if ( empty( $form['submission'] ) ) {
 				$form = apply_filters( 'frontend_admin/show_form', $form, 'form' );

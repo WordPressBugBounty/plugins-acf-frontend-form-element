@@ -357,6 +357,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			$field['ajax']       = 1;
 			$field['nonce']   = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
 
+
 			if ( $field['add_new'] ) {
 				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New Post', 'acf-frontend-form-element' );
 				$field['choices'] = array( 'add_post' => $add_new_text );

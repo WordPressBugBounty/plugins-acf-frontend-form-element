@@ -1546,6 +1546,7 @@
 			}
 
 			this.$input.trigger( 'change' );
+			
 		},
 
 		_onFocus: function () {

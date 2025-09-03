@@ -507,14 +507,14 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						$form['post_id'] = 'none';
 					}else{
 						
-						$post = get_post( $form['post_id'] );
+						$form_post = get_post( $form['post_id'] );
 
-						if( ! $post ){
+						if( ! $form_post ){
 							$form['post_id'] = 'none';
 							return $form;
 						}
 
-						$post_type = $post->post_type;
+						$post_type = $form_post->post_type;
 
 						
 						if( is_array( $form['post_type'] ) && ! in_array( 'any', $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){

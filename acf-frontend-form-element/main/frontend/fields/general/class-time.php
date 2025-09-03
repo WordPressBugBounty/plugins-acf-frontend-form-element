@@ -105,6 +105,8 @@ if ( ! class_exists( 'time' ) ) :
 					'type'                  => 'time',
 					'name'                  => 'default_value',
 					'dynamic_value_choices' => 1,
+					'prepend'               => '',
+					'append'                => '',
 				)
 			);
 

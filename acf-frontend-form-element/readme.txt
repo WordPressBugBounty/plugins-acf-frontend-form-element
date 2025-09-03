@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.15
+Stable tag: 3.28.16
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -180,6 +180,11 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.16 - 03-09-2025 =
+ * Fixed conditional logic issues
+ * Fixed Elementor editor issue with form shortcodes
+ * fixed PHP 8.2 errors
+
 = 3.28.15 - 03-07-2025 =
  * Fixed delete option not working in Bricks Builder when added as a shortcode 
 

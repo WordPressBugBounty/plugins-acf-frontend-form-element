@@ -4,6 +4,9 @@ namespace Frontend_Admin\Field_Types;
 if ( ! class_exists( 'post_author' ) ) :
 
 	class post_author extends Field_Base {
+
+		public $field_types = 'user';
+
 		/*
 		*  initialize
 		*

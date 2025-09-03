@@ -439,6 +439,9 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 		}
 
 		public function find_field_type_group( $type ) {
+			if ( empty( $type ) ) {
+				return 'general';
+			}
 			$type = str_replace( '_', '-', $type );
 			global $fea_field_types;
 			if ( ! empty( $fea_field_types ) ) {

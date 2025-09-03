@@ -3189,7 +3189,7 @@
 	);
 	acf.registerFieldType( Field );
 
-	var imageFields = ['post_content','product_description','text_editor','featured_image','main_image','site_logo', 'site_favicon', 'upload_image'];
+	var imageFields = ['post_content','product_description','text_editor','featured_image','main_image','site_logo', 'site_favicon', 'upload_image', 'time', 'date', 'datetime-input'];
 
 	$.each(
 		imageFields,
@@ -4960,7 +4960,12 @@ document.addEventListener("DOMContentLoaded", function () {
 							if (value) valueMatches = true;
 							break;
 						case "==empty":
-							if (!value) valueMatches = true;
+							
+							if (!value){
+								 valueMatches = true;
+							}else{
+								valueMatches = false;
+							}
 							break;
 						case "==":
 							//handle the case where condition.value is an array
@@ -5037,6 +5042,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function checkAndApplyConditions(form) {
     	form.querySelectorAll("[data-conditions]").forEach((field) => {
+			console.log('Checking conditions for field:', field);
             const shouldShow = evaluateConditions(field,form);
 
             toggleFieldState(field, shouldShow);
@@ -5047,6 +5053,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target.matches("input, select, textarea")) {
 			//get the closest form
 			const form = event.target.closest(".frontend-form");
+
+
 			if (!form) return;
             checkAndApplyConditions(form);
         }
