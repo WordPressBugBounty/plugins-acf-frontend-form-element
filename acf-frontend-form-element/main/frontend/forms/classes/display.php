@@ -1541,7 +1541,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					'type'            => 'text',
 					'value'           => '',
 					'no_save'         => 1,
-					'wrapper'         => array( 'style' => 'display:none !important' ),
+					'wrapper'         => array( 'class' => 'acf-hidden', 'style' => 'display:none !important' ),
 				);
 				acf_add_local_field( $kses_field );
 				$fields[] = $kses_field;
@@ -1557,7 +1557,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 							'key'             => $field_key,
 							'type'            => 'product_types',
 							'no_data_collect' => 1,
-							'wrapper'         => array( 'style' => 'display:none !important' ),
+							'wrapper'         => array( 'class' => 'acf-hidden', 'style' => 'display:none !important' ),
 						)
 					);
 					$GLOBALS['form_fields']['product_types'] = $field_key;
@@ -1578,7 +1578,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 						'type'            => 'manage_stock',
 						'no_data_collect' => 1,
 						'ui'              => 0,
-						'wrapper'         => array( 'style' => 'display:none !important' ),
+						'wrapper'         => array( 'class' => 'frontend-admin-hidden', 'style' => 'display:none !important' ),
 					);
 					acf_add_local_field(
 						$_field

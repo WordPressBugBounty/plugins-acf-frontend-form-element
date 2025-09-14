@@ -645,7 +645,7 @@ function feadmin_form_choices( $choices = array() ) {
 *  @param   $data (array)
 *  @return  (string)
 */
-function fea_encrypt( $data = array() ) {
+function fea_encrypt( $data ) {
 	if ( empty( $data ) ) {
 		return false;
 	}

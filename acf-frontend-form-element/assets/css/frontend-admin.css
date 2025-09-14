@@ -234,7 +234,7 @@ div.comment-data-image{
 	margin-top:10px
 }
 
-.edit_password .cancel-edit,.edit_password .pass-strength-result,.edit_password input.fea-password,.edit_password.password_confirm{
+.edit_password .cancel-edit,.edit_password .pass-strength-result,.edit_password .acf-input-wrap input,.edit_password.password_confirm{
 	display:none
 }
 

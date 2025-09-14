@@ -276,7 +276,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				$field['_input'] = $input;
 
 				if ( 'user_password' == $field['type'] ) {
-					$field['value'] = $field['_input'] = wp_hash_password( $field['_input'] );
+					$field['value'] = $field['_input'] = fea_encrypt( $field['_input'] );
 				} 
 
 			

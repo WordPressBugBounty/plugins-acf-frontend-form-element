@@ -253,7 +253,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 		*  @return  (string)
 		*/
 
-		function get_term_title( $term, $taxonomy, $post_id = 0, $field = false ) {
+		function get_term_title( $term, $taxonomy, $post_id = 0, $field = false, $unescape = false ) {
 
 			// get post_id
 			if ( ! $post_id ) {
@@ -274,6 +274,11 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			// title
 			$title .= $term->name;
+
+			// unescape for select2 output which handles the escaping.
+			if ( ! $unescape ) {
+				$title = html_entity_decode( $title );
+			}
 
 			if ( $field ) {
 				// return

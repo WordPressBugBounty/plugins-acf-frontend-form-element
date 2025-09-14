@@ -483,6 +483,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 							}
 							break;
 						case 'user_password':
+							$field['value'] = fea_decrypt( $field['value'] );
 							if ( ( is_numeric( $user_id ) && empty( $_POST['edit_user_password'] ) ) || empty( $field['value'] ) ) {
 								continue 2;
 							}

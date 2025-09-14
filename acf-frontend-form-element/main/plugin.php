@@ -102,7 +102,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.28.16' );
+			define( 'FEA_VERSION', '3.28.18' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page

@@ -542,7 +542,7 @@ if ( ! class_exists( 'related_items' ) ) :
 		*  @return  (string)
 		*/
 
-		function get_post_title( $post, $field, $post_id = 0, $is_search = 0 ) {
+		function get_post_title( $post, $field, $post_id = 0, $is_search = 0, $unescape = false ) {
 
 			// get post_id
 			if ( ! $post_id ) {
@@ -551,6 +551,11 @@ if ( ! class_exists( 'related_items' ) ) :
 
 			// vars
 			$title = acf_get_post_title( $post, $is_search );
+
+			// unescape for select2 output which handles the escaping.
+			if ( ! $unescape ) {
+				$title = html_entity_decode( $title );
+			}
 
 			// featured_image
 			if ( acf_in_array( 'featured_image', $field['elements'] ) ) {
