@@ -97,7 +97,7 @@ class Text_Editor_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Text Editor Field', 'acf-frontend-form-element' );
+		return __( 'Text Editor Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -141,7 +141,7 @@ class Text_Editor_Field extends Base_Field {
 		$this->add_control(
 			'field_placeholder',
 			[
-				'label' => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label' => __( 'Placeholder', 'frontend-admin' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => '',
 			]
@@ -151,7 +151,7 @@ class Text_Editor_Field extends Base_Field {
 		$this->add_control(
 			'field_default_value',
 			[
-				'label' => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label' => __( 'Default Value', 'frontend-admin' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => '',
 			]

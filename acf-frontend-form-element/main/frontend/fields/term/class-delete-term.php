@@ -23,12 +23,12 @@ if ( ! class_exists( 'delete_term' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'delete_term';
-			$this->label    = __( 'Delete Term', 'acf-frontend-form-element' );
-			$this->category = __( 'Term', 'acf-frontend-form-element' );
+			$this->label    = __( 'Delete Term', 'frontend-admin' );
+			$this->category = __( 'Term', 'frontend-admin' );
 			$this->object   = 'term';
 			$this->defaults = array(
-				'button_text'       => __( 'Delete', 'acf-frontend-form-element' ),
-				'confirmation_text' => __( 'Are you sure you want to delete this term?', 'acf-frontend-form-element' ),
+				'button_text'       => __( 'Delete', 'frontend-admin' ),
+				'confirmation_text' => __( 'Are you sure you want to delete this term?', 'frontend-admin' ),
 				'field_label_hide'  => 1,
 				'redirect'          => 'current',
 				'show_delete_message' => 1,

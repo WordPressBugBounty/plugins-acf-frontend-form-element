@@ -19,7 +19,7 @@
     },
     "label": {
       "type": "string",
-      "default": "Featured Image"
+      "default": "Featured Image Field"
     },
     "hide_label": {
       "type": "boolean",
@@ -29,33 +29,73 @@
       "type": "boolean",
       "default": ""
     },
-    "instructions": {
-      "type": "string",
-      "default": ""
-    },
     "default_value": {
-      "type": "string",
-      "default": ""
-    },
-    "placeholder": {
-      "type": "string",
-      "default": ""
-    },
-    "prepend": {
-      "type": "string",
-      "default": ""
-    },
-    "append": {
-      "type": "string",
-      "default": ""
-    },
-    "maxlength": {
       "type": "number",
       "default": ""
     },
-    "post_slug": {
-      "type": "boolean",
+    "url": {
+      "type": "string",
       "default": ""
+    },
+    "return_format": {
+      "type": "string",
+      "default": "array"
+    },
+    "preview_size": {
+      "type": "string",
+      "default": "thumbnail"
+    },
+    "library": {
+      "type": "string",
+      "default": "all"
+    },
+    "min_width": {
+      "type": "number",
+      "default": 0
+    },
+    "min_height": {
+      "type": "number",
+      "default": 0
+    },
+    "min_size": {
+      "type": "number",
+      "default": 0
+    },
+    "max_width": {
+      "type": "number",
+      "default": 0
+    },
+    "max_height": {
+      "type": "number",
+      "default": 0
+    },
+    "max_size": {
+      "type": "number",
+      "default": 0
+    },
+    "resize_file": {
+      "type": "number",
+      "default": 0
+    },
+    "mime_types": {
+      "type": "string",
+      "default": ""
+    },
+    "show_preview": {
+      "type": "number",
+      "default": 1
+    },
+    "show_preview_in": {
+      "type": "boolean",
+      "default": false
+    },
+    "button_text": {
+      "type": "string",
+      "default": "Add Image"
+    },
+    "no_file_text": {
+      "type": "string",
+      "default": "No Image selected"
     }
   },
   "editorScript": "file:../../featured-image/index.js"

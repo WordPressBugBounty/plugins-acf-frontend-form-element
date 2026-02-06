@@ -66,7 +66,7 @@ class Post_Content_Field extends Text_Editor_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Post Content Field', 'acf-frontend-form-element' );
+		return __( 'Post Content Field', 'frontend-admin' );
 	}
 
 	 /**

@@ -23,8 +23,8 @@ if ( ! class_exists( 'featured_image' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'featured_image';
-			$this->label      = __( 'Featured Image', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Featured Image', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			  $this->defaults = array(
 				  'return_format' => 'array',
 				  'preview_size'  => 'medium',
@@ -37,7 +37,7 @@ if ( ! class_exists( 'featured_image' ) ) :
 				  'max_size'      => 0,
 				  'show_preview'  => 1,
 				  'mime_types'    => '',
-				  'no_file_text'  => __( 'No Image selected', 'acf-frontend-form-element' ),
+				  'no_file_text'  => __( 'No Image selected', 'frontend-admin' ),
 			  );
 
 			  add_filter( 'acf/load_field/type=image', array( $this, 'load_featured_image_field' ) );

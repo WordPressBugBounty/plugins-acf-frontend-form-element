@@ -22,7 +22,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 		}
 
 		public function get_label() {
-			return __( 'Post', 'acf-frontend-form-element' );
+			return __( 'Post', 'frontend-admin' );
 		}
 
 		public function get_fields_display( $form_field, $local_field, $element = '' ) {
@@ -148,13 +148,13 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					 'key'               => 'save_to_post',
 					 'field_label_hide'  => 1,
 					 'type'              => 'select',
-					 'instructions'      => __( 'If there is a Post to Edit field in the form, these settings will be overwritten.', 'acf-frontend-form-element' ),
+					 'instructions'      => __( 'If there is a Post to Edit field in the form, these settings will be overwritten.', 'frontend-admin' ),
 					 'required'			 => 0,           
 					 'conditional_logic' => 0,
 					 'choices'           => array(
-						 'edit_post'      => __( 'Edit Post', 'acf-frontend-form-element' ),
-						 'new_post'       => __( 'New Post', 'acf-frontend-form-element' ),
-						 'duplicate_post' => __( 'Duplicate Post', 'acf-frontend-form-element' ),
+						 'edit_post'      => __( 'Edit Post', 'frontend-admin' ),
+						 'new_post'       => __( 'New Post', 'frontend-admin' ),
+						 'duplicate_post' => __( 'Duplicate Post', 'frontend-admin' ),
 					 ),
 					 'allow_null'        => 0,
 					 'multiple'          => 0,
@@ -165,7 +165,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'new_post_type',
-					 'label'             => __( 'Post Type', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Post Type', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -189,7 +189,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'post_to_edit',
-					 'label'             => __( 'Post', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Post', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -203,11 +203,11 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						 ),
 					 ),
 					 'choices'           => array(
-						 'current_post' => __( 'Current Post', 'acf-frontend-form-element' ),
-						 'url_query'    => __( 'URL Query', 'acf-frontend-form-element' ),
-						 'select_post'  => __( 'Specific Post', 'acf-frontend-form-element' ),
-						 'user_first_post' => __( 'User\'s First Post', 'acf-frontend-form-element' ),
-						 'user_last_post' => __( 'User\'s Most Recent Post', 'acf-frontend-form-element' ),
+						 'current_post' => __( 'Current Post', 'frontend-admin' ),
+						 'url_query'    => __( 'URL Query', 'frontend-admin' ),
+						 'select_post'  => __( 'Specific Post', 'frontend-admin' ),
+						 'user_first_post' => __( 'User\'s First Post', 'frontend-admin' ),
+						 'user_last_post' => __( 'User\'s Most Recent Post', 'frontend-admin' ),
 					 ),
 					 'default_value'     => false,
 					 'allow_null'        => 0,
@@ -219,7 +219,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'url_query_post',
-					 'label'             => __( 'URL Query Key', 'acf-frontend-form-element' ),
+					 'label'             => __( 'URL Query Key', 'frontend-admin' ),
 					 'type'              => 'text',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -241,7 +241,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					'key'               => 'post_type',
-					'label'             => __( 'Post Type', 'acf-frontend-form-element' ),
+					'label'             => __( 'Post Type', 'frontend-admin' ),
 					'type'              => 'select',
 					'instructions'      => '',
 					'required'          => 0,
@@ -263,11 +263,11 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					'ui'                => 1,
 					'return_format'     => 'value',
 					'ajax'              => 0,
-					'placeholder'       => __('Any', 'acf-frontend-form-element' ),
+					'placeholder'       => __('Any', 'frontend-admin' ),
 				),
 				 array(
 					 'key'               => 'select_post',
-					 'label'             => __( 'Post', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Post', 'frontend-admin' ),
 					 'name'              => 'select_post',
 					 'prefix'            => 'form',
 					 'type'              => 'post_object',
@@ -297,15 +297,15 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 				 array( 
 					'key'               => 'hide_if_no_post',
-					'label'             => __( 'Hide if no post', 'acf-frontend-form-element' ),
+					'label'             => __( 'Hide if no post', 'frontend-admin' ),
 					'type'              => 'true_false',
-					'instructions'      => __( 'Hide this form if there is no post to edit', 'acf-frontend-form-element' ),
+					'instructions'      => __( 'Hide this form if there is no post to edit', 'frontend-admin' ),
 					'required'          => 0,
 				 ),
 
 				 array(
 					 'key'               => 'new_post_terms',
-					 'label'             => __( 'New Post Terms', 'acf-frontend-form-element' ),
+					 'label'             => __( 'New Post Terms', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -319,8 +319,8 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						 ),
 					 ),
 					 'choices'           => array(
-						 'current_term' => __( 'Current Term', 'acf-frontend-form-element' ),
-						 'select_terms' => __( 'Specific Term', 'acf-frontend-form-element' ),
+						 'current_term' => __( 'Current Term', 'frontend-admin' ),
+						 'select_terms' => __( 'Specific Term', 'frontend-admin' ),
 					 ),
 					 'default_value'     => false,
 					 'allow_null'        => 0,
@@ -332,9 +332,9 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'new_terms_select',
-					 'label'             => __( 'Terms', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Terms', 'frontend-admin' ),
 					 'type'              => 'text',
-					 'instructions'      => __( 'Comma-seperated list of term ids', 'acf-frontend-form-element' ),
+					 'instructions'      => __( 'Comma-seperated list of term ids', 'frontend-admin' ),
 					 'required'          => 0,
 					 'conditional_logic' => array(
 						 array(
@@ -354,16 +354,16 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'new_post_status',
-					 'label'             => __( 'Post Status', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Post Status', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
 					 'choices'           => array(
-						'no_change' => __( 'No Change', 'acf-frontend-form-element' ),
-						 'draft'   => __( 'Draft', 'acf-frontend-form-element' ),
-						 'private' => __( 'Private', 'acf-frontend-form-element' ),
-						 'pending' => __( 'Pending Review', 'acf-frontend-form-element' ),
-						 'publish' => __( 'Published', 'acf-frontend-form-element' ),
+						'no_change' => __( 'No Change', 'frontend-admin' ),
+						 'draft'   => __( 'Draft', 'frontend-admin' ),
+						 'private' => __( 'Private', 'frontend-admin' ),
+						 'pending' => __( 'Pending Review', 'frontend-admin' ),
+						 'publish' => __( 'Published', 'frontend-admin' ),
 					 ),
 					 'default_value'     => 'no_change',
 					 'conditional_logic' => array(
@@ -384,7 +384,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				 ),
 				 array(
 					 'key'               => 'copy_title_text',
-					 'label'             => __( 'Copy Title Text', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Copy Title Text', 'frontend-admin' ),
 					 'type'              => 'text',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -397,12 +397,12 @@ if ( ! class_exists( 'ActionPost' ) ) :
 							 ),
 						 ),
 					 ),
-					 'default_value'     => __( 'Copy of', 'acf-frontend-form-element' ),
+					 'default_value'     => __( 'Copy of', 'frontend-admin' ),
 					 'placeholder'       => '',
 				 ),
 				 array(
 					 'key'               => 'copy_date',
-					 'label'             => __( 'Copy Date', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Copy Date', 'frontend-admin' ),
 					 'type'              => 'true_false',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -564,7 +564,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control_group(
 				'post_edit_section',
 				array(
-					'title' => __( 'Post', 'acf-frontend-form-element' ),
+					'title' => __( 'Post', 'frontend-admin' ),
 					'tab'   => 'content',
 				)
 			);
@@ -574,14 +574,14 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'save_to_post',
 				[
-					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Post', 'frontend-admin' ),
 					'type' => 'select',
 					'default' => $type,
 					'options' => [
-						'edit_post'      => esc_html__( 'Edit Post', 'acf-frontend-form-element' ),
-						'new_post'       => esc_html__( 'New Post', 'acf-frontend-form-element' ),
-						'duplicate_post' => esc_html__( 'Duplicate Post', 'acf-frontend-form-element' ),
-						'delete_post'    => esc_html__( 'Delete Post', 'acf-frontend-form-element' ),
+						'edit_post'      => esc_html__( 'Edit Post', 'frontend-admin' ),
+						'new_post'       => esc_html__( 'New Post', 'frontend-admin' ),
+						'duplicate_post' => esc_html__( 'Duplicate Post', 'frontend-admin' ),
+						'delete_post'    => esc_html__( 'Delete Post', 'frontend-admin' ),
 					],
 				]
 			);
@@ -591,15 +591,15 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_to_edit',
 				[
-					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Post', 'frontend-admin' ),
 					'type' => 'select',
 					'default' => 'current_post',
 					'options' => [
-						'current_post'    => esc_html__( 'Current Post', 'acf-frontend-form-element' ),
-						'url_query'       => esc_html__( 'URL Query', 'acf-frontend-form-element' ),
-						'select_post'     => esc_html__( 'Specific Post', 'acf-frontend-form-element' ),
-						'user_first_post' => esc_html__( 'User\'s First Post', 'acf-frontend-form-element' ),
-						'user_last_post'  => esc_html__( 'User\'s Most Recent Post', 'acf-frontend-form-element' ),
+						'current_post'    => esc_html__( 'Current Post', 'frontend-admin' ),
+						'url_query'       => esc_html__( 'URL Query', 'frontend-admin' ),
+						'select_post'     => esc_html__( 'Specific Post', 'frontend-admin' ),
+						'user_first_post' => esc_html__( 'User\'s First Post', 'frontend-admin' ),
+						'user_last_post'  => esc_html__( 'User\'s Most Recent Post', 'frontend-admin' ),
 					],
 					'required' => [
 						'save_to_post', '=', [ 'edit_post', 'delete_post', 'duplicate_post' ],
@@ -610,7 +610,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_type',
 				[
-					'label' => esc_html__( 'Post Types', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Post Types', 'frontend-admin' ),
 					'type' => 'select',
 					'multiple' => true,
 					'label_block' => true,
@@ -625,10 +625,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'url_query_post',
 				[
-					'label' => esc_html__( 'URL Query', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'URL Query', 'frontend-admin' ),
 					'type' => 'text',
 					'default' => 'post_id',
-					'description' => esc_html__( 'Enter the URL query parameter containing the post ID.', 'acf-frontend-form-element' ),
+					'description' => esc_html__( 'Enter the URL query parameter containing the post ID.', 'frontend-admin' ),
 					'required' => [
 						'post_to_edit', '=', 'url_query',
 					],
@@ -638,10 +638,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_select',
 				[
-					'label' => esc_html__( 'Post', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Post', 'frontend-admin' ),
 					'type' => 'text',
 					'placeholder' => '18',
-					'description' => esc_html__( 'Enter the post ID.', 'acf-frontend-form-element' ),
+					'description' => esc_html__( 'Enter the post ID.', 'frontend-admin' ),
 					'required' => [
 						'post_to_edit', '=', 'select_post',
 					],
@@ -651,7 +651,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_type',
 				[
-					'label' => esc_html__( 'New Post Type', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'New Post Type', 'frontend-admin' ),
 					'type' => 'select',
 					'label_block' => true,
 					'default' => 'post',
@@ -665,13 +665,13 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_terms',
 				[
-					'label' => esc_html__( 'New Post Terms', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'New Post Terms', 'frontend-admin' ),
 					'type' => 'select',
 					'label_block' => true,
 					'default' => 'post',
 					'options' => [
-						'current_term' => esc_html__( 'Current Term', 'acf-frontend-form-element' ),
-						'select_terms' => esc_html__( 'Specific Term', 'acf-frontend-form-element' ),
+						'current_term' => esc_html__( 'Current Term', 'frontend-admin' ),
+						'select_terms' => esc_html__( 'Specific Term', 'frontend-admin' ),
 					],
 					'required' => [
 						'save_to_post', '=', 'new_post',
@@ -682,10 +682,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_terms_select',
 				[
-					'label' => esc_html__( 'Terms', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Terms', 'frontend-admin' ),
 					'type' => 'text', // optionally replace with a taxonomy selector
 					'placeholder' => '18, 12, 11',
-					'description' => esc_html__( 'Enter a comma-separated list of term IDs.', 'acf-frontend-form-element' ),
+					'description' => esc_html__( 'Enter a comma-separated list of term IDs.', 'frontend-admin' ),
 					'required' => [
 						'new_post_terms', '=', 'select_terms',
 					],
@@ -695,15 +695,15 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_status',
 				[
-					'label' => esc_html__( 'Post Status', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Post Status', 'frontend-admin' ),
 					'type' => 'select',
 					'default' => 'no_change',
 					'options' => [
-						'no_change' => esc_html__( 'No Change', 'acf-frontend-form-element' ),
-						'draft'     => esc_html__( 'Draft', 'acf-frontend-form-element' ),
-						'private'   => esc_html__( 'Private', 'acf-frontend-form-element' ),
-						'pending'   => esc_html__( 'Pending Review', 'acf-frontend-form-element' ),
-						'publish'   => esc_html__( 'Published', 'acf-frontend-form-element' ),
+						'no_change' => esc_html__( 'No Change', 'frontend-admin' ),
+						'draft'     => esc_html__( 'Draft', 'frontend-admin' ),
+						'private'   => esc_html__( 'Private', 'frontend-admin' ),
+						'pending'   => esc_html__( 'Pending Review', 'frontend-admin' ),
+						'publish'   => esc_html__( 'Published', 'frontend-admin' ),
 					],
 					'required' => [
 						'save_to_post', '=', [ 'edit_post', 'new_post', 'duplicate_post' ],
@@ -714,9 +714,9 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'copy_title_text',
 				[
-					'label' => esc_html__( 'Copy Title Text', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Copy Title Text', 'frontend-admin' ),
 					'type' => 'text',
-					'default' => esc_html__( 'Copy of', 'acf-frontend-form-element' ),
+					'default' => esc_html__( 'Copy of', 'frontend-admin' ),
 					'required' => [
 						'save_to_post', '=', 'duplicate_post',
 					],
@@ -726,7 +726,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'copy_date',
 				[
-					'label' => esc_html__( 'Copy Date', 'acf-frontend-form-element' ),
+					'label' => esc_html__( 'Copy Date', 'frontend-admin' ),
 					'type' => 'checkbox',
 					'default' => true,
 					'required' => [
@@ -763,13 +763,13 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 			if( 'delete_post' !== $widget->get_name() ){
 				$args = array(
-					'label'   => __( 'Post', 'acf-frontend-form-element' ),
+					'label'   => __( 'Post', 'frontend-admin' ),
 					'show_label' => false,
 					'type'    => Controls_Manager::SELECT,
 					'options' => array(
-						'edit_post'      => __( 'Edit Post', 'acf-frontend-form-element' ),
-						'new_post'       => __( 'New Post', 'acf-frontend-form-element' ),
-						'duplicate_post' => __( 'Duplicate Post', 'acf-frontend-form-element' ),
+						'edit_post'      => __( 'Edit Post', 'frontend-admin' ),
+						'new_post'       => __( 'New Post', 'frontend-admin' ),
+						'duplicate_post' => __( 'Duplicate Post', 'frontend-admin' ),
 					),
 					'default' => $type,
 				);
@@ -781,7 +781,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				$widget->add_control(
 					'save_to_post',
 					array(
-						'label'     => __( 'Post', 'acf-frontend-form-element' ),
+						'label'     => __( 'Post', 'frontend-admin' ),
 						'type'      => Controls_Manager::HIDDEN,
 						'default'   => 'delete_post',
 					)
@@ -800,15 +800,15 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_to_edit',
 				array(
-					'label'     => __( 'Post', 'acf-frontend-form-element' ),
+					'label'     => __( 'Post', 'frontend-admin' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'current_post',
 					'options'   => array(
-						'current_post' => __( 'Current Post', 'acf-frontend-form-element' ),
-						'url_query'    => __( 'Url Query', 'acf-frontend-form-element' ),
-						'select_post'  => __( 'Specific Post', 'acf-frontend-form-element' ),
-						'user_first_post' => __( 'User\'s First Post', 'acf-frontend-form-element' ),
-						'user_last_post' => __( 'User\'s Most Recent Post', 'acf-frontend-form-element' ),
+						'current_post' => __( 'Current Post', 'frontend-admin' ),
+						'url_query'    => __( 'Url Query', 'frontend-admin' ),
+						'select_post'  => __( 'Specific Post', 'frontend-admin' ),
+						'user_first_post' => __( 'User\'s First Post', 'frontend-admin' ),
+						'user_last_post' => __( 'User\'s Most Recent Post', 'frontend-admin' ),
 					),
 					'condition' => $condition,
 				)
@@ -817,7 +817,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_type',
 				array(
-					'label'       => __( 'Post Types', 'acf-frontend-form-element' ),
+					'label'       => __( 'Post Types', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => ['any'],
@@ -832,12 +832,12 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'url_query_post',
 				array(
-					'label'       => __( 'URL Query', 'acf-frontend-form-element' ),
+					'label'       => __( 'URL Query', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( 'post_id', 'acf-frontend-form-element' ),
-					'default'     => __( 'post_id', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'post_id', 'frontend-admin' ),
+					'default'     => __( 'post_id', 'frontend-admin' ),
 					'required'    => true,
-					'description' => __( 'Enter the URL query parameter containing the id of the post you want to edit', 'acf-frontend-form-element' ),
+					'description' => __( 'Enter the URL query parameter containing the id of the post you want to edit', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -845,10 +845,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'post_select',
 				array(
-					'label'       => __( 'Post', 'acf-frontend-form-element' ),
+					'label'       => __( 'Post', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter the post ID', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18', 'frontend-admin' ),
+					'description' => __( 'Enter the post ID', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -858,7 +858,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_type',
 				array(
-					'label'       => __( 'New Post Type', 'acf-frontend-form-element' ),
+					'label'       => __( 'New Post Type', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => 'post',
@@ -870,13 +870,13 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_terms',
 				array(
-					'label'       => __( 'New Post Terms', 'acf-frontend-form-element' ),
+					'label'       => __( 'New Post Terms', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => 'post',
 					'options'     => array(
-						'current_term' => __( 'Current Term', 'acf-frontend-form-element' ),
-						'select_terms' => __( 'Specific Term', 'acf-frontend-form-element' ),
+						'current_term' => __( 'Current Term', 'frontend-admin' ),
+						'select_terms' => __( 'Specific Term', 'frontend-admin' ),
 					),
 					'condition'   => $condition,
 				)
@@ -887,10 +887,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				$widget->add_control(
 					'new_terms_select',
 					array(
-						'label'       => __( 'Terms', 'acf-frontend-form-element' ),
+						'label'       => __( 'Terms', 'frontend-admin' ),
 						'type'        => Controls_Manager::TEXT,
-						'placeholder' => __( '18, 12, 11', 'acf-frontend-form-element' ),
-						'description' => __( 'Enter the a comma-seperated list of term ids', 'acf-frontend-form-element' ),
+						'placeholder' => __( '18, 12, 11', 'frontend-admin' ),
+						'description' => __( 'Enter the a comma-seperated list of term ids', 'frontend-admin' ),
 						'condition'   => $condition,
 					)
 				);
@@ -898,7 +898,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				$widget->add_control(
 					'new_terms_select',
 					array(
-						'label'        => __( 'Terms', 'acf-frontend-form-element' ),
+						'label'        => __( 'Terms', 'frontend-admin' ),
 						'type'         => Query_Module::QUERY_CONTROL_ID,
 						'label_block'  => true,
 						'autocomplete' => array(
@@ -918,16 +918,16 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'new_post_status',
 				array(
-					'label'       => __( 'Post Status', 'acf-frontend-form-element' ),
+					'label'       => __( 'Post Status', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => 'no_change',
 					'options'     => array(
-						'no_change' => __( 'No Change', 'acf-frontend-form-element' ),
-						'draft'   => __( 'Draft', 'acf-frontend-form-element' ),
-						'private' => __( 'Private', 'acf-frontend-form-element' ),
-						'pending' => __( 'Pending Review', 'acf-frontend-form-element' ),
-						'publish' => __( 'Published', 'acf-frontend-form-element' ),
+						'no_change' => __( 'No Change', 'frontend-admin' ),
+						'draft'   => __( 'Draft', 'frontend-admin' ),
+						'private' => __( 'Private', 'frontend-admin' ),
+						'pending' => __( 'Pending Review', 'frontend-admin' ),
+						'publish' => __( 'Published', 'frontend-admin' ),
 					),
 					'condition'   => $condition,
 				)
@@ -937,10 +937,10 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'copy_title_text',
 				array(
-					'label'       => __( 'Copy Title Text', 'acf-frontend-form-element' ),
+					'label'       => __( 'Copy Title Text', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
 					'label_block' => true,
-					'default'     => __( 'Copy of', 'acf-frontend-form-element' ),
+					'default'     => __( 'Copy of', 'frontend-admin' ),
 					'condition'   => array(
 						'save_to_post' => 'duplicate_post',
 					),
@@ -951,7 +951,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			$widget->add_control(
 				'copy_date',
 				array(
-					'label'       => __( 'Copy Date', 'acf-frontend-form-element' ),
+					'label'       => __( 'Copy Date', 'frontend-admin' ),
 					'type'        => Controls_Manager::SWITCHER,
 					'label_block' => true,
 					'default'     => 'yes',
@@ -1197,7 +1197,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				return $settings;
 			}
 
-			if( ! feadmin_can_edit_post( $post_id, $settings ) ){
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
 				if( ! in_array( 'edit_posts', $condition['special_permissions'] ) ){
 					$settings['post_id'] = 'none';
 				}

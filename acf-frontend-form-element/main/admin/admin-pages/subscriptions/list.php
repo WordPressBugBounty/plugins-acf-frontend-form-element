@@ -18,8 +18,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_List' ) ) :
 		public function __construct() {
 
 			parent::__construct( [
-				'singular' => __( 'Subscription', 'acf-frontend-form-element' ), //singular name of the listed records
-				'plural'   => __( 'Subscriptions', 'acf-frontend-form-element' ), //plural name of the listed records
+				'singular' => __( 'Subscription', 'frontend-admin' ), //singular name of the listed records
+				'plural'   => __( 'Subscriptions', 'frontend-admin' ), //plural name of the listed records
 				'ajax'     => false //does this table support ajax?
 			] );
 
@@ -89,7 +89,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_List' ) ) :
 
 		/** Text displayed when no subscription data is available */
 		public function no_items() {
-			_e( 'No subscriptions avaliable.', 'acf-frontend-form-element' );
+			_e( 'No subscriptions avaliable.', 'frontend-admin' );
 		}
 
 
@@ -111,7 +111,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_List' ) ) :
 						$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 						return date( $time_format, strtotime( $item[ $column_name ] ) );
 					}else{
-						return __( 'Never', 'acf-frontend-form-element' );
+						return __( 'Never', 'frontend-admin' );
 					}
 				default:
 					return $item[ $column_name ];
@@ -138,8 +138,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_List' ) ) :
 		 */
 		function get_columns() {
 			$columns = [
-				'title'  => __( 'Title', 'acf-frontend-form-element' ),
-				'description'  => __( 'Description', 'acf-frontend-form-element' ),
+				'title'  => __( 'Title', 'frontend-admin' ),
+				'description'  => __( 'Description', 'frontend-admin' ),
 			];
 
 			return $columns;

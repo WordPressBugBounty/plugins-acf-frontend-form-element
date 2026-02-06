@@ -105,7 +105,7 @@ class FEA_Payments_Settings{
 		       
         $local_fields = array(
 			'acff_stripe_tab' => array(
-				'label' => __( 'Stripe', 'acf-frontend-form-element' ),
+				'label' => __( 'Stripe', 'frontend-admin' ),
 				'type' => 'tab',
 				'instructions' => '',
 				'required' => 0,
@@ -118,7 +118,7 @@ class FEA_Payments_Settings{
 				'endpoint' => 0,
 			),
 			'acff_stripe_active' => array(
-				'label' => __( 'Activate Stripe', 'acf-frontend-form-element' ),
+				'label' => __( 'Activate Stripe', 'frontend-admin' ),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -149,14 +149,14 @@ class FEA_Payments_Settings{
 				),
 				'message' => __( '<h2>Set Up</h2>
 
-Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to create a Stripe account and receive API keys. Once you do that you will recieve your API Keys.', 'acf-frontend-form-element' ),
+Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to create a Stripe account and receive API keys. Once you do that you will recieve your API Keys.', 'frontend-admin' ),
 				'new_lines' => 'wpautop',
 				'esc_html' => 0,
 			),
 			'acff_stripe_live_mode' => array(
-				'label' => __( 'Use Live Keys', 'acf-frontend-form-element' ),
+				'label' => __( 'Use Live Keys', 'frontend-admin' ),
 				'type' => 'true_false',
-				'instructions' => __( 'We reccomend testing out the test keys before using the live keys', 'acf-frontend-form-element' ),
+				'instructions' => __( 'We reccomend testing out the test keys before using the live keys', 'frontend-admin' ),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -176,8 +176,8 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				'ui_off_text' => '',
 			),
 			'acff_stripe_live_publish_key' => array(
-				'label' => __( 'Live Publishable Key', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Live Publishable Key', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(
@@ -197,8 +197,8 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				),
 			),
 			'acff_stripe_live_secret_key' => array(
-				'label' => __( 'Live Secret Key', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Live Secret Key', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(
@@ -218,8 +218,8 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				),
 			),
 			'acff_stripe_test_publish_key' => array(
-				'label' => __( 'Test Publishable Key', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Test Publishable Key', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(
@@ -239,8 +239,8 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				),
 			),
 			'acff_stripe_test_secret_key' => array(
-				'label' => __( 'Test Secret Key', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Test Secret Key', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(
@@ -260,7 +260,7 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				),
 			),			
 			'acff_paypal_tab' => array(
-				'label' => __( 'Paypal', 'acf-frontend-form-element' ),
+				'label' => __( 'Paypal', 'frontend-admin' ),
 				'type' => 'tab',
 				'instructions' => '',
 				'required' => 0,
@@ -273,7 +273,7 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				'endpoint' => 0,
 			),
 			 'acff_paypal_active' => array(
-				'label' => __( 'Activate Paypal', 'acf-frontend-form-element' ),
+				'label' => __( 'Activate Paypal', 'frontend-admin' ),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -305,14 +305,14 @@ Click <a target="_blank" href="https://dashboard.stripe.com/apikeys">here</a> to
 				),
 				'message' => __( '<h2>Set Up</h2>
 
-Click <a target="_blank" href="https://developer.paypal.com/developer/applications/create">here</a> to create a PayPal App. Once you do that you will recieve your API Keys.', 'acf-frontend-form-element' ),
+Click <a target="_blank" href="https://developer.paypal.com/developer/applications/create">here</a> to create a PayPal App. Once you do that you will recieve your API Keys.', 'frontend-admin' ),
 				'new_lines' => 'wpautop',
 				'esc_html' => 0,
 			),
 			'acff_paypal_live_mode' => array(
-				'label' => __( 'Live Mode', 'acf-frontend-form-element' ),
+				'label' => __( 'Live Mode', 'frontend-admin' ),
 				'type' => 'true_false',
-				'instructions' => __( 'We reccomend trying out in test mode before switching to live mode', 'acf-frontend-form-element' ),
+				'instructions' => __( 'We reccomend trying out in test mode before switching to live mode', 'frontend-admin' ),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -327,8 +327,8 @@ Click <a target="_blank" href="https://developer.paypal.com/developer/applicatio
 				'ui' => 1,
 			),
 			'acff_paypal_client_id' => array(
-				'label' => __( 'Client ID', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Client ID', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(
@@ -343,8 +343,8 @@ Click <a target="_blank" href="https://developer.paypal.com/developer/applicatio
 				),
 			),
 			'acff_paypal_secret' => array(
-				'label' => __( 'Secret', 'acf-frontend-form-element' ),
-				'type' => 'text',
+				'label' => __( 'Secret', 'frontend-admin' ),
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => array(

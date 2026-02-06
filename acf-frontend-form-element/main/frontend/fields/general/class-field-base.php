@@ -360,6 +360,23 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			return array();
 		}
 
+		/*
+		* preapare_field
+		*  This filter is appied to the $field before it is rendered
+		*  @type    filter
+		*  @since    3.6
+		*  @date    23/01/13
+		*  @param    $field (array) the field array holding all the field options
+		*  @return    $field
+		*/	
+		function prepare_field( $field ) {
+			// set defaults
+			$field = array_merge( $this->defaults, $field );
+
+			// return
+			return $field;
+		}
+		
 		/**
 		 * Apply basic formatting to prepare the value for default REST output.
 		 *

@@ -190,11 +190,11 @@ if ( ! class_exists( 'related_items' ) ) :
 
 			} else {
 				if ( is_numeric( $args['form_action'] ) ) {
-					$form_args['update_message'] = __( 'Post Updated Successfully!', 'acf-frontend-form-element' );
-					$form_args['submit_value']   = __( 'Update', 'acf-frontend-form-element' );
+					$form_args['update_message'] = __( 'Post Updated Successfully!', 'frontend-admin' );
+					$form_args['submit_value']   = __( 'Update', 'frontend-admin' );
 				} else {
-					$form_args['update_message'] = __( 'Post Added Successfully!', 'acf-frontend-form-element' );
-					$form_args['submit_value']   = __( 'Publish', 'acf-frontend-form-element' );
+					$form_args['update_message'] = __( 'Post Added Successfully!', 'frontend-admin' );
+					$form_args['submit_value']   = __( 'Publish', 'frontend-admin' );
 
 				}
 			}
@@ -205,7 +205,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				if ( $type == 'post' ) {
 					$form_args['fields'] = array( '_post_title' => array(
 						'key'      => '_post_title',
-						'label'    => __( 'Title', 'acf-frontend-form-element' ),
+						'label'    => __( 'Title', 'frontend-admin' ),
 						'required' => true,
 						'name'     => '_post_title',
 						'type'     => 'post_title',
@@ -213,7 +213,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				} else {
 					$form_args['fields'] = array( '_term_name' => array(
 						'key'      => '_term_name',
-						'label'    => __( 'Name', 'acf-frontend-form-element' ),
+						'label'    => __( 'Name', 'frontend-admin' ),
 						'required' => true,
 						'name'     => '_term_name',
 						'type'     => 'term_name',
@@ -240,7 +240,7 @@ if ( ! class_exists( 'related_items' ) ) :
 					if ( ! empty( $post_type_choices ) && ! empty( $form_args['fields'] ) ) {
 						$form_args['fields']['_post_type'] = array(
 							'key'           => '_post_type',
-							'label'         => __( 'Post Type', 'acf-frontend-form-element' ),
+							'label'         => __( 'Post Type', 'frontend-admin' ),
 							'default_value' => current( $post_type_choices ),
 							'name'          => '_post_type',
 							'type'          => 'post_type',
@@ -1121,11 +1121,11 @@ if ( ! class_exists( 'related_items' ) ) :
 
 		public function add_edit_field( $field ) {
 			$users        = get_users();
-			$label        = __( 'Dynamic', 'acf-frontend-form-element' );
-			$user_choices = array( $label => array( 'current_user' => __( 'Current User', 'acf-frontend-form-element' ) ) );
+			$label        = __( 'Dynamic', 'frontend-admin' );
+			$user_choices = array( $label => array( 'current_user' => __( 'Current User', 'frontend-admin' ) ) );
 			// Append.
 			if ( $users ) {
-				$user_label                  = __( 'Users', 'acf-frontend-form-element' );
+				$user_label                  = __( 'Users', 'frontend-admin' );
 				$user_choices[ $user_label ] = array();
 				foreach ( $users as $user ) {
 					$user_text = $user->user_login;
@@ -1141,7 +1141,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Post Author', 'acf-frontend-form-element' ),
+					'label'        => __( 'Filter by Post Author', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'post_author',
@@ -1149,7 +1149,7 @@ if ( ! class_exists( 'related_items' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All Users', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'All Users', 'frontend-admin' ),
 				)
 			);
 
@@ -1157,7 +1157,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Add and Edit Posts' ),
-					'instructions' => __( 'Allow posts to be created and edited whilst editing', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Allow posts to be created and edited whilst editing', 'frontend-admin' ),
 					'name'         => 'add_edit_post',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -1215,7 +1215,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				)
 			);
 
-			$templates_options = array( 'current' => __( 'Current Form/Field Group', 'acf-frontend-form-element' ) );
+			$templates_options = array( 'current' => __( 'Current Form/Field Group', 'frontend-admin' ) );
 			if ( isset( $field['post_form_template'] ) ) {
 				$selected = $field['post_form_template'];
 			} else {
@@ -1227,11 +1227,11 @@ if ( ! class_exists( 'related_items' ) ) :
 				array(
 					'label'        => __( 'Forms/Field Groups' ),
 					'name'         => 'post_form_template',
-					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'acf-frontend-form-element' ) . '</div>',
+					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'frontend-admin' ) . '</div>',
 					'type'         => 'select',
 					'ajax'         => 1,
 					'multiple'     => 1,
-					'placeholder'  => __( 'Default', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Default', 'frontend-admin' ),
 					'ajax_action'  => 'acf/fields/form_fields/query',
 					'choices'      => $this->get_selected_fields( $selected ),
 					'ui'           => 1,
@@ -1274,7 +1274,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			// loop
 			foreach ( $value as $v ) {
 				if ( $v == 'current' ) {
-					$choices['current'] = __( 'Current Form/Field Group', 'acf-frontend-form-element' );
+					$choices['current'] = __( 'Current Form/Field Group', 'frontend-admin' );
 				} else {
 					$choices[ $v ] = feadmin_get_selected_field( $v );
 				}
@@ -1318,7 +1318,7 @@ if ( ! class_exists( 'related_items' ) ) :
 
 		public function add_post_button( $field ) {
 			if ( ! empty( $field['add_edit_post'] ) ) :
-				$add_post_button = ( $field['add_post_button'] ) ? $field['add_post_button'] : __( 'Add Post', 'acf-frontend-form-element' );
+				$add_post_button = ( $field['add_post_button'] ) ? $field['add_post_button'] : __( 'Add Post', 'frontend-admin' );
 				?>
 				<div class="margin-top-10 acf-actions">
 					<a class="add-rel-post acf-button button button-primary render-form" href="#" data-name="add_item"><?php esc_html_e( $add_post_button ); ?></a>
@@ -1382,10 +1382,10 @@ if ( ! class_exists( 'related_items' ) ) :
 			$results = array();
 			if ( $options['paged'] == 1 && ! $options['s'] ) {
 				$results = array(
-					array( 'text' => __( 'Default', 'acf-frontend-form-element' ) ),
+					array( 'text' => __( 'Default', 'frontend-admin' ) ),
 					array(
 						'id'   => 'current',
-						'text' => __( 'Current Form/Field Group', 'acf-frontend-form-element' ),
+						'text' => __( 'Current Form/Field Group', 'frontend-admin' ),
 					),
 				);
 			}
@@ -1492,7 +1492,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				// populate children
 				$data['children'][] = array(
 					'id'   => $field_group->ID,
-					'text' => sprintf( __( 'All fields from %s', 'acf-frontend-form-element' ), $field_group->post_title ),
+					'text' => sprintf( __( 'All fields from %s', 'frontend-admin' ), $field_group->post_title ),
 				);
 				foreach ( $fields as $field ) {
 					// bail ealry if no key (fake field group or corrupt field)

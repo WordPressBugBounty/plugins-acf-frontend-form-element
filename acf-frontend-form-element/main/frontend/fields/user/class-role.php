@@ -22,8 +22,8 @@ if ( ! class_exists( 'role' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'role';
-			$this->label      = __( 'Role', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Role', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'multiple'      => 0,
 				'allow_null'    => 0,
@@ -79,11 +79,12 @@ if ( ! class_exists( 'role' ) ) :
 		}
 
 		function validate_value( $is_valid, $value, $field, $input ) {
-			if ( ! empty( $field['role_options'] ) && ! in_array( $value, $field['role_options'] ) ) {
-				return __( 'Invalid role option selected.', 'acf-frontend-form-element' );
+			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
+			if ( ! in_array( $value, $allowed_roles ) ) {
+				return __( 'Invalid role option selected.', 'frontend-admin' );
 			}
 			if ( isset( $field['frontend_admin_display_mode'] ) && $field['frontend_admin_display_mode'] == 'hidden' && $field['default_value'] != $value ) {
-				return __( 'Invalid role option selected.', 'acf-frontend-form-element' );
+				return __( 'Invalid role option selected.', 'frontend-admin' );
 			}
 
 			return $is_valid;
@@ -103,8 +104,9 @@ if ( ! class_exists( 'role' ) ) :
 
 			if ( ! $user || is_wp_error( $user ) ) return true; //user does not exist
 
-			if ( ! empty( $field['role_options'] ) && ! in_array( $value, $field['role_options'] ) ) {
-				wp_die( __( 'Invalid role option selected.', 'acf-frontend-form-element' ) );
+			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
+			if ( ! in_array( $value, $allowed_roles ) ) {
+				wp_die( __( 'Invalid role option selected.', 'frontend-admin' ) );
 			}
 
 			
@@ -141,14 +143,14 @@ if ( ! class_exists( 'role' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Appearance', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the appearance of this field', 'acf-frontend-form-element' ),
+					'label'        => __( 'Appearance', 'frontend-admin' ),
+					'instructions' => __( 'Select the appearance of this field', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'field_type',
 					'optgroup'     => true,
 					'choices'      => array(
-						'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-						'select' => _x( 'Select', 'noun', 'acf-frontend-form-element' ),
+						'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+						'select' => _x( 'Select', 'noun', 'frontend-admin' ),
 					),
 				)
 			);
@@ -156,8 +158,8 @@ if ( ! class_exists( 'role' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Role', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears when creating a new user', 'acf-frontend-form-element' ),
+					'label'        => __( 'Default Role', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new user', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'default_value',
 					'ui'           => 0,
@@ -168,11 +170,11 @@ if ( ! class_exists( 'role' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Roles', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the roles the user can choose from', 'acf-frontend-form-element' ),
+					'label'        => __( 'Roles', 'frontend-admin' ),
+					'instructions' => __( 'Select the roles the user can choose from', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'role_options',
-					'placeholder'  => __( 'Show all', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Show all', 'frontend-admin' ),
 					'multiple'     => 1,
 					'ui'           => 1,
 					'choices'      => acf_get_user_role_labels(),

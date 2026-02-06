@@ -24,7 +24,7 @@ if ( ! class_exists( 'allow_comments' ) ) :
 			// vars
 			$this->name     = 'allow_comments';
 			$this->label    = __( 'Allow Comments' );
-			$this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => 0,
 				'message'       => '',

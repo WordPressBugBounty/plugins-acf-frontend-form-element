@@ -23,7 +23,7 @@ if ( ! class_exists( 'custom_terms' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'custom_terms';
-			$this->label    = __( 'Custom Choices', 'acf-frontend-form-element' );
+			$this->label    = __( 'Custom Choices', 'frontend-admin' );
 			$this->category = 'choice';
 			$this->defaults = array(
 				'allow_null'    => 0,
@@ -33,7 +33,7 @@ if ( ! class_exists( 'custom_terms' ) ) :
 				'ui'            => 1,
 				'multiple'      => 0,
 				'ajax'          => 0,
-				'placeholder'   => __( 'Type your values and click enter', 'acf-frontend-form-element' ),
+				'placeholder'   => __( 'Type your values and click enter', 'frontend-admin' ),
 				'return_format' => 'value',
 			);
 

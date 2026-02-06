@@ -23,8 +23,8 @@ if ( ! class_exists( 'nickname' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'nickname';
-			$this->label      = __( 'Nickname', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Nickname', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'maxlength'     => '',

@@ -115,7 +115,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Validate_Form' ) ) :
 			
 			// bail ealry if form is corrupt
 			if ( empty( $form ) ) {
-				wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 			}
 			
 			//get default required message

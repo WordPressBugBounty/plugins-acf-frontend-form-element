@@ -92,7 +92,7 @@ class Textarea_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Textarea Field', 'acf-frontend-form-element' );
+		return __( 'Textarea Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -136,7 +136,7 @@ class Textarea_Field extends Base_Field {
 		$this->add_control(
 			'rows',
 			[
-				'label' => __( 'Rows', 'acf-frontend-form-element' ),
+				'label' => __( 'Rows', 'frontend-admin' ),
 				'type' => Controls_Manager::NUMBER,
 				'default' => 4,
 				'min' => 1,
@@ -149,7 +149,7 @@ class Textarea_Field extends Base_Field {
 		$this->add_control(
 			'character_limit',
 			[
-				'label' => __( 'Character Limit', 'acf-frontend-form-element' ),
+				'label' => __( 'Character Limit', 'frontend-admin' ),
 				'type' => Controls_Manager::NUMBER,
 				'default' => '',
 				'min' => 0,
@@ -161,7 +161,7 @@ class Textarea_Field extends Base_Field {
 		$this->add_control(
 			'field_placeholder',
 			[
-				'label' => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label' => __( 'Placeholder', 'frontend-admin' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => '',
 			]
@@ -171,7 +171,7 @@ class Textarea_Field extends Base_Field {
 		$this->add_control(
 			'field_default_value',
 			[
-				'label' => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label' => __( 'Default Value', 'frontend-admin' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => '',
 			]

@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_date' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_date';
-			$this->label      = __( 'Published On', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Published On', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'      => 'published_on',
 				'display_format' => get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),

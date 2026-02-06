@@ -21,7 +21,7 @@ if ( ! class_exists( 'ActionComment' ) ) :
 		}
 
 		public function get_label() {
-			return __( 'Comment', 'acf-frontend-form-element' );
+			return __( 'Comment', 'frontend-admin' );
 		}
 
 		public function get_fields_display( $form_field, $local_field ) {
@@ -69,12 +69,12 @@ if ( ! class_exists( 'ActionComment' ) ) :
             $widget->add_control(
 				'comment_parent_post',
 				array(
-					'label'     => __( 'Post to Comment On', 'acf-frontend-form-element' ),
+					'label'     => __( 'Post to Comment On', 'frontend-admin' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'current_post',
 					'options'   => array(
-						'current_post' => __( 'Current Post', 'acf-frontend-form-element' ),
-						'select_post'  => __( 'Specific Post', 'acf-frontend-form-element' ),
+						'current_post' => __( 'Current Post', 'frontend-admin' ),
+						'select_post'  => __( 'Specific Post', 'frontend-admin' ),
 					),
 					'condition' => $condition,
 				)
@@ -84,10 +84,10 @@ if ( ! class_exists( 'ActionComment' ) ) :
 			$widget->add_control(
 				'select_parent_post',
 				array(
-					'label'       => __( 'Specific Post', 'acf-frontend-form-element' ),
+					'label'       => __( 'Specific Post', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter the post ID', 'acf-frontend-form-element' ) . ' ' . __( 'Commenting must be turned on for that post', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18', 'frontend-admin' ),
+					'description' => __( 'Enter the post ID', 'frontend-admin' ) . ' ' . __( 'Commenting must be turned on for that post', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);

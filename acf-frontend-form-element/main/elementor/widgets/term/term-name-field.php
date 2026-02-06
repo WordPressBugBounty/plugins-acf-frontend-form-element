@@ -65,7 +65,7 @@ class Term_Name_Field extends Text_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Term Name Field', 'acf-frontend-form-element' );
+		return __( 'Term Name Field', 'frontend-admin' );
 	}
 
 	 /**

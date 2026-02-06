@@ -89,7 +89,7 @@ class ACF_Fields extends \Bricks\Element {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'ACF Fields', 'acf-frontend-form-element' );
+		return __( 'ACF Fields', 'frontend-admin' );
 	}
 
 
@@ -122,7 +122,7 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control_group(
 			'fields_section',
 			array(
-				'title' => __( 'Fields', 'acf-frontend-form-element' ),
+				'title' => __( 'Fields', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -130,7 +130,7 @@ class ACF_Fields extends \Bricks\Element {
 	/* 	$this->add_control(
 			'show_field_label',
 			array(
-				'label'        => __( 'Show Labels', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Labels', 'frontend-admin' ),
 				'type'         => 'checkbox',
 				'default'      => true,
 			)
@@ -140,7 +140,7 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'fields_select',
 			array(
-				'label'   => __( 'Select Fields', 'acf-frontend-form-element' ),
+				'label'   => __( 'Select Fields', 'frontend-admin' ),
 				'type'    => 'select',
 				'optionsAjax' => [
 					'action'   => 'fea_get_acf_fields',
@@ -156,7 +156,7 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'exclude_fields',
 			array(
-				'label'   => __( 'Exclude Fields', 'acf-frontend-form-element' ),
+				'label'   => __( 'Exclude Fields', 'frontend-admin' ),
 				'type'    => 'select',
 				'optionsAjax' => [
 					'action'   => 'fea_get_acf_fields_exclude',
@@ -173,13 +173,13 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'field_display_mode',
 			array(
-				'label'   => __( 'Display Mode', 'acf-frontend-form-element' ),
+				'label'   => __( 'Display Mode', 'frontend-admin' ),
 				'type'    => 'select',
 				'default' => 'edit',
 				'options' => array(
-					'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-					'read_only'	=> __( 'Read', 'acf-frontend-form-element' ),
-					'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
+					'edit'	=> __( 'Edit', 'frontend-admin' ),
+					'read_only'	=> __( 'Read', 'frontend-admin' ),
+					'hidden'	=> __( 'Hidden', 'frontend-admin' ),
 				)
 			)
 		);
@@ -188,10 +188,10 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'field_inline_edit',
 			array(
-				'label'        => __( 'Inline Edit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Inline Edit', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => '',
 				'required'    => array(
@@ -204,10 +204,10 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'no_values_message',
 			array(
-				'label'       => __( 'No Value Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'No Value Message', 'frontend-admin' ),
 				'type'        => 'textarea',
 				'label_block' => true,
-				'placeholder' => __( 'Undefined Value', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Undefined Value', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -238,7 +238,7 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control_group(
 			'validation_section',
 			array(
-				'title' => __( 'Validation', 'acf-frontend-form-element' ),
+				'title' => __( 'Validation', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -247,10 +247,10 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'show_error_message',
 			array(
-				'label'        => __( 'Show Error Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Error Message', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => 'true',
 			)
@@ -260,10 +260,10 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'field_required_message',
 			array(
-				'label'       => __( 'Required Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Required Message', 'frontend-admin' ),
 				'type'        => 'text',
 				'label_block' => true,
-				'placeholder' => __( 'Field is required', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is required', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -274,10 +274,10 @@ class ACF_Fields extends \Bricks\Element {
 		$this->add_control(
 			'field_validation_message',
 			array(
-				'label'       => __( 'Validation Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Validation Message', 'frontend-admin' ),
 				'type'        => 'text',
 				'label_block' => true,
-				'placeholder' => __( 'Field is invalid', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is invalid', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -298,7 +298,7 @@ class ACF_Fields extends \Bricks\Element {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => 'style',
 				)
 			);
@@ -307,7 +307,7 @@ class ACF_Fields extends \Bricks\Element {
 				'styles_promo',
 				array(
 					'type'            => 'raw_html',
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);
@@ -349,7 +349,7 @@ class ACF_Fields extends \Bricks\Element {
 
 		$editor_mode = \Bricks\Helpers::get_editor_mode( get_the_ID() );
 		if( $editor_mode && ! $field_ids ){
-			echo '<div class="acf-fields-note">' . __( 'No fields selected', 'acf-frontend-form-element' ) . '</div>';
+			echo '<div class="acf-fields-note">' . __( 'No fields selected', 'frontend-admin' ) . '</div>';
 			return;	
 		}
 

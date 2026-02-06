@@ -90,22 +90,20 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 		}
 
 		function get_current_form() {
-			// If no record search for a global form record
-			if ( isset( $GLOBALS['admin_form'] ) ) {
-				return $GLOBALS['admin_form'];
-			}
+			
 			// If no global record, look for a record stored in the cookie
-			if ( isset( $form['id'] ) && empty( $form['record'] ) ) {
-				return fea_instance()->form_display->get_record( $form );
+			global $fea_form;
+			if ( $fea_form ) {
+				return $fea_form;
 			}
 
 			return false;
 		}
 
 		function get_dynamic_values( $text, $form = false, $plain = false ) {
-			if ( ! $form ) {
+			
 				$form = $this->get_current_form();
-			}
+			
 
 			// Find all merge tags
 			if ( ! preg_match_all( '/\[\s*(.+?)?\s*\]/', $text, $matches ) ) {
@@ -354,7 +352,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			$return_type = false;
 			if ( isset( $tag_parts[1] ) ) {
 				$field_name  = str_replace( ' ', '', $tag_parts[0] );
-				$return_type = str_replace( ' ', '', $tag_parts[1] );
+				$return_type = $tag_parts[1];
 			}
 			
 			$author = $record['post_author']['_input'] ?? $edit_post->post_author;
@@ -411,7 +409,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 						$post_thumb_id  = get_post_thumbnail_id( $post_id );
 						$post_thumb_url = wp_get_attachment_url( $post_thumb_id );
 					}
-					$max_width = '500px';
+					$max_width = '200px';
 					if ( $return_type ) {
 						if ( $return_type == 'image_link' ) {
 							return $post_thumb_id;
@@ -430,7 +428,18 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 					break;
 				case 'post_url':
 				case 'url':
+					if( $return_type ){
+						//this is text for the link
+						return '<a href="' . get_permalink( $post_id ) . '">'.$return_type.'</a>';
+					}
 					return get_permalink( $post_id );
+				break;
+				case 'edit':
+					if( $return_type ){
+						//this is text for the link
+						return '<a href="' . get_edit_post_link( $post_id ) . '">'.$return_type.'</a>';
+					}
+					return get_edit_post_link( $post_id );
 				break;
 				case 'author':
 					if ( isset( $author->display_name ) ) {
@@ -832,10 +841,10 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			<?php
 		}
 
-		function display_field( $field, $object_id = false, $form = false ) {
-			global $fea_instance;
+		function display_field( $field, $object_id = false ) {
+			global $fea_instance, $fea_form;
 			if ( is_string( $field ) ) {
-				$field = $fea_instance->frontend->get_field( $field['key'] );
+				$field = $fea_instance->frontend->get_field( $field );
 				if ( ! $field ) {
 					$object = explode( '_', $object_id );
 					if ( isset( $object[1] ) ) {
@@ -843,8 +852,8 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 					} else {
 						 $object_type = 'post';
 					}
-					if ( ! empty( $form['record']['fields'][ $object_type ][ $field ] ) ) {
-						$field = $form['record']['fields'][ $object_type ][ $field ];
+					if ( ! empty( $fea_form['record']['fields'][ $object_type ][ $field ] ) ) {
+						$field = $fea_form['record']['fields'][ $object_type ][ $field ];
 					}
 
 					if ( ! $field ) {

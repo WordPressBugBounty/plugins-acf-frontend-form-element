@@ -23,8 +23,8 @@ if ( ! class_exists( 'display_name' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'display_name';
-			$this->label    = __( 'Display Name', 'acf-frontend-form-element' );
-			$this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label    = __( 'Display Name', 'frontend-admin' );
+			$this->category = __( 'User', 'frontend-admin' );
 			$this->defaults = array(
 				'multiple'      => 0,
 				'allow_null'    => 0,
@@ -33,7 +33,7 @@ if ( ! class_exists( 'display_name' ) ) :
 				'allow_custom'  => 1,
 				'ui'            => 1,
 				'ajax'          => 0,
-				'placeholder'   => __( 'Start typing or choose one of the options', 'acf-frontend-form-element' ),
+				'placeholder'   => __( 'Start typing or choose one of the options', 'frontend-admin' ),
 				'return_format' => 'value',
 			);
 

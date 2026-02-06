@@ -38,8 +38,8 @@ class Edit_Post_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'post',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your post has been edited successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your post has been edited successfully.', 'frontend-admin' ),
 			'field_type'         => 'title',
 			'save_to_post'  => 'edit_post',
 			'fields'             => [
@@ -63,7 +63,7 @@ class Edit_Post_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Edit Post Form', 'acf-frontend-form-element' );
+		return __( 'Edit Post Form', 'frontend-admin' );
 	}
 
 	 /**

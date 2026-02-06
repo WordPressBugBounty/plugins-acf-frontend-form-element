@@ -25,7 +25,7 @@ class New_Term_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'New Taxonomy Form', 'acf-frontend-form-element' );
+		return __( 'New Taxonomy Form', 'frontend-admin' );
 	}
 
 	/**
@@ -56,8 +56,8 @@ class New_Term_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'term',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Term Added.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Term Added.', 'frontend-admin' ),
 			'field_type'         => 'term_name',
 			'save_to_term ' => 'edit_term',
 			'fields'             => [

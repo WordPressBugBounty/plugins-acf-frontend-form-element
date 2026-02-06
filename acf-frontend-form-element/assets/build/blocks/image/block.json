@@ -1,0 +1,110 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "frontend-admin/image-field",
+  "title": "Image Field",
+  "description": "Displays an image field.",
+  "category": "frontend-admin",
+  "textdomain": "frontend-admin",
+  "icon": "list-view",
+  "supports": {
+    "align": [
+      "wide"
+    ]
+  },
+  "usesContext": [
+    "frontend-admin/form/form_settings",
+    "frontend-admin/form/form_key"
+  ],
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "field_key": {
+      "type": "string",
+      "default": ""
+    },
+    "label": {
+      "type": "string",
+      "default": "Image Field"
+    },
+    "hide_label": {
+      "type": "boolean",
+      "default": ""
+    },
+    "required": {
+      "type": "boolean",
+      "default": ""
+    },
+    "default_value": {
+      "type": "number",
+      "default": ""
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "return_format": {
+      "type": "string",
+      "default": "array"
+    },
+    "preview_size": {
+      "type": "string",
+      "default": "thumbnail"
+    },
+    "library": {
+      "type": "string",
+      "default": "all"
+    },
+    "min_width": {
+      "type": "number",
+      "default": 0
+    },
+    "min_height": {
+      "type": "number",
+      "default": 0
+    },
+    "min_size": {
+      "type": "number",
+      "default": 0
+    },
+    "max_width": {
+      "type": "number",
+      "default": 0
+    },
+    "max_height": {
+      "type": "number",
+      "default": 0
+    },
+    "max_size": {
+      "type": "number",
+      "default": 0
+    },
+    "resize_file": {
+      "type": "number",
+      "default": 0
+    },
+    "mime_types": {
+      "type": "string",
+      "default": ""
+    },
+    "show_preview": {
+      "type": "number",
+      "default": 1
+    },
+    "show_preview_in": {
+      "type": "boolean",
+      "default": false
+    },
+    "button_text": {
+      "type": "string",
+      "default": "Add Image"
+    },
+    "no_file_text": {
+      "type": "string",
+      "default": "No Image selected"
+    }
+  },
+  "editorScript": "file:../../image/index.js"
+}

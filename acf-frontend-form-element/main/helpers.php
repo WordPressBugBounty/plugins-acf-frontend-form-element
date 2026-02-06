@@ -18,23 +18,23 @@ if ( ! function_exists( 'fea_instance' ) ) {
 
 function feadmin_form_types() {
 	 $form_types = array(
-		 'general'                                 => __( 'Frontend Form', 'acf-frontend-form-element' ),
-		 __( 'Post', 'acf-frontend-form-element' ) => array(
-			 'new_post'       => __( 'New Post Form', 'acf-frontend-form-element' ),
-			 'edit_post'      => __( 'Edit Post Form', 'acf-frontend-form-element' ),
-			 'duplicate_post' => __( 'Duplicate Post Form', 'acf-frontend-form-element' ),
-			 'delete_post'    => __( 'Delete Post Button', 'acf-frontend-form-element' ),
-			 'status_post'    => __( 'Post Status Button', 'acf-frontend-form-element' ),
+		 'general'                                 => __( 'Frontend Form', 'frontend-admin' ),
+		 __( 'Post', 'frontend-admin' ) => array(
+			 'new_post'       => __( 'New Post Form', 'frontend-admin' ),
+			 'edit_post'      => __( 'Edit Post Form', 'frontend-admin' ),
+			 'duplicate_post' => __( 'Duplicate Post Form', 'frontend-admin' ),
+			 'delete_post'    => __( 'Delete Post Button', 'frontend-admin' ),
+			 'status_post'    => __( 'Post Status Button', 'frontend-admin' ),
 		 ),
-		 __( 'User', 'acf-frontend-form-element' ) => array(
-			 'new_user'    => __( 'New User Form', 'acf-frontend-form-element' ),
-			 'edit_user'   => __( 'Edit User Form', 'acf-frontend-form-element' ),
-			 'delete_user' => __( 'Delete User Button', 'acf-frontend-form-element' ),
+		 __( 'User', 'frontend-admin' ) => array(
+			 'new_user'    => __( 'New User Form', 'frontend-admin' ),
+			 'edit_user'   => __( 'Edit User Form', 'frontend-admin' ),
+			 'delete_user' => __( 'Delete User Button', 'frontend-admin' ),
 		 ),
-		 __( 'Term', 'acf-frontend-form-element' ) => array(
-			 'new_term'    => __( 'New Taxonomy Form', 'acf-frontend-form-element' ),
-			 'edit_term'   => __( 'Edit Taxonomy Form', 'acf-frontend-form-element' ),
-			 'delete_term' => __( 'Delete Term Button', 'acf-frontend-form-element' ),
+		 __( 'Term', 'frontend-admin' ) => array(
+			 'new_term'    => __( 'New Taxonomy Form', 'frontend-admin' ),
+			 'edit_term'   => __( 'Edit Taxonomy Form', 'frontend-admin' ),
+			 'delete_term' => __( 'Delete Term Button', 'frontend-admin' ),
 		 ),
 	 );
 	 $form_types = apply_filters( 'frontend_admin/forms/form_types', $form_types );
@@ -92,7 +92,6 @@ function feadmin_get_field_data( $type = null, $form_fields = false ) {
 }
 
 
-
 function feadmin_get_user_roles( $exceptions = array(), $all = false ) {
 	if ( ! current_user_can( 'administrator' ) ) {
 		$exceptions[] = 'administrator';
@@ -101,7 +100,7 @@ function feadmin_get_user_roles( $exceptions = array(), $all = false ) {
 	$user_roles = array();
 
 	if ( $all ) {
-		$user_roles['all'] = __( 'All', 'acf-frontend-form-element' );
+		$user_roles['all'] = __( 'All', 'frontend-admin' );
 	}
 	global $wp_roles;
 	// loop through array and add to field 'choices'
@@ -391,17 +390,17 @@ function feadmin_get_field_type_groups( $type = 'all' ) {
 	$fields = array();
 	if ( $type == 'all' ) {
 		$fields['acf']    = array(
-			'label'   => __( 'ACF Field', 'acf-frontend-form-element' ),
+			'label'   => __( 'ACF Field', 'frontend-admin' ),
 			'options' => array(
-				'ACF_fields'       => __( 'ACF Fields', 'acf-frontend-form-element' ),
-				'ACF_field_groups' => __( 'ACF Field Groups', 'acf-frontend-form-element' ),
+				'ACF_fields'       => __( 'ACF Fields', 'frontend-admin' ),
+				'ACF_field_groups' => __( 'ACF Field Groups', 'frontend-admin' ),
 			),
 		);
 		$fields['layout'] = array(
-			'label'   => __( 'Layout', 'acf-frontend-form-element' ),
+			'label'   => __( 'Layout', 'frontend-admin' ),
 			'options' => array(
-				'message' => __( 'Message', 'acf-frontend-form-element' ),
-			// 'tab'  => __( 'Tab', 'acf-frontend-form-element' ),
+				'message' => __( 'Message', 'frontend-admin' ),
+			// 'tab'  => __( 'Tab', 'frontend-admin' ),
 			),
 		);
 	}
@@ -409,47 +408,47 @@ function feadmin_get_field_type_groups( $type = 'all' ) {
 		$fields['post'] = array(
 			'label'   => __( 'Post' ),
 			'options' => array(
-				'title'          => __( 'Post Title', 'acf-frontend-form-element' ),
-				'slug'           => __( 'Slug', 'acf-frontend-form-element' ),
-				'content'        => __( 'Post Content', 'acf-frontend-form-element' ),
-				'featured_image' => __( 'Featured Image', 'acf-frontend-form-element' ),
-				'excerpt'        => __( 'Post Excerpt', 'acf-frontend-form-element' ),
-				'categories'     => __( 'Categories', 'acf-frontend-form-element' ),
-				'tags'           => __( 'Tags', 'acf-frontend-form-element' ),
-				'author'         => __( 'Post Author', 'acf-frontend-form-element' ),
-				'published_on'   => __( 'Published On', 'acf-frontend-form-element' ),
-				'post_type'      => __( 'Post Type', 'acf-frontend-form-element' ),
-				'menu_order'     => __( 'Menu Order', 'acf-frontend-form-element' ),
-				'allow_comments' => __( 'Allow Comments', 'acf-frontend-form-element' ),
-				'taxonomy'       => __( 'Custom Taxonomy', 'acf-frontend-form-element' ),
+				'title'          => __( 'Post Title', 'frontend-admin' ),
+				'slug'           => __( 'Slug', 'frontend-admin' ),
+				'content'        => __( 'Post Content', 'frontend-admin' ),
+				'featured_image' => __( 'Featured Image', 'frontend-admin' ),
+				'excerpt'        => __( 'Post Excerpt', 'frontend-admin' ),
+				'categories'     => __( 'Categories', 'frontend-admin' ),
+				'tags'           => __( 'Tags', 'frontend-admin' ),
+				'author'         => __( 'Post Author', 'frontend-admin' ),
+				'published_on'   => __( 'Published On', 'frontend-admin' ),
+				'post_type'      => __( 'Post Type', 'frontend-admin' ),
+				'menu_order'     => __( 'Menu Order', 'frontend-admin' ),
+				'allow_comments' => __( 'Allow Comments', 'frontend-admin' ),
+				'taxonomy'       => __( 'Custom Taxonomy', 'frontend-admin' ),
 			),
 		);
 	}
 	if ( $type == 'all' || $type == 'user' ) {
 		$fields['user'] = array(
-			'label'   => __( 'User', 'acf-frontend-form-element' ),
+			'label'   => __( 'User', 'frontend-admin' ),
 			'options' => array(
-				'username'         => __( 'Username', 'acf-frontend-form-element' ),
-				'password'         => __( 'Password', 'acf-frontend-form-element' ),
-				'confirm_password' => __( 'Confirm Password', 'acf-frontend-form-element' ),
-				'email'            => __( 'Email', 'acf-frontend-form-element' ),
-				'first_name'       => __( 'First Name', 'acf-frontend-form-element' ),
-				'last_name'        => __( 'Last Name', 'acf-frontend-form-element' ),
-				'nickname'         => __( 'Nickname', 'acf-frontend-form-element' ),
-				'display_name'     => __( 'Display Name', 'acf-frontend-form-element' ),
-				'bio'              => __( 'Biography', 'acf-frontend-form-element' ),
-				'role'             => __( 'Role', 'acf-frontend-form-element' ),
+				'username'         => __( 'Username', 'frontend-admin' ),
+				'password'         => __( 'Password', 'frontend-admin' ),
+				'confirm_password' => __( 'Confirm Password', 'frontend-admin' ),
+				'email'            => __( 'Email', 'frontend-admin' ),
+				'first_name'       => __( 'First Name', 'frontend-admin' ),
+				'last_name'        => __( 'Last Name', 'frontend-admin' ),
+				'nickname'         => __( 'Nickname', 'frontend-admin' ),
+				'display_name'     => __( 'Display Name', 'frontend-admin' ),
+				'bio'              => __( 'Biography', 'frontend-admin' ),
+				'role'             => __( 'Role', 'frontend-admin' ),
 			),
 		);
 	}
 	if ( $type == 'all' || $type == 'term' ) {
 
 		$fields['term'] = array(
-			'label'   => __( 'Term', 'acf-frontend-form-element' ),
+			'label'   => __( 'Term', 'frontend-admin' ),
 			'options' => array(
-				'term_name'        => __( 'Term Name', 'acf-frontend-form-element' ),
-				'term_slug'        => __( 'Term Slug', 'acf-frontend-form-element' ),
-				'term_description' => __( 'Term Description', 'acf-frontend-form-element' ),
+				'term_name'        => __( 'Term Name', 'frontend-admin' ),
+				'term_slug'        => __( 'Term Slug', 'frontend-admin' ),
+				'term_description' => __( 'Term Description', 'frontend-admin' ),
 			),
 		);
 	}
@@ -568,7 +567,7 @@ function feadmin_group_choice( $field_group ) {
 	}
 
 	// return
-	return sprintf( __( 'All fields from %s', 'acf-frontend-form-element' ), $field_group['title'] );
+	return sprintf( __( 'All fields from %s', 'frontend-admin' ), $field_group['title'] );
 
 }
 
@@ -734,44 +733,7 @@ function feadmin_get_time_input( $attrs = array() ) {
 	return sprintf( '<input %s/>', feadmin_get_esc_attrs( $attrs ) );
 }
 
-/**
- * Determine whether the current user can edit a given user.
- *
- * Only administrators and users with the 'frontend_admin_manager' metadata field set to the current user's ID can edit a user.
- *
- * @param int $user_id The ID of the user to check.
- * @param array $args Additional arguments passed to the function.
- * @return int|bool true if the user can edit it, false if they cannot.
- */
-function feadmin_can_edit_user( $user_id, $args ) {
-	$current_user = get_current_user_id();
 
-    if( current_user_can( 'edit_users' ) || $current_user == $user_id ){		
-		return true;
-	}
-
-    // Return the user ID if the user can edit it, or false if they cannot
-    return false;
-}
-
-/**
- * Determine whether the current user can edit a given post.
- *
- * Only administrators and the post author can edit a post.
- *
- * @param int $post_id The ID of the post to check.
- * @param array $args Additional arguments passed to the function.
- * @return int|bool true if the user can edit it, false if they cannot.
- */
-function feadmin_can_edit_post( $post_id, $args ) {
-	$current_user = get_current_user_id();
-	if( current_user_can( 'edit_others_posts' ) || $current_user == get_post_field( 'post_author', $post_id ) ){
-		return true;
-	}
-
-	return false;
-
-}
 
 /*
 *  feadmin_verify_nonce
@@ -841,6 +803,7 @@ function feadmin_verify_ajax( $nonce = '', $action = '' ) {
 
 	// Bail if nonce can't be verified.
 	if ( ! wp_verify_nonce( sanitize_text_field( $nonce_to_check ), $nonce_action ) ) {
+		error_log('not verified');
 		return false;
 	}
 

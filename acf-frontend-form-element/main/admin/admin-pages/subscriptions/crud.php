@@ -162,7 +162,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_Crud' ) ) :
 		}
         public function subscriptions_list(){
             global $fa_subscriptions_page;
-            $fa_subscriptions_page = add_submenu_page( 'fea-settings', __( 'Subscriptions', 'acf-frontend-form-element' ), __( 'Subscriptions', 'acf-frontend-form-element' ), 'manage_options', 'frontend-admin-subscriptions', [ $this, 'admin_subscriptions_page'], 82 );
+            $fa_subscriptions_page = add_submenu_page( 'fea-settings', __( 'Subscriptions', 'frontend-admin' ), __( 'Subscriptions', 'frontend-admin' ), 'manage_options', 'frontend-admin-subscriptions', [ $this, 'admin_subscriptions_page'], 82 );
             add_action( "load-$fa_subscriptions_page", array( $this, 'subscriptions_page_options' ) );
         }
 
@@ -178,7 +178,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Subscriptions_Crud' ) ) :
 			add_screen_option( $option, $args );
 
 			?>
-				<h2><?php echo __( 'Subscriptions', 'acf-frontend-form-element' ) ?></h2>
+				<h2><?php echo __( 'Subscriptions', 'frontend-admin' ) ?></h2>
 				<?php
 				fea_instance()->subscriptions_list->prepare_items();
 				fea_instance()->subscriptions_list->display();

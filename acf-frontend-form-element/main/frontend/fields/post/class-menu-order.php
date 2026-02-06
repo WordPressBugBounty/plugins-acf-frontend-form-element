@@ -23,8 +23,8 @@ if ( ! class_exists( 'menu_order' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'menu_order';
-			$this->label      = __( 'Menu Order', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Menu Order', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'min'           => '0',

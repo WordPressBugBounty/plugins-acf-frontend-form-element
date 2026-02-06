@@ -77,11 +77,11 @@ class FrontendForm extends \Bricks\Element {
 		);
 
 		$redirect_options = array(
-			'current'     => __( 'Stay on Current Page/Post', 'acf-frontend-form-element' ),
-			'custom_url'  => __( 'Custom Url', 'acf-frontend-form-element' ),
-			'referer_url' => __( 'Referer', 'acf-frontend-form-element' ),
-			'post_url'    => __( 'Post Url', 'acf-frontend-form-element' ),
-			'none'       => __( 'None', 'acf-frontend-form-element' ),
+			'current'     => __( 'Stay on Current Page/Post', 'frontend-admin' ),
+			'custom_url'  => __( 'Custom Url', 'frontend-admin' ),
+			'referer_url' => __( 'Referer', 'frontend-admin' ),
+			'post_url'    => __( 'Post Url', 'frontend-admin' ),
+			'none'       => __( 'None', 'frontend-admin' ),
 		);
 
 		$redirect_options = apply_filters( 'frontend_admin/forms/redirect_options', $redirect_options );
@@ -89,7 +89,7 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'redirect',
 			array(
-				'label'       => __( 'Redirect After Submit', 'acf-frontend-form-element' ),
+				'label'       => __( 'Redirect After Submit', 'frontend-admin' ),
 				'type'        => 'select',
 				'default'     => 'current',
 				'options'     => $redirect_options,
@@ -100,13 +100,13 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'redirect_action',
 			array(
-				'label'       => __( 'After Reload', 'acf-frontend-form-element' ),
+				'label'       => __( 'After Reload', 'frontend-admin' ),
 				'type'        => 'select',
 				'default'     => 'clear',
 				'options'     => array(
-					''		=> __( 'Nothing', 'acf-frontend-form-element' ),
-					'clear' => __( 'Clear Form', 'acf-frontend-form-element' ),
-					'edit'  => __( 'Edit Content', 'acf-frontend-form-element' ),
+					''		=> __( 'Nothing', 'frontend-admin' ),
+					'clear' => __( 'Clear Form', 'frontend-admin' ),
+					'edit'  => __( 'Edit Content', 'frontend-admin' ),
 				),
 				'render_type' => 'none',
 			)
@@ -114,9 +114,9 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'custom_url',
 			array(
-				'label'       => __( 'Custom Url', 'acf-frontend-form-element' ),
+				'label'       => __( 'Custom Url', 'frontend-admin' ),
 				'type'        => 'text',
-				'placeholder' => __( 'Enter Url Here', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Enter Url Here', 'frontend-admin' ),
 				'options'     => false,
 				'show_label'  => false,
 				'required'   => array(
@@ -132,17 +132,17 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'show_update_message',
 			array(
-				'label'        => __( 'Show Success Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Success Message', 'frontend-admin' ),
 				'type' 		   => 'checkbox',
 				'default'      => true,
 				'render_type'  => 'none',
 			)
 		);
-		$success = $this->form_defaults['success_message'] ?? __( 'Form has been submitted successfully.', 'acf-frontend-form-element' );
+		$success = $this->form_defaults['success_message'] ?? __( 'Form has been submitted successfully.', 'frontend-admin' );
 		$this->add_control(
 			'update_message',
 			array(
-				'label'       => __( 'Submit Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Submit Message', 'frontend-admin' ),
 				'type'        => 'textarea',
 				'default'     => $success,
 				'placeholder' => $success,
@@ -157,10 +157,10 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'error_message',
 			array(
-				'label'       => __( 'Error Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Error Message', 'frontend-admin' ),
 				'type'        => 'textarea',
-				'description' => __( 'There shouldn\'t be any problems with the form submission, but if there are, this is what your users will see. If you are expeiencing issues, try and changing your cache settings and reach out to ', 'acf-frontend-form-element' ) . 'support@dynamiapps.com',
-				'default'     => __( 'Please fix the form errors and try again.', 'acf-frontend-form-element' ),
+				'description' => __( 'There shouldn\'t be any problems with the form submission, but if there are, this is what your users will see. If you are expeiencing issues, try and changing your cache settings and reach out to ', 'frontend-admin' ) . 'support@dynamiapps.com',
+				'default'     => __( 'Please fix the form errors and try again.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -171,9 +171,9 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'required_message',
 			array(
-				'label'       => __( 'Required Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Required Message', 'frontend-admin' ),
 				'type'        => 'text',
-				'default'     => __( 'This field is required.', 'acf-frontend-form-element' ),
+				'default'     => __( 'This field is required.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -184,9 +184,9 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control(
 			'email_verified_message',
 			array(
-				'label'       => __( 'Email Verified Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Email Verified Message', 'frontend-admin' ),
 				'type'        => 'text',
-				'default'     => __( 'Email has been verified.', 'acf-frontend-form-element' ),
+				'default'     => __( 'Email has been verified.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),

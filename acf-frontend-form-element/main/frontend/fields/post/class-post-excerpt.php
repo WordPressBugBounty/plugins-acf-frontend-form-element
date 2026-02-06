@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_excerpt' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_excerpt';
-			$this->label      = __( 'Excerpt', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Excerpt', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'excerpt',
 				'default_value' => '',

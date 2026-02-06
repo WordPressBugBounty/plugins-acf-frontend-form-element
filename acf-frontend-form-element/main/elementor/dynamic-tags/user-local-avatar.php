@@ -38,7 +38,7 @@ class User_Local_Avatar_Tag extends Data_Tag {
 	 * @return string
 	 */
 	public function get_title() {
-		return __( 'Local Avatar', 'acf-frontend-form-element' );
+		return __( 'Local Avatar', 'frontend-admin' );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class User_Local_Avatar_Tag extends Data_Tag {
 		$this->add_control(
 			'fallback',
 			array(
-				'label' => __( 'Fallback', 'acf-frontend-form-element' ),
+				'label' => __( 'Fallback', 'frontend-admin' ),
 				'type'  => Controls_Manager::MEDIA,
 			)
 		);

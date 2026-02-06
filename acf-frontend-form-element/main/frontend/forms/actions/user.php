@@ -21,7 +21,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 		}
 
 		public function get_label() {
-			return __( 'User', 'acf-frontend-form-element' );
+			return __( 'User', 'frontend-admin' );
 		}
 
 		public function get_fields_display( $form_field, $local_field ) {
@@ -89,6 +89,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			return $this->get_valid_defaults( $default_fields, $form );
 		}
 
+		
 		public function get_form_builder_options( $form ) {
 			$roles = feadmin_get_user_roles( array( 'administrator' ) );
 
@@ -101,8 +102,8 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					 'required'          => 0,
 					 'conditional_logic' => 0,
 					 'choices'           => array(
-						 'edit_user' => __( 'Edit User', 'acf-frontend-form-element' ),
-						 'new_user'  => __( 'New User', 'acf-frontend-form-element' ),
+						 'edit_user' => __( 'Edit User', 'frontend-admin' ),
+						 'new_user'  => __( 'New User', 'frontend-admin' ),
 					 ),
 					 'allow_null'        => 0,
 					 'multiple'          => 0,
@@ -113,7 +114,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				 ),
 				 array(
 					 'key'               => 'user_to_edit',
-					 'label'             => __( 'User to Edit', 'acf-frontend-form-element' ),
+					 'label'             => __( 'User to Edit', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -127,11 +128,11 @@ if ( ! class_exists( 'ActionUser' ) ) :
 						 ),
 					 ),
 					 'choices'           => array(
-						 'current_user'   => __( 'Current User', 'acf-frontend-form-element' ),
-						 'current_author' => __( 'Current Author', 'acf-frontend-form-element' ),
-						 'post_author'    => __( 'Form Post Author', 'acf-frontend-form-element' ),
-						 'url_query'      => __( 'URL Query', 'acf-frontend-form-element' ),
-						 'select_user'    => __( 'Specific User', 'acf-frontend-form-element' ),
+						 'current_user'   => __( 'Current User', 'frontend-admin' ),
+						 'current_author' => __( 'Current Author', 'frontend-admin' ),
+						 'post_author'    => __( 'Form Post Author', 'frontend-admin' ),
+						 'url_query'      => __( 'URL Query', 'frontend-admin' ),
+						 'select_user'    => __( 'Specific User', 'frontend-admin' ),
 					 ),
 					 'default_value'     => false,
 					 'allow_null'        => 0,
@@ -143,7 +144,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				 ),
 				 array(
 					 'key'               => 'url_query_user',
-					 'label'             => __( 'URL Query Key', 'acf-frontend-form-element' ),
+					 'label'             => __( 'URL Query Key', 'frontend-admin' ),
 					 'type'              => 'text',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -165,7 +166,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				 ),
 				 array(
 					 'key'               => 'select_user',
-					 'label'             => __( 'Specific User', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Specific User', 'frontend-admin' ),
 					 'name'              => 'select_user',
 					 'prefix'            => 'form',
 					 'type'              => 'user',
@@ -193,11 +194,11 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				 ),
 				array(
 					'key'               => 'roles',
-					'label'             => __( 'Role', 'acf-frontend-form-element' ),
+					'label'             => __( 'Role', 'frontend-admin' ),
 					'name'              => 'role',
 					'prefix'            => 'form',
 					'type'              => 'select',
-					'instructions'      => __( 'Limit roles that can be edited', 'acf-frontend-form-element' ),
+					'instructions'      => __( 'Limit roles that can be edited', 'frontend-admin' ),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -217,7 +218,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				),
 				array(
 					'key'               => 'new_user_role',
-					'label'             => __( 'Role for New User', 'acf-frontend-form-element' ),
+					'label'             => __( 'Role for New User', 'frontend-admin' ),
 					'name'              => 'new_user_role',
 					'prefix'            => 'form',
 					'type'              => 'select',
@@ -246,7 +247,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$fields = array(
 				array(
 					'key'           => 'select_user',
-					'label'         => __( 'Select By User', 'acf-frontend-form-element' ),
+					'label'         => __( 'Select By User', 'frontend-admin' ),
 					'type'          => 'user',
 					'instructions'  => '',
 					'allow_null'    => 0,
@@ -257,7 +258,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				),
 				array(
 					'key'           => 'by_user_id',
-					'label'         => __( 'Select By User', 'acf-frontend-form-element' ),
+					'label'         => __( 'Select By User', 'frontend-admin' ),
 					'type'          => 'user',
 					'instructions'  => '',
 					'allow_null'    => 0,
@@ -303,17 +304,17 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			if( 'delete_user' !== $widget->get_name() ){
 
 				$widget->add_control( 'save_to_user', array(
-					'label'   => __( 'User', 'acf-frontend-form-element' ),
+					'label'   => __( 'User', 'frontend-admin' ),
 					'type'    => Controls_Manager::SELECT,
 					'options' => array(
-						'edit_user' => __( 'Edit User', 'acf-frontend-form-element' ),
-						'new_user'  => __( 'New User', 'acf-frontend-form-element' ),
+						'edit_user' => __( 'Edit User', 'frontend-admin' ),
+						'new_user'  => __( 'New User', 'frontend-admin' ),
 					),
 					'default' => $widget->get_name(),
 				) );
 			}else{
 				$widget->add_control( 'save_to_user', array(
-					'label'   => __( 'User', 'acf-frontend-form-element' ),
+					'label'   => __( 'User', 'frontend-admin' ),
 					'type'    => Controls_Manager::HIDDEN,
 					'default' => $widget->get_name(),
 				) );
@@ -324,14 +325,14 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'user_to_edit',
 				array(
-					'label'     => __( 'Specific User', 'acf-frontend-form-element' ),
+					'label'     => __( 'Specific User', 'frontend-admin' ),
 					'type'      => \Elementor\Controls_Manager::SELECT,
 					'default'   => 'current_user',
 					'options'   => array(
-						'current_user'   => __( 'Current User', 'acf-frontend-form-element' ),
-						'current_author' => __( 'Current Author', 'acf-frontend-form-element' ),
-						'url_query'      => __( 'URL Query', 'acf-frontend-form-element' ),
-						'select_user'    => __( 'Specific User', 'acf-frontend-form-element' ),
+						'current_user'   => __( 'Current User', 'frontend-admin' ),
+						'current_author' => __( 'Current Author', 'frontend-admin' ),
+						'url_query'      => __( 'URL Query', 'frontend-admin' ),
+						'select_user'    => __( 'Specific User', 'frontend-admin' ),
 					),
 					'condition' => $condition,
 				)
@@ -340,11 +341,11 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'url_query_user',
 				array(
-					'label'       => __( 'URL Query', 'acf-frontend-form-element' ),
+					'label'       => __( 'URL Query', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( 'user_id', 'acf-frontend-form-element' ),
-					'default'     => __( 'user_id', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter the URL query parameter containing the id of the user you want to edit', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'user_id', 'frontend-admin' ),
+					'default'     => __( 'user_id', 'frontend-admin' ),
+					'description' => __( 'Enter the URL query parameter containing the id of the user you want to edit', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -352,11 +353,11 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'user_select',
 				array(
-					'label'       => __( 'User', 'acf-frontend-form-element' ),
+					'label'       => __( 'User', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18', 'frontend-admin' ),
 					'default'     => get_current_user_id(),
-					'description' => __( 'Enter user id', 'acf-frontend-form-element' ),
+					'description' => __( 'Enter user id', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -367,7 +368,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'new_user_role',
 				array(
-					'label'       => __( 'New User Role', 'acf-frontend-form-element' ),
+					'label'       => __( 'New User Role', 'frontend-admin' ),
 					'type'        => \Elementor\Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => 'subscriber',
@@ -379,10 +380,10 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'hide_admin_bar',
 				array(
-					'label'        => __( 'Hide WordPress Admin Area?', 'acf-frontend-form-element' ),
+					'label'        => __( 'Hide WordPress Admin Area?', 'frontend-admin' ),
 					'type'         => \Elementor\Controls_Manager::SWITCHER,
-					'label_on'     => __( 'Hide', 'acf-frontend-form-element' ),
-					'label_off'    => __( 'Show', 'acf-frontend-form-element' ),
+					'label_on'     => __( 'Hide', 'frontend-admin' ),
+					'label_off'    => __( 'Show', 'frontend-admin' ),
 					'return_value' => 'true',
 					'condition'    => $condition,
 				)
@@ -391,10 +392,10 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				$widget->add_control(
 					'login_user',
 					array(
-						'label'        => __( 'Log in as new user?', 'acf-frontend-form-element' ),
+						'label'        => __( 'Log in as new user?', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 						'condition'    => $condition,
 					)
@@ -405,9 +406,9 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			$widget->add_control(
 				'roles',
 				array(
-					'label'       => __( 'Role', 'acf-frontend-form-element' ),
+					'label'       => __( 'Role', 'frontend-admin' ),
 					'type'        => \Elementor\Controls_Manager::SELECT2,
-					'description' => __( 'Limit roles that can be edited', 'acf-frontend-form-element' ), 
+					'description' => __( 'Limit roles that can be edited', 'frontend-admin' ), 
 					'label_block' => true,
 					'default'     => [ 'subscriber', 'author', 'contributor' ],
 					'multiple'    => true,
@@ -537,9 +538,13 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				if ( empty( $user_to_insert['role'] ) ) {
 					$user = get_user_by( 'id', $user_id );
 							 // Check if there is a default role set for the form
-							 // This is relevant to forms built in Elementor
 					if ( ! empty( $form['new_user_role'] ) ) {
-						$user->set_role( $form['new_user_role'] );
+						$new_role = $form['new_user_role'];
+						if ( ! current_user_can( 'administrator' ) && $new_role == 'administrator' ) {
+							$new_role = get_option( 'default_role' );
+						}
+						
+						$user->set_role( $new_role );
 					}
 					// Otherwise set the default to be the wp default
 					else {
@@ -687,7 +692,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				return $settings;
 			}
 
-			if( ! feadmin_can_edit_user( $user_id, $settings) ){
+			if( ! current_user_can( 'edit_user', $user_id ) ){
 				if( ! in_array( 'edit_users', $condition['special_permissions'] ) )
 					$settings['user_id'] = 'none';
 			}

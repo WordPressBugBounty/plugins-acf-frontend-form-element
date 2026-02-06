@@ -16,6 +16,13 @@
     "frontend-admin/form/form_settings",
     "frontend-admin/form/form_key"
   ],
+  "example": {
+    "attributes": {
+      "label": "This is a text field",
+      "placeholder": "Enter some text here",
+      "required": true
+    }
+  },
   "attributes": {
     "name": {
       "type": "string",

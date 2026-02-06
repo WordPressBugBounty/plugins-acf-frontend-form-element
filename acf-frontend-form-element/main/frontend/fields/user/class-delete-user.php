@@ -23,12 +23,12 @@ if ( ! class_exists( 'delete_user' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'delete_user';
-			$this->label    = __( 'Delete User', 'acf-frontend-form-element' );
-			$this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label    = __( 'Delete User', 'frontend-admin' );
+			$this->category = __( 'User', 'frontend-admin' );
 			$this->object   = 'user';
 			$this->defaults = array(
-				'button_text'       => __( 'Delete', 'acf-frontend-form-element' ),
-				'confirmation_text' => __( 'Are you sure you want to delete this user?', 'acf-frontend-form-element' ),
+				'button_text'       => __( 'Delete', 'frontend-admin' ),
+				'confirmation_text' => __( 'Are you sure you want to delete this user?', 'frontend-admin' ),
 				'field_label_hide'  => 1,
 				'reassign_posts'    => 0,
 				'redirect'          => 'current',

@@ -210,6 +210,8 @@
 						$form.find('button').removeClass( 'disabled' );
 						acf.unlockForm( $form );
 						if ( response.success ) {
+							window.onbeforeunload = null;
+							$(window).off('beforeunload');
 							if ( response.data.errors ) {
 								response.data.errors.map( acf.showErrors, $form );
 							} else {
@@ -2916,86 +2918,6 @@
 	);
 	acf.registerFieldType( Field );
 
-	var Field = acf.Field.extend(
-		{
-			type: 'text_editor',
-			wait: 'load',
-			events: {
-				'mousedown .acf-editor-wrap.delay': 'onMousedown',
-				unmountField: 'disableEditor',
-				remountField: 'enableEditor',
-				removeField: 'disableEditor'
-			},
-			$control: function () {
-				return this.$( '.acf-editor-wrap' );
-			},
-			$input: function () {
-				return this.$( 'textarea' );
-			},
-			getMode: function () {
-				return this.$control().hasClass( 'tmce-active' ) ? 'visual' : 'text';
-			},
-			initialize: function () {
-				// initializeEditor if no delay
-				if ( ! this.$control().hasClass( 'delay' )) {
-					this.initializeEditor();
-				}
-			},
-			initializeEditor: function () {
-				// vars
-				var $wrap     = this.$control();
-				var $textarea = this.$input();
-				var args      = {
-					tinymce: true,
-					quicktags: true,
-					toolbar: this.get( 'toolbar' ),
-					mode: this.getMode(),
-					field: this
-				}; // generate new id
-
-				var oldId = $textarea.attr( 'id' );
-				var newId = acf.uniqueId( 'acf-editor-' ); // Backup textarea data.
-
-				var inputData = $textarea.data();
-				var inputVal  = $textarea.val(); // rename
-
-				acf.rename(
-					{
-						target: $wrap,
-						search: oldId,
-						replace: newId,
-						destructive: true
-					}
-				); // update id
-
-				this.set( 'id', newId, true ); // apply data to new textarea (acf.rename creates a new textarea element due to destructive mode)
-				// fixes bug where conditional logic "disabled" is lost during "screen_check"
-
-				this.$input().data( inputData ).val( inputVal ); // initialize
-
-				acf.tinymce.initialize( newId, args );
-			},
-			onMousedown: function (e) {
-				// prevent default
-				e.preventDefault(); // remove delay class
-
-				var $wrap = this.$control();
-				$wrap.removeClass( 'delay' );
-				$wrap.find( '.acf-editor-toolbar' ).remove(); // initialize
-
-				this.initializeEditor();
-			},
-			enableEditor: function () {
-				if (this.getMode() == 'visual') {
-					acf.tinymce.enable( this.get( 'id' ) );
-				}
-			},
-			disableEditor: function () {
-				acf.tinymce.destroy( this.get( 'id' ) );
-			}
-		}
-	);
-	acf.registerFieldType( Field );
 
 	var Field = acf.models.UploadImageField.extend(
 		{
@@ -4563,7 +4485,13 @@ acf.add_filter(
 			);
 		}
 	);
-
+	/* var Field = acf.models.WysiwygField.extend(
+		{
+			type: 'text_editor'
+		}
+	);
+	acf.registerFieldType( Field ); */
+	
 	var Field = acf.models.SelectField.extend(
 		{
 			type: 'post_author'
@@ -4740,6 +4668,8 @@ acf.add_filter(
 			},
 
 			select2Ajax: function(ajaxData, data, $el, field, instance) {
+				//check if field is defined
+				if( ! field ) return ajaxData;
 				ajaxData = acf.applyFilters( 'select2_ajax_data/type=' + field.get( 'type' ), ajaxData, data, $el, field, instance );
 				ajaxData = acf.applyFilters( 'select2_ajax_data/name=' + field.get( 'name' ), ajaxData, data, $el, field, instance );
 				ajaxData = acf.applyFilters( 'select2_ajax_data/key=' + field.get( 'key' ), ajaxData, data, $el, field, instance );
@@ -4967,7 +4897,7 @@ document.addEventListener("DOMContentLoaded", function () {
 								valueMatches = false;
 							}
 							break;
-						case "==":
+						case "==":							
 							//handle the case where condition.value is an array
 							if (Array.isArray(value)) {
 								if (value.includes(condition.value)) valueMatches = true;
@@ -5041,8 +4971,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 
     function checkAndApplyConditions(form) {
+
     	form.querySelectorAll("[data-conditions]").forEach((field) => {
-			console.log('Checking conditions for field:', field);
             const shouldShow = evaluateConditions(field,form);
 
             toggleFieldState(field, shouldShow);
@@ -5050,17 +4980,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 	function triggerChecks(event) {
-        if (event.target.matches("input, select, textarea")) {
-			//get the closest form
 			const form = event.target.closest(".frontend-form");
 
 
 			if (!form) return;
+			console.log('form found');
             checkAndApplyConditions(form);
-        }
     }
     document.addEventListener("change", triggerChecks);
     document.addEventListener("input", triggerChecks);
+
+	//trigger on select2 change
+	document.on('select2:select', triggerChecks);
+	document.on('select2:unselect', triggerChecks);
 
 	let forms = document.querySelectorAll(".frontend-form");
 	forms.forEach(function(form) {

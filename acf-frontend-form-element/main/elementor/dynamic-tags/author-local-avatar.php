@@ -37,7 +37,7 @@ class Author_Local_Avatar_Tag extends User_Local_Avatar_Tag {
 	 * @return string
 	 */
 	public function get_title() {
-		return __( 'Author Local Avatar', 'acf-frontend-form-element' );
+		return __( 'Author Local Avatar', 'frontend-admin' );
 	}
 
 	/**

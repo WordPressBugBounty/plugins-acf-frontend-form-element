@@ -17,7 +17,7 @@ class Legacy_Settings {
 	public function get_settings_fields( $field_keys ) {
 		$local_fields = array(
 			'fea_legacy_elementor' => array(
-				'label'        => __( 'Show Elementor widgets with legacy settings', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Elementor widgets with legacy settings', 'frontend-admin' ),
 				'type'         => 'true_false',
 				'instructions' => '',
 				'required'     => 0,

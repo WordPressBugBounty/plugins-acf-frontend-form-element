@@ -9,7 +9,7 @@ if ( function_exists( 'acf_add_local_field' ) ) :
 	acf_add_local_field(
 		array(
 			'key'      => 'frontend_admin_custom_term',
-			'label'    => __( 'Value', 'acf-frontend-form-element' ),
+			'label'    => __( 'Value', 'frontend-admin' ),
 			'required' => true,
 			'name'     => 'frontend_admin_custom_term',
 			'type'     => 'text',

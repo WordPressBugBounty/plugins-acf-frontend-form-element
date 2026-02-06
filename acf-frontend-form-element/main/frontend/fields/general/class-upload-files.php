@@ -23,7 +23,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'upload_files';
-			$this->label    = __( 'Upload Files', 'acf-frontend-form-element' );
+			$this->label    = __( 'Upload Files', 'frontend-admin' );
 			$this->category = 'content';
 			$this->defaults = array(
 				'library'     => 'all',
@@ -38,7 +38,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				'resize_file' => 0,
 				'mime_types'  => '',
 				'insert'      => 'append',			
-				'button_text' => __( 'Add Files', 'acf-frontend-form-element' ),
+				'button_text' => __( 'Add Files', 'frontend-admin' ),
 				'add_button_locations' => array( 'bottom' ),
 				'click_event' => 'edit'
 			);
@@ -108,7 +108,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 			//if  no button text, add the default
 			if ( empty( $field['button_text'] ) ) {
-				$field['button_text'] = __( 'Add Images', 'acf-frontend-form-element' );
+				$field['button_text'] = __( 'Add Images', 'frontend-admin' );
 			}
 			return $field;
 		}
@@ -129,8 +129,8 @@ if ( ! class_exists( 'upload_files' ) ) :
 			// localize
 			acf_localize_text(
 				array(
-					'Add Image to Gallery'      => __( 'Add Image to Gallery', 'acf-frontend-form-element' ),
-					'Maximum selection reached' => __( 'Maximum selection reached', 'acf-frontend-form-element' ),
+					'Add Image to Gallery'      => __( 'Add Image to Gallery', 'frontend-admin' ),
+					'Maximum selection reached' => __( 'Maximum selection reached', 'frontend-admin' ),
 				)
 			);
 		}
@@ -317,7 +317,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'label'       => __( 'Button Text' ),
 					'name'        => 'button_text',
 					'type'        => 'text',
-					'placeholder' => __( 'Add Image', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'Add Image', 'frontend-admin' ),
 				)
 			);
 		
@@ -371,7 +371,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			// dimentions
 			if ( $attachment['type'] === 'audio' ) {
 
-				$dimentions = __( 'Length', 'acf-frontend-form-element' ) . ': ' . $attachment['fileLength'];
+				$dimentions = __( 'Length', 'frontend-admin' ) . ': ' . $attachment['fileLength'];
 
 			} elseif ( ! empty( $attachment['width'] ) ) {
 
@@ -392,8 +392,8 @@ if ( ! class_exists( 'upload_files' ) ) :
 			<p class="uploaded"><?php esc_html_e( $attachment['dateFormatted'] ); ?></p>
 			<p class="dimensions"><?php esc_html_e( $dimentions ); ?></p>
 			<p class="actions">
-				<a href="#" class="fea-uploads-edit" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Edit', 'acf-frontend-form-element' ); ?></a>
-				<a href="#" class="fea-uploads-remove" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Remove', 'acf-frontend-form-element' ); ?></a>
+				<a href="#" class="fea-uploads-edit" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Edit', 'frontend-admin' ); ?></a>
+				<a href="#" class="fea-uploads-remove" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Remove', 'frontend-admin' ); ?></a>
 			</p>
 		</div>
 		<table class="form-table">
@@ -406,7 +406,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 						'name'   => 'title',
 						'prefix' => $prefix,
 						'type'   => 'text',
-						'label'  => __( 'Title', 'acf-frontend-form-element' ),
+						'label'  => __( 'Title', 'frontend-admin' ),
 						'value'  => $attachment['title'],
 					),
 					'tr'
@@ -418,7 +418,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 						'name'   => 'capt',
 						'prefix' => $prefix,
 						'type'   => 'textarea',
-						'label'  => __( 'Caption', 'acf-frontend-form-element' ),
+						'label'  => __( 'Caption', 'frontend-admin' ),
 						'value'  => $attachment['caption'],
 					),
 					'tr'
@@ -430,7 +430,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 						'name'   => 'alt',
 						'prefix' => $prefix,
 						'type'   => 'text',
-						'label'  => __( 'Alt Text', 'acf-frontend-form-element' ),
+						'label'  => __( 'Alt Text', 'frontend-admin' ),
 						'value'  => $attachment['alt'],
 					),
 					'tr'
@@ -442,7 +442,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 						'name'   => 'description',
 						'prefix' => $prefix,
 						'type'   => 'textarea',
-						'label'  => __( 'Description', 'acf-frontend-form-element' ),
+						'label'  => __( 'Description', 'frontend-admin' ),
 						'value'  => $attachment['description'],
 					),
 					'tr'
@@ -589,7 +589,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 				$atts['class'] .= 'acf-hidden';
 			}
 
-			$button_text = $field['button_text'] ?? __( 'Add Images', 'acf-frontend-form-element' );
+			$button_text = $field['button_text'] ?? __( 'Add Images', 'frontend-admin' );
 
 			if ( isset( $value['{file-index}'] ) ) {
 				unset( $value['{file-index}'] );
@@ -700,7 +700,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 									<div class="filename"><?php esc_html_e( acf_get_truncated( $a['filename'], 30 ) ); ?></div>    
 					<?php endif; ?>
 						<div class="actions">
-							<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
+							<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 						</div>
 					<?php
 					if( 'edit' == $click_event ){ 
@@ -728,7 +728,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 							<img data-default="<?php esc_attr_e( $default_icon ); ?>" src="" alt="" title=""/>
 						</div>
 					<div class="actions">
-						<a class="acf-icon -cancel dark small fea-uploads-remove" href="#" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
+						<a class="acf-icon -cancel dark small fea-uploads-remove" href="#" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 					</div>
 					<?php if ( $uploader == 'basic' ) { ?>
 						<div class="uploads-progress"><div class="percent">0%</div><div class="bar"></div></div>
@@ -754,10 +754,10 @@ if ( ! class_exists( 'upload_files' ) ) :
 					
 					<ul class="acf-hl">
 						<li>
-							<a href="#" class="acf-button button fea-uploads-close"><?php esc_html_e( 'Close', 'acf-frontend-form-element' ); ?></a>
+							<a href="#" class="acf-button button fea-uploads-close"><?php esc_html_e( 'Close', 'frontend-admin' ); ?></a>
 						</li>
 						<li class="acf-fr">
-							<a class="acf-button button button-primary fea-uploads-update" href="#"><?php esc_html_e( 'Update', 'acf-frontend-form-element' ); ?></a>
+							<a class="acf-button button button-primary fea-uploads-update" href="#"><?php esc_html_e( 'Update', 'frontend-admin' ); ?></a>
 						</li>
 					</ul>
 					
@@ -825,11 +825,11 @@ if ( ! class_exists( 'upload_files' ) ) :
 			?>
 				<li class="acf-fr <?php if( ! $field['value'] ) echo 'acf-hidden' ?>">
 					<select class="fea-uploads-sort">
-						<option value=""><?php esc_html_e( 'Bulk actions', 'acf-frontend-form-element' ); ?></option>
-						<option value="date"><?php esc_html_e( 'Sort by date uploaded', 'acf-frontend-form-element' ); ?></option>
-						<option value="modified"><?php esc_html_e( 'Sort by date modified', 'acf-frontend-form-element' ); ?></option>
-						<option value="title"><?php esc_html_e( 'Sort by title', 'acf-frontend-form-element' ); ?></option>
-						<option value="reverse"><?php esc_html_e( 'Reverse current order', 'acf-frontend-form-element' ); ?></option>
+						<option value=""><?php esc_html_e( 'Bulk actions', 'frontend-admin' ); ?></option>
+						<option value="date"><?php esc_html_e( 'Sort by date uploaded', 'frontend-admin' ); ?></option>
+						<option value="modified"><?php esc_html_e( 'Sort by date modified', 'frontend-admin' ); ?></option>
+						<option value="title"><?php esc_html_e( 'Sort by title', 'frontend-admin' ); ?></option>
+						<option value="reverse"><?php esc_html_e( 'Reverse current order', 'frontend-admin' ); ?></option>
 					</select>
 				</li>
 			<?php
@@ -892,8 +892,8 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'type'         => 'radio',
 					'name'         => 'click_event',
 					'choices'      => array(
-						'edit' => __( 'Edit Image', 'acf-frontend-form-element' ),
-						'download'    => __( 'Download Image', 'acf-frontend-form-element' ),
+						'edit' => __( 'Edit Image', 'frontend-admin' ),
+						'download'    => __( 'Download Image', 'frontend-admin' ),
 					),
 				
 				)
@@ -908,8 +908,8 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'type'         => 'true_false',
 					'name'         => 'open_in_lightbox',
 					'ui'           => 1,
-					'ui_on_text'   => __( 'Yes', 'acf-frontend-form-element' ),
-					'ui_off_text'  => __( 'No', 'acf-frontend-form-element' ),
+					'ui_on_text'   => __( 'Yes', 'frontend-admin' ),
+					'ui_off_text'  => __( 'No', 'frontend-admin' ),
 				)
 			);
 
@@ -917,7 +917,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum Selection', 'acf-frontend-form-element' ),
+					'label'        => __( 'Minimum Selection', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'min',
@@ -928,7 +928,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum Selection', 'acf-frontend-form-element' ),
+					'label'        => __( 'Maximum Selection', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'max',
@@ -939,13 +939,13 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Insert', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Specify where new attachments are added', 'acf-frontend-form-element' ),
+					'label'        => __( 'Insert', 'frontend-admin' ),
+					'instructions' => __( 'Specify where new attachments are added', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'insert',
 					'choices'      => array(
-						'append'  => __( 'Append to the end', 'acf-frontend-form-element' ),
-						'prepend' => __( 'Prepend to the beginning', 'acf-frontend-form-element' ),
+						'append'  => __( 'Append to the end', 'frontend-admin' ),
+						'prepend' => __( 'Prepend to the beginning', 'frontend-admin' ),
 					),
 				)
 			);
@@ -953,14 +953,14 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Library', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Limit the media library choice', 'acf-frontend-form-element' ),
+					'label'        => __( 'Library', 'frontend-admin' ),
+					'instructions' => __( 'Limit the media library choice', 'frontend-admin' ),
 					'type'         => 'radio',
 					'name'         => 'library',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'all'        => __( 'All', 'acf-frontend-form-element' ),
-						'uploadedTo' => __( 'Uploaded to post', 'acf-frontend-form-element' ),
+						'all'        => __( 'All', 'frontend-admin' ),
+						'uploadedTo' => __( 'Uploaded to post', 'frontend-admin' ),
 					),
 				)
 			);
@@ -969,11 +969,11 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Restrict which images can be uploaded', 'acf-frontend-form-element' ),
+					'label'        => __( 'Minimum', 'frontend-admin' ),
+					'instructions' => __( 'Restrict which images can be uploaded', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'min_width',
-					'prepend'      => __( 'Width', 'acf-frontend-form-element' ),
+					'prepend'      => __( 'Width', 'frontend-admin' ),
 					'append'       => 'px',
 				)
 			);
@@ -984,7 +984,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'label'   => '',
 					'type'    => 'text',
 					'name'    => 'min_height',
-					'prepend' => __( 'Height', 'acf-frontend-form-element' ),
+					'prepend' => __( 'Height', 'frontend-admin' ),
 					'append'  => 'px',
 					'_append' => 'min_width',
 				)
@@ -996,7 +996,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'label'   => '',
 					'type'    => 'text',
 					'name'    => 'min_size',
-					'prepend' => __( 'File size', 'acf-frontend-form-element' ),
+					'prepend' => __( 'File size', 'frontend-admin' ),
 					'append'  => 'MB',
 					'_append' => 'min_width',
 				)
@@ -1006,11 +1006,11 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Restrict which images can be uploaded', 'acf-frontend-form-element' ),
+					'label'        => __( 'Maximum', 'frontend-admin' ),
+					'instructions' => __( 'Restrict which images can be uploaded', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'max_width',
-					'prepend'      => __( 'Width', 'acf-frontend-form-element' ),
+					'prepend'      => __( 'Width', 'frontend-admin' ),
 					'append'       => 'px',
 				)
 			);
@@ -1021,7 +1021,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'label'   => '',
 					'type'    => 'text',
 					'name'    => 'max_height',
-					'prepend' => __( 'Height', 'acf-frontend-form-element' ),
+					'prepend' => __( 'Height', 'frontend-admin' ),
 					'append'  => 'px',
 					'_append' => 'max_width',
 				)
@@ -1033,7 +1033,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 					'label'   => '',
 					'type'    => 'text',
 					'name'    => 'max_size',
-					'prepend' => __( 'File size', 'acf-frontend-form-element' ),
+					'prepend' => __( 'File size', 'frontend-admin' ),
 					'append'  => 'MB',
 					'_append' => 'max_width',
 				)
@@ -1044,13 +1044,13 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Resize Image or Throw Error', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Resize the image to fit within the maximum dimensions', 'acf-frontend-form-element' ),
+					'label'        => __( 'Resize Image or Throw Error', 'frontend-admin' ),
+					'instructions' => __( 'Resize the image to fit within the maximum dimensions', 'frontend-admin' ),
 					'type'         => 'true_false',
 					'name'         => 'resize_file',
 					'ui'           => 1,
-					'ui_on_text'   => __( 'Resize', 'acf-frontend-form-element' ),
-					'ui_off_text'  => __( 'Throw Error', 'acf-frontend-form-element' ),
+					'ui_on_text'   => __( 'Resize', 'frontend-admin' ),
+					'ui_off_text'  => __( 'Throw Error', 'frontend-admin' ),
 				)
 			);
 		}
@@ -1115,7 +1115,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 			if ( empty( $value ) || ! is_array( $value ) ) {
 				if ( $field['required'] ) {
-					return sprintf( __( '%s value is required.', 'acf-frontend-form-element' ), $field['label'] );
+					return sprintf( __( '%s value is required.', 'frontend-admin' ), $field['label'] );
 				}
 				$value = array();
 			}

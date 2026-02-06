@@ -23,8 +23,8 @@ if ( ! class_exists( 'user_email' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'user_email';
-			$this->label      = __( 'User Email', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'User Email', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'placeholder'   => '',
@@ -88,7 +88,7 @@ if ( ! class_exists( 'user_email' ) ) :
 			$user_id = $fea_form['user_id'] ?? 'none';
 
 			if ( 'none' == $user_id ){
-				return __( 'Username cannot be saved anywhere', 'acf-frontend-form-element' );
+				return __( 'Username cannot be saved anywhere', 'frontend-admin' );
 			}
 			$edit_user = get_user_by( 'ID', $user_id );
 			
@@ -96,7 +96,7 @@ if ( ! class_exists( 'user_email' ) ) :
 				if ( ! empty( $edit_user->user_email ) && $edit_user->user_email == $value ) {
 					return $is_valid;
 				}
-				return sprintf( __( 'The email %s is already assigned to an existing account. Please try a different email or login to your account', 'acf-frontend-form-element' ), $value );
+				return sprintf( __( 'The email %s is already assigned to an existing account. Please try a different email or login to your account', 'frontend-admin' ), $value );
 			}
 
 			if ( ! empty( $field['set_as_username'] ) ) {
@@ -104,7 +104,7 @@ if ( ! class_exists( 'user_email' ) ) :
 					if ( ! empty( $edit_user->user_login ) && $edit_user->user_login == $value ) {
 						return $is_valid;
 					}
-					return sprintf( __( 'The username %s is taken. Please try a different username', 'acf-frontend-form-element' ), $value );
+					return sprintf( __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
 				}
 			}
 

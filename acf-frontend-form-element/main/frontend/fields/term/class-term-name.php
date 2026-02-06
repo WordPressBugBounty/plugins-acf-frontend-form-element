@@ -23,8 +23,8 @@ if ( ! class_exists( 'term_name' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'term_name';
-			$this->label      = __( 'Term Name', 'acf-frontend-form-element' );
-			  $this->category = __( 'Term', 'acf-frontend-form-element' );
+			$this->label      = __( 'Term Name', 'frontend-admin' );
+			  $this->category = __( 'Term', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'maxlength'     => '',
@@ -78,7 +78,7 @@ if ( ! class_exists( 'term_name' ) ) :
 			$term_id = $fea_form['term_id'] ?? 'none';
 
 			if ( 'none' == $term_id ){
-				return __( 'Term cannot be saved anywhere', 'acf-frontend-form-element' );
+				return __( 'Term cannot be saved anywhere', 'frontend-admin' );
 			}
 
 			if ( empty( $field['change_slug'] ) && is_numeric( $term_id ) ) {
@@ -94,7 +94,7 @@ if ( ! class_exists( 'term_name' ) ) :
 						return $is_valid;
 					}
 				}
-				return __( 'The term ' . $value . ' exists.', 'acf-frontend-form-element' );
+				return __( 'The term ' . $value . ' exists.', 'frontend-admin' );
 			}
 			return $is_valid;
 		}

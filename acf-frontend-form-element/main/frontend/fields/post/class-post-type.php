@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_type' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_type';
-			$this->label      = __( 'Post Type', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Post Type', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'multiple'      => 0,
 				'allow_null'    => 0,
@@ -125,8 +125,8 @@ if ( ! class_exists( 'post_type' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Post Type', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf-frontend-form-element' ),
+					'label'        => __( 'Default Post Type', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'default_value',
 					'ui'           => 0,
@@ -137,8 +137,8 @@ if ( ! class_exists( 'post_type' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Post Types', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the types to choose from', 'acf-frontend-form-element' ),
+					'label'        => __( 'Post Types', 'frontend-admin' ),
+					'instructions' => __( 'Select the types to choose from', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'post_type_options',
 					'multiple'     => 1,
@@ -151,14 +151,14 @@ if ( ! class_exists( 'post_type' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Appearance', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the appearance of this field', 'acf-frontend-form-element' ),
+					'label'        => __( 'Appearance', 'frontend-admin' ),
+					'instructions' => __( 'Select the appearance of this field', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'field_type',
 					'optgroup'     => true,
 					'choices'      => array(
-						'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-						'select' => _x( 'Select', 'noun', 'acf-frontend-form-element' ),
+						'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+						'select' => _x( 'Select', 'noun', 'frontend-admin' ),
 					),
 				)
 			);

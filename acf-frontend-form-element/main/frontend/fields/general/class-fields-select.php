@@ -21,8 +21,8 @@ if ( ! class_exists( 'fields_select' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'fields_select';
-			$this->label    = __( 'ACF Fields', 'acf-frontend-form-element' );
-			$this->category = __( 'Form', 'acf-frontend-form-element' );
+			$this->label    = __( 'ACF Fields', 'frontend-admin' );
+			$this->category = __( 'Form', 'frontend-admin' );
 			$this->defaults = array(
 				'fields_select'  => '',
 				'fields_exclude' => '',
@@ -103,7 +103,7 @@ if ( ! class_exists( 'fields_select' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Fields or Field Groups', 'acf' ),
-					'instructions' => __( 'Select one or more fields or field groups', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Select one or more fields or field groups', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'fields_select',
 					'multiple'     => 1,
@@ -120,7 +120,7 @@ if ( ! class_exists( 'fields_select' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Exclude Fields from Field Groups', 'acf' ),
-					'instructions' => __( 'Select one or more fields from the field groups to exclude', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Select one or more fields from the field groups to exclude', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'fields_exclude',
 					'multiple'     => 1,

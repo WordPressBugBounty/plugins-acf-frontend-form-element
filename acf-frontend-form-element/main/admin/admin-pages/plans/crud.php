@@ -102,6 +102,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			$args = feadmin_parse_args( $args, array(
 				'per_page' => 20,
 				'current_page' => 1,
+				'orderby' => 'created_at',
+				'order' => 'DESC',
 			) );
 
 			$sql = "SELECT * FROM {$wpdb->prefix}fea_plans";
@@ -148,7 +150,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 				die();
 			}
 
-			if( empty( $_POST['plan'] ) ) wp_send_json_error( __( 'No plan found', 'acf-frontend-form-element' ) );
+			if( empty( $_POST['plan'] ) ) wp_send_json_error( __( 'No plan found', 'frontend-admin' ) );
 
 			$plan_id = intval( $_POST['plan'] );
 
@@ -156,7 +158,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 
 			if( 'success' == $deleted ) wp_send_json_success();
 
-			wp_send_json_error( __( 'Could not delete plan.', 'acf-frontend-form-element' ) );
+			wp_send_json_error( __( 'Could not delete plan.', 'frontend-admin' ) );
 		}
 		public function delete_plan( $id = 0 ){
 			if( $id == 0 ) return $id;
@@ -182,7 +184,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 		}
         public function plans_list(){
             global $fa_plans_page;
-            $fa_plans_page = add_submenu_page( 'fea-settings', __( 'Plans', 'acf-frontend-form-element' ), __( 'Plans', 'acf-frontend-form-element' ), 'manage_options', 'frontend-admin-plans', [ $this, 'admin_plans_page'], 82 );
+            $fa_plans_page = add_submenu_page( 'fea-settings', __( 'Plans', 'frontend-admin' ), __( 'Plans', 'frontend-admin' ), 'manage_options', 'frontend-admin-plans', [ $this, 'admin_plans_page'], 82 );
             add_action( "load-$fa_plans_page", array( $this, 'plans_page_options' ) );
         }
 
@@ -190,18 +192,18 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			if ( is_numeric( $plan_id ) ) {
 				$plan = $this->get_plan( intval( $plan_id ) );
 				if ( ! $plan ) {
-					esc_html_e( 'Plan not found. Did you erase it?', 'acf-frontend-form-element' );
+					esc_html_e( 'Plan not found. Did you erase it?', 'frontend-admin' );
 					return false;
 				}
 			}
 
 
 			if ( 'add_item' == $plan_id ) {
-				$submit_value    = __( 'Create Plan', 'acf-frontend-form-element' );
-				$success_message = __( 'Plan has been created successfully.', 'acf-frontend-form-element' );
+				$submit_value    = __( 'Create Plan', 'frontend-admin' );
+				$success_message = __( 'Plan has been created successfully.', 'frontend-admin' );
 				$update          = true;
 				$defaults = [
-					'title' => __( 'Basic', 'acf-frontend-form-element' ),
+					'title' => __( 'Basic', 'frontend-admin' ),
 					'expires_after' => 'never',
 					'pricing' => 1,
 					'currency' => 'USD',
@@ -210,8 +212,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					]
 				];
 			} else {
-				$submit_value    = __( 'Update', 'acf-frontend-form-element' );
-				$success_message = __( 'Plan has been updated successfully.', 'acf-frontend-form-element' );
+				$submit_value    = __( 'Update', 'frontend-admin' );
+				$success_message = __( 'Plan has been updated successfully.', 'frontend-admin' );
 				$defaults = [
 					'title' => $plan->title,
 					'expires_after' => $plan->expires_after,
@@ -242,7 +244,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					'title' => array(
 						'name'               => 'title',
 						'key'               => 'title',
-						'label'             => __( 'Title', 'acf-frontend-form-element' ),
+						'label'             => __( 'Title', 'frontend-admin' ),
 						'type'              => 'text',
 						'instructions'      => '',
 						'default_value'     => $defaults['title'],
@@ -250,7 +252,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					/* 'slug' => array(
 						'name'               => 'slug',
 						'key'               => 'slug',
-						'label'             => __( 'Slug', 'acf-frontend-form-element' ),
+						'label'             => __( 'Slug', 'frontend-admin' ),
 						'type'              => 'text',
 						'instructions'      => '',
 						'default_value'     => sanitize_title( $defaults['title'] ),
@@ -261,13 +263,13 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					'expires_after' => array(
 						'name'              => 'expires_after',
 						'key'              => 'expires_after',
-						'label'             => __( 'Expiration', 'acf-frontend-form-element' ),
+						'label'             => __( 'Expiration', 'frontend-admin' ),
 						'type'              => 'select',
 						'choices'			=> [
-							'never' => __( 'Never', 'acf-frontend-form-element' ),
-							'week' => __( 'Week', 'acf-frontend-form-element' ),
-							'month' => __( 'Month', 'acf-frontend-form-element' ),
-							'year' => __( 'Year', 'acf-frontend-form-element' ),
+							'never' => __( 'Never', 'frontend-admin' ),
+							'week' => __( 'Week', 'frontend-admin' ),
+							'month' => __( 'Month', 'frontend-admin' ),
+							'year' => __( 'Year', 'frontend-admin' ),
 						],
 						'return_format'		=> 'value',
 						'instructions'      => '',
@@ -277,7 +279,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					'pricing' => array(
 						'name'               => 'pricing',
 						'key'               => 'pricing',
-						'label'             => __( 'Price', 'acf-frontend-form-element' ),
+						'label'             => __( 'Price', 'frontend-admin' ),
 						'type'              => 'number',
 						'instructions'      => '',
 						'min'    			=> 1,
@@ -286,7 +288,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 					'currency' => array(
 						'name'               => 'currency',
 						'key'               => 'currency',
-						'label'             => __( 'Currency', 'acf-frontend-form-element' ),
+						'label'             => __( 'Currency', 'frontend-admin' ),
 						'type'              => 'select',
 						'choices'			=> $currencies,
 						'return_format'		=> 'value',
@@ -318,8 +320,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			add_screen_option( $option, $args );
 
 			?>
-				<h2><?php echo __( 'Plans', 'acf-frontend-form-element' ) ?></h2>
-				<a href="?page=frontend-admin-plans&action=add-new" type="button" class="button add-plan"><?php esc_html_e( 'Add New Plan', 'acf-frontend-form-element' ); ?></a>
+				<h2><?php echo __( 'Plans', 'frontend-admin' ) ?></h2>
+				<a href="?page=frontend-admin-plans&action=add-new" type="button" class="button add-plan"><?php esc_html_e( 'Add New Plan', 'frontend-admin' ); ?></a>
 
 				<?php
 				fea_instance()->plans_list->prepare_items();

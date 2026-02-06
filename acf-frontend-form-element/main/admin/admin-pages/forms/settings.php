@@ -107,6 +107,18 @@ class Frontend_Forms_UI {
 
 
 		$form_key = get_post_meta( $form_id, 'form_key', 1 );
+
+		if( $form_key ){
+			//check if form key is unique
+			global $wpdb;
+			$existing_form = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'form_key' AND meta_value = %s AND post_id != %d", $form_key, $form_id ) );
+			if( $existing_form ){
+				$form_key = uniqid( 'form_' );
+				update_post_meta( $form_id, 'form_key', $form_key );
+			}
+
+		}
+
 		if ( ! $form_key ) {
 			$form_key = uniqid( 'form_' );
 			update_post_meta( $form_id, 'form_key', $form_key );
@@ -140,7 +152,7 @@ class Frontend_Forms_UI {
 			if ( ! $form_type ) {
 				acf_render_field_wrap(
 					array(
-						'label'   => __( 'Select Type', 'acf-frontend-form-element' ),
+						'label'   => __( 'Select Type', 'frontend-admin' ),
 						'name'    => 'admin_form_type',
 						'key'     => 'admin_form_type',
 						// 'required'            => true,
@@ -164,7 +176,7 @@ class Frontend_Forms_UI {
 					'<button type="button" class="copy-shortcode" data-prefix="frontend_admin form" data-value="%1$s">%2$s %3$s</button>',
 					absint( $form_id ),
 					'<span class="dashicons dashicons-admin-page"></span>',
-					esc_html__( 'Copy Code', 'acf-frontend-form-element' )
+					esc_html__( 'Copy Code', 'frontend-admin' )
 				);
 				echo '</p></div>';
 			echo '</div>';
@@ -194,38 +206,38 @@ class Frontend_Forms_UI {
 			return;
 		}
 
-		add_meta_box( 'acf-field-group-fields', esc_html( __( 'Fields', 'acf-frontend-form-element' ) ), array( $this, 'render_fields' ), $screen->id, 'normal', 'default' );
-		add_meta_box( 'acf-field-group-options', esc_html( __( 'Settings', 'acf-frontend-form-element' ) ), array( $this, 'render_options' ), $screen->id, 'normal', 'default' );
+		add_meta_box( 'acf-field-group-fields', esc_html( __( 'Fields', 'frontend-admin' ) ), array( $this, 'render_fields' ), $screen->id, 'normal', 'default' );
+		add_meta_box( 'acf-field-group-options', esc_html( __( 'Settings', 'frontend-admin' ) ), array( $this, 'render_options' ), $screen->id, 'normal', 'default' );
 
 	}
 
 	function get_dynamic_options() {
 		$dynamic_data = array(
-			'' => __( 'Dynamic', 'acf-frontend-form-element' ),
-			__( 'Form', 'acf-frontend-form-element' ) => array(
-				'all_fields' => __( 'All Fields', 'acf-frontend-form-element' ),
-				/* 'page_url'   => __( 'Current Page URL', 'acf-frontend-form-element' ),
-				'form_name'  => __( 'Form Name', 'acf-frontend-form-element' ),
-				'date'       => __( 'Current Date', 'acf-frontend-form-element' ),
-				'time'       => __( 'Current Time', 'acf-frontend-form-element' ),
-				'user_agent' => __( 'User Agent', 'acf-frontend-form-element' ),
-				'remote_ip'  => __( 'Remote IP', 'acf-frontend-form-element' ), */
+			'' => __( 'Dynamic', 'frontend-admin' ),
+			__( 'Form', 'frontend-admin' ) => array(
+				'all_fields' => __( 'All Fields', 'frontend-admin' ),
+				/* 'page_url'   => __( 'Current Page URL', 'frontend-admin' ),
+				'form_name'  => __( 'Form Name', 'frontend-admin' ),
+				'date'       => __( 'Current Date', 'frontend-admin' ),
+				'time'       => __( 'Current Time', 'frontend-admin' ),
+				'user_agent' => __( 'User Agent', 'frontend-admin' ),
+				'remote_ip'  => __( 'Remote IP', 'frontend-admin' ), */
 			),
-			__( 'Post', 'acf-frontend-form-element' ) => array(
-				'post:id'             => __( 'Post ID', 'acf-frontend-form-element' ),
-				'post:title'          => __( 'Title', 'acf-frontend-form-element' ),
-				'post:content'        => __( 'Content', 'acf-frontend-form-element' ),
-				'post:featured_image' => __( 'Featured Image', 'acf-frontend-form-element' ),
-				'post:field_name'     => __( 'Custom Field', 'acf-frontend-form-element' ),
+			__( 'Post', 'frontend-admin' ) => array(
+				'post:id'             => __( 'Post ID', 'frontend-admin' ),
+				'post:title'          => __( 'Title', 'frontend-admin' ),
+				'post:content'        => __( 'Content', 'frontend-admin' ),
+				'post:featured_image' => __( 'Featured Image', 'frontend-admin' ),
+				'post:field_name'     => __( 'Custom Field', 'frontend-admin' ),
 			),
-			__( 'User', 'acf-frontend-form-element' ) => array(
-				'user:id'         => __( 'User ID', 'acf-frontend-form-element' ),
-				'user:username'   => __( 'Username', 'acf-frontend-form-element' ),
-				'user:email'      => __( 'Email', 'acf-frontend-form-element' ),
-				'user:first_name' => __( 'First Name', 'acf-frontend-form-element' ),
-				'user:last_name'  => __( 'Last Name', 'acf-frontend-form-element' ),
-				'user:role'       => __( 'Role', 'acf-frontend-form-element' ),
-				'user:field_name' => __( 'Custom Field', 'acf-frontend-form-element' ),
+			__( 'User', 'frontend-admin' ) => array(
+				'user:id'         => __( 'User ID', 'frontend-admin' ),
+				'user:username'   => __( 'Username', 'frontend-admin' ),
+				'user:email'      => __( 'Email', 'frontend-admin' ),
+				'user:first_name' => __( 'First Name', 'frontend-admin' ),
+				'user:last_name'  => __( 'Last Name', 'frontend-admin' ),
+				'user:role'       => __( 'Role', 'frontend-admin' ),
+				'user:field_name' => __( 'Custom Field', 'frontend-admin' ),
 			),
 		);
 
@@ -247,8 +259,8 @@ class Frontend_Forms_UI {
 	 */
 	function manage_columns( $columns ) {
 		$new_columns = array(
-			'shortcode' => __( 'Shortcode', 'acf-frontend-form-element' ),
-		// 'fields'     => __( 'Fields', 'acf-frontend-form-element' ),
+			'shortcode' => __( 'Shortcode', 'frontend-admin' ),
+		// 'fields'     => __( 'Fields', 'frontend-admin' ),
 		);
 
 		// Remove date column
@@ -276,7 +288,7 @@ class Frontend_Forms_UI {
 				'<button type="button" class="copy-shortcode" data-prefix="frontend_admin form" data-value="%1$s">%2$s %3$s</button>',
 				absint( $form_id ),
 				'<span class="dashicons dashicons-admin-page"></span>',
-				esc_html__( 'Copy Code', 'acf-frontend-form-element' )
+				esc_html__( 'Copy Code', 'frontend-admin' )
 			);
 
 		}
@@ -344,13 +356,13 @@ class Frontend_Forms_UI {
 	function render_options( $post, $data ) {
 		global $form;
 		$sub_tabs = array(
-			'submissions' => __( 'Submissions', 'acf-frontend-form-element' ),
-			'actions'     => __( 'Actions', 'acf-frontend-form-element' ),
-			'permissions' => __( 'Permissions', 'acf-frontend-form-element' ),
-			'modal'       => __( 'Modal Window', 'acf-frontend-form-element' ),
-			'post'        => __( 'Post', 'acf-frontend-form-element' ),
-			'user'        => __( 'User', 'acf-frontend-form-element' ),
-			'term'        => __( 'Term', 'acf-frontend-form-element' ),
+			'submissions' => __( 'Submissions', 'frontend-admin' ),
+			'actions'     => __( 'Actions', 'frontend-admin' ),
+			'permissions' => __( 'Permissions', 'frontend-admin' ),
+			'modal'       => __( 'Modal Window', 'frontend-admin' ),
+			'post'        => __( 'Post', 'frontend-admin' ),
+			'user'        => __( 'User', 'frontend-admin' ),
+			'term'        => __( 'Term', 'frontend-admin' ),
 		);
 
 		$sub_tabs = apply_filters( 'frontend_admin/forms/settings_tabs', $sub_tabs );
@@ -425,15 +437,15 @@ class Frontend_Forms_UI {
 				'redirect'              => 'current',
 				'custom_url'            => '',
 				'show_update_message'   => 1,
-				'update_message'        => __( 'The form has been submitted successfully.', 'acf-frontend-form-element' ),
+				'update_message'        => __( 'The form has been submitted successfully.', 'frontend-admin' ),
 				'custom_fields_save'    => $custom_fields_save,
 				'by_role'               => array( 'administrator' ),
 				'admin_form_type'       => $form_type,
-				'modal_button_text'     => __( 'Open Form', 'acf-frontend-form-element' ),
+				'modal_button_text'     => __( 'Open Form', 'frontend-admin' ),
 				'steps_display'         => array( 'tabs' ),
 				'steps_tabs_display'    => array( 'desktop', 'tablet' ),
 				'steps_counter_display' => array( 'desktop', 'tablet' ),
-				'counter_text'          => sprintf( __( 'Step %1$s/%2$s', 'acf-frontend-form-element' ), '[current_step]', '[total_steps]' ),
+				'counter_text'          => sprintf( __( 'Step %1$s/%2$s', 'frontend-admin' ), '[current_step]', '[total_steps]' ),
 			)
 		);
 
@@ -548,7 +560,7 @@ class Frontend_Forms_UI {
 			if( $post->post_title ){
 				$form_title = $post->post_title;
 			}else{
-				$form_title = __( 'Frontend Form', 'acf-frontend-form-element' );
+				$form_title = __( 'Frontend Form', 'frontend-admin' );
 			}
 			?>
 			<div class="acf-headerbar acf-headerbar-field-editor">
@@ -562,16 +574,16 @@ class Frontend_Forms_UI {
 						</h1>
 						<div class="acf-title-wrap">
 							<label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e( $title_placeholder ); ?></label>
-							<input form="post" type="text" name="post_title" size="30" value="<?php echo esc_attr( $form_title ); ?>" id="title" class="acf-headerbar-title-field" spellcheck="true" autocomplete="off" placeholder="<?php esc_attr_e( 'Form Title', 'acf-frontend-form-element' ); ?>" />
+							<input form="post" type="text" name="post_title" size="30" value="<?php echo esc_attr( $form_title ); ?>" id="title" class="acf-headerbar-title-field" spellcheck="true" autocomplete="off" placeholder="<?php esc_attr_e( 'Form Title', 'frontend-admin' ); ?>" />
 						</div>
 					</div>
 
 					<div class="acf-headerbar-actions" id="submitpost">
 						<?php if( $form_type ){ ?>						
-							<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'acf-frontend-form-element' ); ?></a>
-							<a href="#" class="acf-btn acf-btn-secondary add-acf-fields"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add ACF Fields', 'acf-frontend-form-element' ); ?></a>
+							<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'frontend-admin' ); ?></a>
+							<a href="#" class="acf-btn acf-btn-secondary add-acf-fields"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add ACF Fields', 'frontend-admin' ); ?></a>
 						<?php } ?>
-						<button form="post" class="acf-btn acf-publish" type="submit"><?php esc_html_e( 'Save Changes', 'acf-frontend-form-element' ); ?></button>
+						<button form="post" class="acf-btn acf-publish" type="submit"><?php esc_html_e( 'Save Changes', 'frontend-admin' ); ?></button>
 					</div>
 
 				</div>
@@ -715,7 +727,7 @@ class Frontend_Forms_UI {
 			return;
 		}
 		if ( is_admin() && is_string( $editor ) && 'acf-editor' == substr( $editor, 0, 10 ) ) {
-			echo '<a class="dynamic-value-options button">' . esc_html__( 'Dynamic Value', 'acf-frontend-form-element' ) . '</a>';
+			echo '<a class="dynamic-value-options button">' . esc_html__( 'Dynamic Value', 'frontend-admin' ) . '</a>';
 		}
 
 	}

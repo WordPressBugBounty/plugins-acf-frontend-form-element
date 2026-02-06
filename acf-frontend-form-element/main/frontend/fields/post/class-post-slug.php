@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_slug' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_slug';
-			$this->label      = __( 'Slug', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Slug', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'slug',
 				'default_value' => '',

@@ -21,7 +21,7 @@ if ( ! class_exists( 'text' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'text';
-			$this->label    = __( 'Text', 'acf-frontend-form-element' );
+			$this->label    = __( 'Text', 'frontend-admin' );
 			  $this->public = false;
 			$this->defaults = array(
 				'default_value' => '',
@@ -115,8 +115,8 @@ if ( ! class_exists( 'text' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'                 => __( 'Default Value', 'acf-frontend-form-element' ),
-					'instructions'          => __( 'Appears when creating a new post', 'acf-frontend-form-element' ),
+					'label'                 => __( 'Default Value', 'frontend-admin' ),
+					'instructions'          => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'                  => 'text',
 					'name'                  => 'default_value',
 					'dynamic_value_choices' => 1,
@@ -127,8 +127,8 @@ if ( ! class_exists( 'text' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears within the input', 'acf-frontend-form-element' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 				)
@@ -138,8 +138,8 @@ if ( ! class_exists( 'text' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Prepend', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears before the input', 'acf-frontend-form-element' ),
+					'label'        => __( 'Prepend', 'frontend-admin' ),
+					'instructions' => __( 'Appears before the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'prepend',
 				)
@@ -149,8 +149,8 @@ if ( ! class_exists( 'text' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Append', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears after the input', 'acf-frontend-form-element' ),
+					'label'        => __( 'Append', 'frontend-admin' ),
+					'instructions' => __( 'Appears after the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'append',
 				)
@@ -160,8 +160,8 @@ if ( ! class_exists( 'text' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Character Limit', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Leave blank for no limit', 'acf-frontend-form-element' ),
+					'label'        => __( 'Character Limit', 'frontend-admin' ),
+					'instructions' => __( 'Leave blank for no limit', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'maxlength',
 				)
@@ -186,7 +186,7 @@ if ( ! class_exists( 'text' ) ) :
 		function validate_value( $valid, $value, $field, $input ) {
 			// Check maxlength
 			if ( ! empty( $field['maxlength'] ) && ( acf_strlen( $value ) > $field['maxlength'] ) ) {
-				return sprintf( __( 'Value must not exceed %d characters', 'acf-frontend-form-element' ), $field['maxlength'] );
+				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
 			}
 
 			// Return.

@@ -23,15 +23,15 @@ if ( ! class_exists( 'list_items' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'list_items';
-			$this->label    = __( 'List Items', 'acf-frontend-form-element' );
-			$this->category = __( 'Form', 'acf-frontend-form-element' );
+			$this->label    = __( 'List Items', 'frontend-admin' );
+			$this->category = __( 'Form', 'frontend-admin' );
 			$this->defaults = array(
 				'min'             => 0,
 				'max'             => 0,
 				'layout'          => 'table',
-				'button_label'    => __( 'Add Item', 'acf-frontend-form-element' ),
-				'duplicate_label' => __( 'Duplicate Item', 'acf-frontend-form-element' ),
-				'remove_label'    => __( 'Remove Item', 'acf-frontend-form-element' ),
+				'button_label'    => __( 'Add Item', 'frontend-admin' ),
+				'duplicate_label' => __( 'Duplicate Item', 'frontend-admin' ),
+				'remove_label'    => __( 'Remove Item', 'frontend-admin' ),
 				'no_value_msg'    => '',
 				'no_attrs_msg'    => '',
 				'collapsed'       => '',
@@ -67,8 +67,8 @@ if ( ! class_exists( 'list_items' ) ) :
 			// localize
 			acf_localize_text(
 				array(
-					'Minimum rows reached ({min} rows)' => __( 'Minimum rows reached ({min} rows)', 'acf-frontend-form-element' ),
-					'Maximum rows reached ({max} rows)' => __( 'Maximum rows reached ({max} rows)', 'acf-frontend-form-element' ),
+					'Minimum rows reached ({min} rows)' => __( 'Minimum rows reached ({min} rows)', 'frontend-admin' ),
+					'Maximum rows reached ({max} rows)' => __( 'Maximum rows reached ({max} rows)', 'frontend-admin' ),
 				)
 			);
 		}
@@ -191,11 +191,11 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add Button Label', 'acf-frontend-form-element' ),
+					'label'        => __( 'Add Button Label', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'text',
 					'name'         => 'button_label',
-					'placeholder'  => __( 'Add Item', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Add Item', 'frontend-admin' ),
 					'conditional_logic' => array(
 						array(
 							array(
@@ -220,11 +220,11 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Remove Item Label', 'acf-frontend-form-element' ),
+					'label'        => __( 'Remove Item Label', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'text',
 					'name'         => 'remove_label',
-					'placeholder'  => __( 'Remove Item', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Remove Item', 'frontend-admin' ),
 					'conditional_logic' => array(
 						array(
 							array(
@@ -239,7 +239,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Duplicate Item Label', 'acf-frontend-form-element' ),
+					'label'        => __( 'Duplicate Item Label', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'text',
 					'name'         => 'duplicate_label',
@@ -326,13 +326,13 @@ if ( ! class_exists( 'list_items' ) ) :
 
 			// button label
 			if ( $field['button_label'] === '' ) {
-				$field['button_label'] = __( 'Add Item', 'acf-frontend-form-element' );
+				$field['button_label'] = __( 'Add Item', 'frontend-admin' );
 			}
 			if ( $field['duplicate_label'] === '' ) {
-				$field['duplicate_label'] = __( 'Duplicate Item', 'acf-frontend-form-element' );
+				$field['duplicate_label'] = __( 'Duplicate Item', 'frontend-admin' );
 			}
 			if ( $field['remove_label'] === '' ) {
-				$field['remove_label'] = __( 'Remove Item', 'acf-frontend-form-element' );
+				$field['remove_label'] = __( 'Remove Item', 'frontend-admin' );
 			}
 
 			// field wrap
@@ -474,7 +474,7 @@ if ( ! class_exists( 'list_items' ) ) :
 				if ( $show_order ) :
 					$td_attrs = array(
 						'class' => 'acf-row-handle',
-						'title' => __( 'Drag to reorder', 'acf-frontend-form-element' ),
+						'title' => __( 'Drag to reorder', 'frontend-admin' ),
 					);
 
 					if ( empty( $field['maintain_order'] ) ) {
@@ -489,7 +489,7 @@ if ( ! class_exists( 'list_items' ) ) :
 					?>
 					<td <?php echo acf_esc_attrs( $td_attrs ); ?>>
 						<?php if ( $field['collapsed'] ) : ?>
-						<a class="acf-icon -collapse small" href="#" title="<?php esc_attr_e( 'Click to toggle', 'acf-frontend-form-element' ); ?>"></a>
+						<a class="acf-icon -collapse small" href="#" title="<?php esc_attr_e( 'Click to toggle', 'frontend-admin' ); ?>"></a>
 						<?php endif; ?>
 						<span>
 						<?php
@@ -629,7 +629,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			if ( $min && $count < $min ) {
 
 				// create error
-				$error = __( 'Minimum rows reached ({min} rows)', 'acf-frontend-form-element' );
+				$error = __( 'Minimum rows reached ({min} rows)', 'frontend-admin' );
 				$error = str_replace( '{min}', $min, $error );
 
 				// return

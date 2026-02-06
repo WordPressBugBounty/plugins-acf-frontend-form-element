@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $default_row = array(
 	array(
-		'rule_name'   => __( 'Administrators', 'acf-frontend-form-element' ),
+		'rule_name'   => __( 'Administrators', 'frontend-admin' ),
 		'who_can_see' => 'logged_in',
 		'by_role'     => array( 'administrator' ),
 	),
@@ -30,9 +30,9 @@ foreach ( $values as $value ) {
 $fields = array(
 	array(
 		'key'           => 'wp_uploader',
-		'label'         => __( 'WP Media Library', 'acf-frontend-form-element' ),
+		'label'         => __( 'WP Media Library', 'frontend-admin' ),
 		'type'          => 'true_false',
-		'instructions'  => __( 'Whether to use the WordPress media library for file fields or just a basic upload button', 'acf-frontend-form-element' ),
+		'instructions'  => __( 'Whether to use the WordPress media library for file fields or just a basic upload button', 'frontend-admin' ),
 		'required'      => 0,
 		'ui'            => 1,
 		'default_value' => 1,
@@ -44,7 +44,7 @@ $fields = array(
 	),
 	array(
 		'key'          => 'no_kses',
-		'label'        => __( 'Allow Unfiltered HTML', 'acf-frontend-form-element' ),
+		'label'        => __( 'Allow Unfiltered HTML', 'frontend-admin' ),
 		'type'         => 'true_false',
 		'instructions' => '',
 		'required'     => 0,
@@ -57,24 +57,24 @@ $fields = array(
 	),
 	array(
 		'key'           => 'form_conditions',
-		'label'         => __( 'Conditions', 'acf-frontend-form-element' ),
+		'label'         => __( 'Conditions', 'frontend-admin' ),
 		'type'          => 'list_items',
-		'instructions'  => __( 'The form will show if any of these conditions are met.', 'acf-frontend-form-element' ),
+		'instructions'  => __( 'The form will show if any of these conditions are met.', 'frontend-admin' ),
 		'collapsed'     => 'rule_name',
 		'collapsable'   => true,
 		'min'           => 1,
 		'max'           => '',
 		'layout'        => 'block',
-		'button_label'  => __( 'Add Rule', 'acf-frontend-form-element' ),
-		'remove_label'  => __( 'Remove Rule', 'acf-frontend-form-element' ),
+		'button_label'  => __( 'Add Rule', 'frontend-admin' ),
+		'remove_label'  => __( 'Remove Rule', 'frontend-admin' ),
 		'default_value' => $default_row,
 		'sub_fields'    => array(
 			array(
 				'key'               => 'rule_name',
-				'label'             => __( 'Rule Name', 'acf-frontend-form-element' ),
+				'label'             => __( 'Rule Name', 'frontend-admin' ),
 				'name'              => 'name',
 				'type'              => 'text',
-				'instructions'      => __( 'Give this rule an identifier', 'acf-frontend-form-element' ),
+				'instructions'      => __( 'Give this rule an identifier', 'frontend-admin' ),
 				'required'          => 1,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -82,47 +82,47 @@ $fields = array(
 					'class' => '',
 					'id'    => '',
 				),
-				'default_value'     => __( 'Administrators', 'acf-frontend-form-element' ),
+				'default_value'     => __( 'Administrators', 'frontend-admin' ),
 				'prepend'           => '',
 				'append'            => '',
 				'maxlength'         => '',
 			),
 			array(
 				'key'           => 'applies_to',
-				'label'         => __( 'Permissions given...', 'acf-frontend-form-element' ),
+				'label'         => __( 'Permissions given...', 'frontend-admin' ),
 				'type'          => 'checkbox',
-				'instructions'  => __( 'Logged in users will always be able to view and edit their own submissions if they as long as they can submit forms.', 'acf-frontend-form-element' ),
+				'instructions'  => __( 'Logged in users will always be able to view and edit their own submissions if they as long as they can submit forms.', 'frontend-admin' ),
 				'required'      => 1,
 				'default_value' => array( 'form', 'submissions' ),
 				'toggle'        => 1,
 				'choices'       => array(
-					'form'        => __( 'Submit Form', 'acf-frontend-form-element' ),
-					'edit'        => __( 'Edit Submissions', 'acf-frontend-form-element' ),
-					'view'        => __( 'View Submissions', 'acf-frontend-form-element' ),
-					// 'delete'   => __( 'Delete Submissions', 'acf-frontend-form-element' ),
-					'submissions' => __( 'View Submissions List', 'acf-frontend-form-element' ),				),
+					'form'        => __( 'Submit Form', 'frontend-admin' ),
+					'edit'        => __( 'Edit Submissions', 'frontend-admin' ),
+					'view'        => __( 'View Submissions', 'frontend-admin' ),
+					// 'delete'   => __( 'Delete Submissions', 'frontend-admin' ),
+					'submissions' => __( 'View Submissions List', 'frontend-admin' ),				),
 			),
 			array(
 				'key'          => 'not_allowed',
-				'label'        => __( 'No Permissions Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'No Permissions Message', 'frontend-admin' ),
 				'type'         => 'select',
 				'instructions' => '',
 				'required'     => 0,
 				'choices'      => array(
-					'show_nothing'   => __( 'None', 'acf-frontend-form-element' ),
-					'show_message'   => __( 'Message', 'acf-frontend-form-element' ),
-					'custom_content' => __( 'Custom Content', 'acf-frontend-form-element' ),
+					'show_nothing'   => __( 'None', 'frontend-admin' ),
+					'show_message'   => __( 'Message', 'frontend-admin' ),
+					'custom_content' => __( 'Custom Content', 'frontend-admin' ),
 				),
 			),
 			array(
 				'key'               => 'not_allowed_message',
-				'label'             => __( 'Message', 'acf-frontend-form-element' ),
+				'label'             => __( 'Message', 'frontend-admin' ),
 				'type'              => 'textarea',
 				'instructions'      => '',
 				'required'          => 0,
 				'rows'              => 3,
-				'placeholder'       => __( 'You do not have the proper permissions to view this form', 'acf-frontend-form-element' ),
-				'default_value'     => __( 'You do not have the proper permissions to view this form', 'acf-frontend-form-element' ),
+				'placeholder'       => __( 'You do not have the proper permissions to view this form', 'frontend-admin' ),
+				'default_value'     => __( 'You do not have the proper permissions to view this form', 'frontend-admin' ),
 				'conditional_logic' => array(
 					array(
 						array(
@@ -135,7 +135,7 @@ $fields = array(
 			),
 			array(
 				'key'               => 'not_allowed_content',
-				'label'             => __( 'Content', 'acf-frontend-form-element' ),
+				'label'             => __( 'Content', 'frontend-admin' ),
 				'type'              => 'wysiwyg',
 				'instructions'      => '',
 				'required'          => 0,
@@ -151,25 +151,25 @@ $fields = array(
 			),
 			array(
 				'key'          => 'who_can_see',
-				'label'        => __( 'Who Can See This...', 'acf-frontend-form-element' ),
+				'label'        => __( 'Who Can See This...', 'frontend-admin' ),
 				'type'         => 'select',
 				'instructions' => '',
 				'required'     => 0,
 				'choices'      => array(
-					'logged_in'  => __( 'Only Logged In Users', 'acf-frontend-form-element' ),
-					'logged_out' => __( 'Only Logged Out', 'acf-frontend-form-element' ),
-					'all'        => __( 'All Users', 'acf-frontend-form-element' ),
+					'logged_in'  => __( 'Only Logged In Users', 'frontend-admin' ),
+					'logged_out' => __( 'Only Logged Out', 'frontend-admin' ),
+					'all'        => __( 'All Users', 'frontend-admin' ),
 				),
 			),
 			array(
 				'key'               => 'email_verification',
-				'label'             => __( 'Email Address', 'acf-frontend-form-element' ),
+				'label'             => __( 'Email Address', 'frontend-admin' ),
 				'type'              => 'select',
 				'required'          => 0,
 				'choices'           => array(
-					'all'        => __( 'All', 'acf-frontend-form-element' ),
-					'verified'   => __( 'Verified', 'acf-frontend-form-element' ),
-					'unverified' => __( 'Unverified', 'acf-frontend-form-element' ),
+					'all'        => __( 'All', 'frontend-admin' ),
+					'verified'   => __( 'Verified', 'frontend-admin' ),
+					'unverified' => __( 'Unverified', 'frontend-admin' ),
 				),
 				'instructions'      => 'Only show to users who verified their email address or only to those who haven\'t.',
 				'conditional_logic' => array(
@@ -184,7 +184,7 @@ $fields = array(
 			),
 			array(
 				'key'               => 'by_role',
-				'label'             => __( 'Select By Role', 'acf-frontend-form-element' ),
+				'label'             => __( 'Select By Role', 'frontend-admin' ),
 				'type'              => 'select',
 				'instructions'      => '',
 				'conditional_logic' => array(
@@ -203,7 +203,7 @@ $fields = array(
 			),
 			array(
 				'key'               => 'by_user_id',
-				'label'             => __( 'Select By User', 'acf-frontend-form-element' ),
+				'label'             => __( 'Select By User', 'frontend-admin' ),
 				'type'              => 'user',
 				'instructions'      => '',
 				'conditional_logic' => array(
@@ -221,14 +221,14 @@ $fields = array(
 			),
 			array(
 				'key'               => 'special_permissions',
-				'label'             => __( 'Special Permissions', 'acf-frontend-form-element' ),
+				'label'             => __( 'Special Permissions', 'frontend-admin' ),
 				'type'              => 'checkbox',
-				'instructions'      => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'acf-frontend-form-element' ),
+				'instructions'      => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
 				'required'          => 0,
 				'default_value'     => array(),
 				'choices'           => array(
-					'edit_posts'   => __( 'Edit Other\'s Posts', 'acf-frontend-form-element' ),
-					'edit_users'   => __( 'Edit Other Users', 'acf-frontend-form-element' ),
+					'edit_posts'   => __( 'Edit Other\'s Posts', 'frontend-admin' ),
+					'edit_users'   => __( 'Edit Other Users', 'frontend-admin' ),
 				),
 				'conditional_logic' => array(
 					array(
@@ -242,7 +242,7 @@ $fields = array(
 			),
 			array(
 				'key'           => 'wp_uploader',
-				'label'         => __( 'WP Media Library', 'acf-frontend-form-element' ),
+				'label'         => __( 'WP Media Library', 'frontend-admin' ),
 				'type'          => 'true_false',
 				'instructions'  => '',
 				'required'      => 0,

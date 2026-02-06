@@ -92,7 +92,7 @@ class Taxonomy_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Taxonomy Terms Field', 'acf-frontend-form-element' );
+		return __( 'Taxonomy Terms Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -133,7 +133,7 @@ class Taxonomy_Field extends Base_Field {
         $this->add_control(
             'taxonomy',
             [
-                'label' => __( 'Taxonomy', 'acf-frontend-form-element' ),
+                'label' => __( 'Taxonomy', 'frontend-admin' ),
                 'type' => Controls_Manager::SELECT,
                 'options' => acf_get_taxonomy_labels(),
                 'default' => 'category',
@@ -143,21 +143,21 @@ class Taxonomy_Field extends Base_Field {
 		$this->add_control(
 			'field_type', 
 			[
-				'label' => __( 'Appearance', 'acf-frontend-form-element' ),
+				'label' => __( 'Appearance', 'frontend-admin' ),
 				'type' => Controls_Manager::SELECT,
 				'groups' => [
 					[
-						'label' => __( 'Single', 'acf-frontend-form-element' ),
+						'label' => __( 'Single', 'frontend-admin' ),
 						'options' => [
-							'select' => __( 'Select', 'acf-frontend-form-element' ),
-							'radio' => __( 'Radio', 'acf-frontend-form-element' ),
+							'select' => __( 'Select', 'frontend-admin' ),
+							'radio' => __( 'Radio', 'frontend-admin' ),
 						],
 					],
 					[
-						'label' => __( 'Multiple', 'acf-frontend-form-element' ),
+						'label' => __( 'Multiple', 'frontend-admin' ),
 						'options' => [
-							'checkbox' => __( 'Checkbox', 'acf-frontend-form-element' ),
-							'multi_select' => __( 'Multi Select', 'acf-frontend-form-element' ),
+							'checkbox' => __( 'Checkbox', 'frontend-admin' ),
+							'multi_select' => __( 'Multi Select', 'frontend-admin' ),
 						],
 					],
 				],
@@ -168,10 +168,10 @@ class Taxonomy_Field extends Base_Field {
 		$this->add_control(
 			'allow_null',
 			[
-				'label' => __( 'Allow Null?', 'acf-frontend-form-element' ),
+				'label' => __( 'Allow Null?', 'frontend-admin' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off' => __( 'No', 'acf-frontend-form-element' ),
+				'label_on' => __( 'Yes', 'frontend-admin' ),
+				'label_off' => __( 'No', 'frontend-admin' ),
 				'return_value' => '1',
 				'default' => '',
 			]
@@ -181,10 +181,10 @@ class Taxonomy_Field extends Base_Field {
 		$this->add_control(
 			'save_terms',
 			[
-				'label' => __( 'Save Terms', 'acf-frontend-form-element' ),
+				'label' => __( 'Save Terms', 'frontend-admin' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off' => __( 'No', 'acf-frontend-form-element' ),
+				'label_on' => __( 'Yes', 'frontend-admin' ),
+				'label_off' => __( 'No', 'frontend-admin' ),
 				'return_value' => '1',
 				'default' => '1',
 			]
@@ -193,10 +193,10 @@ class Taxonomy_Field extends Base_Field {
 		$this->add_control(
 			'load_post_terms',
 			[
-				'label' => __( 'Load Terms', 'acf-frontend-form-element' ),
+				'label' => __( 'Load Terms', 'frontend-admin' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off' => __( 'No', 'acf-frontend-form-element' ),
+				'label_on' => __( 'Yes', 'frontend-admin' ),
+				'label_off' => __( 'No', 'frontend-admin' ),
 				'return_value' => '1',
 				'default' => '1',
 			]
@@ -205,10 +205,10 @@ class Taxonomy_Field extends Base_Field {
 		$this->add_control(
 			'add_term',
 			[
-				'label' => __( 'Add Term', 'acf-frontend-form-element' ),
+				'label' => __( 'Add Term', 'frontend-admin' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off' => __( 'No', 'acf-frontend-form-element' ),
+				'label_on' => __( 'Yes', 'frontend-admin' ),
+				'label_off' => __( 'No', 'frontend-admin' ),
 				'return_value' => '1',
 				'default' => '',
 			]

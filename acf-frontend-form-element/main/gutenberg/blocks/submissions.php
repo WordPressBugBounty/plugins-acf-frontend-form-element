@@ -29,7 +29,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Submissions_Select') ) :
                 ob_end_clean();    
             }
             if(! $render ) {
-                return __('No Submissions Found', 'acf-frontend-form-element');
+                return __('No Submissions Found', 'frontend-admin');
             }
             return $render;
         }

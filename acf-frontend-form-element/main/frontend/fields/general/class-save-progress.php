@@ -23,10 +23,10 @@ if ( ! class_exists( 'save_progress' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'save_progress';
-			$this->label    = __( 'Save Progress', 'acf-frontend-form-element' );
-			$this->category = __( 'Form', 'acf-frontend-form-element' );
+			$this->label    = __( 'Save Progress', 'frontend-admin' );
+			$this->category = __( 'Form', 'frontend-admin' );
 			$this->defaults = array(
-				'button_text'      => __( 'Save Progress', 'acf-frontend-form-element' ),
+				'button_text'      => __( 'Save Progress', 'frontend-admin' ),
 				'field_label_hide' => 1,
 			);
 
@@ -101,7 +101,7 @@ if ( ! class_exists( 'save_progress' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Button Text', 'acf-frontend-form-element' ),
+					'label' => __( 'Button Text', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'button_text',
 					'class' => 'update-label',
@@ -110,7 +110,7 @@ if ( ! class_exists( 'save_progress' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Show Success Message', 'acf-frontend-form-element' ),
+					'label'         => __( 'Show Success Message', 'frontend-admin' ),
 					'type'          => 'true_false',
 					'ui'            => 1,
 					'name'          => 'show_success_message',
@@ -120,11 +120,11 @@ if ( ! class_exists( 'save_progress' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Success Message', 'acf-frontend-form-element' ),
+					'label'         => __( 'Success Message', 'frontend-admin' ),
 					'type'          => 'textarea',
 					'name'          => 'success_message',
 					'rows'          => 3,
-					'default_value' => __( 'Progress Saved', 'acf-frontend-form-element' ),
+					'default_value' => __( 'Progress Saved', 'frontend-admin' ),
 					'conditions'    => array(
 						array(
 							array(

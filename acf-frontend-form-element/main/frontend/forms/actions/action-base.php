@@ -43,7 +43,7 @@ abstract class ActionBase {
 					'ID'         => 0,
 					'parent'     => $form_id,
 					'key'        => 'field_' . uniqid(),
-					'label'      => __( $label, 'acf-frontend-form-element' ),
+					'label'      => __( $label, 'frontend-admin' ),
 					'name'       => $default,
 					'type'       => $default,
 					'menu_order' => $i,

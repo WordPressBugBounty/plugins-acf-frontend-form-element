@@ -24,7 +24,7 @@ class New_User_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'New User Form', 'acf-frontend-form-element' );
+		return __( 'New User Form', 'frontend-admin' );
 	}
 
 
@@ -56,8 +56,8 @@ class New_User_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'user',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your account has been registered successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your account has been registered successfully.', 'frontend-admin' ),
 			'field_type'         => 'username',
 			'save_to_user' => 'new_user',
 			'fields'             => [

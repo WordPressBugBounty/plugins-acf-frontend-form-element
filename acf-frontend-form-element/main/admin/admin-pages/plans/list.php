@@ -18,8 +18,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 		public function __construct() {
 
 			parent::__construct( [
-				'singular' => __( 'Plan', 'acf-frontend-form-element' ), //singular name of the listed records
-				'plural'   => __( 'Plans', 'acf-frontend-form-element' ), //plural name of the listed records
+				'singular' => __( 'Plan', 'frontend-admin' ), //singular name of the listed records
+				'plural'   => __( 'Plans', 'frontend-admin' ), //plural name of the listed records
 				'ajax'     => false //does this table support ajax?
 			] );
 
@@ -92,7 +92,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 
 		/** Text displayed when no plan data is available */
 		public function no_items() {
-			_e( 'No plans avaliable.', 'acf-frontend-form-element' );
+			_e( 'No plans avaliable.', 'frontend-admin' );
 		}
 
 
@@ -114,7 +114,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 						$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 						return date( $time_format, strtotime( $item[ $column_name ] ) );
 					}else{
-						return __( 'Never', 'acf-frontend-form-element' );
+						return __( 'Never', 'frontend-admin' );
 					}
 				default:
 					return $item[ $column_name ];
@@ -141,8 +141,8 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 		 */
 		function get_columns() {
 			$columns = [
-				'title'  => __( 'Title', 'acf-frontend-form-element' ),
-				'description'  => __( 'Description', 'acf-frontend-form-element' ),
+				'title'  => __( 'Title', 'frontend-admin' ),
+				'description'  => __( 'Description', 'frontend-admin' ),
 			];
 
 			return $columns;

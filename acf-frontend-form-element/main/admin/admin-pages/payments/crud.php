@@ -164,7 +164,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 			$approval_form = array(
 				'id' => $form['id'],
 				'field_objects' => call_user_func_array( 'array_merge', $form['record']['fields'] ),
-				'submit_value' => __( 'Approve', 'acf-frontend-form-element' ),
+				'submit_value' => __( 'Approve', 'frontend-admin' ),
 				'redirect' => 'custom_url',
 				'kses' => 0,
 				'no_cookies' => 1,
@@ -204,7 +204,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 		}
         public function payments_list(){
             global $fa_payments_page;
-            $fa_payments_page = add_submenu_page( 'fea-settings', __( 'Payments', 'acf-frontend-form-element' ), __( 'Payments', 'acf-frontend-form-element' ), 'manage_options', 'frontend-admin-payments', [ $this, 'admin_payments_page'], 82 );
+            $fa_payments_page = add_submenu_page( 'fea-settings', __( 'Payments', 'frontend-admin' ), __( 'Payments', 'frontend-admin' ), 'manage_options', 'frontend-admin-payments', [ $this, 'admin_payments_page'], 82 );
             add_action( "load-$fa_payments_page", array( $this, 'payments_page_options' ) );
         }
 
@@ -220,7 +220,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 			add_screen_option( $option, $args );
 
 			?>
-				<h2><?php echo __( 'Payments', 'acf-frontend-form-element' ) ?></h2>
+				<h2><?php echo __( 'Payments', 'frontend-admin' ) ?></h2>
 				<?php
 				fea_instance()->payments_list->prepare_items();
 				fea_instance()->payments_list->display();

@@ -19,7 +19,7 @@ class Widgets_Conditions {
             $element->start_controls_section(
                 'frontend_admin_conditions',
                 [
-                    'label' => __('Frontend Admin Conditions', 'acf-frontend-form-element'),
+                    'label' => __('Frontend Admin Conditions', 'frontend-admin'),
                     'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
                 ]
             );
@@ -27,7 +27,7 @@ class Widgets_Conditions {
             $element->add_control(
                 'fea_conditions',
                 [
-                    'label' => __('Visibility Conditions', 'acf-frontend-form-element'),
+                    'label' => __('Visibility Conditions', 'frontend-admin'),
                     'type' => 'fea_conditions_control',
                 ]
             );

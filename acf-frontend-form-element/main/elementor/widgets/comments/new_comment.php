@@ -40,9 +40,9 @@ class New_Comment_Widget extends ACF_Form {
 	public function get_form_defaults() {
 		return array(
 			'custom_fields_save' => 'comment',
-			'form_title'         => __( 'Add Comment', 'acf-frontend-form-element' ),
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your comment has been added successfully.', 'acf-frontend-form-element' ),
+			'form_title'         => __( 'Add Comment', 'frontend-admin' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your comment has been added successfully.', 'frontend-admin' ),
 			'field_type'         => 'comment',
 			'fields'             => array(
 				array(
@@ -65,7 +65,7 @@ class New_Comment_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'New Comment Form', 'acf-frontend-form-element' );
+		return __( 'New Comment Form', 'frontend-admin' );
 	}
 
 	/**

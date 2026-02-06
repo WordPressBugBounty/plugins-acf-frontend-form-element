@@ -49,7 +49,7 @@ class Edit_Button_Widget extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Edit Button', 'acf-frontend-form-element' );
+		return __( 'Edit Button', 'frontend-admin' );
 	}
 
 	/**
@@ -149,8 +149,8 @@ class Edit_Button_Widget extends Widget_Base {
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'default'     => __( 'Edit Post', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Edit Post', 'acf-frontend-form-element' ),
+				'default'     => __( 'Edit Post', 'frontend-admin' ),
+				'placeholder' => __( 'Edit Post', 'frontend-admin' ),
 			)
 		);
 
@@ -174,12 +174,12 @@ class Edit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'url_query',
 			array(
-				'label'       => __( 'URL Query Key', 'acf-frontend-form-element' ),
+				'label'       => __( 'URL Query Key', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'description' => __( 'Choose the key of the URL query which returns the post id', 'acf-frontend-form-element' ),
+				'description' => __( 'Choose the key of the URL query which returns the post id', 'frontend-admin' ),
 				'placeholder' => 'post_id',
 				'default'     => 'post_id',
 			)

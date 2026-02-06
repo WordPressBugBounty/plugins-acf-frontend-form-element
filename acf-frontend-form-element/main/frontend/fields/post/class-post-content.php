@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_content' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_content';
-			$this->label      = __( 'Content', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Content', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'content',
 				'field_type'    => 'wysiwyg',
@@ -58,7 +58,7 @@ if ( ! class_exists( 'post_content' ) ) :
 				$field['type'] = 'textarea';
 				$field['rows'] = 14;
 			}else{
-				$field['type'] = $field['field_type'];
+				$field['type'] = $field['field_type'] ?? 'text_editor';
 			}
 			return $field;
 		}
@@ -67,6 +67,7 @@ if ( ! class_exists( 'post_content' ) ) :
 			if ( feadmin_edit_mode() && get_the_ID() == $post_id ) {
 				return '';
 			}
+			
 			if ( ! $value && $post_id && is_numeric( $post_id ) ) {
 				$edit_post = get_post( $post_id );
 				if( $edit_post && ! is_wp_error( $edit_post ) ) 
@@ -97,13 +98,13 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'   => __( 'Appearance', 'acf-frontend-form-element' ),
+					'label'   => __( 'Appearance', 'frontend-admin' ),
 					'name'    => 'field_type',
 					'type'    => 'radio',
 					'choices' => array(
-						'wysiwyg'  => __( 'Wysiwyg', 'acf-frontend-form-element' ),
-						//'blocks_editor'  => __( 'Blocks Editor (NEW!)', 'acf-frontend-form-element' ),
-						'textarea' => __( 'Text Area', 'acf-frontend-form-element' ),
+						'wysiwyg'  => __( 'Wysiwyg', 'frontend-admin' ),
+						//'blocks_editor'  => __( 'Blocks Editor (NEW!)', 'frontend-admin' ),
+						'textarea' => __( 'Text Area', 'frontend-admin' ),
 					),
 				)
 			);
@@ -128,8 +129,8 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf-frontend-form-element' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'textarea',
 					'name'         => 'default_value',
 				)
@@ -139,14 +140,14 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Tabs', 'acf-frontend-form-element' ),
+					'label'        => __( 'Tabs', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'tabs',
 					'choices'      => array(
-						'all'    => __( 'Visual & Text', 'acf-frontend-form-element' ),
-						'visual' => __( 'Visual Only', 'acf-frontend-form-element' ),
-						'text'   => __( 'Text Only', 'acf-frontend-form-element' ),
+						'all'    => __( 'Visual & Text', 'frontend-admin' ),
+						'visual' => __( 'Visual Only', 'frontend-admin' ),
+						'text'   => __( 'Text Only', 'frontend-admin' ),
 					),
 					'conditions'   => array(
 						array(
@@ -164,7 +165,7 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Toolbar', 'acf-frontend-form-element' ),
+					'label'        => __( 'Toolbar', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'toolbar',
@@ -190,7 +191,7 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Show Media Upload Buttons?', 'acf-frontend-form-element' ),
+					'label'        => __( 'Show Media Upload Buttons?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'media_upload',
 					'type'         => 'true_false',
@@ -211,8 +212,8 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Delay initialization?', 'acf-frontend-form-element' ),
-					'instructions' => __( 'TinyMCE will not be initialized until field is clicked', 'acf-frontend-form-element' ),
+					'label'        => __( 'Delay initialization?', 'frontend-admin' ),
+					'instructions' => __( 'TinyMCE will not be initialized until field is clicked', 'frontend-admin' ),
 					'name'         => 'delay',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -237,8 +238,8 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears within the input', 'acf-frontend-form-element' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 					'conditions'   => array(
@@ -257,8 +258,8 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Character Limit', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Leave blank for no limit', 'acf-frontend-form-element' ),
+					'label'        => __( 'Character Limit', 'frontend-admin' ),
+					'instructions' => __( 'Leave blank for no limit', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'maxlength',
 					'conditions'   => array(
@@ -277,8 +278,8 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Rows', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Sets the textarea height', 'acf-frontend-form-element' ),
+					'label'        => __( 'Rows', 'frontend-admin' ),
+					'instructions' => __( 'Sets the textarea height', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'rows',
 					'placeholder'  => 8,
@@ -298,14 +299,14 @@ if ( ! class_exists( 'post_content' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'New Lines', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Controls how new lines are rendered', 'acf-frontend-form-element' ),
+					'label'        => __( 'New Lines', 'frontend-admin' ),
+					'instructions' => __( 'Controls how new lines are rendered', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'new_lines',
 					'choices'      => array(
-						'wpautop' => __( 'Automatically add paragraphs', 'acf-frontend-form-element' ),
-						'br'      => __( 'Automatically add &lt;br&gt;', 'acf-frontend-form-element' ),
-						''        => __( 'No Formatting', 'acf-frontend-form-element' ),
+						'wpautop' => __( 'Automatically add paragraphs', 'frontend-admin' ),
+						'br'      => __( 'Automatically add &lt;br&gt;', 'frontend-admin' ),
+						''        => __( 'No Formatting', 'frontend-admin' ),
 					),
 					'conditions'   => array(
 						array(

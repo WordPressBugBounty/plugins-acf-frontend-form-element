@@ -24,8 +24,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			$secret_key_v3 = get_option( 'frontend_admin_recaptcha_secret_v3', $secret_key );
 
 			$this->name     = 'recaptcha';
-			$this->label    = __( 'Google reCaptcha', 'acf-frontend-form-element' );
-			$this->category = __( 'Security', 'acf-frontend-form-element' );
+			$this->label    = __( 'Google reCaptcha', 'frontend-admin' );
+			$this->category = __( 'Security', 'frontend-admin' );
 			$this->defaults = array(
 				'required'      => 0,
 				'disabled'      => 0,
@@ -71,13 +71,13 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Version', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the reCaptcha version', 'acf-frontend-form-element' ),
+					'label'        => __( 'Version', 'frontend-admin' ),
+					'instructions' => __( 'Select the reCaptcha version', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'version',
 					'choices'      => array(
-						'v2' => __( 'reCaptcha V2', 'acf-frontend-form-element' ),
-						'v3' => __( 'reCaptcha V3', 'acf-frontend-form-element' ),
+						'v2' => __( 'reCaptcha V2', 'frontend-admin' ),
+						'v3' => __( 'reCaptcha V3', 'frontend-admin' ),
 					),
 				)
 			);
@@ -86,13 +86,13 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Theme', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Select the reCaptcha theme', 'acf-frontend-form-element' ),
+					'label'             => __( 'Theme', 'frontend-admin' ),
+					'instructions'      => __( 'Select the reCaptcha theme', 'frontend-admin' ),
 					'type'              => 'select',
 					'name'              => 'v2_theme',
 					'choices'           => array(
-						'light' => __( 'Light', 'acf-frontend-form-element' ),
-						'dark'  => __( 'Dark', 'acf-frontend-form-element' ),
+						'light' => __( 'Light', 'frontend-admin' ),
+						'dark'  => __( 'Dark', 'frontend-admin' ),
 					),
 					'conditional_logic' => array(
 						array(
@@ -110,13 +110,13 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Size', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Select the reCaptcha size', 'acf-frontend-form-element' ),
+					'label'             => __( 'Size', 'frontend-admin' ),
+					'instructions'      => __( 'Select the reCaptcha size', 'frontend-admin' ),
 					'type'              => 'select',
 					'name'              => 'v2_size',
 					'choices'           => array(
-						'normal'  => __( 'Normal', 'acf-frontend-form-element' ),
-						'compact' => __( 'Compact', 'acf-frontend-form-element' ),
+						'normal'  => __( 'Normal', 'frontend-admin' ),
+						'compact' => __( 'Compact', 'frontend-admin' ),
 					),
 					'conditional_logic' => array(
 						array(
@@ -134,8 +134,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Hide logo', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Hide the reCaptcha logo', 'acf-frontend-form-element' ),
+					'label'             => __( 'Hide logo', 'frontend-admin' ),
+					'instructions'      => __( 'Hide the reCaptcha logo', 'frontend-admin' ),
 					'type'              => 'true_false',
 					'name'              => 'v3_hide_logo',
 					'ui'                => true,
@@ -155,8 +155,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Site key', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf-frontend-form-element' ),
+					'label'             => __( 'Site key', 'frontend-admin' ),
+					'instructions'      => __( 'Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'frontend-admin' ),
 					'type'              => 'text',
 					'name'              => 'site_key_v2',
 					'conditional_logic' => array(
@@ -175,8 +175,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Secret key', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf-frontend-form-element' ),
+					'label'             => __( 'Secret key', 'frontend-admin' ),
+					'instructions'      => __( 'Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'frontend-admin' ),
 					'type'              => 'text',
 					'name'              => 'secret_key_v2',
 					'conditional_logic' => array(
@@ -195,8 +195,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Site key', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf-frontend-form-element' ),
+					'label'             => __( 'Site key', 'frontend-admin' ),
+					'instructions'      => __( 'Enter the site key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'frontend-admin' ),
 					'type'              => 'text',
 					'name'              => 'site_key_v3',
 					'conditional_logic' => array(
@@ -215,8 +215,8 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Secret key', 'acf-frontend-form-element' ),
-					'instructions'      => __( 'Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'acf-frontend-form-element' ),
+					'label'             => __( 'Secret key', 'frontend-admin' ),
+					'instructions'      => __( 'Enter the secret key. <a href="https://www.google.com/recaptcha/admin" target="_blank">reCaptcha API Admin</a>', 'frontend-admin' ),
 					'type'              => 'text',
 					'name'              => 'secret_key_v3',
 					'conditional_logic' => array(
@@ -344,7 +344,7 @@ if ( ! class_exists( 'recaptcha' ) ) :
 
 		function validate_value( $valid, $value, $field, $input ) {
 			if ( ! $value && $field['version'] == 'v2' ) {
-				return __( 'Please fill the captcha', 'acf-frontend-form-element' );
+				return __( 'Please fill the captcha', 'frontend-admin' );
 			}
 
 			// Expired
@@ -391,7 +391,7 @@ if ( ! class_exists( 'recaptcha' ) ) :
 
 			}
 
-			return __( 'Something went wrong. Recaptcha failed', 'acf-frontend-form-element' );
+			return __( 'Something went wrong. Recaptcha failed', 'frontend-admin' );
 
 		}
 
@@ -448,7 +448,7 @@ if ( ! class_exists( 'recaptcha' ) ) :
 				if ( $result->success === true ) {
 					return true;
 				} else {
-					return __( 'Something is wrong with the recaptcha.', 'acf-frontend-form-element' );
+					return __( 'Something is wrong with the recaptcha.', 'frontend-admin' );
 				}
 			}
 			// Dead end

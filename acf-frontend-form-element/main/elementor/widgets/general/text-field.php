@@ -92,7 +92,7 @@ class Text_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Text Field', 'acf-frontend-form-element' );
+		return __( 'Text Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -134,10 +134,10 @@ class Text_Field extends Base_Field {
 		$this->add_control(
 			'field_placeholder',
 			array(
-				'label'       => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label'       => __( 'Placeholder', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Placeholder', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Placeholder', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -148,10 +148,10 @@ class Text_Field extends Base_Field {
 		$this->add_control(
 			'field_default_value',
 			array(
-				'label'       => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label'       => __( 'Default Value', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'description' => __( 'This will populate a field if no value has been given yet. You can use shortcodes from other text fields. For example: [acf:field_name]', 'acf-frontend-form-element' ),
+				'description' => __( 'This will populate a field if no value has been given yet. You can use shortcodes from other text fields. For example: [acf:field_name]', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -161,7 +161,7 @@ class Text_Field extends Base_Field {
 		$this->add_control(
 			'prepend',
 			array(
-				'label'     => __( 'Prepend', 'acf-frontend-form-element' ),
+				'label'     => __( 'Prepend', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -172,7 +172,7 @@ class Text_Field extends Base_Field {
 		$this->add_control(
 			'append',
 			array(
-				'label'     => __( 'Append', 'acf-frontend-form-element' ),
+				'label'     => __( 'Append', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -183,7 +183,7 @@ class Text_Field extends Base_Field {
 		$this->add_control(
 			'character_limit',
 			array(
-				'label'     => __( 'Character Limit', 'acf-frontend-form-element' ),
+				'label'     => __( 'Character Limit', 'frontend-admin' ),
 				'type'      => Controls_Manager::NUMBER,
 				'dynamic'   => array(
 					'active' => true,

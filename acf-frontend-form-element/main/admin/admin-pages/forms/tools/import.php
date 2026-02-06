@@ -25,7 +25,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 		function initialize() {
 			// vars
 			$this->name  = 'import';
-			$this->title = __( 'Import Admin Forms', 'acf-frontend-form-element' );
+			$this->title = __( 'Import Admin Forms', 'frontend-admin' );
 			$this->icon  = 'dashicons-upload';
 
 		}
@@ -45,13 +45,13 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 
 		function html() {
 			?>
-		<p><?php esc_html_e( 'Select the JSON file you would like to import. When you click the import button below, your forms be imported.', 'acf-frontend-form-element' ); ?></p>
+		<p><?php esc_html_e( 'Select the JSON file you would like to import. When you click the import button below, your forms be imported.', 'frontend-admin' ); ?></p>
 		<div class="acf-fields">
 			<?php
 
 			acf_render_field_wrap(
 				array(
-					'label'    => __( 'Select File', 'acf-frontend-form-element' ),
+					'label'    => __( 'Select File', 'frontend-admin' ),
 					'type'     => 'file',
 					'name'     => 'acf_import_file',
 					'value'    => false,
@@ -62,7 +62,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 			?>
 		</div>
 		<p class="acf-submit">
-			<input type="submit" class="button button-primary" value="<?php esc_html_e( 'Import File', 'acf-frontend-form-element' ); ?>" />
+			<input type="submit" class="button button-primary" value="<?php esc_html_e( 'Import File', 'frontend-admin' ); ?>" />
 		</p>
 			<?php
 
@@ -84,7 +84,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 		function submit() {
 			// Check file size.
 			if ( empty( $_FILES['acf_import_file']['size'] ) ) {
-				return acf_add_admin_notice( __( 'No file selected', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'No file selected', 'frontend-admin' ), 'warning' );
 			}
 
 			// Get file data.
@@ -92,12 +92,12 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 
 			// Check errors.
 			if ( $file['error'] ) {
-				return acf_add_admin_notice( __( 'Error uploading file. Please try again', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'Error uploading file. Please try again', 'frontend-admin' ), 'warning' );
 			}
 
 			// Check file type.
 			if ( pathinfo( $file['name'], PATHINFO_EXTENSION ) !== 'json' ) {
-				return acf_add_admin_notice( __( 'Incorrect file type', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'Incorrect file type', 'frontend-admin' ), 'warning' );
 			}
 
 			// Read JSON.
@@ -106,7 +106,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 
 			// Check if empty.
 			if ( ! $json || ! is_array( $json ) ) {
-				return acf_add_admin_notice( __( 'Import file empty', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'Import file empty', 'frontend-admin' ), 'warning' );
 			}
 
 			// Ensure $json is an array of groups.
@@ -137,7 +137,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 			$total = count( $ids );
 
 			// Generate text.
-			$text = sprintf( _n( 'Imported 1 form', 'Imported %s forms', $total, 'acf-frontend-form-element' ), $total );
+			$text = sprintf( _n( 'Imported 1 form', 'Imported %s forms', $total, 'frontend-admin' ), $total );
 
 			// Add links to text.
 			$links = array();

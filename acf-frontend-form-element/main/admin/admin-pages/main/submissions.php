@@ -10,7 +10,7 @@ class Submissions_Settings {
 	public function get_settings_fields( $field_keys ) {
 		$local_fields = array(
 			'frontend_admin_save_submissions' => array(
-				'label'             => __( 'Save Form Submissions', 'acf-frontend-form-element' ),
+				'label'             => __( 'Save Form Submissions', 'frontend-admin' ),
 				'type'              => 'true_false',
 				'instructions'      => '',
 				'required'          => 0,
@@ -27,12 +27,12 @@ class Submissions_Settings {
 			),
 		/*
 		 'frontend_admin_submissions_deletetion' => array(
-		'label' => __( 'Delete Submissions After...', 'acf-frontend-form-element' ),
+		'label' => __( 'Delete Submissions After...', 'frontend-admin' ),
 		'type' => 'number',
 		'min' => 1,
 		'instructions' => '',
-		'append' => __( 'Days', 'acf-frontend-form-element' ),
-		'placeholder' => __( 'Never', 'acf-frontend-form-element' ),
+		'append' => __( 'Days', 'frontend-admin' ),
+		'placeholder' => __( 'Never', 'frontend-admin' ),
 		'required' => 0,
 		'conditional_logic' => array(
 					array(

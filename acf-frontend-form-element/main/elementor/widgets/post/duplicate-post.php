@@ -30,8 +30,8 @@ class Duplicate_Post_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'post',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your post has been duplicated successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your post has been duplicated successfully.', 'frontend-admin' ),
 			'field_type'         => 'post_title',
 			'save_to_post'  => 'duplicate_post',
 			'fields'             => [
@@ -53,7 +53,7 @@ class Duplicate_Post_Widget extends ACF_Form {
 		 * @return string Widget title.
 		 */
 	public function get_title() {
-		return __( 'Duplicate Post Form', 'acf-frontend-form-element' );
+		return __( 'Duplicate Post Form', 'frontend-admin' );
 	}
 
 	 /**

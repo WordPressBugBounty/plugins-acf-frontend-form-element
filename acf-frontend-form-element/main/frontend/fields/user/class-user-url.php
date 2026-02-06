@@ -23,8 +23,8 @@ if ( ! class_exists( 'user_url' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'user_url';
-			$this->label      = __( 'Website', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Website', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'placeholder'   => '',

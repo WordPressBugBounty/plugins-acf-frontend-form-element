@@ -66,7 +66,7 @@ if ( ! class_exists( 'Frontend_Admin\Bricks' ) ) :
 		public function element_categories( $elements_manager ) {
 			$categories = array(
 				'frontend-admin-general' => array(
-					'title' => __( 'FRONTEND SITE MANAGEMENT', 'acf-frontend-form-element' ),
+					'title' => __( 'FRONTEND SITE MANAGEMENT', 'frontend-admin' ),
 					'icon'  => 'fa fa-plug',
 				),
 			);

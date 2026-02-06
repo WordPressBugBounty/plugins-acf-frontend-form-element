@@ -23,8 +23,8 @@ if ( ! class_exists( 'user_password_confirm' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'user_password_confirm';
-			$this->label      = __( 'Password Confirm', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Password Confirm', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'placeholder' => '',
 				'prepend'     => '',
@@ -88,7 +88,7 @@ if ( ! class_exists( 'user_password_confirm' ) ) :
 			}
 			$password_field = sanitize_key( $_POST['custom_password'] );
 			if ( $_POST['acff']['user'][ $password_field ] != $value ) {
-				return __( 'The passwords do not match', 'acf-frontend-form-element' );
+				return __( 'The passwords do not match', 'frontend-admin' );
 			}
 
 			return $is_valid;

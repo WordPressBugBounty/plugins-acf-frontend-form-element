@@ -21,7 +21,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					$field,
 					array(
 						'label'        => __( 'Show On Frontend Only' ),
-						'instructions' => __( 'Lets you hide the field on the backend to avoid duplicate fields.', 'acf-frontend-form-element' ),
+						'instructions' => __( 'Lets you hide the field on the backend to avoid duplicate fields.', 'frontend-admin' ),
 						'name'         => 'only_front',
 						'type'         => 'true_false',
 						'ui'           => 1,
@@ -40,21 +40,21 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			acf_render_field_setting( $field, array(
 				'label'			=> __('Display Mode'),
-				'instructions'	=> __( 'Lets you show the editable field or display the value only. You may also hide the field, which is useful if you need to pass hidden data', 'acf-frontend-form-element' ),
+				'instructions'	=> __( 'Lets you show the editable field or display the value only. You may also hide the field, which is useful if you need to pass hidden data', 'frontend-admin' ),
 				'name'			=> 'frontend_admin_display_mode',
 				'type'			=> 'select',
 				'choices'		=> array(
-					'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-					'read_only'	=> __( 'Read', 'acf-frontend-form-element' ),
-					'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
+					'edit'	=> __( 'Edit', 'frontend-admin' ),
+					'read_only'	=> __( 'Read', 'frontend-admin' ),
+					'hidden'	=> __( 'Hidden', 'frontend-admin' ),
 				)
 			), true );
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'No Value Messge', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show.', 'acf-frontend-form-element' ),
+					'label'        => __( 'No Value Messge', 'frontend-admin' ),
+					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show.', 'frontend-admin' ),
 					'type'         => 'textarea',
 					'name'         => 'no_values_message',
 					'rows'         => 3,
@@ -74,13 +74,13 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Field Shortcode', 'acf-frontend-form-element' ),
+					'label'        => __( 'Field Shortcode', 'frontend-admin' ),
 					'instructions' => '',
 					'message'      => '<code>[frontend_admin field=' . $short_key . ' edit=false]</code>' . sprintf(
 						'<button type="button" class="copy-shortcode" data-prefix="frontend_admin field" data-value="%1$s">%2$s %3$s</button>',
 						$short_key,
 						$icon_path,
-						__( 'Copy Code', 'acf-frontend-form-element' )
+						__( 'Copy Code', 'frontend-admin' )
 					),
 					'type'         => 'message',
 					'name'         => 'shortcode_message',
@@ -101,13 +101,13 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			$icon_path = '<span class="dashicons dashicons-admin-page"></span>';
 			acf_render_field_wrap(
 				array(
-					'label'        => __( 'Group Shortcode', 'acf-frontend-form-element' ),
+					'label'        => __( 'Group Shortcode', 'frontend-admin' ),
 					'instructions' => '',
 					'message'      => '<code>[frontend_admin group=' . $short_key . ' edit=false]</code>' . sprintf(
 						'<button type="button" class="copy-shortcode" data-prefix="frontend_admin group" data-value="%1$s">%2$s %3$s</button>',
 						$short_key,
 						$icon_path,
-						__( 'Copy Code', 'acf-frontend-form-element' )
+						__( 'Copy Code', 'frontend-admin' )
 					),
 					'type'         => 'message',
 					'name'         => 'shortcode_message',
@@ -117,8 +117,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			);
 			acf_render_field_wrap(
 				array(
-					'label'        => __( 'No Value Messge', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show. Each individual field has this setting as well and that will overwrite this.', 'acf-frontend-form-element' ),
+					'label'        => __( 'No Value Messge', 'frontend-admin' ),
+					'instructions' => __( 'Appears in shortcode when field returns no value. If left blank nothing will show. Each individual field has this setting as well and that will overwrite this.', 'frontend-admin' ),
 					'type'         => 'textarea',
 					'name'         => 'no_values_message',
 					'rows'         => 3,	
@@ -134,8 +134,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			 global $post;
 
 			if ( isset( $post->post_type ) && $post->post_type == 'acf-field-group' ) {
-				unset( $groups[ __( 'Form', 'acf-frontend-form-element' ) ] );
-				unset( $groups[ __( 'Mailchimp', 'acf-frontend-form-element' ) ] );
+				unset( $groups[ __( 'Form', 'frontend-admin' ) ] );
+				unset( $groups[ __( 'Mailchimp', 'frontend-admin' ) ] );
 			}
 
 			unset( $groups['frontend-admin-hidden'] );
@@ -203,8 +203,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			acf_enqueue_scripts();
 			acf_localize_text(
 				array(
-					'Copy Code'   => __( 'Copy Code', 'acf-frontend-form-element' ),
-					'Code Copied' => __( 'Code Copied', 'acf-frontend-form-element' ),
+					'Copy Code'   => __( 'Copy Code', 'frontend-admin' ),
+					'Code Copied' => __( 'Code Copied', 'frontend-admin' ),
 				)
 			);
 			wp_enqueue_style( 'fea-modal' );
@@ -359,7 +359,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			$field = str_replace( '-', '_', $field );
 			if( ! class_exists( 'Frontend_Admin\Field_Types\\' . $field ) ) return;
 
-			$class = 'Frontend_Admin\Field_Types\\' . $field;
+			$class = 'Frontend_Admin\Field_Types\\' . $field;								
 
 			if( $acf_support ){
 				if( function_exists( 'acf_register_field_type' ) ){
@@ -389,6 +389,8 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				'password',
 				'select',
 				'textarea',
+				'text-editor',
+				//'block-editor',
 				'true-false',
 				'url',
 				'related-items',
@@ -532,7 +534,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'related-terms',
 					'plans',
 					'text-editor',
-					//'blocks-editor',
+					//'block-editor',
 					'custom-terms',
 					'delete-object',
 					'upload-file',
@@ -608,18 +610,12 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			$field = apply_filters( 'frontend_admin/fields/get_field', $field, $key );
 
-			if( is_array( $field ) ) return $field;
+			if( is_array( $field ) ){
+				$field['key'] = $key;			 	
+				return $field;
+			}
 
-			return array(
-				'key' => $key,
-				'type' => 'text',
-				'hide_label' => true,
-				'label' => __( 'Field not found', 'acf-frontend-form-element' ),
-				'name' => $key,
-				'wrapper' => array(
-					'class' => 'hidden fea-field-not-found',
-				),
-			);
+			return false;
 
 		}
 

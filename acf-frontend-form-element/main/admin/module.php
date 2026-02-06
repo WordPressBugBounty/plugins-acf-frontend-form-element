@@ -15,7 +15,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			 global $frontend_admin_settings, $fea_instance;
 
 			$frontend_admin_settings = add_menu_page( 'Frontend Admin', 'Frontend Admin', 'manage_options',  'fea-settings', array( $this, 'admin_settings_page' ), 'dashicons-frontend', '87.87778' );
-			add_submenu_page(  'fea-settings', __( 'Settings', 'acf-frontend-form-element' ), __( 'Settings', 'acf-frontend-form-element' ), 'manage_options',  'fea-settings', '', 0 );
+			add_submenu_page(  'fea-settings', __( 'Settings', 'frontend-admin' ), __( 'Settings', 'frontend-admin' ), 'manage_options',  'fea-settings', '', 0 );
 		}
 
 		function admin_settings_page() {
@@ -38,7 +38,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			foreach ( $this->tabs as $name => $label ) {
 
 				?>
-				<a class="nav-tab <?php echo $_active_tab == $name || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( '?page=' .  'fea-settings&tab=' . $name ) ); ?>"><?php esc_html_e( $label, 'acf-frontend-form-element' ); ?> </a>
+				<a class="nav-tab <?php echo $_active_tab == $name || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( '?page=' .  'fea-settings&tab=' . $name ) ); ?>"><?php esc_html_e( $label, 'frontend-admin' ); ?> </a>
 				<?php
 			}
 		}
@@ -67,9 +67,9 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				], */
 				'_screen_id'     => 'options',
 				'fields'  => $fields,
-				'submit_value'   => __( 'Save Settings', 'acf-frontend-form-element' ),
+				'submit_value'   => __( 'Save Settings', 'frontend-admin' ),
 				'default_submit_button' => 1,
-				'update_message' => __( 'Settings Saved', 'acf-frontend-form-element' ),
+				'update_message' => __( 'Settings Saved', 'frontend-admin' ),
 				'redirect'       => 'current',
 				'kses'           => 0,
 				'honeypot'       => 0,
@@ -87,14 +87,18 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			if ( '' || 'welcome' == $_active_tab ) {
 				?>
 			<style>p.frontend-admin-text{font-size:20px}</style>
-			<h3><?php esc_html_e( 'Hello and welcome', 'acf-frontend-form-element' ); ?></h3>
+			<h3><?php esc_html_e( 'Hello and welcome', 'frontend-admin' ); ?></h3>
 
 			<p class="frontend-admin-text">
 				<?php printf( 
-					esc_html__( 'Welcome to %s, the plugin that allows you to create and manage forms and content from the front end of your website.', 'acf-frontend-form-element' ), 
+					esc_html__( 'Welcome to %s, the plugin that allows you to create and manage forms and content from the front end of your website.', 'frontend-admin' ), 
 					esc_html( 'Frontend Admin' ) 
 				); ?>
 			</p>
+
+			<p class="frontend-admin-text"><?php printf('The New Post Form Block');?></p>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/SIwiWvPqd8Q?si=K0jvXhsi5Wdw6_rj" title="The New Post Form Block" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 			<p class="frontend-admin-text"><?php printf('Frontend Forms in Elementor Pro Off Canvas Widget');?></p>
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/UII4uwpMP0I?si=wbE1l0spGseaQWXX" title="Frontend Forms in Elementor Pro Off Canvas Widget" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -103,21 +107,14 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/gxN5X54LNuk?si=xc6z6mwradx35CCt" title="Elementor Nestable Forms Widget" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-			<p class="frontend-admin-text"><?php printf( esc_html( __( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'acf-frontend-form-element' ) ), 'Frontend Admin' ); ?></p>
+			<p class="frontend-admin-text"><?php printf( esc_html( __( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'frontend-admin' ) ), 'Frontend Admin' ); ?></p>
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/ZR7UAegiljQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					
 			
 			<br>
-			<p class="frontend-admin-text"><?php printf( wp_kses_post( __( 'If you have any questions at all please feel welcome to email support at <a href="mailto:%1$s"/>%1$s</a> or on whatsapp <a href="%2$s">%3$s</a>', 'acf-frontend-form-element' ) ), 'support@dynamiapps.com', esc_url( 'https://api.whatsapp.com/send?phone=972532323950' ), '+972-53-232-3950' ); ?> </p>
+			<p class="frontend-admin-text"><?php printf( wp_kses_post( __( 'If you have any questions at all please feel welcome to email support at <a href="mailto:%1$s"/>%1$s</a> or on whatsapp <a href="%2$s">%3$s</a>', 'frontend-admin' ) ), 'support@dynamiapps.com', esc_url( 'https://api.whatsapp.com/send?phone=972532323950' ), '+972-53-232-3950' ); ?> </p>
 				
-			<h3><?php esc_html_e( 'Frontend Admin Features', 'acf-frontend-form-element' ); ?></h3>
-			<h4><?php esc_html_e( 'Enable Users To Add Content From The Front End Without Logging Into WordPress Using Frontend Admin', 'acf-frontend-form-element' ); ?></h4>
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/s6FeL77i2iM?si=nOPwAK-O-JmyX9s_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-			
-			<h3><?php esc_html_e( 'WordPress Frontend Edits and Updates Using Frontend Admin', 'acf-frontend-form-element' ); ?></h3>
-
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/6yT2E2IV-JU?si=q1KDLkZ5UXEzc9UW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-				<?php
+					<?php
 			} else {
 				foreach ( $this->tabs as $form_tab => $label ) {
 					if ( $form_tab == $_active_tab ) {
@@ -154,7 +151,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				echo '<input type="hidden" name="action" value="fea_install_plugin"/>';
 				$submit_value = "Install $addon module";
 			}
-				echo '<button type="submit" class="button">'. esc_html( __( $submit_value, 'acf-frontend-form-element' ) ) .'</button>';
+				echo '<button type="submit" class="button">'. esc_html( __( $submit_value, 'frontend-admin' ) ) .'</button>';
 			?>
 				<input type="hidden" name="addon" value="<?php esc_attr_e( $addon ); ?>"/>
 				<input type="hidden" name="nonce" value="<?php esc_attr_e( wp_create_nonce( 'frontend-admin-addon' ) ); ?>" />
@@ -182,7 +179,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			);
 
 			if ( ! wp_verify_nonce( $args['nonce'], 'frontend-admin-addon' ) ) {
-				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' );
+				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' );
 			}
 
 			$addon_zip = 'https://www.dynamiapps.com/wp-content/uploads/frontend-'.$addon.'.zip';
@@ -221,7 +218,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			}
 
 			if ( ! wp_verify_nonce( $args['nonce'], 'frontend-admin-addon' ) ) {
-				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' );
+				esc_html_e( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' );
 			}
 
 			$addon_slug = fea_addon_slug( 'frontend-admin-' . $args['addon'] );
@@ -233,7 +230,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 					deactivate_plugins( $addon_slug );
 				}
 			} else {
-				esc_html_e( 'Addon Not Found', 'acf-frontend-form-element' );
+				esc_html_e( 'Addon Not Found', 'frontend-admin' );
 			}
 			wp_redirect(
 				add_query_arg(
@@ -255,7 +252,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 					add_action( 'admin_notices', function(){
 						?>
 						<div class="notice notice-error">
-							<p><?php _e( 'Please update Frontend Admin Payments to the latest version to use the new payment settings.', 'acf-frontend-form-element' ); ?></p>
+							<p><?php _e( 'Please update Frontend Admin Payments to the latest version to use the new payment settings.', 'frontend-admin' ); ?></p>
 						</div>
 						<?php
 					} );	
@@ -294,7 +291,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			wp_register_script( 'fea-public', FEA_URL . 'assets/js/frontend-admin' . $min . '.js', array( 'jquery', 'acf', 'acf-input' ), FEA_VERSION, true );
 
 			wp_register_script( 'fea-password-strength', FEA_URL . 'assets/js/password-strength.min.js', array( 'password-strength-meter' ), FEA_VERSION, true );
-			acf_localize_text( array( 'Passwords Match' => __( 'Passwords Match', 'acf-frontend-form-element' ) ) );
+			acf_localize_text( array( 'Passwords Match' => __( 'Passwords Match', 'frontend-admin' ) ) );
 			add_action( 'admin_init', array( $this, 'activate_addon' ) );
 
 			wp_register_style( 'fea-icon', FEA_URL . 'assets/css/icon' . $min . '.css', array(), FEA_VERSION );
@@ -400,18 +397,18 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 		public function get_page_visibilty_fields(){
 			$fields = [
 				'limit_visibilty' => [
-					'label' => __( 'Limit Visibilty', 'acf-frontend-form-element' ),
+					'label' => __( 'Limit Visibilty', 'frontend-admin' ),
 					'type'  => 'true_false',
 					'name'  => 'limit_visibilty',
 					'key'   => 'limit_visibilty',
 				],
 				'show_for' => [
-					'label' => __( 'Show For', 'acf-frontend-form-element' ),
+					'label' => __( 'Show For', 'frontend-admin' ),
 					'type'  => 'select',
 					'choices' => [
-						'logged_in' => __( 'Logged In', 'acf-frontend-form-element' ),
-						'logged_out' => __( 'Logged Out', 'acf-frontend-form-element' ),
-						'all' => __( 'All', 'acf-frontend-form-element' ),
+						'logged_in' => __( 'Logged In', 'frontend-admin' ),
+						'logged_out' => __( 'Logged Out', 'frontend-admin' ),
+						'all' => __( 'All', 'frontend-admin' ),
 					],
 					'conditional_logic' => [
 						[
@@ -424,7 +421,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 					'key'   => 'show_for',
 				],
 				'show_for_roles' =>	[
-					'label' => __( 'Show For Roles', 'acf-frontend-form-element' ),
+					'label' => __( 'Show For Roles', 'frontend-admin' ),
 					'type'  => 'select',
 					'choices' => feadmin_get_user_roles(),
 					'name'  => 'show_for_roles',
@@ -445,11 +442,11 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 					'ui' => 1,
 				],
 				'redirect_to' => [
-					'label' => __( 'Redirect To', 'acf-frontend-form-element' ),
+					'label' => __( 'Redirect To', 'frontend-admin' ),
 					'type'  => 'url',
 					'name'  => 'redirect_to',
 					'key'   => 'redirect_to',
-					'instructions' => __( 'Enter the URL to redirect to when the page is not visible', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Enter the URL to redirect to when the page is not visible', 'frontend-admin' ),
 					'placeholder' => 'https://',
 					'conditional_logic' => [
 						[
@@ -568,6 +565,11 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			//add page options to Show page based on rules
 			add_action( 'add_meta_boxes', function(){
 				$post_types = get_post_types( array( 'public' => true ) );
+
+				//exclude some post types
+				$exclude_post_types = array( 'admin_form', 'elementor_library', 'acf-field-group' );
+				$post_types = array_diff( $post_types, $exclude_post_types );
+				
 				add_meta_box( 'fea-hide-page', 'Frontend Admin', array( $this, 'hide_page_metabox' ), $post_types, 'side', 'high' );
 			} );
 			//update page visibility

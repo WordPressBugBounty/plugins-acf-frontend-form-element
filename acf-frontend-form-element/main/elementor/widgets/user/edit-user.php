@@ -21,7 +21,7 @@ class Edit_User_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Edit User Form', 'acf-frontend-form-element' );
+		return __( 'Edit User Form', 'frontend-admin' );
 	}
 
 		/**
@@ -38,8 +38,8 @@ class Edit_User_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'user',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your account has been updated successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your account has been updated successfully.', 'frontend-admin' ),
 			'field_type'         => 'username',
 			'save_to_user' => 'edit_user',
 			'fields'             => [

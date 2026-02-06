@@ -18,8 +18,8 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 		public function __construct() {
 
 			parent::__construct( [
-				'singular' => __( 'Payment', 'acf-frontend-form-element' ), //singular name of the listed records
-				'plural'   => __( 'Payments', 'acf-frontend-form-element' ), //plural name of the listed records
+				'singular' => __( 'Payment', 'frontend-admin' ), //singular name of the listed records
+				'plural'   => __( 'Payments', 'frontend-admin' ), //plural name of the listed records
 				'ajax'     => false //does this table support ajax?
 			] );
 
@@ -92,7 +92,7 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 
 		/** Text displayed when no payment data is available */
 		public function no_items() {
-			_e( 'No payments avaliable.', 'acf-frontend-form-element' );
+			_e( 'No payments avaliable.', 'frontend-admin' );
 		}
 
 
@@ -148,12 +148,12 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 		 */
 		function get_columns() {
 			$columns = [
-				'description'  => __( 'Description', 'acf-frontend-form-element' ),
-				'external_id' => __( 'External ID', 'acf-frontend-form-element' ),
-				'user' => __( 'User', 'acf-frontend-form-element' ),
-				'method' => __( 'Processor', 'acf-frontend-form-element' ),
-				'amount'    => __( 'Amount', 'acf-frontend-form-element' ),
-				'created_at' => __( 'Date', 'acf-frontend-form-element' ),
+				'description'  => __( 'Description', 'frontend-admin' ),
+				'external_id' => __( 'External ID', 'frontend-admin' ),
+				'user' => __( 'User', 'frontend-admin' ),
+				'method' => __( 'Processor', 'frontend-admin' ),
+				'amount'    => __( 'Amount', 'frontend-admin' ),
+				'created_at' => __( 'Date', 'frontend-admin' ),
 			];
 
 			return $columns;

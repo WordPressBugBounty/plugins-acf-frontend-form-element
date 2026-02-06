@@ -96,19 +96,19 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 		public function get_status_label( $slug ) {
 			switch ( $slug ) {
 				case 'in_progress':
-					return __( 'In Progress', 'acf-frontend-form-element' );
+					return __( 'In Progress', 'frontend-admin' );
 				case 'require_approval':
-					return __( 'Pending Approval', 'acf-frontend-form-element' );
+					return __( 'Pending Approval', 'frontend-admin' );
 				case 'verify_email':
-					return __( 'Pending Email Verification', 'acf-frontend-form-element' );
+					return __( 'Pending Email Verification', 'frontend-admin' );
 				case 'email_verified':
-					return __( 'Email Verified', 'acf-frontend-form-element' );
+					return __( 'Email Verified', 'frontend-admin' );
 				case 'pending_payment':
-					return __( 'Pending Payment', 'acf-frontend-form-element' );
+					return __( 'Pending Payment', 'frontend-admin' );
 				case 'payment_received':
-					return __( 'Payment Received', 'acf-frontend-form-element' );
+					return __( 'Payment Received', 'frontend-admin' );
 				case 'approved':
-					return __( 'Approved', 'acf-frontend-form-element' );
+					return __( 'Approved', 'frontend-admin' );
 				default:
 					return $slug;
 			}
@@ -256,7 +256,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						$form = $this->get_form( $submission, array(), true, true );
 
 						if( ! $form ){
-							echo '<div class="notice notice-error"><p>'. esc_html__( 'Form not found.', 'acf-frontend-form-element' ) .'</p></div>';
+							echo '<div class="notice notice-error"><p>'. esc_html__( 'Form not found.', 'frontend-admin' ) .'</p></div>';
 							return;
 						}
 						$form['wp_uploader'] = 1;
@@ -274,7 +274,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						}
 						if ( ! empty( $form['record']['emails_to_verify'] ) ) {
 							 echo '<div class="emails-to-verify">';
-							 echo '<h3>'. esc_html( __( 'Pending Verification:', 'acf-frontend-form-element' ) ) . '</h3><ul>';
+							 echo '<h3>'. esc_html( __( 'Pending Verification:', 'frontend-admin' ) ) . '</h3><ul>';
 							foreach ( $form['record']['emails_to_verify'] as $address ) {
 								echo '<li>' . esc_html( $address ) . '</li>';
 							}
@@ -282,7 +282,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						}
 						if ( ! empty( $form['record']['verified_emails'] ) ) {
 							echo '<div class="verified-emails">';
-							echo '<h3>'. esc_html( __( 'Verified Emails:', 'acf-frontend-form-element' ) ) . '</h3><ul>';
+							echo '<h3>'. esc_html( __( 'Verified Emails:', 'frontend-admin' ) ) . '</h3><ul>';
 							foreach ( $form['record']['verified_emails'] as $address ) {
 								echo '<li>' . esc_html( $address ) . '</li>';
 							}
@@ -308,7 +308,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			if ( $display_list ) {
 				fea_instance()->submissions_list->prepare_items();
 				?>
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Submissions', 'acf-frontend-form-element' ); ?></h1>
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Submissions', 'frontend-admin' ); ?></h1>
 				<form method="post">
 				<?php
 				fea_instance()->submissions_list->search_box( 'search', 'search_id' );
@@ -323,7 +323,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			if ( is_numeric( $submission ) ) {
 				$submission = $this->get_submission( $submission );
 				if ( ! $submission ) {
-					esc_html_e( 'Submission not found. Did you erase it?', 'acf-frontend-form-element' );
+					esc_html_e( 'Submission not found. Did you erase it?', 'frontend-admin' );
 					return false;
 				}
 			}
@@ -337,7 +337,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 					$form_id = $form_id[0];
 					$form = fea_instance()->form_display->get_form( $form_id, $element );
 					if( ! $form ){
-						esc_html_e( 'Form not found. Did you erase it?', 'acf-frontend-form-element' );
+						esc_html_e( 'Form not found. Did you erase it?', 'frontend-admin' );
 						return false;
 					}
 				
@@ -373,12 +373,12 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 
 			if ( $approval ) {
 				if ( $submission->status == 'approved' ) {
-					$submit_value    = __( 'Update', 'acf-frontend-form-element' );
-					$success_message = __( 'Data has been updated.', 'acf-frontend-form-element' );
+					$submit_value    = __( 'Update', 'frontend-admin' );
+					$success_message = __( 'Data has been updated.', 'frontend-admin' );
 					$update          = true;
 				} else {
-					$submit_value    = __( 'Approve', 'acf-frontend-form-element' );
-					$success_message = __( 'Submission has been approved. Data has been saved.', 'acf-frontend-form-element' );
+					$submit_value    = __( 'Approve', 'frontend-admin' );
+					$success_message = __( 'Submission has been approved. Data has been saved.', 'frontend-admin' );
 				}
 
 				$approval_form = array_merge(
@@ -448,7 +448,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			}
 
 			global $fea_submissions_page;
-			$fea_submissions_page = add_submenu_page(  'fea-settings', __( 'Submissions', 'acf-frontend-form-element' ), __( 'Submissions', 'acf-frontend-form-element' ), 'manage_options',  'fea-settings-submissions', array( $this, 'display_submissions' ), 81 );
+			$fea_submissions_page = add_submenu_page(  'fea-settings', __( 'Submissions', 'frontend-admin' ), __( 'Submissions', 'frontend-admin' ), 'manage_options',  'fea-settings-submissions', array( $this, 'display_submissions' ), 81 );
 			add_action( "load-$fea_submissions_page", array( $this, 'submissions_page_options' ) );
 		}
 

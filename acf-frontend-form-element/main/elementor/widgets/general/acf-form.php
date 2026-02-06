@@ -65,8 +65,8 @@ class ACF_Form extends Widget_Base {
 		return array(
 			'custom_fields_save' => 'all',
 			'form_title'         => '',
-			'submit'             => __( 'Update', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your site has been updated successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Update', 'frontend-admin' ),
+			'success_message'    => __( 'Your site has been updated successfully.', 'frontend-admin' ),
 			'field_type'         => 'ACF_fields',
 			'fields'             => array(
 				array( 'ACF_fields' ),
@@ -85,7 +85,7 @@ class ACF_Form extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'ACF Form', 'acf-frontend-form-element' );
+		return __( 'ACF Form', 'frontend-admin' );
 	}
 
 	 /**
@@ -167,11 +167,11 @@ class ACF_Form extends Widget_Base {
 		$this->start_controls_section(
 			'fields_section',
 			array(
-				'label' => __( 'Form', 'acf-frontend-form-element' ),
+				'label' => __( 'Form', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
-		$default = array( '' => __( 'Build in Elementor', 'acf-frontend-form-element' ) );
+		$default = array( '' => __( 'Build in Elementor', 'frontend-admin' ) );
 		
 		$form_choices = feadmin_form_choices( $default );
 
@@ -179,7 +179,7 @@ class ACF_Form extends Widget_Base {
 			$this->add_control(
 				'admin_forms_select',
 				array(
-					'label'       => __( 'Choose Form...', 'acf-frontend-form-element' ),
+					'label'       => __( 'Choose Form...', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT,
 					'label_block' => true,
 					'options'     => $form_choices,
@@ -192,7 +192,7 @@ class ACF_Form extends Widget_Base {
 					'show_label' => false,
 					'type'       => Controls_Manager::RAW_HTML,
 					'raw'        => '<button class="edit-fea-form" type="button" data-link="' . admin_url( 'post.php' ) . '">
-                        <span class="eicon-pencil">' . __( 'Edit Form', 'acf-frontend-form-element' ) . '</span>
+                        <span class="eicon-pencil">' . __( 'Edit Form', 'frontend-admin' ) . '</span>
                     </button>',
 					'condition'  => array(
 						'admin_forms_select!' => '',
@@ -207,7 +207,7 @@ class ACF_Form extends Widget_Base {
 				'show_label' => false,
 				'type'       => Controls_Manager::RAW_HTML,
 				'raw'        => '<button class="new-fea-form" type="button" data-link="' . admin_url( 'post-new.php?post_type=admin_form' ) . '">
-                    <span class="eicon-plus"></span>' . __( 'Create New Form', 'acf-frontend-form-element' ) . '
+                    <span class="eicon-plus"></span>' . __( 'Create New Form', 'frontend-admin' ) . '
                 </button>',
 			)
 		);
@@ -217,7 +217,7 @@ class ACF_Form extends Widget_Base {
 			$this->add_control(
 				'submit_button_text',
 				array(
-					'label'       => __( 'Submit Button Text', 'acf-frontend-form-element' ),
+					'label'       => __( 'Submit Button Text', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
 					'label_block' => true,
 					'default'     => $this->form_defaults['submit'],
@@ -234,7 +234,7 @@ class ACF_Form extends Widget_Base {
 			$this->add_control(
 				'allow_unfiltered_html',
 				array(
-					'label'        => __( 'Allow Unfiltered HTML', 'acf-frontend-form-element' ),
+					'label'        => __( 'Allow Unfiltered HTML', 'frontend-admin' ),
 					'type'         => Controls_Manager::SWITCHER,
 					'return_value' => 'true',
 					'condition'    => array(
@@ -257,7 +257,7 @@ class ACF_Form extends Widget_Base {
 		}
 		$continue_action   = array();
 		$controls_settings = array(
-			'label'     => __( 'Save Custom Fields to...', 'acf-frontend-form-element' ),
+			'label'     => __( 'Save Custom Fields to...', 'frontend-admin' ),
 			'type'      => Controls_Manager::SELECT,
 			'default'   => $cf_save,
 			'condition' => array(
@@ -267,15 +267,15 @@ class ACF_Form extends Widget_Base {
 		);
 
 		$custom_fields_options = array(
-			'submission' => __( 'Submission', 'acf-frontend-form-element' ),
-			'post' => __( 'Post', 'acf-frontend-form-element' ),
-			'user' => __( 'User', 'acf-frontend-form-element' ),
-			'term' => __( 'Term', 'acf-frontend-form-element' ),
+			'submission' => __( 'Submission', 'frontend-admin' ),
+			'post' => __( 'Post', 'frontend-admin' ),
+			'user' => __( 'User', 'frontend-admin' ),
+			'term' => __( 'Term', 'frontend-admin' ),
 		);
 		if ( ! empty( fea_instance()->pro_features ) ) {
-			$custom_fields_options['options'] = __( 'Site Options', 'acf-frontend-form-element' );
+			$custom_fields_options['options'] = __( 'Site Options', 'frontend-admin' );
 			if ( class_exists( 'woocommerce' ) ) {
-				$custom_fields_options['product'] = __( 'Product', 'acf-frontend-form-element' );
+				$custom_fields_options['product'] = __( 'Product', 'frontend-admin' );
 			}
 		}
 		$controls_settings['options'] = $custom_fields_options;
@@ -289,7 +289,7 @@ class ACF_Form extends Widget_Base {
 		$this->start_controls_section(
 			'display_section',
 			array(
-				'label' => __( 'Display Options', 'acf-frontend-form-element' ),
+				'label' => __( 'Display Options', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -318,7 +318,7 @@ class ACF_Form extends Widget_Base {
 		$this->add_control(
 			'fields_margin',
 			array(
-				'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
+				'label'      => __( 'Fields Margin', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'default'    => array(
@@ -338,7 +338,7 @@ class ACF_Form extends Widget_Base {
 		$this->add_control(
 			'fields_padding',
 			array(
-				'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
+				'label'      => __( 'Fields Padding', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
@@ -350,10 +350,10 @@ class ACF_Form extends Widget_Base {
 		$this->add_control(
 			'hide_field_labels',
 			array(
-				'label'        => __( 'Hide Field Labels', 'acf-frontend-form-element' ),
+				'label'        => __( 'Hide Field Labels', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Hide', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'Show', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Hide', 'frontend-admin' ),
+				'label_off'    => __( 'Show', 'frontend-admin' ),
 				'return_value' => 'true',
 				'separator'    => 'before',
 				'selectors'    => array(
@@ -432,7 +432,7 @@ class ACF_Form extends Widget_Base {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => Controls_Manager::TAB_STYLE,
 				)
 			);
@@ -441,7 +441,7 @@ class ACF_Form extends Widget_Base {
 				'styles_promo',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);

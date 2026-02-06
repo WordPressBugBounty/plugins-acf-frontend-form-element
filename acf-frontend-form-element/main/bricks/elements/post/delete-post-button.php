@@ -56,7 +56,7 @@ public $current_control_group = null;
 		$this->add_control_group(
 			'delete_button_section',
 			array(
-				'title' => __( 'Delete Post', 'acf-frontend-form-element' ),
+				'title' => __( 'Delete Post', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -64,30 +64,30 @@ public $current_control_group = null;
 		$this->add_control(
 			'confirm_delete_message',
 			array(
-				'label'       => __( 'Confirm Delete Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Confirm Delete Message', 'frontend-admin' ),
 				'type'        => 'text',
-				'default'     => __( 'The post will be deleted. Are you sure?', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'The post will be deleted. Are you sure?', 'acf-frontend-form-element' ),
+				'default'     => __( 'The post will be deleted. Are you sure?', 'frontend-admin' ),
+				'placeholder' => __( 'The post will be deleted. Are you sure?', 'frontend-admin' ),
 			)
 		);
 
 		$this->add_control(
 			'show_delete_message',
 			array(
-				'label'        => __( 'Show Success Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Success Message', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'default'      => true,
 			)
 		);
 		$this->add_control(
 			'delete_message',
 			array(
-				'label'       => __( 'Success Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Success Message', 'frontend-admin' ),
 				'type'        => 'textarea',
-				'default'     => __( 'You have deleted this post', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'You have deleted this post', 'acf-frontend-form-element' ),
+				'default'     => __( 'You have deleted this post', 'frontend-admin' ),
+				'placeholder' => __( 'You have deleted this post', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active'    => true,
 					'condition' => array(
@@ -99,7 +99,7 @@ public $current_control_group = null;
 		$this->add_control(
 			'force_delete',
 			array(
-				'label'        => __( 'Force Delete', 'acf-frontend-form-element' ),
+				'label'        => __( 'Force Delete', 'frontend-admin' ),
 				'type'         => 'checkbox',
 				'default'      => false,
 				'description'  => __( 'Whether or not to completely delete the posts right away.' ),
@@ -109,13 +109,13 @@ public $current_control_group = null;
 		$this->add_control(
 			'redirect',
 			array(
-				'label'   => __( 'Redirect After Delete', 'acf-frontend-form-element' ),
+				'label'   => __( 'Redirect After Delete', 'frontend-admin' ),
 				'type'    => 'select',
 				'default' => 'current',
 				'options' => array(
-					'current'     => __( 'Reload Current Url', 'acf-frontend-form-element' ),
-					'custom_url'  => __( 'Custom Url', 'acf-frontend-form-element' ),
-					'referer_url' => __( 'Referer', 'acf-frontend-form-element' ),
+					'current'     => __( 'Reload Current Url', 'frontend-admin' ),
+					'custom_url'  => __( 'Custom Url', 'frontend-admin' ),
+					'referer_url' => __( 'Referer', 'frontend-admin' ),
 				),
 			)
 		);
@@ -123,9 +123,9 @@ public $current_control_group = null;
 		$this->add_control(
 			'custom_url',
 			array(
-				'label'         => __( 'Custom URL', 'acf-frontend-form-element' ),
+				'label'         => __( 'Custom URL', 'frontend-admin' ),
 				'type'          => 'text',
-				'placeholder'   => __( 'Enter Url Here', 'acf-frontend-form-element' ),
+				'placeholder'   => __( 'Enter Url Here', 'frontend-admin' ),
 				'show_external' => false,
 				'dynamic'       => array(
 					'active' => true,

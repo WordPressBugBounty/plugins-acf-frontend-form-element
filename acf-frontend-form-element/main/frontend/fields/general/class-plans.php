@@ -24,7 +24,7 @@ if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 
 			// vars
 			$this->name     = 'fea_plans';
-			$this->label    = __( 'Plans', 'acf-frontend-form-element' );
+			$this->label    = __( 'Plans', 'frontend-admin' );
 			$this->category = 'relational';
 			$this->public = false;
 			$this->defaults = array(
@@ -74,7 +74,7 @@ if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 			if( $field['add_plan'] ?? false ){
 				?>
 				<div>
-					<a href="#" title="<?php esc_html_e( 'Add Plan', 'acf-frontend-form-element' ); ?>" class="acf-icon -plus small add-plan"></a>		
+					<a href="#" title="<?php esc_html_e( 'Add Plan', 'frontend-admin' ); ?>" class="acf-icon -plus small add-plan"></a>		
 				</div>
 				<?php
 			}
@@ -119,8 +119,8 @@ if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 
 		function render_plan_actions( $plan ){
 			?>
-				<a href="#" title="<?php esc_html_e( 'Edit Plan', 'acf-frontend-form-element' ); ?>" class="acf-icon -pencil small edit-plan"></a>
-				<a href="#" title="<?php esc_html_e( 'Delete Plan', 'acf-frontend-form-element' ); ?>" class="acf-icon -minus small delete-plan"></a>
+				<a href="#" title="<?php esc_html_e( 'Edit Plan', 'frontend-admin' ); ?>" class="acf-icon -pencil small edit-plan"></a>
+				<a href="#" title="<?php esc_html_e( 'Delete Plan', 'frontend-admin' ); ?>" class="acf-icon -minus small delete-plan"></a>
 			<?php
 		}
 

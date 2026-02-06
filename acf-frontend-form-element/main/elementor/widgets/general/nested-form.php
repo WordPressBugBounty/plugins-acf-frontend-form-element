@@ -129,7 +129,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_control(
 			'admin_forms_select',
 			array(
-				'label'       => __( 'Choose Form...', 'acf-frontend-form-element' ),
+				'label'       => __( 'Choose Form...', 'frontend-admin' ),
 				'type'        => Controls_Manager::HIDDEN,
 				'default'     => '',
 			)
@@ -144,7 +144,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'type' => Controls_Manager::SELECT,
 				'default' => $cf_save,
 				'options' => [
-					'submission' => __( 'Submission', 'acf-frontend-form-element' ),
+					'submission' => __( 'Submission', 'frontend-admin' ),
 					'post' => __( 'Post', 'frontend-admin' ),
 					'user' => __( 'User', 'frontend-admin' ),
 					'term' => __( 'Term', 'frontend-admin' ),
@@ -157,13 +157,13 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_control(
 			'save_all_data',
 			array(
-				'label'     => __( 'Save Data After...', 'acf-frontend-form-element' ),
+				'label'     => __( 'Save Data After...', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT2,
 				'multiple'  => true,
 				'default'   => '',
 				'options'   => array(
-					'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
-					'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
+					'require_approval' => __( 'Admin Approval', 'frontend-admin' ),
+					'verify_email'     => __( 'Email is Verified', 'frontend-admin' ),
 				),
 				'condition' => array(
 					'admin_forms_select'    => '',

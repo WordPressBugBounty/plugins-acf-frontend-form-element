@@ -24,14 +24,14 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			// vars
 			$this->name     = 'post_to_edit';
 			$this->label    = __( 'Post To Edit', 'acf' );
-			$this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults = array(
 				'post_type'       => array( 'post' ),
 				'taxonomy'        => array(),
 				'allow_null'      => 0,
 				'add_new'         => 1,
-				'add_new_text'    => __( 'New Post', 'acf-frontend-form-element' ),
-				'placeholder'     => __( 'Select Post', 'acf-frontend-form-element' ),
+				'add_new_text'    => __( 'New Post', 'frontend-admin' ),
+				'placeholder'     => __( 'Select Post', 'frontend-admin' ),
 				'url_query'       => 'post_id',
 				'multiple'        => 0,
 				'ui'              => 1,
@@ -121,7 +121,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 					$type         = 'post';
 					$default_text = 'New Post';
 				}
-				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'acf-frontend-form-element' );
+				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' );
 				$results      = array(
 					array(
 						'id'   => 'add_' . $type,
@@ -347,7 +347,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 
 		function render_field( $field ) {
 			if ( empty( $field['placeholder'] ) ) {
-				$field['placeholder'] = __( 'Select Post', 'acf-frontend-form-element' );
+				$field['placeholder'] = __( 'Select Post', 'frontend-admin' );
 			}
 
 			// Change Field into a select
@@ -359,7 +359,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 
 
 			if ( $field['add_new'] ) {
-				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New Post', 'acf-frontend-form-element' );
+				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New Post', 'frontend-admin' );
 				$field['choices'] = array( 'add_post' => $add_new_text );
 			} else {
 				$field['choices'] = array();
@@ -402,8 +402,8 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by User', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Only show posts by the following users', 'acf-frontend-form-element' ),
+					'label'        => __( 'Filter by User', 'frontend-admin' ),
+					'instructions' => __( 'Only show posts by the following users', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'post_author',
 					'choices'      => array( 'current_user' => __( 'Current User' ) ),
@@ -418,8 +418,8 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Url Query', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Set the post to edit by the url query', 'acf-frontend-form-element' ),
+					'label'        => __( 'Url Query', 'frontend-admin' ),
+					'instructions' => __( 'Set the post to edit by the url query', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'url_query',
 					'placeholder'  => 'post_id',
@@ -461,17 +461,17 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder', 'acf-frontend-form-element' ),
+					'label'        => __( 'Placeholder', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'placeholder',
 					'type'         => 'text',
-					'placeholder'  => __( 'Select Post', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Select Post', 'frontend-admin' ),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add New Post?', 'acf-frontend-form-element' ),
+					'label'        => __( 'Add New Post?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'add_new',
 					'type'         => 'true_false',
@@ -481,11 +481,11 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'New Post Text', 'acf-frontend-form-element' ),
+					'label'        => __( 'New Post Text', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'add_new_text',
 					'type'         => 'text',
-					'placeholder'  => __( 'New Post', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'New Post', 'frontend-admin' ),
 					'conditions'   => array(
 						array(
 							array(

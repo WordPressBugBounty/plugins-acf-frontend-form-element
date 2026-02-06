@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: Frontend Admin
- * Plugin URI: https://wordpress.org/plugins/acf-frontend-form-element/
+ * Plugin URI:  https://www.dynamiapps.com/frontend-admin/
  * Description: This awesome plugin allows you to easily display admin forms to the frontend of your site so your clients can easily edit content on their own from the frontend.
- * Version:     3.28.18
+ * Version:     3.28.27
  * Author:      Shabti Kaplan
  * Author URI:  https://www.dynamiapps.com/
- * Text Domain: acf-frontend-form-element
+ * Text Domain: frontend-admin
  * Domain Path: /languages/
  */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +36,7 @@ if ( ! class_exists( 'Front_End_Admin' ) ) {
 			$fea_freemius = fs_dynamic_init(
 				array(
 					'id'              => '5212',
-					'slug'            => 'acf-frontend-form-element',
+					'slug'            => 'frontend-admin',
 					'premium_slug'    => 'frontend-admin-pro',
 					'type'            => 'plugin',
 					'public_key'      => 'pk_771aff8259bcf0305b376eceb7637',

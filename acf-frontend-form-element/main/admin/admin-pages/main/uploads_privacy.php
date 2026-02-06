@@ -28,7 +28,7 @@ class Uploads_Privacy_Settings {
 
 		$local_fields = array(
 			'filter_media_author' => array(
-				'label'        => __( 'Media Uploads Privacy', 'acf-frontend-form-element' ),
+				'label'        => __( 'Media Uploads Privacy', 'frontend-admin' ),
 				'type'         => 'true_false',
 				'instructions' => '',
 				'required'     => 0,

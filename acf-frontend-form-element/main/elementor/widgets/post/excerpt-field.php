@@ -66,7 +66,7 @@ class Post_Excerpt_Field extends Textarea_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Post Excerpt Field', 'acf-frontend-form-element' );
+		return __( 'Post Excerpt Field', 'frontend-admin' );
 	}
 
 	 /**

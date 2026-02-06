@@ -11,11 +11,6 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
     {
 
         public function render($attr, $content){
-	
-            $_settings = apply_filters( 'frontend_admin/show_form', $attr, 'form' );
-
-            if( ! $_settings ) return;
-            
             ob_start();
             global $fea_form, $fea_instance, $fea_scripts;
 
@@ -54,6 +49,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
          */
         function enqueue_block_editor_assets()
         {
+            global $fea_instance;
 
             $post_types = get_post_types([],'objects');
 
@@ -66,13 +62,17 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     ];
                  }
             }
+   
 
             $localization_data = [
                 'restUrl'  => rest_url( 'fea/v2' ),
                 'nonce'    => wp_create_nonce('wp_rest'),
                 'postTypes' => $post_types_options,
+                'isProUser' => $fea_instance->is_license_active() && $fea_instance->remote_actions,
             ];
-        
+           
+            $localization_data = apply_filters( 'frontend_admin/gutenberg/block_editor_localization_data', $localization_data );
+
             wp_localize_script(
                 'frontend-admin-form-editor-script',
                 'feaData',
@@ -96,22 +96,26 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
             if( $fea_form ){
                 $post_id = $fea_form['post_id'] ?? 'none';
 
-                if( 'none' == $post_id && $fea_form['hide_if_no_post'] ){
+                if( 'none' == $post_id && ! empty( $fea_form['hide_if_no_post'] ) ){
                     return false;
                 }
             }
             return $block_content;
         }
         function pre_block_render( $block_content, $block ) {  
-            global $fea_instance, $fea_form, $wp_query;
-            $current_post_id = $wp_query->get_queried_object_id();
+            global $fea_instance, $fea_form, $wp_query, $post, $fea_current_post_id;
+
+          //  print("<pre>".print_r($wp_query,true)."</pre>");
 
            
             if( 'frontend-admin/form' == $block['blockName'] ){
+
                 $form_display = $fea_instance->form_display;
                     if( ! $fea_form ){
 
                         $attrs = $block['attrs'];
+                        $fea_current_post_id = $attrs['template_id'] ?? $wp_query->get_queried_object_id();
+
                     
                         $form_data = $attrs['form_settings'];
 
@@ -124,9 +128,11 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                         }
 
                         if( $attrs['form_key'] ){
-                            $form_data['id'] = $current_post_id . '_gutenberg_' . $attrs['form_key'];
-                            $form_data['ID'] = $current_post_id . '_gutenberg_' . $attrs['form_key'];
+                            $form_data['id'] = $fea_current_post_id . '_gutenberg_' . $attrs['form_key'];
+                            $form_data['ID'] = $fea_current_post_id . '_gutenberg_' . $attrs['form_key'];
                         }
+                        			acf_update_setting( 'uploader', 'basic' );
+
                         $fea_form =  $form_display->validate_form( $form_data );
                         
                     }
@@ -137,11 +143,14 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
         function get_form_variation( $args ){
             $form_title = sprintf( __( '%s %s Form', 'frontend-admin' ), $args['save_type_label'], $args['post_type_label'] );
+            $default_content = '<h2 style="font-size: 32px; margin: revert; text-wrap-mode: wrap;">Content Heading</h2>
+<p style="line-height: revert; margin: revert; letter-spacing: -0.1px; text-wrap-mode: wrap;">Lorum Ipsum</p>';
             $inner_blocks = [
                 ['core/heading', [ 'content' => $form_title ] ],
                 ['frontend-admin/post-title-field', [ 'label' => sprintf( __( '%s Title', 'frontend-admin' ), $args['post_type_label']) ] ],
                 ['frontend-admin/post-excerpt-field', [ 'label' => sprintf( __( '%s Excerpt', 'frontend-admin' ), $args['post_type_label']) ] ],
-                
+                ['frontend-admin/featured-image-field', [ 'label' => sprintf( __( '%s Image', 'frontend-admin' ), $args['post_type_label']) ] ],
+                ['frontend-admin/post-content-field', [ 'default_value' => $default_content, 'label' => sprintf( __( '%s Content', 'frontend-admin' ), $args['post_type_label']) ] ],
             ];
             
             if ( function_exists('acf_get_field_groups') ) {
@@ -162,7 +171,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 ['className' => 'fea-form-buttons'],
                 [
                     ['core/button', [
-                        'className' => 'fea-submit-button',
+                        'className' => '',
                         'isPrimary' => true,
                         'text' => __( 'Submit', 'frontend-admin' ),
                         'submitButton' => true,
@@ -185,9 +194,18 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 return $variations;
             }
 
+            $exclude = [
+                'admin_form', 'attachment', 'revision', 'nav_menu_item'
+            ];
             $post_types = get_post_types( [ 'public' => true, 'publicly_queryable' => true, 'exclude_from_search' => false ], 'objects' );
 
+            
+
             foreach( $post_types as $post_type ){
+                if ( in_array( $post_type->name, $exclude, true ) ) {
+                    continue;
+                }
+
                 // Add a custom variation
                 $variations[] = $this->get_form_variation( [
                     'save_type' => 'new', 
@@ -208,6 +226,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'post_type_label' => $post_type->labels->singular_name,
                     'attributes' => [
                         'form_settings' => [
+                            'hide_if_no_post' => true,
                             'post_to_edit' => 'current_post',
                             'post_type' => [ $post_type->name ],
                         ]
@@ -238,11 +257,20 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
             global $fea_instance, $fea_form, $post;
             $block = $fea_instance->gutenberg->get_the_block( $ids );
 
-
             if( $block ){		
                 $form_display = $fea_instance->form_display;
     
                 $form_data = $block['attrs']['form_settings'];
+                $form_data['submit_actions'] = true;
+                $form_data['message_location'] = 'other';
+
+                $is_pro = $fea_instance->is_license_active() && $fea_instance->remote_actions;
+                if( ! empty( $block['attrs']['emails'] ) && $is_pro ){                    
+                    $form_data['emails'] = $block['attrs']['emails'];
+                }
+                if( ! empty( $block['attrs']['webhooks'] ) && $is_pro ){                    
+                    $form_data['webhooks'] = $block['attrs']['webhooks'];
+                }
                 $form_data['id'] = $key;
                 $form_data['ID'] = $key;
                 $post_to_edit = $form_data['post_to_edit'] ?? 'current_post';
@@ -254,7 +282,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 }
                 $fea_form =  $form_display->validate_form( $form_data );
 
-
+                error_log( print_r( $fea_form, true ) );
+                
                 $fea_form['fields'] = $this->get_form_fields( $block, $fea_form );
 
 
@@ -383,20 +412,19 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 			$post_id = $ids[0];
 
 			global $fea_current_post_id, $fea_instance, $fea_form;
-			$fea_current_post_id = $post_id;	
 
             if( ! empty( $fea_form['fields'][$key] ) ){
                 return $fea_form['fields'][$key];
             }
 			
 
-            $block = $fea_instance->gutenberg->get_the_block( $ids );			
+            $block = $fea_instance->gutenberg->get_the_block( $ids, 'field' );			
 
 			if( $block ){	
                 $field = acf_get_valid_field($block['attrs']);
 
                 $field_key = $field['field_key'] ?? uniqid();
-                $field['key'] = $post_id . '_gutenberg_' . $field_key;
+                $field['key'] = $fea_current_post_id . '_gutenberg_' . $field_key;
                 $field['builder'] = 'gutenberg';
             
                 $field['type'] = str_replace(

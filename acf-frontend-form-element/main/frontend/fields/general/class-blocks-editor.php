@@ -21,7 +21,7 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'blocks_editor';
-			$this->label    = __( 'Block Editor', 'acf-frontend-form-element' );
+			$this->label    = __( 'Block Editor', 'frontend-admin' );
 			$this->category = 'content';
 			$this->defaults = array(
 				'tabs'          => 'all',
@@ -161,17 +161,33 @@ if ( ! class_exists( 'blocks_editor' ) ) :
 		 * @date  23/01/13
 		 */
 		function render_field( $field ) {
-			$this->form_assets( $field );
+			
+			$js_deps = include_once FEA_DIR . '/assets/build/frontend-block-editor/index.asset.php';
+			$js_url = FEA_URL . 'assets/build/frontend-block-editor/index.js';
+			wp_enqueue_script( 'fea-block-editor', $js_url, $js_deps['dependencies'], $js_deps['version'], true );
 
-			echo '<div class="fea-block-wrap"></div>';
-			acf_textarea_input(
-				array(
-					'class' => 'saved-blocks',
-					'name'  => $field['name'],
-					'style' => 'display:none!important',
-					'value' => $field['value'],
-				)
-			);
+			//enqueueu //unpkg.com/grapesjs/dist/css/grapes.min.css
+			wp_enqueue_style( 'fea-grapesjs', 'https://unpkg.com/grapesjs/dist/css/grapes.min.css', array(), '0.17.29' );
+			wp_enqueue_style( 'fea-block-editor', FEA_URL . '/assets/build/frontend-block-editor.css', array(), $js_deps['version'] );
+			
+			echo '
+			<div class="panel__top">
+				<div class="panel__basic-actions"></div>
+				<div class="panel__switcher"></div>
+			</div>
+			<div class="editor-row">
+			<div class="editor-canvas">
+				<div class="fea-editor-frontend">...</div>
+			</div>
+			<div class="panel__right">
+				<div class="layers-container"></div>
+				<div class="styles-container"></div>
+			</div>
+			</div>
+			<div class="fea-editor-blocks"></div>
+			';
+			
+			
 		}
 
 		/**

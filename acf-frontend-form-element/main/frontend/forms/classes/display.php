@@ -81,7 +81,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					'posts_per_page' => '1',
 					'meta_key'       => 'form_key',
 					'meta_value'     => $key,
-					'post_status'    => 'any',
+					'post_status'    => ['publish', 'draft', 'private' ],
 				);
 	
 				$forms = get_posts( $args );
@@ -276,15 +276,15 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					'saved_drafts'          => array(),
 					'saved_revisions'       => array(),
 					'save_progress'         => '',
-					'message_location'      => 'other',
+					'message_location'      => '',
 					'hidden_fields'         => array(),
-					'submit_value'          => __( 'Update', 'acf-frontend-form-element' ),
+					'submit_value'          => __( 'Update', 'frontend-admin' ),
 					'label_placement'       => 'top',
 					'instruction_placement' => 'label',
 					'field_el'              => 'div',
 					'honeypot'              => true,
 					'show_update_message'   => true,
-					'update_message'        => __( 'Post updated', 'acf-frontend-form-element' ),
+					'update_message'        => __( 'Post updated', 'frontend-admin' ),
 					'html_updated_message'  => '<div class="frontend-admin-message"><div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg">%s</p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div></div>',
 					'kses'                  => isset( $form['no_kses'] ) ? ! $form['no_kses'] : true,
 					'new_post_type'         => 'post',
@@ -359,7 +359,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			// create nonce
-			$data['nonce'] = wp_create_nonce( $data['screen'] );
+			$data['nonce'] = wp_create_nonce( $form['id'] . '_form' );
 
 			// return
 			return $data;
@@ -620,13 +620,13 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 				if( isset( $field['prev_value'] ) ){
 					if( $field['prev_value'] ){
-						echo '<a href="#" class="fea-view-changes">(' . __( 'View Changes', 'acf-frontend-form-element' ) . ')</a>';
-						echo '<a href="#" class="fea-edit-changes">(' . __( 'Edit', 'acf-frontend-form-element' ) . ')</a>';
+						echo '<a href="#" class="fea-view-changes">(' . __( 'View Changes', 'frontend-admin' ) . ')</a>';
+						echo '<a href="#" class="fea-edit-changes">(' . __( 'Edit', 'frontend-admin' ) . ')</a>';
 						echo '<div class="fea-prev-value">';
 							echo wp_kses_post( fea_instance()->dynamic_values->display_field( $field ) );
 						echo '</div>';
 					}else{
-						echo '<p>(' . __( 'New', 'acf-frontend-form-element' ) . ')</p>';
+						echo '<p>(' . __( 'New', 'frontend-admin' ) . ')</p>';
 					}
 
 						
@@ -1027,17 +1027,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				}
 			}
 
-			// Use field's default_value if no meta was found.
-			if ( $value === null && isset( $field['default_value'] ) ) {
-				if( is_string( $field['default_value'] ) ){
-					$dynamic = fea_instance()->dynamic_values->get_dynamic_values( $field['default_value'] );
-					if( $dynamic ){
-						$value = $dynamic;
-					}
-				}else{
-					$value = $field['default_value'];
-				}
-			}
+		
 			/**
 			 * Filters the $value after it has been loaded.
 			 *
@@ -1057,6 +1047,18 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			// $value = acf_format_value( $value, $object_id, $field );
 
 			// Return value.
+
+				// Use field's default_value if no meta was found.
+			if ( $value === null && isset( $field['default_value'] ) ) {
+				if( is_string( $field['default_value'] ) ){
+					$dynamic = fea_instance()->dynamic_values->get_dynamic_values( $field['default_value'] );
+					if( $dynamic ){
+						$value = $dynamic;
+					}
+				}else{
+					$value = $field['default_value'];
+				}
+			}
 
 			$field['value'] = $value;
 
@@ -1112,8 +1114,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		public function show_messages( $form ) {
 			if ( feadmin_edit_mode() && ! empty( $form['style_messages'] ) ) {
 				echo '<div class="acf-notice -success acf-sucess-message -dismiss"><p >' . esc_html( $form['update_message'] ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
-				echo '<div class="acf-notice -error acf-error-message -dismiss"><p>'. esc_html( __( 'Validation failed.', 'acf-frontend-form-element' ) ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
-				echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>'. esc_html( __( 'Limit Reached.', 'acf-frontend-form-element' ) ) . '</p></div>';
+				echo '<div class="acf-notice -error acf-error-message -dismiss"><p>'. esc_html( __( 'Validation failed.', 'frontend-admin' ) ) . '</p><a href="#" class="acf-notice-dismiss acf-icon -cancel"></a></div>';
+				echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>'. esc_html( __( 'Limit Reached.', 'frontend-admin' ) ) . '</p></div>';
 			}
 		}
 
@@ -1214,7 +1216,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			<div class="fea-list-item" data-item="submission" data-id="<?php esc_html_e( $submission['id'] ); ?>">
 			<?php
 			if ( empty( $submission['title'] ) ) {
-				$submission['title'] = sprintf( __( 'Submission #%d', 'acf-frontend-form-element' ), $submission['id'] );
+				$submission['title'] = sprintf( __( 'Submission #%d', 'frontend-admin' ), $submission['id'] );
 			}
 
 			global $wp;
@@ -1498,7 +1500,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 		
 			if ( $button ) {
-				echo '<button type="button" class="update-meta button button-primary">' . esc_html( __( 'Update Image', 'acf-frontend-form-element' ) ) . '</button>';
+				echo '<button type="button" class="update-meta button button-primary">' . esc_html( __( 'Update Image', 'frontend-admin' ) ) . '</button>';
 			}
 			echo '</div>';
 
@@ -1610,12 +1612,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				die;
 			}
 
-			wp_send_json_error( __( 'No Submissions Found', 'acf-frontend-form-element' ) );
+			wp_send_json_error( __( 'No Submissions Found', 'frontend-admin' ) );
 
 		}
 
 		public function change_form() {
-			if ( ! feadmin_verify_ajax() ) wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
+			if ( ! feadmin_verify_ajax() ) wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
 
 			if ( empty( $_REQUEST['form_data'] ) ) {
 				wp_send_json_error();

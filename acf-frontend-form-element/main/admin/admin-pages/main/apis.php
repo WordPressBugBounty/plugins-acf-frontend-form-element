@@ -17,7 +17,7 @@ class API_KEYS {
 	public function get_settings_fields( $field_keys ) {
 		$local_fields = array(
 			'frontend_admin_google_maps_api' => array(
-				'label'        => __( 'Google Maps API Key', 'acf-frontend-form-element' ),
+				'label'        => __( 'Google Maps API Key', 'frontend-admin' ),
 				'type'         => 'text',
 				'instructions' => '',
 				'required'     => 0,
@@ -41,7 +41,7 @@ class API_KEYS {
 				'google_recaptcha_message'           => array(
 					'label'        => '',
 					'type'         => 'message',
-					'message'      => sprintf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free service by Google that protects your website from spam and abuse. It does this while letting your valid users pass through with ease.', 'acf-frontend-form-element' ), 'https://www.google.com/recaptcha/intro/v3.html' ),
+					'message'      => sprintf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free service by Google that protects your website from spam and abuse. It does this while letting your valid users pass through with ease.', 'frontend-admin' ), 'https://www.google.com/recaptcha/intro/v3.html' ),
 					'instructions' => '',
 					'required'     => 0,
 					'wrapper'      => array(
@@ -52,7 +52,7 @@ class API_KEYS {
 				),
 
 				'fea_recapthca_V2'                   => array(
-					'label'        => __( 'V2', 'acf-frontend-form-element' ),
+					'label'        => __( 'V2', 'frontend-admin' ),
 					'type'         => 'tab',
 					'instructions' => '',
 					'required'     => 0,
@@ -65,7 +65,7 @@ class API_KEYS {
 					'endpoint'     => 0,
 				),
 				'frontend_admin_recaptcha_site_v2'   => array(
-					'label'         => __( 'Google reCaptcha Site Key', 'acf-frontend-form-element' ),
+					'label'         => __( 'Google reCaptcha Site Key', 'frontend-admin' ),
 					'type'          => 'text',
 					'instructions'  => '',
 					'required'      => 0,
@@ -77,7 +77,7 @@ class API_KEYS {
 					),
 				),
 				'frontend_admin_recaptcha_secret_v2' => array(
-					'label'         => __( 'Google reCaptcha Secret Key', 'acf-frontend-form-element' ),
+					'label'         => __( 'Google reCaptcha Secret Key', 'frontend-admin' ),
 					'type'          => 'text',
 					'instructions'  => '',
 					'required'      => 0,
@@ -89,7 +89,7 @@ class API_KEYS {
 					),
 				),
 				'fea_recapthca_V3'                   => array(
-					'label'        => __( 'V3', 'acf-frontend-form-element' ),
+					'label'        => __( 'V3', 'frontend-admin' ),
 					'type'         => 'tab',
 					'instructions' => '',
 					'required'     => 0,
@@ -102,7 +102,7 @@ class API_KEYS {
 					'endpoint'     => 0,
 				),
 				'frontend_admin_recaptcha_site_v3'   => array(
-					'label'         => __( 'Google reCaptcha Site Key', 'acf-frontend-form-element' ),
+					'label'         => __( 'Google reCaptcha Site Key', 'frontend-admin' ),
 					'type'          => 'text',
 					'instructions'  => '',
 					'required'      => 0,
@@ -114,7 +114,7 @@ class API_KEYS {
 					),
 				),
 				'frontend_admin_recaptcha_secret_v3' => array(
-					'label'         => __( 'Google reCaptcha Secret Key', 'acf-frontend-form-element' ),
+					'label'         => __( 'Google reCaptcha Secret Key', 'frontend-admin' ),
 					'type'          => 'text',
 					'instructions'  => '',
 					'required'      => 0,

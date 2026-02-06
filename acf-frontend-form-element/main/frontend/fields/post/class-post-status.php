@@ -8,8 +8,8 @@ if ( ! class_exists( 'post_status' ) ) :
 
 		function initialize() {
 			$this->name     = 'post_status';
-			$this->label    = __( 'Post Status', 'acf-frontend-form-element' );
-			$this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label    = __( 'Post Status', 'frontend-admin' );
+			$this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults = array(
 				'post_status'        => array(),
 				'field_type'         => 'radio',
@@ -91,7 +91,7 @@ if ( ! class_exists( 'post_status' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Statuses to choose from', 'acf-frontend-form-element' ),
+					'label'        => __( 'Statuses to choose from', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'post_status',
@@ -99,21 +99,21 @@ if ( ! class_exists( 'post_status' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All statuses will show', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'All statuses will show', 'frontend-admin' ),
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default', 'acf-frontend-form-element' ),
+					'label'        => __( 'Default', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'default_value',
 					'choices'      => $this->get_post_status_choices(),
 					'ui'           => 0,
 					'allow_null'   => 0,
-					'placeholder'  => __( 'Any post status', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Any post status', 'frontend-admin' ),
 				)
 			);
 
@@ -121,14 +121,14 @@ if ( ! class_exists( 'post_status' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Appearance', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the appearance of this field', 'acf-frontend-form-element' ),
+					'label'        => __( 'Appearance', 'frontend-admin' ),
+					'instructions' => __( 'Select the appearance of this field', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'field_type',
 					'optgroup'     => true,
 					'choices'      => array(
-						'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-						'select' => _x( 'Select', 'noun', 'acf-frontend-form-element' ),
+						'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+						'select' => _x( 'Select', 'noun', 'frontend-admin' ),
 					),
 				)
 			);
@@ -137,7 +137,7 @@ if ( ! class_exists( 'post_status' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Stylised UI', 'acf-frontend-form-element' ),
+					'label'        => __( 'Stylised UI', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'ui',
 					'type'         => 'true_false',
@@ -158,14 +158,14 @@ if ( ! class_exists( 'post_status' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Layout', 'acf-frontend-form-element' ),
+					'label'        => __( 'Layout', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'layout',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'vertical'   => __( 'Vertical', 'acf-frontend-form-element' ),
-						'horizontal' => __( 'Horizontal', 'acf-frontend-form-element' ),
+						'vertical'   => __( 'Vertical', 'frontend-admin' ),
+						'horizontal' => __( 'Horizontal', 'frontend-admin' ),
 					),
 					'conditions'   => array(
 						array(

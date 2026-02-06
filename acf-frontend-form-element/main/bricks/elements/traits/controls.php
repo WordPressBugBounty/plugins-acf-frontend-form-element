@@ -30,21 +30,21 @@ trait Controls {
 		$cf_save = $this->custom_fields_save ?? 'post';
 		
 		$controls_settings = array(
-			'label'     => __( 'Save Custom Fields to...', 'acf-frontend-form-element' ),
+			'label'     => __( 'Save Custom Fields to...', 'frontend-admin' ),
 			'type'      => 'select',
 			'default'   => $cf_save,
 
 		);
 
 		$custom_fields_options = array(
-			'post' => __( 'Post', 'acf-frontend-form-element' ),
-			'user' => __( 'User', 'acf-frontend-form-element' ),
-			'term' => __( 'Term', 'acf-frontend-form-element' ),
+			'post' => __( 'Post', 'frontend-admin' ),
+			'user' => __( 'User', 'frontend-admin' ),
+			'term' => __( 'Term', 'frontend-admin' ),
 		);
 		if ( isset( fea_instance()->pro_features ) ) {
-			$custom_fields_options['options'] = __( 'Site Options', 'acf-frontend-form-element' );
+			$custom_fields_options['options'] = __( 'Site Options', 'frontend-admin' );
 			if ( class_exists( 'woocommerce' ) ) {
-				$custom_fields_options['product'] = __( 'Product', 'acf-frontend-form-element' );
+				$custom_fields_options['product'] = __( 'Product', 'frontend-admin' );
 			}
 		}
 		$controls_settings['options'] = $custom_fields_options;

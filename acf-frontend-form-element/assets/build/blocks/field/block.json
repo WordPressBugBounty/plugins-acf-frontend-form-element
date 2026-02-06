@@ -13,6 +13,10 @@
     ]
   },
   "attributes": {
+    "template_id": {
+      "type": "string",
+      "default": ""
+    },
     "name": {
       "type": "string",
       "default": ""

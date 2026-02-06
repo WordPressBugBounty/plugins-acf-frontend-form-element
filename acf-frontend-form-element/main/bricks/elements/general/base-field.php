@@ -93,7 +93,7 @@ class Base_Field extends \Bricks\Element {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Base Field', 'acf-frontend-form-element' );
+		return __( 'Base Field', 'frontend-admin' );
 	}
 
 
@@ -143,7 +143,7 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control_group(
 			'fields_section',
 			array(
-				'title' => __( 'Field', 'acf-frontend-form-element' ),
+				'title' => __( 'Field', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -151,7 +151,7 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'show_field_label',
 			array(
-				'label'        => __( 'Show Label', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Label', 'frontend-admin' ),
 				'type'         => 'checkbox',
 				'default'      => true,
 			)
@@ -161,10 +161,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_label',
 			array(
-				'label'       => __( 'Label', 'acf-frontend-form-element' ),
+				'label'       => __( 'Label', 'frontend-admin' ),
 				'type'        => 'text',
 				'label_block' => true,
-				'placeholder' => __( 'Field Label', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Label', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -178,7 +178,7 @@ class Base_Field extends \Bricks\Element {
 			$this->add_control(
 				'field_name',
 				array(
-					'label'       => __( 'Meta Name', 'acf-frontend-form-element' ),
+					'label'       => __( 'Meta Name', 'frontend-admin' ),
 					'type'        => 'text',
 					'name'        => 'field_name',
 					'default'     => $meta_name,
@@ -193,10 +193,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_required',
 			array(
-				'label'        => __( 'Required', 'acf-frontend-form-element' ),
+				'label'        => __( 'Required', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => '',
 			)
@@ -206,13 +206,13 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_display_mode',
 			array(
-				'label'   => __( 'Display Mode', 'acf-frontend-form-element' ),
+				'label'   => __( 'Display Mode', 'frontend-admin' ),
 				'type'    => 'select',
 				'default' => 'edit',
 				'options' => array(
-					'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-					'read_only'	=> __( 'Read', 'acf-frontend-form-element' ),
-					'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
+					'edit'	=> __( 'Edit', 'frontend-admin' ),
+					'read_only'	=> __( 'Read', 'frontend-admin' ),
+					'hidden'	=> __( 'Hidden', 'frontend-admin' ),
 				)
 			)
 		);
@@ -221,10 +221,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_inline_edit',
 			array(
-				'label'        => __( 'Inline Edit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Inline Edit', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => '',
 				'required'    => array(
@@ -237,10 +237,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'no_values_message',
 			array(
-				'label'       => __( 'No Value Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'No Value Message', 'frontend-admin' ),
 				'type'        => 'textarea',
 				'label_block' => true,
-				'placeholder' => __( 'Undefined Value', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Undefined Value', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -253,10 +253,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_instruction',
 			array(
-				'label'       => __( 'Instructions', 'acf-frontend-form-element' ),
+				'label'       => __( 'Instructions', 'frontend-admin' ),
 				'type'        => 'textarea',
 				'label_block' => true,
-				'placeholder' => __( 'Field Instruction', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Instruction', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -283,7 +283,7 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control_group(
 			'validation_section',
 			array(
-				'title' => __( 'Validation', 'acf-frontend-form-element' ),
+				'title' => __( 'Validation', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -292,10 +292,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'show_error_message',
 			array(
-				'label'        => __( 'Show Error Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Error Message', 'frontend-admin' ),
 				'type'         => 'checkbox',
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => 'true',
 			)
@@ -305,10 +305,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_required_message',
 			array(
-				'label'       => __( 'Required Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Required Message', 'frontend-admin' ),
 				'type'        => 'text',
 				'label_block' => true,
-				'placeholder' => __( 'Field is required', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is required', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -319,10 +319,10 @@ class Base_Field extends \Bricks\Element {
 		$this->add_control(
 			'field_validation_message',
 			array(
-				'label'       => __( 'Validation Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Validation Message', 'frontend-admin' ),
 				'type'        => 'text',
 				'label_block' => true,
-				'placeholder' => __( 'Field is invalid', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is invalid', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -341,7 +341,7 @@ class Base_Field extends \Bricks\Element {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => 'style',
 				)
 			);
@@ -350,7 +350,7 @@ class Base_Field extends \Bricks\Element {
 				'styles_promo',
 				array(
 					'type'            => 'raw_html',
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);

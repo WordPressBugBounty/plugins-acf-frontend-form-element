@@ -41,8 +41,8 @@ class Edit_Site_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'options',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'The site has been edited successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'The site has been edited successfully.', 'frontend-admin' ),
 			'field_type'         => 'site_title',
 			'fields'             => [
 				[ 'field_type' => 'site_title', 'field_label' => 'Site Title' ],
@@ -65,7 +65,7 @@ class Edit_Site_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Edit Site Form', 'acf-frontend-form-element' );
+		return __( 'Edit Site Form', 'frontend-admin' );
 	}
 
 	 /**

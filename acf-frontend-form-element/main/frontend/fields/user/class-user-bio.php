@@ -23,8 +23,8 @@ if ( ! class_exists( 'user_bio' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'user_bio';
-			$this->label      = __( 'Bio', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Bio', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'new_lines'     => '',

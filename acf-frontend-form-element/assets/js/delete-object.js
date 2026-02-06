@@ -48,7 +48,6 @@
     
             let formData = new FormData( $form[0] );
 
-            console.log(formData)
     
             let fieldWrap = button.closest( '.acf-field' );
     
@@ -65,6 +64,7 @@
             formData.append( 'action','frontend_admin/delete_object' );
             formData.append( 'field',fieldKey );
             formData.append( 'delete_object',button.data( 'object' ) );
+            formData.append( 'nonce',button.data( 'nonce' ) );
             
             $.ajax(
                 {
@@ -74,20 +74,42 @@
                     cache: false,
                     processData: false,
                     contentType: false,
-                    success: function(response){
-                        if (response.success) {
-                            if ( response.data ) {
-                                if ( response.data?.redirect ) {
-                                    let url = response.data.redirect.replace(/&amp;/g, "&");
-                                    window.location = decodeURIComponent(url);
-                                }                                
+                        success: function (response) {
+                            if (response.success) {
+                                    if (response.data?.redirect) {
+                                        let url = response.data.redirect.replace(/&amp;/g, "&");
+                                        window.location = decodeURIComponent(url);
+                                    }
+                            } else {
+                                console.log(response);
+                                    // WP wp_send_json_error()
+                                    let message = response.data || 'Failed to delete object.';
+                                    showDeleteError(button, message);
+                                }
+                            },
+
+                            error: function (xhr, status, error) {
+                                showDeleteError(button, 'Something went wrong. Please try again.');
+                                console.error(error);
+                            },
+
+                            complete: function () {
+                                button.siblings('.fea-loader').remove();
+                                $form.find('.fea-submit-button').removeClass('disabled');
                             }
-                        } else {
-                            console.log( response );
-                        }
+                                            
+                                        }
+                                    );
+                                }
+                });
+                function showDeleteError(button, message) {
+                    let errorEl = button.siblings('.fea-error-message');
+
+                    if (!errorEl.length) {
+                        errorEl = $('<div class="fea-error-message"></div>');
+                        button.after(errorEl);
                     }
+
+                    errorEl.text(message).show();
                 }
-            );
-        }
-    });
 })(jQuery);

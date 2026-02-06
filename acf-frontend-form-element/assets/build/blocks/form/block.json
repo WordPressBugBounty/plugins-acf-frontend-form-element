@@ -16,6 +16,10 @@
     "frontend-admin/form/form_settings": "form_settings"
   },
   "attributes": {
+    "template_id": {
+      "type": "string",
+      "default": ""
+    },
     "form_key": {
       "type": "string",
       "default": ""
@@ -35,7 +39,78 @@
         "post_to_edit": "current_post",
         "url_query_post": "post_id",
         "select_post": 0,
-        "hide_if_no_post": 0
+        "hide_if_no_post": 0,
+        "redirect": "current",
+        "redirect_action": "none",
+        "custom_url": "",
+        "show_update_message": true,
+        "update_message": "Your submission has been received successfully",
+        "error_message": "There has been an error. Please fix the fields that need attention",
+        "default_required_message": "This field is required",
+        "email_verified_message": "Your email has been verified",
+        "save_all_data": []
+      }
+    },
+    "emails": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "email_id": {
+            "type": "string",
+            "default": "Email Name"
+          },
+          "email_to": {
+            "type": "string",
+            "default": ""
+          },
+          "email_to_cc": {
+            "type": "string",
+            "default": ""
+          },
+          "email_to_bcc": {
+            "type": "string",
+            "default": ""
+          },
+          "email_from": {
+            "type": "string",
+            "default": ""
+          },
+          "email_reply_to": {
+            "type": "string",
+            "default": ""
+          },
+          "email_subject": {
+            "type": "string",
+            "default": ""
+          },
+          "email_content": {
+            "type": "string",
+            "default": "[all_fields]"
+          },
+          "email_content_type": {
+            "type": "string",
+            "default": "html"
+          }
+        }
+      }
+    },
+    "webhooks": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "webhook_id": {
+            "type": "string",
+            "default": "Webhook Name"
+          },
+          "webhook_url": {
+            "type": "string",
+            "default": ""
+          }
+        }
       }
     }
   },

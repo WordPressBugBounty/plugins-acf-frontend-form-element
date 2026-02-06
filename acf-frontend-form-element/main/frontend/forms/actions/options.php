@@ -23,7 +23,7 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 		}
 
 		public function get_label() {
-			return __( 'Options', 'acf-frontend-form-element' );
+			return __( 'Options', 'frontend-admin' );
 		}
 
 		public function get_fields_display( $form_field, $local_field ) {
@@ -57,9 +57,23 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 
 		public function run( $form ) {
 			$record = $form['record'];
-			if ( ! empty( $record['fields']['admin_options'] ) ) {
+			if ( ! empty( $record['fields']['admin_options'] ) && current_user_can( 'manage_options' ) ) {
+				//exclude certain keys from updating					
+				$not_allowed = [
+					'default_role',
+					'admin_email',
+					'users_can_register',
+					'site_url',
+					'home',
+					'blogname',
+					'blogdescription'
+				];
 				foreach ( $record['fields']['admin_options'] as $key => $field ) {
-					if ( $key == 'frontend_admin_dashboard_slug' ) {
+					
+					if ( in_array( $key, $not_allowed, true ) ) {
+						continue;
+					}
+						if ( $key == 'frontend_admin_dashboard_slug' ) {
 						   $previous = get_option( $key );
 						if ( $previous == $field['_input'] ) {
 							continue;
@@ -67,6 +81,7 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 							update_option( 'fea_flush_permalinks', 1 );
 						}
 					}
+									
 					update_option( $key, $field['_input'] );
 				}
 				do_action( 'frontend_admin/save_admin_options', $form );

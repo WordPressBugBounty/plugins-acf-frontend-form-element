@@ -53,7 +53,7 @@ class Delete_Post_Widget extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Trash/Delete Post', 'acf-frontend-form-element' );
+		return __( 'Trash/Delete Post', 'frontend-admin' );
 	}
 
 	/**
@@ -96,23 +96,23 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'delete_button_section',
 			array(
-				'label' => __( 'Trash Button', 'acf-frontend-form-element' ),
+				'label' => __( 'Trash Button', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
 		$this->add_control(
 			'delete_button_text',
 			array(
-				'label'       => __( 'Delete Button Text', 'acf-frontend-form-element' ),
+				'label'       => __( 'Delete Button Text', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Delete', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Delete', 'acf-frontend-form-element' ),
+				'default'     => __( 'Delete', 'frontend-admin' ),
+				'placeholder' => __( 'Delete', 'frontend-admin' ),
 			)
 		);
 		$this->add_control(
 			'delete_button_icon',
 			array(
-				'label' => __( 'Delete Button Icon', 'acf-frontend-form-element' ),
+				'label' => __( 'Delete Button Icon', 'frontend-admin' ),
 				'type'  => Controls_Manager::ICONS,
 			)
 		);
@@ -120,20 +120,20 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->add_control(
 			'confirm_delete_message',
 			array(
-				'label'       => __( 'Confirm Delete Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Confirm Delete Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'The post will be deleted. Are you sure?', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'The post will be deleted. Are you sure?', 'acf-frontend-form-element' ),
+				'default'     => __( 'The post will be deleted. Are you sure?', 'frontend-admin' ),
+				'placeholder' => __( 'The post will be deleted. Are you sure?', 'frontend-admin' ),
 			)
 		);
 
 		$this->add_control(
 			'show_delete_message',
 			array(
-				'label'        => __( 'Show Success Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Success Message', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'default'      => 'true',
 				'return_value' => 'true',
 			)
@@ -141,10 +141,10 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->add_control(
 			'delete_message',
 			array(
-				'label'       => __( 'Success Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Success Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
-				'default'     => __( 'You have deleted this post', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'You have deleted this post', 'acf-frontend-form-element' ),
+				'default'     => __( 'You have deleted this post', 'frontend-admin' ),
+				'placeholder' => __( 'You have deleted this post', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active'    => true,
 					'condition' => array(
@@ -156,7 +156,7 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->add_control(
 			'force_delete',
 			array(
-				'label'        => __( 'Force Delete', 'acf-frontend-form-element' ),
+				'label'        => __( 'Force Delete', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'default'      => 'true',
 				'return_value' => 'true',
@@ -167,13 +167,13 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->add_control(
 			'delete_redirect',
 			array(
-				'label'   => __( 'Redirect After Delete', 'acf-frontend-form-element' ),
+				'label'   => __( 'Redirect After Delete', 'frontend-admin' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'current',
 				'options' => array(
-					'current'     => __( 'Reload Current Url', 'acf-frontend-form-element' ),
-					'custom_url'  => __( 'Custom Url', 'acf-frontend-form-element' ),
-					'referer_url' => __( 'Referer', 'acf-frontend-form-element' ),
+					'current'     => __( 'Reload Current Url', 'frontend-admin' ),
+					'custom_url'  => __( 'Custom Url', 'frontend-admin' ),
+					'referer_url' => __( 'Referer', 'frontend-admin' ),
 				),
 			)
 		);
@@ -181,9 +181,9 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->add_control(
 			'redirect_after_delete',
 			array(
-				'label'         => __( 'Custom URL', 'acf-frontend-form-element' ),
+				'label'         => __( 'Custom URL', 'frontend-admin' ),
 				'type'          => Controls_Manager::URL,
-				'placeholder'   => __( 'Enter Url Here', 'acf-frontend-form-element' ),
+				'placeholder'   => __( 'Enter Url Here', 'frontend-admin' ),
 				'show_external' => false,
 				'dynamic'       => array(
 					'active' => true,
@@ -199,7 +199,7 @@ class Delete_Post_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'post_section',
 			array(
-				'label' => __( 'Post', 'acf-frontend-form-element' ),
+				'label' => __( 'Post', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -215,7 +215,7 @@ class Delete_Post_Widget extends Widget_Base {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 				)
 			);
@@ -224,7 +224,7 @@ class Delete_Post_Widget extends Widget_Base {
 				'styles_promo',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);

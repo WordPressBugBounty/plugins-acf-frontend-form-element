@@ -15,21 +15,19 @@ if ( ! class_exists( 'delete_object' ) ) :
 		}
 
 		public function delete_object() {
-			if ( ! feadmin_verify_nonce( 'fea_form' ) ) {
-				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
-			}
-
 			
 			if ( empty( $_POST['field'] ) ) {
-				wp_send_json_error( __( 'Delete Button Key Not Found', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Delete Button Key Not Found', 'frontend-admin' ) );
 			}
-
 			$key = sanitize_key( $_POST['field'] );
 
+			if ( ! feadmin_verify_ajax( $_POST['nonce'], 'fea_delete_' . $key ) ) {
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
+			}
 			
 			// bail ealry if form not submit
 			if ( empty( $_POST['_acf_form'] ) ) {
-				wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 			}
 
 			$form_id = sanitize_key( $_POST['_acf_form'] );
@@ -39,7 +37,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 				$objects = fea_decrypt( $_POST['_acf_objects'] );
 				$objects = json_decode( $objects, true );
 			}else{
-				wp_send_json_error( __( 'No Object Data', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'No Object Data', 'frontend-admin' ) );
 			}
 
 			global $fea_instance;
@@ -53,7 +51,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 
 					// bail ealry if form is corrupt
 					if ( empty( $form ) ) {
-						wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+						wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 					}
 					
 					if ( ! empty( $form['fields'][ $key ] ) ) {
@@ -65,7 +63,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 					}	
 
 					if( empty( $field ) ) {
-						wp_send_json_error( __( 'Invalid Delete Button', 'acf-frontend-form-element' ) );
+						wp_send_json_error( __( 'Invalid Delete Button', 'frontend-admin' ) );
 					}
 
 					$field = array_merge( $form, $field );
@@ -76,7 +74,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			}		
 
 			if ( ! $field ) {                                      
-				wp_send_json_error( __( 'Invalid Delete Button', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Invalid Delete Button', 'frontend-admin' ) );
 			}
 
 			$field['message_location'] = 'other';
@@ -86,7 +84,6 @@ if ( ! class_exists( 'delete_object' ) ) :
 				'form_element' => $field['id'],
 				'location'     => $field['message_location'],
 				'frontend-form-nonce' => wp_create_nonce( 'frontend-form' ),
-				'success_message' => __( 'The object has been deleted', 'acf-frontend-form-element' )
 			);
 
 			if ( $field['show_delete_message'] ) {
@@ -104,7 +101,9 @@ if ( ! class_exists( 'delete_object' ) ) :
 			switch ( $field['type'] ) {
 				case 'delete_post':
 					$post_id = intval( $objects['post'] );
-					if ( ! $post_id ) wp_send_json_error( __( 'No Post ID Found', 'acf-frontend-form-element' ) );
+					if ( ! $post_id ) wp_send_json_error( __( 'No Post ID Found', 'frontend-admin' ) );
+
+					if ( ! current_user_can( 'edit_post', $post_id ) ) wp_send_json_error( __( 'You do have have permission to delete this post', 'frontend-admin' ) );
 					
 					if ( empty( $field['force_delete'] ) ) {
 						$deleted = wp_trash_post( $post_id );
@@ -115,7 +114,9 @@ if ( ! class_exists( 'delete_object' ) ) :
 					break;
 				case 'delete_product':
 					$product_id = intval( $objects['product'] );
-					if( ! $product_id ) wp_send_json_error( __( 'No Product ID Found', 'acf-frontend-form-element' ) );
+					if( ! $product_id ) wp_send_json_error( __( 'No Product ID Found', 'frontend-admin' ) );
+
+					if ( ! current_user_can( 'edit_post', $product_id ) ) wp_send_json_error( __( 'You do have have permission to delete this product', 'frontend-admin' ) );
 
 					if ( empty( $field['force_delete'] ) ) {
 						$deleted = wp_trash_post( $product_id );
@@ -126,14 +127,19 @@ if ( ! class_exists( 'delete_object' ) ) :
 					break;
 				case 'delete_term':
 					$term_id = intval( $objects['term'] );
-					if( ! $term_id ) wp_send_json_error( __( 'No Term ID Found', 'acf-frontend-form-element' ) );
+					if( ! $term_id ) wp_send_json_error( __( 'No Term ID Found', 'frontend-admin' ) );
 
+					if ( ! current_user_can( 'delete_term', $term_id ) ) {
+						 wp_send_json_error( __( 'You do have have permission to delete this term', 'frontend-admin' ) );
+					}
 					$deleted                = wp_delete_term( $term_id, sanitize_title( $_POST['_acf_taxonomy_type'] ) );
 					$field['record']['term'] = $term_id;
 					break;
 				case 'delete_user':
 					$user_id = intval( $objects['user'] );
-					if( ! $user_id ) wp_send_json_error( __( 'No User ID Found', 'acf-frontend-form-element' ) );
+					if( ! $user_id ) wp_send_json_error( __( 'No User ID Found', 'frontend-admin' ) );
+
+					if( ! current_user_can( 'edit_user', $user_id ) ) wp_send_json_error( __( 'You do have have permission to delete this user', 'frontend-admin' ) );
 
 					$deleted                = wp_delete_user( $user_id, $field['reassign_posts'] );
 					$field['record']['user'] = $user_id;
@@ -162,13 +168,24 @@ if ( ! class_exists( 'delete_object' ) ) :
 		*/
 
 		function render_field( $field ) {
-			$confirm = ! empty( $field['confirmation_text'] ) ? $field['confirmation_text'] : __( 'Are you sure you want to delete this ' . $this->object . '?', 'acf-frontend-form-element' );
+			$confirm = ! empty( $field['confirmation_text'] ) ? $field['confirmation_text'] : __( 'Are you sure you want to delete this ' . $this->object . '?', 'frontend-admin' );
 
 			if ( ! empty( $field['button_icon'] ) ) {
 				$field['button_text'] = '<i class="' . $field['button_icon'] . '"></i> ' . $field['button_text'];
 			}
+
+			$nonce = wp_create_nonce( 'fea_delete_' . $field['key'] );
+			
 			// vars
-			$m = '<button type="button" class="fea-delete-button button button-primary" data-confirm="' . $confirm . '" data-state="delete">' . $field['button_text'] . '</button>';
+			$m = '<button 
+			type="button" 
+			class="fea-delete-button button button-primary" 
+			data-confirm="' . $confirm . '" 
+			data-state="delete"
+			data-nonce="'. $nonce .'"
+			>'
+			 . $field['button_text'] . 
+			'</button>';
 
 			// wptexturize (improves "quotes")
 			$m = wptexturize( $m );
@@ -258,7 +275,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Button Text', 'acf-frontend-form-element' ),
+					'label' => __( 'Button Text', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'button_text',
 					'class' => 'update-label',
@@ -267,7 +284,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Confirmation Text', 'acf-frontend-form-element' ),
+					'label' => __( 'Confirmation Text', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'confirmation_text',
 				)
@@ -285,14 +302,14 @@ if ( ! class_exists( 'delete_object' ) ) :
 				acf_render_field_setting(
 					$field,
 					array(
-						'label'       => __( 'Reassign Posts to...', 'acf-frontend-form-element' ),
+						'label'       => __( 'Reassign Posts to...', 'frontend-admin' ),
 						'type'        => 'select',
 						'ui'          => 1,
 						'ajax'        => 1,
 						'allow_null'  => 1,
 						'choices'     => $choices,
 						'ajax_action' => 'acf_frontend/fields/reassign_posts/query',
-						'placeholder' => __( 'Delete Posts', 'acf-frontend-form-element' ),
+						'placeholder' => __( 'Delete Posts', 'frontend-admin' ),
 						'name'        => 'reassign_posts',
 					)
 				);
@@ -302,7 +319,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 				acf_render_field_setting(
 					$field,
 					array(
-						'label' => __( 'Skip Trash', 'acf-frontend-form-element' ),
+						'label' => __( 'Skip Trash', 'frontend-admin' ),
 						'type'  => 'true_false',
 						'ui'    => 1,
 						'name'  => 'force_delete',
@@ -312,7 +329,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Show Delete Message', 'acf-frontend-form-element' ),
+					'label' => __( 'Show Delete Message', 'frontend-admin' ),
 					'type'  => 'true_false',
 					'ui'    => 1,
 					'name'  => 'show_delete_message',
@@ -321,7 +338,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'      => __( 'Delete Message', 'acf-frontend-form-element' ),
+					'label'      => __( 'Delete Message', 'frontend-admin' ),
 					'type'       => 'textarea',
 					'name'       => 'delete_message',
 					'rows'       => 3,
@@ -339,22 +356,22 @@ if ( ! class_exists( 'delete_object' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Redirect After Delete', 'acf-frontend-form-element' ),
+					'label'        => __( 'Redirect After Delete', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'redirect',
 					'choices'      => array(
-						''            => __( 'Form Default', 'acf-frontend-form-element' ),
-						'current'     => __( 'Reload Current Url', 'acf-frontend-form-element' ),
-						'custom_url'  => __( 'Custom Url', 'acf-frontend-form-element' ),
-						'referer_url' => __( 'Referer', 'acf-frontend-form-element' ),
+						''            => __( 'Form Default', 'frontend-admin' ),
+						'current'     => __( 'Reload Current Url', 'frontend-admin' ),
+						'custom_url'  => __( 'Custom Url', 'frontend-admin' ),
+						'referer_url' => __( 'Referer', 'frontend-admin' ),
 					),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'      => __( 'Custom Url', 'acf-frontend-form-element' ),
+					'label'      => __( 'Custom Url', 'frontend-admin' ),
 					'type'       => 'url',
 					'name'       => 'custom_url',
 					'conditions' => array(

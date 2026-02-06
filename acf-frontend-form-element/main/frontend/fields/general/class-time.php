@@ -21,7 +21,7 @@ if ( ! class_exists( 'time' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'time';
-			$this->label    = __( 'Time', 'acf-frontend-form-element' );
+			$this->label    = __( 'Time', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',
 			);
@@ -100,8 +100,8 @@ if ( ! class_exists( 'time' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'                 => __( 'Default Value', 'acf-frontend-form-element' ),
-					'instructions'          => __( 'Appears when creating a new post', 'acf-frontend-form-element' ),
+					'label'                 => __( 'Default Value', 'frontend-admin' ),
+					'instructions'          => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'                  => 'time',
 					'name'                  => 'default_value',
 					'dynamic_value_choices' => 1,

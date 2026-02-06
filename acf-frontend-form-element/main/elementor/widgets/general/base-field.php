@@ -100,7 +100,7 @@ class Base_Field extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Base Field', 'acf-frontend-form-element' );
+		return __( 'Base Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -174,7 +174,7 @@ class Base_Field extends Widget_Base {
 		$this->start_controls_section(
 			'fields_section',
 			array(
-				'label' => __( 'Field', 'acf-frontend-form-element' ),
+				'label' => __( 'Field', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -182,10 +182,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_label_on',
 			array(
-				'label'        => __( 'Show Label', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Label', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => 'true',
 			)
@@ -195,10 +195,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_label',
 			array(
-				'label'       => __( 'Label', 'acf-frontend-form-element' ),
+				'label'       => __( 'Label', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Label', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Label', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -212,7 +212,7 @@ class Base_Field extends Widget_Base {
 			$this->add_control(
 				'field_name',
 				array(
-					'label'       => __( 'Meta Name', 'acf-frontend-form-element' ),
+					'label'       => __( 'Meta Name', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
 					'name'        => 'field_name',
 					'default'     => $meta_name,
@@ -227,10 +227,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_required',
 			array(
-				'label'        => __( 'Required', 'acf-frontend-form-element' ),
+				'label'        => __( 'Required', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => '',
 			)
@@ -240,13 +240,13 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_display_mode',
 			array(
-				'label'   => __( 'Display Mode', 'acf-frontend-form-element' ),
+				'label'   => __( 'Display Mode', 'frontend-admin' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'edit',
 				'options' => array(
-					'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-					'read_only'	=> __( 'Read Only', 'acf-frontend-form-element' ),
-					'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
+					'edit'	=> __( 'Edit', 'frontend-admin' ),
+					'read_only'	=> __( 'Read Only', 'frontend-admin' ),
+					'hidden'	=> __( 'Hidden', 'frontend-admin' ),
 				)
 			)
 		);
@@ -255,10 +255,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_inline_edit',
 			array(
-				'label'        => __( 'Inline Edit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Inline Edit', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => '',
 				'condition'    => array(
@@ -271,10 +271,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'no_values_message',
 			array(
-				'label'       => __( 'No Value Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'No Value Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'label_block' => true,
-				'placeholder' => __( 'Undefined Value', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Undefined Value', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -287,10 +287,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_instruction',
 			array(
-				'label'       => __( 'Instructions', 'acf-frontend-form-element' ),
+				'label'       => __( 'Instructions', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Instruction', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Instruction', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -319,7 +319,7 @@ class Base_Field extends Widget_Base {
 		$this->start_controls_section(
 			'validation_section',
 			array(
-				'label' => __( 'Validation', 'acf-frontend-form-element' ),
+				'label' => __( 'Validation', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -328,10 +328,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'show_error_message',
 			array(
-				'label'        => __( 'Show Error Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Error Message', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => 'true',
 			)
@@ -341,10 +341,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_required_message',
 			array(
-				'label'       => __( 'Required Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Required Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field is required', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is required', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -355,10 +355,10 @@ class Base_Field extends Widget_Base {
 		$this->add_control(
 			'field_validation_message',
 			array(
-				'label'       => __( 'Validation Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Validation Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field is invalid', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field is invalid', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -374,23 +374,23 @@ class Base_Field extends Widget_Base {
 	public function custom_fields_control( $repeater = false ) {
 		
 		$controls_settings = array(
-			'label'     => __( 'Save Custom Fields to...', 'acf-frontend-form-element' ),
+			'label'     => __( 'Save Custom Fields to...', 'frontend-admin' ),
 			'type'      => Controls_Manager::SELECT,
 			'default'   => 'post',
 
 		);
 
 		$custom_fields_options = array(
-			''	=> __( 'Form Default', 'acf-frontend-form-element' ),
-			'submission' => __( 'Submission', 'acf-frontend-form-element' ),
-			'post' => __( 'Post', 'acf-frontend-form-element' ),
-			'user' => __( 'User', 'acf-frontend-form-element' ),
-			'term' => __( 'Term', 'acf-frontend-form-element' ),
+			''	=> __( 'Form Default', 'frontend-admin' ),
+			'submission' => __( 'Submission', 'frontend-admin' ),
+			'post' => __( 'Post', 'frontend-admin' ),
+			'user' => __( 'User', 'frontend-admin' ),
+			'term' => __( 'Term', 'frontend-admin' ),
 		);
 		if ( ! empty( fea_instance()->pro_features ) ) {
-			$custom_fields_options['options'] = __( 'Site Options', 'acf-frontend-form-element' );
+			$custom_fields_options['options'] = __( 'Site Options', 'frontend-admin' );
 			if ( class_exists( 'woocommerce' ) ) {
-				$custom_fields_options['product'] = __( 'Product', 'acf-frontend-form-element' );
+				$custom_fields_options['product'] = __( 'Product', 'frontend-admin' );
 			}
 		}
 		$controls_settings['options'] = $custom_fields_options;
@@ -405,7 +405,7 @@ class Base_Field extends Widget_Base {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => Controls_Manager::TAB_STYLE,
 				)
 			);
@@ -414,7 +414,7 @@ class Base_Field extends Widget_Base {
 				'styles_promo',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);

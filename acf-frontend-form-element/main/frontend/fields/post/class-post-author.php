@@ -22,8 +22,8 @@ if ( ! class_exists( 'post_author' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_author';
-			$this->label      = __( 'Author', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Author', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'author',
 				'role'          => '',

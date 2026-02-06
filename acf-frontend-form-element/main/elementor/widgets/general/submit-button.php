@@ -48,7 +48,7 @@ class Submit_Button_Widget extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Submit Button', 'acf-frontend-form-element' );
+		return __( 'Submit Button', 'frontend-admin' );
 	}
 
 	/**
@@ -135,18 +135,18 @@ class Submit_Button_Widget extends Widget_Base {
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'default'     => __( 'Submit', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Submit', 'acf-frontend-form-element' ),
+				'default'     => __( 'Submit', 'frontend-admin' ),
+				'placeholder' => __( 'Submit', 'frontend-admin' ),
 			)
 		);
 
 		$redirect_options = array(
-			''			 => __( 'Form Default', 'acf-frontend-form-element' ),
-			'current'    => __( 'Reload Current Page', 'acf-frontend-form-element' ),
-			'custom_url' => __( 'Custom URL', 'acf-frontend-form-element' ),
-			'referer'    => __( 'Referer', 'acf-frontend-form-element' ),
-			'post_url'   => __( 'Post URL', 'acf-frontend-form-element' ),
-			'none'       => __( 'None', 'acf-frontend-form-element' ),
+			''			 => __( 'Form Default', 'frontend-admin' ),
+			'current'    => __( 'Reload Current Page', 'frontend-admin' ),
+			'custom_url' => __( 'Custom URL', 'frontend-admin' ),
+			'referer'    => __( 'Referer', 'frontend-admin' ),
+			'post_url'   => __( 'Post URL', 'frontend-admin' ),
+			'none'       => __( 'None', 'frontend-admin' ),
 		);
 		$redirect_options = apply_filters( 'frontend_admin/forms/redirect_options', $redirect_options );
 
@@ -154,11 +154,11 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_type',
 			array(
-				'label'        => __( 'Submit Type', 'acf-frontend-form-element' ),
+				'label'        => __( 'Submit Type', 'frontend-admin' ),
 				'type'         => Controls_Manager::SELECT,
 				'options'      => array(
-					'submit' => __( 'Submit', 'acf-frontend-form-element' ),
-					'save'   => __( 'Save Progress', 'acf-frontend-form-element' ),
+					'submit' => __( 'Submit', 'frontend-admin' ),
+					'save'   => __( 'Save Progress', 'frontend-admin' ),
 				),
 				'default'      => 'submit',
 			)
@@ -168,12 +168,12 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'success_message',
 			array(
-				'label'       => __( 'Success Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Success Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => __( 'Success', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Success', 'frontend-admin' ),
 			)
 		);
 
@@ -181,7 +181,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'redirect',
 			array(
-				'label'         => __( 'Redirect After Submit', 'acf-frontend-form-element' ),
+				'label'         => __( 'Redirect After Submit', 'frontend-admin' ),
 				'type'          => Controls_Manager::SELECT,
 				'options'       => $redirect_options,
 				'a,llow_null'    => 0,
@@ -197,7 +197,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'custom_url',
 			array(
-				'label'             => __( 'Custom Url', 'acf-frontend-form-element' ),
+				'label'             => __( 'Custom Url', 'frontend-admin' ),
 				'type'              => 'url',
 				'conditional_logic' => array(
 					array(

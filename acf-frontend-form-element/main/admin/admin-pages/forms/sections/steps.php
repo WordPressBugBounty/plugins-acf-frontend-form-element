@@ -17,7 +17,7 @@ $counter = array(
 $fields  = array(
 	array(
 		'key'          => 'validate_steps',
-		'label'        => __( 'Validate Each Step', 'acf-frontend-form-element' ),
+		'label'        => __( 'Validate Each Step', 'frontend-admin' ),
 		'type'         => 'true_false',
 		'instructions' => '',
 		'required'     => 0,
@@ -33,7 +33,7 @@ $fields  = array(
 	),
 	array(
 		'key'          => 'steps_display',
-		'label'        => __( 'Steps Display', 'acf-frontend-form-element' ),
+		'label'        => __( 'Steps Display', 'frontend-admin' ),
 		'type'         => 'select',
 		'instructions' => '',
 		'required'     => 0,
@@ -46,14 +46,14 @@ $fields  = array(
 		'ui'           => 1,
 		'allow_null'   => 1,
 		'choices'      => array(
-			'tabs'    => __( 'Tabs', 'acf-frontend-form-element' ),
-			'counter' => __( 'Counter', 'acf-frontend-form-element' ),
+			'tabs'    => __( 'Tabs', 'frontend-admin' ),
+			'counter' => __( 'Counter', 'frontend-admin' ),
 		),
 		'layout'       => 'horizontal',
 	),
 	array(
 		'key'               => 'steps_tabs_display',
-		'label'             => __( 'Display Tabs On...', 'acf-frontend-form-element' ),
+		'label'             => __( 'Display Tabs On...', 'frontend-admin' ),
 		'type'              => 'checkbox',
 		'instructions'      => '',
 		'required'          => 0,
@@ -63,9 +63,9 @@ $fields  = array(
 			'id'    => '',
 		),
 		'choices'           => array(
-			'desktop' => __( 'Desktop', 'acf-frontend-form-element' ),
-			'tablet'  => __( 'Tablet', 'acf-frontend-form-element' ),
-			'phone'   => __( 'Mobile', 'acf-frontend-form-element' ),
+			'desktop' => __( 'Desktop', 'frontend-admin' ),
+			'tablet'  => __( 'Tablet', 'frontend-admin' ),
+			'phone'   => __( 'Mobile', 'frontend-admin' ),
 		),
 		'layout'            => 'horizontal',
 		'conditional_logic' => array(
@@ -76,7 +76,7 @@ $fields  = array(
 	),
 	array(
 		'key'               => 'steps_counter_display',
-		'label'             => __( 'Display Counter On...', 'acf-frontend-form-element' ),
+		'label'             => __( 'Display Counter On...', 'frontend-admin' ),
 		'type'              => 'checkbox',
 		'instructions'      => '',
 		'required'          => 0,
@@ -86,9 +86,9 @@ $fields  = array(
 			'id'    => '',
 		),
 		'choices'           => array(
-			'desktop' => __( 'Desktop', 'acf-frontend-form-element' ),
-			'tablet'  => __( 'Tablet', 'acf-frontend-form-element' ),
-			'phone'   => __( 'Mobile', 'acf-frontend-form-element' ),
+			'desktop' => __( 'Desktop', 'frontend-admin' ),
+			'tablet'  => __( 'Tablet', 'frontend-admin' ),
+			'phone'   => __( 'Mobile', 'frontend-admin' ),
 		),
 		'layout'            => 'horizontal',
 		'conditional_logic' => array(
@@ -99,7 +99,7 @@ $fields  = array(
 	),
 	array(
 		'key'               => 'tabs_align',
-		'label'             => __( 'Tabs Align', 'acf-frontend-form-element' ),
+		'label'             => __( 'Tabs Align', 'frontend-admin' ),
 		'type'              => 'radio',
 		'instructions'      => '',
 		'required'          => 0,
@@ -121,9 +121,9 @@ $fields  = array(
 	),
 	array(
 		'key'               => 'counter_text',
-		'label'             => __( 'Counter Text', 'acf-frontend-form-element' ),
+		'label'             => __( 'Counter Text', 'frontend-admin' ),
 		'type'              => 'text',
-		'instructions'      => __( 'Use [current_step] to display the current step and [total_steps] to show the total amount of steps', 'acf-frontend-form-element' ),
+		'instructions'      => __( 'Use [current_step] to display the current step and [total_steps] to show the total amount of steps', 'frontend-admin' ),
 		'required'          => 0,
 		'wrapper'           => array(
 			'width' => '',
@@ -139,7 +139,7 @@ $fields  = array(
 	),
 	array(
 		'key'               => 'step_number',
-		'label'             => __( 'Step Number In Tabs', 'acf-frontend-form-element' ),
+		'label'             => __( 'Step Number In Tabs', 'frontend-admin' ),
 		'type'              => 'true_false',
 		'instructions'      => '',
 		'required'          => 0,
@@ -155,7 +155,7 @@ $fields  = array(
 	),
 	array(
 		'key'               => 'tab_links',
-		'label'             => __( 'Link to Step in Tabs', 'acf-frontend-form-element' ),
+		'label'             => __( 'Link to Step in Tabs', 'frontend-admin' ),
 		'type'              => 'true_false',
 		'instructions'      => '',
 		'required'          => 0,

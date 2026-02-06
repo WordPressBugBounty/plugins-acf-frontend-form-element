@@ -23,8 +23,8 @@ if ( ! class_exists( 'term_description' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'term_description';
-			$this->label      = __( 'Term Description', 'acf-frontend-form-element' );
-			  $this->category = __( 'Term', 'acf-frontend-form-element' );
+			$this->label      = __( 'Term Description', 'frontend-admin' );
+			  $this->category = __( 'Term', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'term_description',
 				'default_value' => '',

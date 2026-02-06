@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.18
+Stable tag: 3.28.27
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -120,7 +120,7 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 == Installation ==
 
 1. Make sure both Advanced Custom Fields is installed and activated. 
-2. Upload the plugin files to the `/wp-content/plugins/acf-frontend-form-elements` directory, or install the plugin through the WordPress plugins screen directly.
+2. Upload the plugin files to the `/wp-content/plugins/frontend-admins` directory, or install the plugin through the WordPress plugins screen directly.
 3. Activate the plugin through the 'Plugins' screen in WordPress
 4. Create a form under Frontend Admin > forms.
 5. Choose the desired form type. 
@@ -131,6 +131,8 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 
 
 == Tutorials ==  
+= The New Post Form Block =
+https://www.youtube.com/watch?v=SIwiWvPqd8Q
 
 = Paul from WPTuts shows how to build a fully functional front-end dashboard in WordPress using the free Front-End Admin plugin and Bricks Builder. 
 https://www.youtube.com/watch?v=O0TYRap8U24
@@ -180,6 +182,39 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.27 - 20-01-2025 =
+ * Fixed conditional logic with select2 UI
+ * Fixed new user form
+ * Fixed conflict with duplicate page plugin
+
+= 3.28.26 - 30-12-2025 =
+ * Fixed error with special permissions
+ * Fixed price field error
+
+= 3.28.25 - 25-12-2025 =
+ * Fixed check_inline_field function
+ * Fixed role options error
+
+= 3.28.23 - 24-12-2025 =
+ * Fixed delete button bugs
+
+= 3.28.22 - 27-11-2025 =
+ * Added Payment Form block
+
+= 3.28.21 - 21-11-2025 =
+ * Fixed Edit Post Form block in site editor
+ * Fixed copy paste unique form keys and field keys in blocks
+ * Fixed admin options error
+
+= 3.28.20 - 09-11-2025 =
+ * Added Image Field and Content Field blocks 
+ * Added condition rule groups to blocks
+ * Added form settings to form blocks
+
+= 3.28.19 - 29-10-2025 =
+ * Fixed dynamic values not rendering
+ * Fixed submissions visibility for admins
+
 = 3.28.18 - 14-09-2025 =
  * Fixed taxonomy field options html entities not decoded
  * Fixed user password not saving properly

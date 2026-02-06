@@ -56,7 +56,7 @@ class Field extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'ACF Fields', 'acf-frontend-form-element' );
+		return __( 'ACF Fields', 'frontend-admin' );
 	}
 
 	 /**
@@ -129,7 +129,7 @@ class Field extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'fields_section',
 			array(
-				'label' => __( 'Field', 'acf-frontend-form-element' ),
+				'label' => __( 'Field', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -138,12 +138,12 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'choose_from',
 			array(
-				'label'       => __( 'Choose From', 'acf-frontend-form-element' ),
+				'label'       => __( 'Choose From', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'options'     => array(
-					'field_group' => __( 'Field Group', 'acf-frontend-form-element' ),
-					'field'      => __( 'Field', 'acf-frontend-form-element' ),
+					'field_group' => __( 'Field Group', 'frontend-admin' ),
+					'field'      => __( 'Field', 'frontend-admin' ),
 				),
 				'default'     => 'field_group',
 			)
@@ -153,7 +153,7 @@ class Field extends \Elementor\Widget_Base {
 			$this->add_control(
 				'acf_field_group',
 				array(
-					'label'       => __( 'Select Field Group', 'acf-frontend-form-element' ),
+					'label'       => __( 'Select Field Group', 'frontend-admin' ),
 					'type'        => 'fea_select',
 					'label_block' => true,
 					'action'	  => 'acf-field-groups',
@@ -169,7 +169,7 @@ class Field extends \Elementor\Widget_Base {
 			$this->add_control(
 				'acf_field',
 				array(
-					'label'       => __( 'Select Field', 'acf-frontend-form-element' ),
+					'label'       => __( 'Select Field', 'frontend-admin' ),
 					'type'        => 'fea_select',
 					'label_block' => true,
 					'action'	  => 'acf-fields',
@@ -186,13 +186,13 @@ class Field extends \Elementor\Widget_Base {
 			$this->add_control(
 				'field_display_mode',
 				array(
-					'label'   => __( 'Display Mode', 'acf-frontend-form-element' ),
+					'label'   => __( 'Display Mode', 'frontend-admin' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'edit',
 					'options' => array(
-						'edit'	=> __( 'Edit', 'acf-frontend-form-element' ),
-						'read_only'	=> __( 'Read Only', 'acf-frontend-form-element' ),
-						'hidden'	=> __( 'Hidden', 'acf-frontend-form-element' ),
+						'edit'	=> __( 'Edit', 'frontend-admin' ),
+						'read_only'	=> __( 'Read Only', 'frontend-admin' ),
+						'hidden'	=> __( 'Hidden', 'frontend-admin' ),
 					)
 				)
 			);
@@ -201,10 +201,10 @@ class Field extends \Elementor\Widget_Base {
 			$this->add_control(
 				'field_inline_edit',
 				array(
-					'label'        => __( 'Inline Edit', 'acf-frontend-form-element' ),
+					'label'        => __( 'Inline Edit', 'frontend-admin' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-					'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+					'label_on'     => __( 'Yes', 'frontend-admin' ),
+					'label_off'    => __( 'No', 'frontend-admin' ),
 					'return_value' => 'true',
 					'default'      => '',
 					'condition'    => array(
@@ -217,10 +217,10 @@ class Field extends \Elementor\Widget_Base {
 			$this->add_control(
 				'no_values_message',
 				array(
-					'label'       => __( 'No Value Message', 'acf-frontend-form-element' ),
+					'label'       => __( 'No Value Message', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXTAREA,
 					'label_block' => true,
-					'placeholder' => __( 'Undefined Value', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'Undefined Value', 'frontend-admin' ),
 					'dynamic'     => array(
 						'active' => true,
 					),
@@ -244,22 +244,22 @@ class Field extends \Elementor\Widget_Base {
 			$cf_save = str_replace( array( 'new_', 'edit_', 'duplicate_' ), '', $this->get_name() );
 		}
 		$controls_settings = array(
-			'label'     => __( 'Save Custom Fields to...', 'acf-frontend-form-element' ),
+			'label'     => __( 'Save Custom Fields to...', 'frontend-admin' ),
 			'type'      => Controls_Manager::SELECT,
 			'default'   => $cf_save,
 
 		);
 
 		$custom_fields_options = array(
-			'submission' => __( 'Submission', 'acf-frontend-form-element' ),
-			'post' => __( 'Post', 'acf-frontend-form-element' ),
-			'user' => __( 'User', 'acf-frontend-form-element' ),
-			'term' => __( 'Term', 'acf-frontend-form-element' ),
+			'submission' => __( 'Submission', 'frontend-admin' ),
+			'post' => __( 'Post', 'frontend-admin' ),
+			'user' => __( 'User', 'frontend-admin' ),
+			'term' => __( 'Term', 'frontend-admin' ),
 		);
 		if ( ! empty( fea_instance()->pro_features ) ) {
-			$custom_fields_options['options'] = __( 'Site Options', 'acf-frontend-form-element' );
+			$custom_fields_options['options'] = __( 'Site Options', 'frontend-admin' );
 			if ( class_exists( 'woocommerce' ) ) {
-				$custom_fields_options['product'] = __( 'Product', 'acf-frontend-form-element' );
+				$custom_fields_options['product'] = __( 'Product', 'frontend-admin' );
 			}
 		}
 		$controls_settings['options'] = $custom_fields_options;
@@ -272,7 +272,7 @@ class Field extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'display_section',
 			array(
-				'label' => __( 'Display Options', 'acf-frontend-form-element' ),
+				'label' => __( 'Display Options', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -301,7 +301,7 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'fields_margin',
 			array(
-				'label'      => __( 'Fields Margin', 'acf-frontend-form-element' ),
+				'label'      => __( 'Fields Margin', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'default'    => array(
@@ -321,7 +321,7 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'fields_padding',
 			array(
-				'label'      => __( 'Fields Padding', 'acf-frontend-form-element' ),
+				'label'      => __( 'Fields Padding', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
@@ -333,10 +333,10 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'hide_field_labels',
 			array(
-				'label'        => __( 'Hide Field Labels', 'acf-frontend-form-element' ),
+				'label'        => __( 'Hide Field Labels', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Hide', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'Show', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Hide', 'frontend-admin' ),
+				'label_off'    => __( 'Show', 'frontend-admin' ),
 				'return_value' => 'true',
 				'separator'    => 'before',
 				'selectors'    => array(
@@ -414,7 +414,7 @@ class Field extends \Elementor\Widget_Base {
 			$this->start_controls_section(
 				'style_promo_section',
 				array(
-					'label' => __( 'Styles', 'acf-frontend-form-element' ),
+					'label' => __( 'Styles', 'frontend-admin' ),
 					'tab'   => Controls_Manager::TAB_STYLE,
 				)
 			);
@@ -423,7 +423,7 @@ class Field extends \Elementor\Widget_Base {
 				'styles_promo',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go Pro</b></a> to unlock styles.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);

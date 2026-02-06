@@ -21,8 +21,8 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 		public function __construct() {
 			parent::__construct(
 				array(
-					'singular' => __( 'Submission', 'acf-frontend-form-element' ), // singular name of the listed records
-					'plural'   => __( 'Submissions', 'acf-frontend-form-element' ), // plural name of the listed records
+					'singular' => __( 'Submission', 'frontend-admin' ), // singular name of the listed records
+					'plural'   => __( 'Submissions', 'frontend-admin' ), // plural name of the listed records
 					'ajax'     => false, // does this table support ajax?
 				)
 			);
@@ -35,7 +35,7 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 		 * Text displayed when no submission data is available
 		 */
 		public function no_items() {
-			esc_html_e( 'No submissions avaliable.', 'acf-frontend-form-element' );
+			esc_html_e( 'No submissions avaliable.', 'frontend-admin' );
 		}
 
 
@@ -67,8 +67,8 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 					$page    = 'fea-settings-submissions';
 					$title   = sprintf( '<a href="?page=%s&action=%s&id=%s">%s</a>', $page, 'edit', $item['id'], $title );
 					$actions = array(
-						'edit'   => sprintf( '<a href="?page=%s&action=%s&id=%s">%s</a>', $page, 'edit', $item['id'], __( 'Review', 'acf-frontend-form-element' ) ),
-						'delete' => sprintf( '<a href="?page=%s&action=%s&id=%s&nonce=%s">%s</a>', $page, 'delete', $item['id'], wp_create_nonce( 'frontend_admin_delete_submission' ), __( 'Delete', 'acf-frontend-form-element' ) ),
+						'edit'   => sprintf( '<a href="?page=%s&action=%s&id=%s">%s</a>', $page, 'edit', $item['id'], __( 'Review', 'frontend-admin' ) ),
+						'delete' => sprintf( '<a href="?page=%s&action=%s&id=%s&nonce=%s">%s</a>', $page, 'delete', $item['id'], wp_create_nonce( 'frontend_admin_delete_submission' ), __( 'Delete', 'frontend-admin' ) ),
 					);
 					return sprintf( '%1$s %2$s', $title, $this->row_actions( $actions ) );
 				case 'user':
@@ -76,7 +76,7 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 					if ( is_object( $user ) ) {
 						$title = $user->display_name . ' (' . $user->user_login . ')';
 					} else {
-						$title = __( 'Anonymous', 'acf-frontend-form-element' );
+						$title = __( 'Anonymous', 'frontend-admin' );
 					}
 					return $title;
 				case 'status':
@@ -114,7 +114,7 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 					}
 						
 
-					return __( 'Form not found', 'acf-frontend-form-element' );
+					return __( 'Form not found', 'frontend-admin' );
 
 				default:
 					if ( isset( $item[ $column_name ] ) ) {
@@ -127,8 +127,8 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 
 		function get_bulk_actions() {
 			$actions = array(
-				'bulk-delete'  => __( 'Delete', 'acf-frontend-form-element' ),
-				'bulk-approve' => __( 'Approve', 'acf-frontend-form-element' ),
+				'bulk-delete'  => __( 'Delete', 'frontend-admin' ),
+				'bulk-approve' => __( 'Approve', 'frontend-admin' ),
 			);
 
 			return $actions;
@@ -163,11 +163,11 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 		function get_columns() {
 			$columns = array(
 				'cb'         => '<input type="checkbox" />',
-				'title'      => __( 'Title', 'acf-frontend-form-element' ),
-				'user'       => __( 'Submitted By', 'acf-frontend-form-element' ),
-				'form'       => __( 'Form', 'acf-frontend-form-element' ),
-				'status'     => __( 'Status', 'acf-frontend-form-element' ),
-				'created_at' => __( 'Date', 'acf-frontend-form-element' ),
+				'title'      => __( 'Title', 'frontend-admin' ),
+				'user'       => __( 'Submitted By', 'frontend-admin' ),
+				'form'       => __( 'Form', 'frontend-admin' ),
+				'status'     => __( 'Status', 'frontend-admin' ),
+				'created_at' => __( 'Date', 'frontend-admin' ),
 			);
 
 			$columns = apply_filters( 'frontend_admin/submissions/admin_columns', $columns );

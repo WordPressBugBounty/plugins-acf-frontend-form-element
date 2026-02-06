@@ -65,7 +65,7 @@ class Term_Slug_Field extends Text_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Term Slug Field', 'acf-frontend-form-element' );
+		return __( 'Term Slug Field', 'frontend-admin' );
 	}
 
 	 /**

@@ -75,10 +75,10 @@ class Dashboard_Settings {
 		global $current_user;
 		$checked = ( isset( $user->hide_admin_area ) && $user->hide_admin_area ) ? ' checked="checked"' : '';
 
-		echo '<h3>'. esc_html__( 'Hide WordPress Admin Area', 'acf-frontend-form-element' ) . '</h3>
+		echo '<h3>'. esc_html__( 'Hide WordPress Admin Area', 'frontend-admin' ) . '</h3>
 			<table class="form-table">
 				<tr>
-					<th><label for="hide_admin_area">'. esc_html__( 'Hide Admin Area', 'acf-frontend-form-element' ) . '</label></th>
+					<th><label for="hide_admin_area">'. esc_html__( 'Hide Admin Area', 'frontend-admin' ) . '</label></th>
 					<td><input name="hide_admin_area" type="checkbox" id="hide_admin_area" value="1"' . esc_html( $checked ) . '></td>
 				</tr>
 			</table>';
@@ -94,7 +94,7 @@ class Dashboard_Settings {
 	public function get_settings_fields( $field_keys ) {
 		$local_fields = array(
 			'frontend_admin_dashboard_slug'    => array(
-				'label'        => __( 'Frontend Dashboard Slug', 'acf-frontend-form-element' ),
+				'label'        => __( 'Frontend Dashboard Slug', 'frontend-admin' ),
 				'type'         => 'text',
 				'instructions' => '',
 				'placeholder'  => 'frontend-dashboard',
@@ -103,7 +103,7 @@ class Dashboard_Settings {
 				),
 			),
 			'frontend_admin_hide_wp_dashboard' => array(
-				'label'        => __( 'Hide WP Dashboard', 'acf-frontend-form-element' ),
+				'label'        => __( 'Hide WP Dashboard', 'frontend-admin' ),
 				'type'         => 'true_false',
 				'instructions' => '',
 				'required'     => 0,
@@ -114,9 +114,9 @@ class Dashboard_Settings {
 				'ui_off_text'  => '',
 			),
 			'frontend_admin_hide_by'           => array(
-				'label'             => __( 'Hide by....', 'acf-frontend-form-element' ),
+				'label'             => __( 'Hide by....', 'frontend-admin' ),
 				'type'              => 'checkbox',
-				'instructions'      => __( 'If you choose "User", there will be a checkbox in each user\'s profile page to show/hide the WP dashboard', 'acf-frontend-form-element' ),
+				'instructions'      => __( 'If you choose "User", there will be a checkbox in each user\'s profile page to show/hide the WP dashboard', 'frontend-admin' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -134,8 +134,8 @@ class Dashboard_Settings {
 				),
 				'only_front'        => 0,
 				'choices'           => array(
-					'user' => __( 'User', 'acf-frontend-form-element' ),
-					'role' => __( 'Role', 'acf-frontend-form-element' ),
+					'user' => __( 'User', 'frontend-admin' ),
+					'role' => __( 'Role', 'frontend-admin' ),
 				),
 				'allow_custom'      => 0,
 				'default_value'     => array(),
@@ -145,7 +145,7 @@ class Dashboard_Settings {
 				'save_custom'       => 0,
 			),
 			'frontend_admin_roles'             => array(
-				'label'             => __( 'Roles', 'acf-frontend-form-element' ),
+				'label'             => __( 'Roles', 'frontend-admin' ),
 				'type'              => 'select',
 				'instructions'      => '',
 				'required'          => 0,
@@ -178,9 +178,9 @@ class Dashboard_Settings {
 				'placeholder'       => '',
 			),
 			'frontend_admin_login_redirect'    => array(
-				'label'             => __( 'Redirect to', 'acf-frontend-form-element' ),
+				'label'             => __( 'Redirect to', 'frontend-admin' ),
 				'type'              => 'url',
-				'instructions'      => __( 'Where to redirect users when logging in. Defaults to home.', 'acf-frontend-form-element' ),
+				'instructions'      => __( 'Where to redirect users when logging in. Defaults to home.', 'frontend-admin' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(

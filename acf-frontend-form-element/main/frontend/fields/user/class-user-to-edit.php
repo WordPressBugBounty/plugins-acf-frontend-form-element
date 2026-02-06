@@ -24,13 +24,13 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			// vars
 			$this->name     = 'user_to_edit';
 			$this->label    = __( 'User To Edit', 'acf' );
-			$this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->category = __( 'User', 'frontend-admin' );
 			$this->defaults = array(
 				'role'                 => '',
 				'allow_null'      => 0,
 				'add_new'         => 1,
-				'add_new_text'    => __( 'New User', 'acf-frontend-form-element' ),
-				'placeholder'     => __( 'Select User', 'acf-frontend-form-element' ),
+				'add_new_text'    => __( 'New User', 'frontend-admin' ),
+				'placeholder'     => __( 'Select User', 'frontend-admin' ),
 				'url_query'       => 'user_id',
 				'multiple'        => 0,
 				'ui'              => 1,
@@ -117,7 +117,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				
 					$type         = 'user';
 					$default_text = 'New User';
-				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'acf-frontend-form-element' );
+				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' );
 				$results      = array(
 					array(
 						'id'   => 'add_' . $type,
@@ -320,7 +320,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 
 		function render_field( $field ) {
 			if ( empty( $field['placeholder'] ) ) {
-				$field['placeholder'] = __( 'Select User', 'acf-frontend-form-element' );
+				$field['placeholder'] = __( 'Select User', 'frontend-admin' );
 			}
 
 			// Change Field into a select
@@ -331,7 +331,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			$field['nonce']   = wp_create_nonce( 'acf_field_' . $this->name . '_' . $field['key'] );
 
 			if ( $field['add_new'] ) {
-				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New User', 'acf-frontend-form-element' );
+				$add_new_text     = $field['add_new_text'] ? $field['add_new_text'] : __( 'New User', 'frontend-admin' );
 				$field['choices'] = array( 'add_user' => $add_new_text );
 			} else {
 				$field['choices'] = array();
@@ -379,8 +379,8 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			/* acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by User', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Only show users by the following users', 'acf-frontend-form-element' ),
+					'label'        => __( 'Filter by User', 'frontend-admin' ),
+					'instructions' => __( 'Only show users by the following users', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'user_author',
 					'choices'      => array( 'current_user' => __( 'Current User' ) ),
@@ -395,8 +395,8 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Url Query', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Set the user to edit by the url query', 'acf-frontend-form-element' ),
+					'label'        => __( 'Url Query', 'frontend-admin' ),
+					'instructions' => __( 'Set the user to edit by the url query', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'url_query',
 					'placeholder'  => 'user_id',
@@ -422,17 +422,17 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder', 'acf-frontend-form-element' ),
+					'label'        => __( 'Placeholder', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'placeholder',
 					'type'         => 'text',
-					'placeholder'  => __( 'Select User', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'Select User', 'frontend-admin' ),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add New User?', 'acf-frontend-form-element' ),
+					'label'        => __( 'Add New User?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'add_new',
 					'type'         => 'true_false',
@@ -442,11 +442,11 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'New User Text', 'acf-frontend-form-element' ),
+					'label'        => __( 'New User Text', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'add_new_text',
 					'type'         => 'text',
-					'placeholder'  => __( 'New User', 'acf-frontend-form-element' ),
+					'placeholder'  => __( 'New User', 'frontend-admin' ),
 					'conditions'   => array(
 						array(
 							array(

@@ -100,7 +100,7 @@ class ModalWindow {
 		$element->start_controls_section(
 			'modal_section',
 			array(
-				'label'     => __( 'Modal Window', 'acf-frontend-form-element' ),
+				'label'     => __( 'Modal Window', 'frontend-admin' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
 				'condition' => array(
 					'admin_forms_select' => '',
@@ -111,20 +111,20 @@ class ModalWindow {
 		$element->add_control(
 			'show_in_modal',
 			array(
-				'label'        => __( 'Show in Modal', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show in Modal', 'frontend-admin' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 			)
 		);
 
-		$default_text = __( 'Open Modal', 'acf-frontend-form-element' );
+		$default_text = __( 'Open Modal', 'frontend-admin' );
 
 		$element->add_control(
 			'modal_button_text',
 			array(
-				'label'       => __( 'Modal Button Text', 'acf-frontend-form-element' ),
+				'label'       => __( 'Modal Button Text', 'frontend-admin' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => $default_text,
 				'placeholder' => $default_text,
@@ -139,7 +139,7 @@ class ModalWindow {
 		$element->add_control(
 			'modal_button_icon',
 			array(
-				'label'     => __( 'Modal Button Icon', 'acf-frontend-form-element' ),
+				'label'     => __( 'Modal Button Icon', 'frontend-admin' ),
 				'type'      => \Elementor\Controls_Manager::ICONS,
 				'condition' => array(
 					'show_in_modal' => 'true',

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "frontend-admin/payment-form-field",
+  "title": "Payment Form",
+  "description": "Displays a form to collect payments for content creation or special access.",
+  "category": "frontend-admin",
+  "textdomain": "frontend-admin",
+  "supports": {
+    "align": [
+      "wide"
+    ]
+  },
+  "usesContext": [
+    "frontend-admin/form/form_settings",
+    "frontend-admin/form/form_key"
+  ],
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "field_key": {
+      "type": "string",
+      "default": ""
+    },
+    "label": {
+      "type": "string",
+      "default": "Text Field"
+    },
+    "hide_label": {
+      "type": "boolean",
+      "default": ""
+    },
+    "required": {
+      "type": "boolean",
+      "default": ""
+    },
+    "payment_value": {
+      "type": "string",
+      "default": "form_submissions"
+    },
+    "form_placement": {
+      "type": "string",
+      "default": "above"
+    },
+    "field_gap": {
+      "type": "string",
+      "default": "10"
+    },
+    "button_text": {
+      "type": "string",
+      "default": "Pay Now"
+    },
+    "paypal_button_text": {
+      "type": "string",
+      "default": "Pay with PayPal"
+    },
+    "payment_description": {
+      "type": "string",
+      "default": ""
+    },
+    "payment_amount": {
+      "type": "string",
+      "default": "1"
+    },
+    "payment_currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "product": {
+      "type": "string",
+      "default": "submission"
+    },
+    "credit_card_fields": {
+      "type": "array",
+      "default": [
+        {
+          "placeholder": "•••• •••• •••• ••••",
+          "label": "Number",
+          "id": "Number",
+          "width": "49",
+          "name": "number"
+        },
+        {
+          "placeholder": "Full Name",
+          "label": "Name on Card",
+          "id": "Name",
+          "width": "49",
+          "name": "name"
+        },
+        {
+          "placeholder": "••/••",
+          "label": "Expiration",
+          "id": "Expiration",
+          "width": "49",
+          "name": "exp"
+        },
+        {
+          "placeholder": "•••",
+          "label": "CVC",
+          "id": "CVC",
+          "width": "49",
+          "name": "cvc"
+        }
+      ]
+    },
+    "payment_methods": {
+      "type": "array",
+      "default": [
+        "credit_card",
+        "paypal"
+      ]
+    },
+    "submit_form": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "editorScript": "file:../../payment-form/index.js"
+}

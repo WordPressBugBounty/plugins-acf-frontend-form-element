@@ -23,8 +23,8 @@ if ( ! class_exists( 'username' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'username';
-			$this->label      = __( 'Username', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Username', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'default_value' => '',
 				'maxlength'     => '',
@@ -74,19 +74,19 @@ if ( ! class_exists( 'username' ) ) :
 			}
 
 			if ( ! validate_username( $value ) ) {
-				return __( 'The username contains illegal characters. Please enter only latin letters, numbers, @, -, . and _', 'acf-frontend-form-element' );
+				return __( 'The username contains illegal characters. Please enter only latin letters, numbers, @, -, . and _', 'frontend-admin' );
 			}
 
 			global $fea_form;
 			$user_id = $fea_form['user_id'] ?? 'none';
 
 			if ( 'none' == $user_id ){
-				return __( 'Username cannot be saved anywhere', 'acf-frontend-form-element' );
+				return __( 'Username cannot be saved anywhere', 'frontend-admin' );
 			}
 
 			$edit_user = get_user_by( 'ID', $user_id );
 			
-			$username_taken = sprintf( __( 'The username %s is taken. Please try a different username', 'acf-frontend-form-element' ), $value );
+			$username_taken = sprintf( __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
 
 			if ( username_exists( $value ) ) {
 				if ( ! empty( $edit_user->user_login ) && $edit_user->user_login == $value ) {
@@ -150,7 +150,7 @@ if ( ! class_exists( 'username' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Allow Edit' ),
-					'instructions' => __( 'Allow users to change their username. WARNING: allowing your users to change their username might affect existing urls and their SEO rating.', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Allow users to change their username. WARNING: allowing your users to change their username might affect existing urls and their SEO rating.', 'frontend-admin' ),
 					'name'         => 'allow_edit',
 					'type'         => 'true_false',
 					'ui'           => 1,

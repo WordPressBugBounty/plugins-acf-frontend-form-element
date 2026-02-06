@@ -23,8 +23,8 @@ if ( ! class_exists( 'user_password' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'user_password';
-			$this->label      = __( 'Password', 'acf-frontend-form-element' );
-			  $this->category = __( 'User', 'acf-frontend-form-element' );
+			$this->label      = __( 'Password', 'frontend-admin' );
+			  $this->category = __( 'User', 'frontend-admin' );
 			$this->defaults   = array(
 				'placeholder'       => '',
 				'prepend'           => '',
@@ -113,7 +113,7 @@ if ( ! class_exists( 'user_password' ) ) :
 				$ps_confirm_field = sanitize_key( $_POST['custom_password_confirm'] );
 
 				if ( $_POST['acff']['user'][ $ps_confirm_field ] != $value ) {
-					return __( 'The passwords do not match', 'acf-frontend-form-element' );
+					return __( 'The passwords do not match', 'frontend-admin' );
 				}
 			}
 			if ( isset( $_POST['password-strength'] ) ) {
@@ -121,7 +121,7 @@ if ( ! class_exists( 'user_password' ) ) :
 					if ( ! $field['required'] && $value == '' && ! isset( $_POST['edit_user_password'] ) ) {
 						return $is_valid;
 					}
-					return __( 'The password is too weak. Please make it stronger.', 'acf-frontend-form-element' );
+					return __( 'The password is too weak. Please make it stronger.', 'frontend-admin' );
 				}
 			}
 
@@ -172,8 +172,8 @@ if ( ! class_exists( 'user_password' ) ) :
 			}
 			if ( empty( $field['force_edit'] ) ) {
 				if ( ! empty( $field['edit_user_password'] ) ) {
-					$edit_text   = empty( $field['edit_password'] ) ? __( 'Edit Password', 'acf-frontend-form-element' ) : $field['edit_password'];
-					$cancel_text = empty( $field['cancel_edit_password'] ) ? __( 'Cancel', 'acf-frontend-form-element' ) : $field['cancel_edit_password'];
+					$edit_text   = empty( $field['edit_password'] ) ? __( 'Edit Password', 'frontend-admin' ) : $field['edit_password'];
+					$cancel_text = empty( $field['cancel_edit_password'] ) ? __( 'Cancel', 'frontend-admin' ) : $field['cancel_edit_password'];
 					echo '<button class="cancel-edit" type="button">' . esc_html( $cancel_text ) . '</button><button class="acf-button button button-primary edit-password" type="button">' . esc_html( $edit_text ) . '</button>';
 				}
 			}
@@ -185,23 +185,23 @@ if ( ! class_exists( 'user_password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Password Strength', 'acf-frontend-form-element' ),
+					'label'         => __( 'Password Strength', 'frontend-admin' ),
 					'name'          => 'password_strength',
 					'type'          => 'select',
 					'default_value' => '3',
 					'choices'       => array(
-						'1' => __( 'Very Weak', 'acf-frontend-form-element' ),
-						'2' => __( 'Weak', 'acf-frontend-form-element' ),
-						'3' => __( 'Medium', 'acf-frontend-form-element' ),
-						'4' => __( 'Strong', 'acf-frontend-form-element' ),
+						'1' => __( 'Very Weak', 'frontend-admin' ),
+						'2' => __( 'Weak', 'frontend-admin' ),
+						'3' => __( 'Medium', 'frontend-admin' ),
+						'4' => __( 'Strong', 'frontend-admin' ),
 					),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Force Edit', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Force User to edit the password when editing their account.', 'acf-frontend-form-element' ),
+					'label'        => __( 'Force Edit', 'frontend-admin' ),
+					'instructions' => __( 'Force User to edit the password when editing their account.', 'frontend-admin' ),
 					'name'         => 'force_edit',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -210,10 +210,10 @@ if ( ! class_exists( 'user_password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Edit Password Button', 'acf-frontend-form-element' ),
+					'label'         => __( 'Edit Password Button', 'frontend-admin' ),
 					'name'          => 'edit_password',
 					'type'          => 'text',
-					'default_value' => __( 'Edit Password Button', 'acf-frontend-form-element' ),
+					'default_value' => __( 'Edit Password Button', 'frontend-admin' ),
 					'conditions'    => array(
 						array(
 							'field'    => 'force_edit',
@@ -226,10 +226,10 @@ if ( ! class_exists( 'user_password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Cancel Button', 'acf-frontend-form-element' ),
+					'label'         => __( 'Cancel Button', 'frontend-admin' ),
 					'name'          => 'cancel_edit_password',
 					'type'          => 'text',
-					'default_value' => __( 'Cancel', 'acf-frontend-form-element' ),
+					'default_value' => __( 'Cancel', 'frontend-admin' ),
 					'conditions'    => array(
 						array(
 							'field'    => 'force_edit',

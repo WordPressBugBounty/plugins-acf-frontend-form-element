@@ -92,7 +92,7 @@ class Number_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Number Field', 'acf-frontend-form-element' );
+		return __( 'Number Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -134,10 +134,10 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'field_placeholder',
 			array(
-				'label'       => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label'       => __( 'Placeholder', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Placeholder', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Placeholder', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -147,10 +147,10 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'field_default_value',
 			array(
-				'label'       => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label'       => __( 'Default Value', 'frontend-admin' ),
 				'type'        => Controls_Manager::NUMBER,
 				'label_block' => true,
-				'placeholder' => __( 'Default Value', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Default Value', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -160,7 +160,7 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'prepend',
 			array(
-				'label'     => __( 'Prepend', 'acf-frontend-form-element' ),
+				'label'     => __( 'Prepend', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -171,7 +171,7 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'append',
 			array(
-				'label'     => __( 'Append', 'acf-frontend-form-element' ),
+				'label'     => __( 'Append', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -183,7 +183,7 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'field_min',
 			[
-				'label' => __( 'Min', 'acf-frontend-form-element' ),
+				'label' => __( 'Min', 'frontend-admin' ),
 				'type' => Controls_Manager::NUMBER,
 				'default' => '',
 				'min' => 0,
@@ -194,7 +194,7 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'field_max',
 			[
-				'label' => __( 'Max', 'acf-frontend-form-element' ),
+				'label' => __( 'Max', 'frontend-admin' ),
 				'type' => Controls_Manager::NUMBER,
 				'default' => '',
 				'min' => 0,
@@ -206,7 +206,7 @@ class Number_Field extends Base_Field {
 		$this->add_control(
 			'field_step',
 			[
-				'label' => __( 'Step', 'acf-frontend-form-element' ),
+				'label' => __( 'Step', 'frontend-admin' ),
 				'type' => Controls_Manager::NUMBER,
 				'default' => '',
 				'min' => 0,

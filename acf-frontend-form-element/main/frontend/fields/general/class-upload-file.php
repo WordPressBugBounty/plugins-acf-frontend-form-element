@@ -23,7 +23,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'upload_file';
-			$this->label    = __( 'Upload File', 'acf-frontend-form-element' );
+			$this->label    = __( 'Upload File', 'frontend-admin' );
 			$this->public   = false;
 			$this->defaults = array(
 				'return_format' => 'array',
@@ -37,8 +37,8 @@ if ( ! class_exists( 'upload_file' ) ) :
 				'max_size'      => 0,
 				'mime_types'    => '',
 				'show_preview'  => true,
-				'button_text'   => __( 'Add File', 'acf-frontend-form-element' ),
-				'no_file_text'  => __( 'No file selected', 'acf-frontend-form-element' ),
+				'button_text'   => __( 'Add File', 'frontend-admin' ),
+				'no_file_text'  => __( 'No file selected', 'frontend-admin' ),
 			);
 
 			// actions
@@ -95,7 +95,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			//check nonce 
 			if ( empty( $_GET['nonce'] ) || wp_verify_nonce( $_GET['nonce'], 'fea-file-upload_'. $file ) === false ) {
-				wp_die(__('Invalid nonce.', 'acf-frontend-form-element'), '403 Forbidden', ['response' => 403]);
+				wp_die(__('Invalid nonce.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
 			}
 
 
@@ -103,12 +103,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 			$file_path = $upload_dir['basedir'] . '/' . $file;
 			$real_file_path = realpath( $file_path );
 			if ($real_file_path === false || strpos($real_file_path, $upload_dir['basedir']) !== 0) {
-				wp_die(__('Invalid file path.', 'acf-frontend-form-element'), '400 Bad Request', ['response' => 400]);
+				wp_die(__('Invalid file path.', 'frontend-admin'), '400 Bad Request', ['response' => 400]);
 			}
 	
 			// Ensure the file exists.
 			if (!file_exists( $real_file_path )) {
-				wp_die(__('File not found.', 'acf-frontend-form-element'), '404 Not Found', ['response' => 404]);
+				wp_die(__('File not found.', 'frontend-admin'), '404 Not Found', ['response' => 404]);
 			}
 	
 			// Check permissions.
@@ -120,7 +120,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 				!$current_user->exists() || // User not logged in
 				($uploader_id != $current_user->ID && !current_user_can('administrator') && !current_user_can('editor'))
 			) {
-				wp_die(__('Unauthorized access.', 'acf-frontend-form-element'), '403 Forbidden', ['response' => 403]);
+				wp_die(__('Unauthorized access.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
 			}
 	
 			// Serve the file with proper headers.
@@ -191,17 +191,17 @@ if ( ! class_exists( 'upload_file' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Custom Directory', 'acf-frontend-form-element' ),
+					'label'        => __( 'Custom Directory', 'frontend-admin' ),
 					'name'         => 'custom_directory',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Save files in a custom directory under the wp-content/uploads directory", 'acf-frontend-form-element' ),
+					'instructions' => __( "Save files in a custom directory under the wp-content/uploads directory", 'frontend-admin' ),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Folder Name', 'acf-frontend-form-element' ),
+					'label'         => __( 'Folder Name', 'frontend-admin' ),
 					'placeholder'   => '[post:type]',
 					'type'          => 'text',
 					'dynamic_value_choices' => 1,
@@ -221,11 +221,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 				acf_render_field_setting(
 					$field,
 					array(
-						'label'        => __( 'Secure Directory', 'acf-frontend-form-element' ),
+						'label'        => __( 'Secure Directory', 'frontend-admin' ),
 						'name'         => 'secure_directory',
 						'type'         => 'true_false',
 						'ui'           => 1,
-						'instructions' => __( "Block external access to this directory. (Takes affect when file is added. Requires .htaccess support)", 'acf-frontend-form-element' ),
+						'instructions' => __( "Block external access to this directory. (Takes affect when file is added. Requires .htaccess support)", 'frontend-admin' ),
 						'conditions' => array(
 							array(
 								array(
@@ -241,11 +241,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Hide from library', 'acf-frontend-form-element' ),
+					'label'        => __( 'Hide from library', 'frontend-admin' ),
 					'name'         => 'hide_from_library',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Files will not appear in the WP library", 'acf-frontend-form-element' ),
+					'instructions' => __( "Files will not appear in the WP library", 'frontend-admin' ),
 				)
 			);
 
@@ -255,8 +255,8 @@ if ( ! class_exists( 'upload_file' ) ) :
 				acf_render_field_setting(
 					$field,
 					array(
-						'label'        => __( 'Allowed file types', 'acf-frontend-form-element' ),
-						'instructions' => __( 'Comma separated list. Leave blank for all types', 'acf-frontend-form-element' ),
+						'label'        => __( 'Allowed file types', 'frontend-admin' ),
+						'instructions' => __( 'Comma separated list. Leave blank for all types', 'frontend-admin' ),
 						'type'         => 'text',
 						'default_value' => 'php',
 						'name'         => 'mime_types',
@@ -273,8 +273,8 @@ if ( ! class_exists( 'upload_file' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Happy Files Folder', 'acf-frontend-form-element' ),
-					'instructions'  => __( 'Limit the media library choice to specific Happy Files Categories', 'acf-frontend-form-element' ),
+					'label'         => __( 'Happy Files Folder', 'frontend-admin' ),
+					'instructions'  => __( 'Limit the media library choice to specific Happy Files Categories', 'frontend-admin' ),
 					'type'          => 'radio',
 					'name'          => 'happy_files_folder',
 					'layout'        => 'horizontal',
@@ -285,7 +285,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 		}
 
 		function get_happy_files_folders() {
-			$folders    = array( 'all' => __( 'All Folders', 'acf-frontend-form-element' ) );
+			$folders    = array( 'all' => __( 'All Folders', 'frontend-admin' ) );
 			$taxonomies = get_terms(
 				array(
 					'taxonomy'   => 'happyfiles_category',
@@ -371,7 +371,6 @@ if ( ! class_exists( 'upload_file' ) ) :
 		 * @return  $errors (array)
 		 */
 		function validate_attachment( $attachment, $field, $context = 'prepare' ) {
-
 			// vars
 			$errors = array();
 			$file   = array(
@@ -420,11 +419,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 					if ( $min_width && $file['width'] < $min_width ) {
 
 						// min width
-						$errors['min_width'] = sprintf( __( 'Image width must be at least %dpx.', 'acf-frontend-form-element' ), $min_width );
+						$errors['min_width'] = sprintf( __( 'Image width must be at least %dpx.', 'frontend-admin' ), $min_width );
 					} elseif ( $max_width && $file['width'] > $max_width ) {
 
 						// min width
-						$errors['max_width'] = sprintf( __( 'Image width must not exceed %dpx.', 'acf-frontend-form-element' ), $max_width );
+						$errors['max_width'] = sprintf( __( 'Image width must not exceed %dpx.', 'frontend-admin' ), $max_width );
 					}
 				}
 
@@ -436,11 +435,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 					if ( $min_height && $file['height'] < $min_height ) {
 
 						// min height
-						$errors['min_height'] = sprintf( __( 'Image height must be at least %dpx.', 'acf-frontend-form-element' ), $min_height );
+						$errors['min_height'] = sprintf( __( 'Image height must be at least %dpx.', 'frontend-admin' ), $min_height );
 					} elseif ( $max_height && $file['height'] > $max_height ) {
 
 						// min height
-						$errors['max_height'] = sprintf( __( 'Image height must not exceed %dpx.', 'acf-frontend-form-element' ), $max_height );
+						$errors['max_height'] = sprintf( __( 'Image height must not exceed %dpx.', 'frontend-admin' ), $max_height );
 					}
 				}
 			}
@@ -453,11 +452,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 				if ( $min_size && $file['size'] < acf_get_filesize( $min_size ) ) {
 
 					// min width
-					$errors['min_size'] = sprintf( __( 'File size must be at least %s.', 'acf-frontend-form-element' ), acf_format_filesize( $min_size ) );
+					$errors['min_size'] = sprintf( __( 'File size must be at least %s.', 'frontend-admin' ), acf_format_filesize( $min_size ) );
 				} elseif ( $max_size && $file['size'] > acf_get_filesize( $max_size ) ) {
 
 					// min width
-					$errors['max_size'] = sprintf( __( 'File size must not exceed %s.', 'acf-frontend-form-element' ), acf_format_filesize( $max_size ) );
+					$errors['max_size'] = sprintf( __( 'File size must not exceed %s.', 'frontend-admin' ), acf_format_filesize( $max_size ) );
 				}
 			}
 
@@ -481,16 +480,16 @@ if ( ! class_exists( 'upload_file' ) ) :
 						$last1 = array_pop( $mime_types );
 						$last2 = array_pop( $mime_types );
 
-						$mime_types[] = $last2 . ' ' . __( 'or', 'acf-frontend-form-element' ) . ' ' . $last1;
+						$mime_types[] = $last2 . ' ' . __( 'or', 'frontend-admin' ) . ' ' . $last1;
 					}
 
-					$errors['mime_types'] = sprintf( __( 'File type must be %s.', 'acf-frontend-form-element' ), implode( ', ', $mime_types ) );
+					$errors['mime_types'] = sprintf( __( 'File type must be %s.', 'frontend-admin' ), implode( ', ', $mime_types ) );
 				}else{
 					$wp_filetype = wp_check_filetype( basename( $attachment['name'] ), null );
 
 					$allowed_types = get_allowed_mime_types();
 					if( ! in_array( $wp_filetype['type'], $allowed_types ) ){
-						$errors['mime_types'] = sprintf( __( 'Cannot upload %s files.', 'acf-frontend-form-element' ), $file['type'] );
+						$errors['mime_types'] = sprintf( __( 'Cannot upload %s files.', 'frontend-admin' ), $file['type'] );
 					}
 				}
 			}
@@ -527,12 +526,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			// validate nonce
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
 			}
 
 			// bail early if no attachments
 			if ( empty( $_FILES['file']['name'] ) ) {
-				wp_send_json_error( __( 'Missing file name', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Missing file name', 'frontend-admin' ) );
 			}
 
 			// TO dos: validate file types, sizes, and dimensions
@@ -540,7 +539,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if ( isset( $args['field_key'] ) ) {
 				$field = fea_instance()->frontend->get_field( $args['field_key'] );
 			} else {
-				wp_send_json_error( __( 'Invalid Key', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Invalid Key', 'frontend-admin' ) );
 			}
 
 			$file = $_FILES['file'];
@@ -602,12 +601,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			// validate nonce
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
 			}
 
 			// bail early if no attachments
 			if ( empty( $args['attach_id'] ) ) {
-				wp_send_json_error( __( 'Missing attachment id', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Missing attachment id', 'frontend-admin' ) );
 			}
 
 			$attach_id = $args['attach_id'];
@@ -688,7 +687,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 					&& ! $value['id']
 					&& $field['required']
 				) {
-					return sprintf( __( '%s value is required.', 'acf-frontend-form-element' ), $field['label'] );
+					return sprintf( __( '%s value is required.', 'frontend-admin' ), $field['label'] );
 				} else {
 					return $valid;
 				}
@@ -832,7 +831,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if ( ! empty( $field['button_text'] ) ) {
 				$button_text = $field['button_text'];
 			} else {
-				$button_text = __( 'Add File', 'acf-frontend-form-element' );
+				$button_text = __( 'Add File', 'frontend-admin' );
 			}
 
 			// has value?
@@ -884,17 +883,17 @@ if ( ! class_exists( 'upload_file' ) ) :
 					<strong data-name="title"><?php echo esc_html( $o['title'] ); ?></strong>
 				</p>
 				<p>
-					<strong><?php esc_html_e( 'File name', 'acf-frontend-form-element' ); ?>:</strong>
+					<strong><?php esc_html_e( 'File name', 'frontend-admin' ); ?>:</strong>
 					<a data-name="filename" href="<?php echo esc_url( $o['url'] ); ?>" target="_blank"><?php echo esc_html( $o['filename'] ); ?></a>
 				</p>
 				<p>
-					<strong><?php esc_html_e( 'File size', 'acf-frontend-form-element' ); ?>:</strong>
+					<strong><?php esc_html_e( 'File size', 'frontend-admin' ); ?>:</strong>
 					<span data-name="filesize"><?php echo esc_html( $o['filesize'] ); ?></span>
 				</p>
 			</div>
 			<div class="acf-actions -hover">
-				<a class="acf-icon -pencil dark" data-name="<?php esc_attr_e( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'acf-frontend-form-element' ); ?>"></a>
-				<a class="acf-icon -cancel dark" data-name="remove" href="#" title="<?php esc_attr_e( 'Remove', 'acf-frontend-form-element' ); ?>"></a>
+				<a class="acf-icon -pencil dark" data-name="<?php esc_attr_e( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'frontend-admin' ); ?>"></a>
+				<a class="acf-icon -cancel dark" data-name="remove" href="#" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 			</div>
 		</div>
 		<div class="hide-if-value">
@@ -905,7 +904,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 		
 		?>
 			<?php
-			$empty_text = __( 'No file selected', 'acf-frontend-form-element' );
+			$empty_text = __( 'No file selected', 'frontend-admin' );
 			if ( isset( $field['no_file_text'] ) ) {
 				$empty_text = $field['no_file_text'];
 			}
@@ -962,7 +961,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' 	  => __( 'Local Avatar', 'acf-frontend-form-element' ),
+					'label' 	  => __( 'Local Avatar', 'frontend-admin' ),
 					'name'		  => 'local_avatar',
 					'type'        => 'true_false',
 					'ui' 		  => 1,
@@ -974,19 +973,19 @@ if ( ! class_exists( 'upload_file' ) ) :
 				acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'No File Text', 'acf-frontend-form-element' ),
+					'label'       => __( 'No File Text', 'frontend-admin' ),
 					'name'        => 'no_file_text',
 					'type'        => 'text',
-					'placeholder' => __( 'No file selected', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'No file selected', 'frontend-admin' ),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Button Text', 'acf-frontend-form-element' ),
+					'label'       => __( 'Button Text', 'frontend-admin' ),
 					'name'        => 'button_text',
 					'type'        => 'text',
-					'placeholder' => __( 'Add File', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'Add File', 'frontend-admin' ),
 				)
 			);
 					

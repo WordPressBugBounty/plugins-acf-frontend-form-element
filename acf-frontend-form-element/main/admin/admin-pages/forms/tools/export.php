@@ -40,11 +40,11 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 		function initialize() {
 			// vars
 			$this->name  = 'export';
-			$this->title = __( 'Export Admin Forms', 'acf-frontend-form-element' );
+			$this->title = __( 'Export Admin Forms', 'frontend-admin' );
 
 			// active
 			if ( $this->is_active() ) {
-				$this->title .= ' - ' . __( 'Generate PHP', 'acf-frontend-form-element' );
+				$this->title .= ' - ' . __( 'Generate PHP', 'frontend-admin' );
 			}
 
 		}
@@ -99,7 +99,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 
 			// validate
 			if ( $json === false ) {
-				return acf_add_admin_notice( __( 'No forms selected', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'No forms selected', 'frontend-admin' ), 'warning' );
 			}
 
 			// headers
@@ -133,7 +133,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 
 			// validate
 			if ( ! $keys ) {
-				return acf_add_admin_notice( __( 'No forms selected', 'acf-frontend-form-element' ), 'warning' );
+				return acf_add_admin_notice( __( 'No forms selected', 'frontend-admin' ), 'warning' );
 			}
 
 			// url
@@ -168,7 +168,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 				// add notice
 				if ( $selected ) {
 					$count = count( $selected );
-					$text  = sprintf( _n( 'Exported 1 field group.', 'Exported %s forms.', $count, 'acf-frontend-form-element' ), $count );
+					$text  = sprintf( _n( 'Exported 1 field group.', 'Exported %s forms.', $count, 'frontend-admin' ), $count );
 					acf_add_admin_notice( $text, 'success' );
 				}
 			}
@@ -227,7 +227,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 			// render
 			acf_render_field_wrap(
 				array(
-					'label'   => __( 'Select Forms', 'acf-frontend-form-element' ),
+					'label'   => __( 'Select Forms', 'frontend-admin' ),
 					'type'    => 'checkbox',
 					'name'    => 'keys',
 					'prefix'  => false,
@@ -255,7 +255,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 		function html_panel_selection() {
 			?>
 		<div class="acf-panel acf-panel-selection">
-			<h3 class="acf-panel-title"><?php esc_html_e( 'Select Forms', 'acf-frontend-form-element' ); ?> <i class="dashicons dashicons-arrow-right"></i></h3>
+			<h3 class="acf-panel-title"><?php esc_html_e( 'Select Forms', 'frontend-admin' ); ?> <i class="dashicons dashicons-arrow-right"></i></h3>
 			<div class="acf-panel-inside">
 			<?php $this->html_field_selection(); ?>
 			</div>
@@ -279,12 +279,12 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 
 		function html_archive() {
 			?>
-		<p><?php esc_html_e( 'Select the forms you would like to export and then select your export method. Use the download button to export to a .json file which you can then import to another WP installation.', 'acf-frontend-form-element' ); ?></p>
+		<p><?php esc_html_e( 'Select the forms you would like to export and then select your export method. Use the download button to export to a .json file which you can then import to another WP installation.', 'frontend-admin' ); ?></p>
 		<div class="acf-fields">
 			<?php $this->html_field_selection(); ?>
 		</div>
 		<p class="acf-submit">
-			<button type="submit" name="action" class="button button-primary" value="download"><?php esc_html_e( 'Export File', 'acf-frontend-form-element' ); ?></button>
+			<button type="submit" name="action" class="button button-primary" value="download"><?php esc_html_e( 'Export File', 'frontend-admin' ); ?></button>
 		</p>
 			<?php
 

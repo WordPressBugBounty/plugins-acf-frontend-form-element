@@ -65,7 +65,7 @@ class Post_Author_Field extends Text_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Post Author Field', 'acf-frontend-form-element' );
+		return __( 'Post Author Field', 'frontend-admin' );
 	}
 
 	 /**
@@ -105,14 +105,14 @@ class Post_Author_Field extends Text_Field {
 		$this->add_control(
 			'role',
 			[
-				'label' => __( 'Filter by Roles', 'acf-frontend-form-element' ),
+				'label' => __( 'Filter by Roles', 'frontend-admin' ),
 				'type' => Controls_Manager::SELECT2,
 				'options' => [
-					'administrator' => __( 'Administrator', 'acf-frontend-form-element' ),
-					'editor' => __( 'Editor', 'acf-frontend-form-element' ),
-					'author' => __( 'Author', 'acf-frontend-form-element' ),
-					'contributor' => __( 'Contributor', 'acf-frontend-form-element' ),
-					'subscriber' => __( 'Subscriber', 'acf-frontend-form-element' ),
+					'administrator' => __( 'Administrator', 'frontend-admin' ),
+					'editor' => __( 'Editor', 'frontend-admin' ),
+					'author' => __( 'Author', 'frontend-admin' ),
+					'contributor' => __( 'Contributor', 'frontend-admin' ),
+					'subscriber' => __( 'Subscriber', 'frontend-admin' ),
 				],
 				'multiple' => 1,
 				'default' => [],

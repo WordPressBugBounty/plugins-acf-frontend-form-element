@@ -26,7 +26,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			// vars
 			$this->name     = 'related_terms';
-			$this->label    = __( 'Related Terms', 'acf-frontend-form-element' );
+			$this->label    = __( 'Related Terms', 'frontend-admin' );
 			$this->category = 'relational';
 			$this->defaults = array(
 				'taxonomy'      => 'category',
@@ -607,11 +607,11 @@ if ( ! class_exists( 'related_terms' ) ) :
 			if ( $field['add_term'] ) :
 				$add_new_button = ! empty( $field['add_new_button'] ) ? $field['add_new_button'] : esc_attr( $taxonomy->labels->add_new_item );
 				?>
-		<div class="margin-top-10 acf-actions">
-			<a class="acf-button button button-primary" href="#" data-name="add" data-type="term"><?php esc_html_e( $add_new_button ); ?></a>
-		</div>
+				<div class="margin-top-10 acf-actions">
+					<a class="acf-button button button-primary" href="#" data-name="add" data-type="term"><?php esc_html_e( $add_new_button ); ?></a>
+				</div>
 			<?php endif; ?>
-</div>
+			</div>
 			<?php
 
 		}
@@ -705,7 +705,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			// vars
 			$args = array(
 				'taxonomy'         => $field['taxonomy'],
-				'show_option_none' => sprintf( _x( 'No %s', 'No terms', 'acf-frontend-form-element' ), strtolower( $taxonomy_obj->labels->name ) ),
+				'show_option_none' => sprintf( _x( 'No %s', 'No terms', 'frontend-admin' ), strtolower( $taxonomy_obj->labels->name ) ),
 				'hide_empty'       => false,
 				'style'            => 'none',
 				'walker'           => new \Frontend_Admin\Walkers\Related_Terms( $field ),
@@ -735,10 +735,10 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'label'       => __( 'Default Terms', 'frontend-admin' ),
 					'name'        => 'default_value',
 					'type'        => 'text',
-					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'term_id,term_id', 'frontend-admin' ),
 				)
 			);
 		}
@@ -761,8 +761,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Taxonomy', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the taxonomy to be displayed', 'acf-frontend-form-element' ),
+					'label'        => __( 'Taxonomy', 'frontend-admin' ),
+					'instructions' => __( 'Select the taxonomy to be displayed', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'taxonomy',
 					'choices'      => acf_get_taxonomy_labels(),
@@ -777,10 +777,10 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'label'       => __( 'Default Terms', 'frontend-admin' ),
 					'name'        => 'default_value',
 					'type'        => 'text',
-					'placeholder' => __( 'term_id,term_id', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'term_id,term_id', 'frontend-admin' ),
 				)
 			);
 
@@ -788,19 +788,19 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Appearance', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Select the appearance of this field', 'acf-frontend-form-element' ),
+					'label'        => __( 'Appearance', 'frontend-admin' ),
+					'instructions' => __( 'Select the appearance of this field', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'field_type',
 					'optgroup'     => true,
 					'choices'      => array(
-						__( 'Multiple Values', 'acf-frontend-form-element' ) => array(
-							'checkbox'     => __( 'Checkbox', 'acf-frontend-form-element' ),
-							'multi_select' => __( 'Multi Select', 'acf-frontend-form-element' ),
+						__( 'Multiple Values', 'frontend-admin' ) => array(
+							'checkbox'     => __( 'Checkbox', 'frontend-admin' ),
+							'multi_select' => __( 'Multi Select', 'frontend-admin' ),
 						),
-						__( 'Single Value', 'acf-frontend-form-element' )    => array(
-							'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-							'select' => _x( 'Select', 'noun', 'acf-frontend-form-element' ),
+						__( 'Single Value', 'frontend-admin' )    => array(
+							'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+							'select' => _x( 'Select', 'noun', 'frontend-admin' ),
 						),
 					),
 				)
@@ -810,8 +810,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Show as Buttons', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Show the checkbox and radio options as buttons', 'acf-frontend-form-element' ),
+					'label'        => __( 'Show as Buttons', 'frontend-admin' ),
+					'instructions' => __( 'Show the checkbox and radio options as buttons', 'frontend-admin' ),
 					'name'         => 'show_as_buttons',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -838,8 +838,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Ajax', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Use AJAX to lazy load choices', 'acf-frontend-form-element' ),
+					'label'        => __( 'Ajax', 'frontend-admin' ),
+					'instructions' => __( 'Use AJAX to lazy load choices', 'frontend-admin' ),
 					'name'         => 'ajax',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -858,7 +858,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Hierarchical Taxonomy' ),
-					'instructions' => __( 'Show Hierarchical taxonomies in multiple select boxes', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Show Hierarchical taxonomies in multiple select boxes', 'frontend-admin' ),
 					'name'         => 'hierarchical',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -874,7 +874,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Null?', 'acf-frontend-form-element' ),
+					'label'        => __( 'Allow Null?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'allow_null',
 					'type'         => 'true_false',
@@ -891,7 +891,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				$field,
 				array(
 					'label'        => __( 'Add and Edit Terms' ),
-					'instructions' => __( 'Allow terms to be created and edited whilst editing', 'acf-frontend-form-element' ),
+					'instructions' => __( 'Allow terms to be created and edited whilst editing', 'frontend-admin' ),
 					'name'         => 'add_term',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -903,7 +903,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 					'label'       => __( 'Add Term Button' ),
 					'name'        => 'add_new_button',
 					'type'        => 'text',
-					'placeholder' => __( 'Add Term', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'Add Term', 'frontend-admin' ),
 					'conditions'  => array(
 						array(
 							'field'    => 'add_term',
@@ -933,8 +933,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			);
 
 			$templates_options = array(
-				'none'    => __( 'Default', 'acf-frontend-form-element' ),
-				'current' => __( 'Current Form/Field Group', 'acf-frontend-form-element' ),
+				'none'    => __( 'Default', 'frontend-admin' ),
+				'current' => __( 'Current Form/Field Group', 'frontend-admin' ),
 			);
 
 			$template = false;
@@ -946,7 +946,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				array(
 					'label'        => __( 'Forms/Field Groups' ),
 					'name'         => 'post_form_template',
-					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'acf-frontend-form-element' ) . '</div>',
+					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'frontend-admin' ) . '</div>',
 					'type'         => 'select',
 					'ajax'         => 1,
 					'multiple'     => 1,
@@ -967,8 +967,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Save Terms', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Connect selected terms to the post', 'acf-frontend-form-element' ),
+					'label'        => __( 'Save Terms', 'frontend-admin' ),
+					'instructions' => __( 'Connect selected terms to the post', 'frontend-admin' ),
 					'name'         => 'save_terms',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -979,8 +979,8 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Load Terms', 'acf-frontend-form-element' ),
-					'instructions' => __( 'Load value from posts terms', 'acf-frontend-form-element' ),
+					'label'        => __( 'Load Terms', 'frontend-admin' ),
+					'instructions' => __( 'Load value from posts terms', 'frontend-admin' ),
 					'name'         => 'load_post_terms',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -991,13 +991,13 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Value', 'acf-frontend-form-element' ),
+					'label'        => __( 'Return Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'choices'      => array(
-						'object' => __( 'Term Object', 'acf-frontend-form-element' ),
-						'id'     => __( 'Term ID', 'acf-frontend-form-element' ),
+						'object' => __( 'Term Object', 'frontend-admin' ),
+						'id'     => __( 'Term ID', 'frontend-admin' ),
 					),
 					'layout'       => 'horizontal',
 				)
@@ -1049,7 +1049,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				if ( term_exists( $args['term_name'], $args['taxonomy'], $args['term_parent'] ) ) {
 					wp_send_json_error(
 						array(
-							'error' => sprintf( __( '%s already exists', 'acf-frontend-form-element' ), $taxonomy_label ),
+							'error' => sprintf( __( '%s already exists', 'frontend-admin' ), $taxonomy_label ),
 						)
 					);
 				}
@@ -1085,7 +1085,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				// success
 				wp_send_json_success(
 					array(
-						'message'     => sprintf( __( '%s added', 'acf-frontend-form-element' ), $taxonomy_label ),
+						'message'     => sprintf( __( '%s added', 'frontend-admin' ), $taxonomy_label ),
 						'term_id'     => $term->term_id,
 						'term_name'   => $term->name,
 						'term_label'  => $prefix . $term->name,
@@ -1101,7 +1101,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			acf_render_field_wrap(
 				array(
-					'label' => __( 'Name', 'acf-frontend-form-element' ),
+					'label' => __( 'Name', 'frontend-admin' ),
 					'name'  => 'term_name',
 					'type'  => 'text',
 				)
@@ -1123,7 +1123,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 				acf_render_field_wrap(
 					array(
-						'label'      => __( 'Parent', 'acf-frontend-form-element' ),
+						'label'      => __( 'Parent', 'frontend-admin' ),
 						'name'       => 'term_parent',
 						'type'       => 'select',
 						'allow_null' => 1,
@@ -1136,7 +1136,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 
 			?>
 		<p class="acf-submit">
-			<button class="acf-submit-button button button-primary" type="submit"><?php esc_html_e( 'Add', 'acf-frontend-form-element' ); ?></button>
+			<button class="acf-submit-button button button-primary" type="submit"><?php esc_html_e( 'Add', 'frontend-admin' ); ?></button>
 		</p>
 		</form><?php
 

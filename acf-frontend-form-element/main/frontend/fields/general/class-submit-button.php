@@ -23,10 +23,10 @@ if ( ! class_exists( 'submit_button' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'submit_button';
-			$this->label    = __( 'Submit Button', 'acf-frontend-form-element' );
-			$this->category = __( 'Form', 'acf-frontend-form-element' );
+			$this->label    = __( 'Submit Button', 'frontend-admin' );
+			$this->category = __( 'Form', 'frontend-admin' );
 			$this->defaults = array(
-				'button_text'      => __( 'Submit', 'acf-frontend-form-element' ),
+				'button_text'      => __( 'Submit', 'frontend-admin' ),
 				'field_label_hide' => 1,
 				'redirect'         => '',
 				'custom_url'       => '',
@@ -115,7 +115,7 @@ if ( ! class_exists( 'submit_button' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Button Text', 'acf-frontend-form-element' ),
+					'label' => __( 'Button Text', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'button_text',
 					'class' => 'update-label',
@@ -123,19 +123,19 @@ if ( ! class_exists( 'submit_button' ) ) :
 			);
 			// redirect
 			$redirect_options = array(
-				''			 => __( 'Form Default', 'acf-frontend-form-element' ),
-				'current'    => __( 'Reload Current Page', 'acf-frontend-form-element' ),
-				'custom_url' => __( 'Custom URL', 'acf-frontend-form-element' ),
-				'referer'    => __( 'Referer', 'acf-frontend-form-element' ),
-				'post_url'   => __( 'Post URL', 'acf-frontend-form-element' ),
-				'none'       => __( 'None', 'acf-frontend-form-element' ),
+				''			 => __( 'Form Default', 'frontend-admin' ),
+				'current'    => __( 'Reload Current Page', 'frontend-admin' ),
+				'custom_url' => __( 'Custom URL', 'frontend-admin' ),
+				'referer'    => __( 'Referer', 'frontend-admin' ),
+				'post_url'   => __( 'Post URL', 'frontend-admin' ),
+				'none'       => __( 'None', 'frontend-admin' ),
 			);
 			$redirect_options = apply_filters( 'frontend_admin/forms/redirect_options', $redirect_options );
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Redirect After Submit', 'acf-frontend-form-element' ),
+					'label'         => __( 'Redirect After Submit', 'frontend-admin' ),
 					'type'          => 'select',
 					'name'          => 'redirect',
 					'choices'       => $redirect_options,
@@ -152,7 +152,7 @@ if ( ! class_exists( 'submit_button' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Custom Url', 'acf-frontend-form-element' ),
+					'label'             => __( 'Custom Url', 'frontend-admin' ),
 					'type'              => 'url',
 					'name'              => 'custom_url',
 					'conditional_logic' => array(
@@ -172,13 +172,13 @@ if ( ! class_exists( 'submit_button' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Button Type', 'acf-frontend-form-element' ),
-					'instructions' => __( 'The type of button to display.', 'acf-frontend-form-element' ),
+					'label'        => __( 'Button Type', 'frontend-admin' ),
+					'instructions' => __( 'The type of button to display.', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'submit_type',
 					'choices'      => array(
-						'submit' => __( 'Submit', 'acf-frontend-form-element' ),
-						'save'   => __( 'Save Progress', 'acf-frontend-form-element' ),
+						'submit' => __( 'Submit', 'frontend-admin' ),
+						'save'   => __( 'Save Progress', 'frontend-admin' ),
 					),
 					'default_value' => 'submit',
 				)
@@ -188,7 +188,7 @@ if ( ! class_exists( 'submit_button' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'             => __( 'Success Message', 'acf-frontend-form-element' ),
+					'label'             => __( 'Success Message', 'frontend-admin' ),
 					'type'              => 'text',
 					'name'              => 'success_message',
 					'placeholder'       => '',

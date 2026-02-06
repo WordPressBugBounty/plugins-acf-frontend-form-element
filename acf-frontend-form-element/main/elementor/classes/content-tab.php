@@ -22,12 +22,12 @@ class ContentTab {
 		$widget->add_control(
 			'save_form_submissions',
 			array(
-				'label'        => __( 'Save Form Submissions', 'acf-frontend-form-element' ),
+				'label'        => __( 'Save Form Submissions', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'no', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'yes', 'frontend-admin' ),
+				'label_off'    => __( 'no', 'frontend-admin' ),
 				'return_value' => 'true',
-				'default'      => get_option( 'frontend_admin_save_submissions' ),
+				'default'      => true,
 				'condition'    => array(
 					'admin_forms_select' => '',
 				),
@@ -36,13 +36,13 @@ class ContentTab {
 		$widget->add_control(
 			'save_all_data',
 			array(
-				'label'     => __( 'Save Data After...', 'acf-frontend-form-element' ),
+				'label'     => __( 'Submission Requirements', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT2,
 				'multiple'  => true,
 				'default'   => '',
 				'options'   => array(
-					'require_approval' => __( 'Admin Approval', 'acf-frontend-form-element' ),
-					'verify_email'     => __( 'Email is Verified', 'acf-frontend-form-element' ),
+					'require_approval' => __( 'Admin Approval', 'frontend-admin' ),
+					'verify_email'     => __( 'Email is Verified', 'frontend-admin' ),
 				),
 				'condition' => array(
 					'save_form_submissions' => 'true',
@@ -58,7 +58,7 @@ class ContentTab {
 		$repeater->add_control(
 			'field_type',
 			array(
-				'label'       => __( 'Field Type', 'acf-frontend-form-element' ),
+				'label'       => __( 'Field Type', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'default'     => 'ACF_fields',
@@ -68,9 +68,9 @@ class ContentTab {
 		$repeater->add_control(
 			'step_tab_text',
 			array(
-				'label'        => __( 'Step Tab Text', 'acf-frontend-form-element' ),
+				'label'        => __( 'Step Tab Text', 'frontend-admin' ),
 				'type'         => Controls_Manager::TEXT,
-				'default'      => __( 'Step Text', 'acf-frontend-form-element' ),
+				'default'      => __( 'Step Text', 'frontend-admin' ),
 				'dynamic'      => array(
 					'active' => true,
 				),
@@ -82,9 +82,9 @@ class ContentTab {
 		$repeater->add_control(
 			'next_button_text',
 			array(
-				'label'        => __( 'Next button', 'acf-frontend-form-element' ),
+				'label'        => __( 'Next button', 'frontend-admin' ),
 				'type'         => Controls_Manager::TEXT,						
-				'default'      => __( 'Next', 'acf-frontend-form-element' ),
+				'default'      => __( 'Next', 'frontend-admin' ),
 				'dynamic'      => array(
 					'active' => true,
 				),
@@ -96,9 +96,9 @@ class ContentTab {
 		$repeater->add_control(
 			'prev_button_text',
 			array(
-				'label'        => __( 'Prev button', 'acf-frontend-form-element' ),
+				'label'        => __( 'Prev button', 'frontend-admin' ),
 				'type'         => Controls_Manager::TEXT,
-				'default'      => __( 'Previous', 'acf-frontend-form-element' ),
+				'default'      => __( 'Previous', 'frontend-admin' ),
 				'dynamic'      => array(
 					'active' => true,
 				),
@@ -111,7 +111,7 @@ class ContentTab {
 		$repeater->add_control(
 			'field_groups_select',
 			array(
-				'label'       => __( 'ACF Field Groups', 'acf-frontend-form-element' ),
+				'label'       => __( 'ACF Field Groups', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'type'        => 'fea_select',
 				'label_block' => true,
@@ -127,7 +127,7 @@ class ContentTab {
 		$repeater->add_control(
 			'fields_select',
 			array(
-				'label'       => __( 'ACF Fields', 'acf-frontend-form-element' ),
+				'label'       => __( 'ACF Fields', 'frontend-admin' ),
 				'type'        => 'fea_select',
 				'label_block' => true,
 				'action'	  => 'acf-fields',
@@ -142,7 +142,7 @@ class ContentTab {
 		$repeater->add_control(
 			'fields_select_exclude',
 			array(
-				'label'       => __( 'Exclude Specific Fields', 'acf-frontend-form-element' ),
+				'label'       => __( 'Exclude Specific Fields', 'frontend-admin' ),
 				'type'        => 'fea_select',
 				'label_block' => true,
 				'action'	  => 'acf-fields',
@@ -204,10 +204,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_label_on',
 			array(
-				'label'        => __( 'Show Label', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Label', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'default'      => 'true',
 				'condition'    => array(
@@ -219,10 +219,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_label',
 			array(
-				'label'       => __( 'Label', 'acf-frontend-form-element' ),
+				'label'       => __( 'Label', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Label', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Label', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -236,10 +236,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_placeholder',
 			array(
-				'label'       => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label'       => __( 'Placeholder', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Placeholder', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Placeholder', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -251,10 +251,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_default_value',
 			array(
-				'label'       => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label'       => __( 'Default Value', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'description' => __( 'This will populate a field if no value has been given yet. You can use shortcodes from other text fields. For example: [acf:field_name]', 'acf-frontend-form-element' ),
+				'description' => __( 'This will populate a field if no value has been given yet. You can use shortcodes from other text fields. For example: [acf:field_name]', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -267,9 +267,9 @@ class ContentTab {
 		$repeater->add_control(
 			'number_placeholder',
 			array(
-				'label'       => __( 'Placeholder', 'acf-frontend-form-element' ),
+				'label'       => __( 'Placeholder', 'frontend-admin' ),
 				'type'        => Controls_Manager::NUMBER,
-				'placeholder' => __( 'Field Placeholder', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Placeholder', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -281,7 +281,7 @@ class ContentTab {
 		$repeater->add_control(
 			'number_default_value',
 			array(
-				'label'     => __( 'Default Value', 'acf-frontend-form-element' ),
+				'label'     => __( 'Default Value', 'frontend-admin' ),
 				'type'      => Controls_Manager::NUMBER,
 				'dynamic'   => array(
 					'active' => true,
@@ -295,7 +295,7 @@ class ContentTab {
 		$repeater->add_control(
 			'default_featured_image',
 			array(
-				'label'     => __( 'Default', 'acf-frontend-form-element' ),
+				'label'     => __( 'Default', 'frontend-admin' ),
 				'type'      => \Elementor\Controls_Manager::MEDIA,
 				'condition' => array(
 					'field_type' => array( 'featured_image', 'main_image' ),
@@ -306,11 +306,11 @@ class ContentTab {
 		$repeater->add_control(
 			'editor_type',
 			array(
-				'label'     => __( 'Type', 'acf-frontend-form-element' ),
+				'label'     => __( 'Type', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'wysiwyg'  => __( 'Text Editor', 'acf-frontend-form-element' ),
-					'textarea' => __( 'Text Area', 'acf-frontend-form-element' ),
+					'wysiwyg'  => __( 'Text Editor', 'frontend-admin' ),
+					'textarea' => __( 'Text Area', 'frontend-admin' ),
 				),
 				'default'   => 'wysiwyg',
 				'condition' => array(
@@ -321,7 +321,7 @@ class ContentTab {
 		$repeater->add_control(
 			'button_text',
 			array(
-				'label'     => __( 'Button Text', 'acf-frontend-form-element' ),
+				'label'     => __( 'Button Text', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'condition' => array(
 					'field_type' => array( 'main_image', 'featured_image', 'images', 'variations', 'attributes' ),
@@ -331,7 +331,7 @@ class ContentTab {
 		$repeater->add_control(
 			'save_button_text',
 			array(
-				'label'     => __( 'Save Changes Text', 'acf-frontend-form-element' ),
+				'label'     => __( 'Save Changes Text', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'condition' => array(
 					'field_type' => array( 'variations', 'attributes' ),
@@ -341,11 +341,11 @@ class ContentTab {
 		$repeater->add_control(
 			'allow_add_terms',
 			array(
-				'label'     => __( 'Allow Adding Terms', 'acf-frontend-form-element' ),
+				'label'     => __( 'Allow Adding Terms', 'frontend-admin' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
-				'description' => __('Check this box to allow adding terms to global attributes.', 'acf-frontend-form-element'),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
+				'description' => __('Check this box to allow adding terms to global attributes.', 'frontend-admin'),
 				'return_value' => '1',
 				'default'      => '1',
 				'condition' => array(
@@ -356,11 +356,11 @@ class ContentTab {
 		$repeater->add_control(
 			'exclude_custom_attributes',
 			array(
-				'label'     => __( 'Exclude Custom Product Attributes', 'acf-frontend-form-element' ),
+				'label'     => __( 'Exclude Custom Product Attributes', 'frontend-admin' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'description' => __('Check this box to exclude the Custom Product Attributes option.', 'acf-frontend-form-element'),
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'description' => __('Check this box to exclude the Custom Product Attributes option.', 'frontend-admin'),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => '1',
 				'condition' => array(
 					'field_type' => array( 'attributes' ),
@@ -370,11 +370,11 @@ class ContentTab {
 		$repeater->add_control(
 			'product_authors_to_filter',
 			array(
-				'label'       => __( 'Filter by Users', 'acf-frontend-form-element' ),
+				'label'       => __( 'Filter by Users', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'placeholder' => __( '18, 12, 11', 'acf-frontend-form-element' ),
+				'placeholder' => __( '18, 12, 11', 'frontend-admin' ),
 				'default'     => '[current_user]',
-				'description' => __( 'Enter the a comma-seperated list of user ids. Dynamic Options: ', 'acf-frontend-form-element' ) . ' [current_user]',
+				'description' => __( 'Enter the a comma-seperated list of user ids. Dynamic Options: ', 'frontend-admin' ) . ' [current_user]',
 				'condition'   => array(
 					'field_type' => array( 'grouped_products', 'cross_sells', 'upsells' ),
 				),
@@ -383,10 +383,10 @@ class ContentTab {
 		$repeater->add_control(
 			'add_edit_product',
 			array(
-				'label'        => __( 'Add/Edit Product', 'acf-frontend-form-element' ),
+				'label'        => __( 'Add/Edit Product', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => array( 'grouped_products', 'cross_sells', 'upsells' ),
@@ -396,7 +396,7 @@ class ContentTab {
 		$repeater->add_control(
 			'new_product_text',
 			array(
-				'label'     => __( 'New Product Text', 'acf-frontend-form-element' ),
+				'label'     => __( 'New Product Text', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'condition' => array(
 					'field_type'       => array( 'grouped_products', 'cross_sells', 'upsells' ),
@@ -407,7 +407,7 @@ class ContentTab {
 		$repeater->add_control(
 			'no_value_msg',
 			array(
-				'label'       => __( 'No Value Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'No Value Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'dynamic'     => array(
@@ -422,7 +422,7 @@ class ContentTab {
 		$repeater->add_control(
 			'no_attrs_msg',
 			array(
-				'label'       => __( 'No Attributes Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'No Attributes Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'dynamic'     => array(
@@ -438,10 +438,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_instruction',
 			array(
-				'label'       => __( 'Instructions', 'acf-frontend-form-element' ),
+				'label'       => __( 'Instructions', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
-				'placeholder' => __( 'Field Instruction', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Field Instruction', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -453,7 +453,7 @@ class ContentTab {
 		$repeater->add_control(
 			'prepend',
 			array(
-				'label'     => __( 'Prepend', 'acf-frontend-form-element' ),
+				'label'     => __( 'Prepend', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -467,7 +467,7 @@ class ContentTab {
 		$repeater->add_control(
 			'append',
 			array(
-				'label'     => __( 'Append', 'acf-frontend-form-element' ),
+				'label'     => __( 'Append', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
 				'dynamic'   => array(
 					'active' => true,
@@ -482,7 +482,7 @@ class ContentTab {
 		 $repeater->add_control(
 		'character_limit',
 		[
-		'label' => __( 'Character Limit', 'acf-frontend-form-element' ),
+		'label' => __( 'Character Limit', 'frontend-admin' ),
 		'type' => Controls_Manager::NUMBER,
 		'dynamic' => [
 		'active' => true,
@@ -495,7 +495,7 @@ class ContentTab {
 		$repeater->add_control(
 			'minimum',
 			array(
-				'label'     => __( 'Minimum Value', 'acf-frontend-form-element' ),
+				'label'     => __( 'Minimum Value', 'frontend-admin' ),
 				'type'      => Controls_Manager::NUMBER,
 				'dynamic'   => array(
 					'active' => true,
@@ -508,7 +508,7 @@ class ContentTab {
 		$repeater->add_control(
 			'maximum',
 			array(
-				'label'     => __( 'Maximum Value', 'acf-frontend-form-element' ),
+				'label'     => __( 'Maximum Value', 'frontend-admin' ),
 				'type'      => Controls_Manager::NUMBER,
 				'dynamic'   => array(
 					'active' => true,
@@ -521,10 +521,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_required',
 			array(
-				'label'        => __( 'Required', 'acf-frontend-form-element' ),
+				'label'        => __( 'Required', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type!' => $custom_layouts,
@@ -534,10 +534,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_hidden',
 			array(
-				'label'        => __( 'Hidden', 'acf-frontend-form-element' ),
+				'label'        => __( 'Hidden', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type!' => $custom_layouts,
@@ -547,11 +547,11 @@ class ContentTab {
 		$repeater->add_control(
 			'field_disabled',
 			array(
-				'label'        => __( 'Disabled', 'acf-frontend-form-element' ),
+				'label'        => __( 'Disabled', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'description'  => __( 'This will prevent users from editing the field and the data will not be sent.', 'acf-frontend-form-element' ),
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'description'  => __( 'This will prevent users from editing the field and the data will not be sent.', 'frontend-admin' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type!' => $custom_layouts,
@@ -562,11 +562,11 @@ class ContentTab {
 		$repeater->add_control(
 			'field_readonly',
 			array(
-				'label'        => __( 'Readonly', 'acf-frontend-form-element' ),
+				'label'        => __( 'Readonly', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'description'  => __( 'This will prevent users from editing the field.', 'acf-frontend-form-element' ),
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'description'  => __( 'This will prevent users from editing the field.', 'frontend-admin' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => $base_text_fields,
@@ -578,7 +578,7 @@ class ContentTab {
 			$repeater->add_control(
 				'default_product_type',
 				array(
-					'label'     => __( 'Default', 'acf-frontend-form-element' ),
+					'label'     => __( 'Default', 'frontend-admin' ),
 					'type'      => Controls_Manager::SELECT,
 					'options'   => wc_get_product_types(),
 					'condition' => array(
@@ -590,10 +590,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_message',
 			array(
-				'label'       => __( 'Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Message', 'frontend-admin' ),
 				'type'        => \Elementor\Controls_Manager::WYSIWYG,
-				'default'     => __( 'You can add here text, images template shortcodes, and more', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Type your message here', 'acf-frontend-form-element' ),
+				'default'     => __( 'You can add here text, images template shortcodes, and more', 'frontend-admin' ),
+				'placeholder' => __( 'Type your message here', 'frontend-admin' ),
 				'condition'   => array(
 					'field_type' => 'message',
 				),
@@ -602,7 +602,7 @@ class ContentTab {
 		$repeater->add_control(
 			'post_type_field_options',
 			array(
-				'label'       => __( 'Post Types to Choose From', 'acf-frontend-form-element' ),
+				'label'       => __( 'Post Types to Choose From', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'multiple'    => true,
@@ -619,7 +619,7 @@ class ContentTab {
 		$repeater->add_control(
 			'default_post_type',
 			array(
-				'label'       => __( 'Default Post Type Option', 'acf-frontend-form-element' ),
+				'label'       => __( 'Default Post Type Option', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'default'     => array(
@@ -634,7 +634,7 @@ class ContentTab {
 		$repeater->add_control(
 			'role_field_options',
 			array(
-				'label'       => __( 'Roles to Choose From', 'acf-frontend-form-element' ),
+				'label'       => __( 'Roles to Choose From', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'multiple'    => true,
@@ -650,12 +650,12 @@ class ContentTab {
 		$repeater->add_control(
 			'role_appearance',
 			array(
-				'label'     => __( 'Appearance', 'acf-frontend-form-element' ),
+				'label'     => __( 'Appearance', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'radio',
 				'options'   => array(
-					'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-					'select' => __( 'Select', 'acf-frontend-form-element' ),
+					'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+					'select' => __( 'Select', 'frontend-admin' ),
 				),
 				'condition' => array(
 					'field_type' => array( 'role', 'allow_backorders', 'stock_status', 'post_type', 'product_type' ),
@@ -665,12 +665,12 @@ class ContentTab {
 		$repeater->add_control(
 			'role_radio_layout',
 			array(
-				'label'     => __( 'Layout', 'acf-frontend-form-element' ),
+				'label'     => __( 'Layout', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'vertical',
 				'options'   => array(
-					'vertical'   => __( 'Vertical', 'acf-frontend-form-element' ),
-					'horizontal' => __( 'Horizontal', 'acf-frontend-form-element' ),
+					'vertical'   => __( 'Vertical', 'frontend-admin' ),
+					'horizontal' => __( 'Horizontal', 'frontend-admin' ),
 				),
 				'condition' => array(
 					'field_type'      => array( 'role', 'allow_backorders', 'stock_status', 'post_type' ),
@@ -681,7 +681,7 @@ class ContentTab {
 		$repeater->add_control(
 			'default_role',
 			array(
-				'label'       => __( 'Default Role Option', 'acf-frontend-form-element' ),
+				'label'       => __( 'Default Role Option', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'default'     => array(
@@ -696,15 +696,15 @@ class ContentTab {
 		$repeater->add_control(
 			'password_strength',
 			array(
-				'label'       => __( 'Password Strength', 'acf-frontend-form-element' ),
+				'label'       => __( 'Password Strength', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'default'     => '3',
 				'options'     => array(
-					'1' => __( 'Very Weak', 'acf-frontend-form-element' ),
-					'2' => __( 'Weak', 'acf-frontend-form-element' ),
-					'3' => __( 'Medium', 'acf-frontend-form-element' ),
-					'4' => __( 'Strong', 'acf-frontend-form-element' ),
+					'1' => __( 'Very Weak', 'frontend-admin' ),
+					'2' => __( 'Weak', 'frontend-admin' ),
+					'3' => __( 'Medium', 'frontend-admin' ),
+					'4' => __( 'Strong', 'frontend-admin' ),
 				),
 				'condition'   => array(
 					'field_type' => 'password',
@@ -715,10 +715,10 @@ class ContentTab {
 			$repeater->add_control(
 				'default_terms',
 				array(
-					'label'       => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'label'       => __( 'Default Terms', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18, 12, 11', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter the a comma-seperated list of term ids', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18, 12, 11', 'frontend-admin' ),
+					'description' => __( 'Enter the a comma-seperated list of term ids', 'frontend-admin' ),
 					'condition'   => array(
 						'field_type' => array( 'taxonomy', 'categories', 'tags', 'product_categories', 'product_tags' ),
 					),
@@ -728,7 +728,7 @@ class ContentTab {
 			$repeater->add_control(
 				'default_terms',
 				array(
-					'label'        => __( 'Default Terms', 'acf-frontend-form-element' ),
+					'label'        => __( 'Default Terms', 'frontend-admin' ),
 					'type'         => Query_Module::QUERY_CONTROL_ID,
 					'label_block'  => true,
 					'autocomplete' => array(
@@ -746,7 +746,7 @@ class ContentTab {
 		$repeater->add_control(
 			'field_taxonomy',
 			array(
-				'label'       => __( 'Taxonomy', 'acf-frontend-form-element' ),
+				'label'       => __( 'Taxonomy', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'default'     => 'category',
@@ -759,22 +759,22 @@ class ContentTab {
 		$repeater->add_control(
 			'field_taxonomy_appearance',
 			array(
-				'label'     => __( 'Appearance', 'acf-frontend-form-element' ),
+				'label'     => __( 'Appearance', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'checkbox',
 				'groups'    => array(
 					'multi'  => array(
-						'label'   => __( 'Multiple Value', 'acf-frontend-form-element' ),
+						'label'   => __( 'Multiple Value', 'frontend-admin' ),
 						'options' => array(
-							'checkbox'     => __( 'Checkboxes', 'acf-frontend-form-element' ),
-							'multi_select' => __( 'Multi Select', 'acf-frontend-form-element' ),
+							'checkbox'     => __( 'Checkboxes', 'frontend-admin' ),
+							'multi_select' => __( 'Multi Select', 'frontend-admin' ),
 						),
 					),
 					'single' => array(
-						'label'   => __( 'Single Value', 'acf-frontend-form-element' ),
+						'label'   => __( 'Single Value', 'frontend-admin' ),
 						'options' => array(
-							'radio'  => __( 'Radio Buttons', 'acf-frontend-form-element' ),
-							'select' => __( 'Select', 'acf-frontend-form-element' ),
+							'radio'  => __( 'Radio Buttons', 'frontend-admin' ),
+							'select' => __( 'Select', 'frontend-admin' ),
 						),
 					),
 				),
@@ -787,10 +787,10 @@ class ContentTab {
 		$repeater->add_control(
 			'field_add_term',
 			array(
-				'label'        => __( 'Add Term', 'acf-frontend-form-element' ),
+				'label'        => __( 'Add Term', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => array( 'taxonomy', 'categories', 'tags', 'product_categories', 'product_tags' ),
@@ -800,10 +800,10 @@ class ContentTab {
 		$repeater->add_control(
 			'set_as_username',
 			array(
-				'label'        => __( 'Set as username', 'acf-frontend-form-element' ),
+				'label'        => __( 'Set as username', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => 'email',
@@ -813,11 +813,11 @@ class ContentTab {
 		$repeater->add_control(
 			'change_slug',
 			array(
-				'label'        => __( 'Change Slug', 'acf-frontend-form-element' ),
+				'label'        => __( 'Change Slug', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
-				'description'  => __( 'WARNING: allowing your users to change term slugs might affect your existing urls and their SEO rating', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
+				'description'  => __( 'WARNING: allowing your users to change term slugs might affect your existing urls and their SEO rating', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => 'term_name',
@@ -827,11 +827,11 @@ class ContentTab {
 		$repeater->add_control(
 			'allow_edit',
 			array(
-				'label'        => __( 'Allow Edit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Allow Edit', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
-				'description'  => __( 'WARNING: allowing your users to change their username might affect your existing urls and their SEO rating', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
+				'description'  => __( 'WARNING: allowing your users to change their username might affect your existing urls and their SEO rating', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => 'username',
@@ -841,10 +841,10 @@ class ContentTab {
 		$repeater->add_control(
 			'force_edit_password',
 			array(
-				'label'        => __( 'Force Edit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Force Edit', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type' => 'password',
@@ -854,11 +854,11 @@ class ContentTab {
 		$repeater->add_control(
 			'edit_password',
 			array(
-				'label'       => __( 'Edit Password Button', 'acf-frontend-form-element' ),
+				'label'       => __( 'Edit Password Button', 'frontend-admin' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Edit Password', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Edit Password', 'acf-frontend-form-element' ),
+				'default'     => __( 'Edit Password', 'frontend-admin' ),
+				'placeholder' => __( 'Edit Password', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -871,11 +871,11 @@ class ContentTab {
 		$repeater->add_control(
 			'cancel_edit_password',
 			array(
-				'label'       => __( 'Cancel Edit Button', 'acf-frontend-form-element' ),
+				'label'       => __( 'Cancel Edit Button', 'frontend-admin' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Cancel', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'Cancel', 'acf-frontend-form-element' ),
+				'default'     => __( 'Cancel', 'frontend-admin' ),
+				'placeholder' => __( 'Cancel', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -893,11 +893,11 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_version',
 			array(
-				'label'     => __( 'Version', 'acf-frontend-form-element' ),
+				'label'     => __( 'Version', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'v2' => __( 'Version 2', 'acf-frontend-form-element' ),
-					'v3' => __( 'Version 3', 'acf-frontend-form-element' ),
+					'v2' => __( 'Version 2', 'frontend-admin' ),
+					'v3' => __( 'Version 3', 'frontend-admin' ),
 				),
 				'default'   => 'v2',
 				'condition' => array(
@@ -908,7 +908,7 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_site_key',
 			array(
-				'label'       => __( 'Site Key', 'acf-frontend-form-element' ),
+				'label'       => __( 'Site Key', 'frontend-admin' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
@@ -923,7 +923,7 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_secret_key',
 			array(
-				'label'       => __( 'Secret Key', 'acf-frontend-form-element' ),
+				'label'       => __( 'Secret Key', 'frontend-admin' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
@@ -940,7 +940,7 @@ class ContentTab {
 			array(
 				'show_label' => false,
 				'type'       => \Elementor\Controls_Manager::RAW_HTML,
-				'raw'        => '<br>' . __( 'If you don\'t already have a site key and a secret, you may generate them here:', 'acf-frontend-form-element' ) . ' <a href="https://www.google.com/recaptcha/admin"> reCaptcha API Admin </a>',
+				'raw'        => '<br>' . __( 'If you don\'t already have a site key and a secret, you may generate them here:', 'frontend-admin' ) . ' <a href="https://www.google.com/recaptcha/admin"> reCaptcha API Admin </a>',
 				'condition'  => array(
 					'field_type' => 'recaptcha',
 				),
@@ -950,7 +950,7 @@ class ContentTab {
 		$repeater->add_responsive_control(
 			'field_width',
 			array(
-				'label'               => __( 'Width', 'acf-frontend-form-element' ) . ' (%)',
+				'label'               => __( 'Width', 'frontend-admin' ) . ' (%)',
 				'type'                => Controls_Manager::NUMBER,
 				'min'                 => 10,
 				'max'                 => 100,
@@ -1039,11 +1039,11 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_theme',
 			array(
-				'label'     => __( 'Version', 'acf-frontend-form-element' ),
+				'label'     => __( 'Version', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'light' => __( 'Light', 'acf-frontend-form-element' ),
-					'dark'  => __( 'Dark', 'acf-frontend-form-element' ),
+					'light' => __( 'Light', 'frontend-admin' ),
+					'dark'  => __( 'Dark', 'frontend-admin' ),
 				),
 				'default'   => 'light',
 				'condition' => array(
@@ -1055,11 +1055,11 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_size',
 			array(
-				'label'     => __( 'Version', 'acf-frontend-form-element' ),
+				'label'     => __( 'Version', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'normal'  => __( 'Normal', 'acf-frontend-form-element' ),
-					'compact' => __( 'Compact', 'acf-frontend-form-element' ),
+					'normal'  => __( 'Normal', 'frontend-admin' ),
+					'compact' => __( 'Compact', 'frontend-admin' ),
 				),
 				'default'   => 'normal',
 				'condition' => array(
@@ -1071,10 +1071,10 @@ class ContentTab {
 		$repeater->add_control(
 			'recaptcha_hide_logo',
 			array(
-				'label'        => __( 'Hide Logo', 'acf-frontend-form-element' ),
+				'label'        => __( 'Hide Logo', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'field_type'        => 'recaptcha',
@@ -1091,7 +1091,7 @@ class ContentTab {
 					'show_label' => false,
 					'type'       => Controls_Manager::RAW_HTML,
 					'raw'        => '<button class="sub-fields-open edit-icon" type="button" data-type="attribute">
-						<span class="elementor-repeater__add-button__text">' . __( 'Manage Fields', 'acf-frontend-form-element' ) . '</span>
+						<span class="elementor-repeater__add-button__text">' . __( 'Manage Fields', 'frontend-admin' ) . '</span>
 					</button>',
 					'condition'  => array(
 						'field_type' => 'attributes',
@@ -1104,7 +1104,7 @@ class ContentTab {
 					'show_label' => false,
 					'type'       => Controls_Manager::RAW_HTML,
 					'raw'        => '<button class="sub-fields-open edit-icon" type="button" data-type="variable">
-						<span class="elementor-repeater__add-button__text">' . __( 'Manage Fields', 'acf-frontend-form-element' ) . '</span>
+						<span class="elementor-repeater__add-button__text">' . __( 'Manage Fields', 'frontend-admin' ) . '</span>
 					</button>',
 					'condition'  => array(
 						'field_type' => 'variations',
@@ -1144,10 +1144,10 @@ class ContentTab {
 				$repeater->add_control(
 					'field_label_on',
 					array(
-						'label'        => __( 'Show Label', 'acf-frontend-form-element' ),
+						'label'        => __( 'Show Label', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 						'dynamic'      => array(
 							'active' => true,
@@ -1157,7 +1157,7 @@ class ContentTab {
 				$repeater->add_control(
 					'label',
 					array(
-						'label'     => __( 'Label', 'acf-frontend-form-element' ),
+						'label'     => __( 'Label', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'condition' => array(
 							'field_label_on' => 'true',
@@ -1170,7 +1170,7 @@ class ContentTab {
 				$repeater->add_control(
 					'instructions',
 					array(
-						'label'   => __( 'Instructions', 'acf-frontend-form-element' ),
+						'label'   => __( 'Instructions', 'frontend-admin' ),
 						'type'    => Controls_Manager::TEXTAREA,
 						'dynamic' => array(
 							'active' => true,
@@ -1180,7 +1180,7 @@ class ContentTab {
 				$repeater->add_control(
 					'placeholder',
 					array(
-						'label'     => __( 'Placeholder', 'acf-frontend-form-element' ),
+						'label'     => __( 'Placeholder', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1193,7 +1193,7 @@ class ContentTab {
 				$repeater->add_control(
 					'products_page',
 					array(
-						'label'     => __( 'Products Page', 'acf-frontend-form-element' ),
+						'label'     => __( 'Products Page', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1206,7 +1206,7 @@ class ContentTab {
 				$repeater->add_control(
 					'for_variations',
 					array(
-						'label'     => __( 'Placeholder', 'acf-frontend-form-element' ),
+						'label'     => __( 'Placeholder', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1219,7 +1219,7 @@ class ContentTab {
 				$repeater->add_control(
 					'button_label',
 					array(
-						'label'     => __( 'Button Text', 'acf-frontend-form-element' ),
+						'label'     => __( 'Button Text', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1247,31 +1247,31 @@ class ContentTab {
 							array(
 								'field_type'     => 'name',
 								'field_label_on' => 'true',
-								'label'          => __( 'Name', 'acf-frontend-form-element' ),
+								'label'          => __( 'Name', 'frontend-admin' ),
 								'instructions'   => '',
-								'placeholder'    => __( 'Name', 'acf-frontend-form-element' ),
+								'placeholder'    => __( 'Name', 'frontend-admin' ),
 							),
 							array(
 								'field_type'     => 'locations',
 								'field_label_on' => '',
-								'label'          => __( 'Locations', 'acf-frontend-form-element' ),
+								'label'          => __( 'Locations', 'frontend-admin' ),
 								'instructions'   => '',
-								'products_page'  => __( 'Visible on the product page', 'acf-frontend-form-element' ),
-								'for_variations' => __( 'Used for variations', 'acf-frontend-form-element' ),
+								'products_page'  => __( 'Visible on the product page', 'frontend-admin' ),
+								'for_variations' => __( 'Used for variations', 'frontend-admin' ),
 							),
 							array(
 								'field_type'     => 'custom_terms',
 								'field_label_on' => 'true',
-								'label'          => __( 'Value(s)', 'acf-frontend-form-element' ),
+								'label'          => __( 'Value(s)', 'frontend-admin' ),
 								'instructions'   => '',
-								'button_label'   => __( 'Add Value', 'acf-frontend-form-element' ),
+								'button_label'   => __( 'Add Value', 'frontend-admin' ),
 							),
 							array(
 								'field_type'     => 'global_terms',
 								'field_label_on' => 'true',
-								'label'          => __( 'Terms', 'acf-frontend-form-element' ),
+								'label'          => __( 'Terms', 'frontend-admin' ),
 								'instructions'   => '',
-								'button_label'   => __( 'Add Value', 'acf-frontend-form-element' ),
+								'button_label'   => __( 'Add Value', 'frontend-admin' ),
 							),
 						),
 						'title_field'   => '<span style="text-transform: capitalize;">{{{ field_type.replace(/_/g, " ") }}}</span>',
@@ -1286,29 +1286,29 @@ class ContentTab {
 				$repeater->add_control(
 					'field_type',
 					array(
-						'label'       => __( 'Field Type', 'acf-frontend-form-element' ),
+						'label'       => __( 'Field Type', 'frontend-admin' ),
 						'type'        => Controls_Manager::SELECT,
 						'label_block' => true,
-						'placeholder' => __( 'Select Type', 'acf-frontend-form-element' ),
+						'placeholder' => __( 'Select Type', 'frontend-admin' ),
 						'groups'      => array(
 							'basic'     => array(
-								'label'   => __( 'Product', 'acf-frontend-form-element' ),
+								'label'   => __( 'Product', 'frontend-admin' ),
 								'options' => array(
-									'description' => __( 'Description', 'acf-frontend-form-element' ),
-									'image'       => __( 'Image', 'acf-frontend-form-element' ),
-									'price'       => __( 'Price', 'acf-frontend-form-element' ),
-									'sale_price'  => __( 'Sale Price', 'acf-frontend-form-element' ),
-									'sku'         => __( 'SKU', 'acf-frontend-form-element' ),
-								// 'tax_class' => __( 'Tax Class', 'acf-frontend-form-element' ),
+									'description' => __( 'Description', 'frontend-admin' ),
+									'image'       => __( 'Image', 'frontend-admin' ),
+									'price'       => __( 'Price', 'frontend-admin' ),
+									'sale_price'  => __( 'Sale Price', 'frontend-admin' ),
+									'sku'         => __( 'SKU', 'frontend-admin' ),
+								// 'tax_class' => __( 'Tax Class', 'frontend-admin' ),
 								),
 							),
 							'inventory' => array(
-								'label'   => __( 'Product Inventory', 'acf-frontend-form-element' ),
+								'label'   => __( 'Product Inventory', 'frontend-admin' ),
 								'options' => array(
-									'stock_status'     => __( 'Stock Status', 'acf-frontend-form-element' ),
-									'manage_stock'     => __( 'Manage Stock', 'acf-frontend-form-element' ),
-									'stock_quantity'   => __( 'Stock Quantity', 'acf-frontend-form-element' ),
-									'allow_backorders' => __( 'Allow Backorders', 'acf-frontend-form-element' ),
+									'stock_status'     => __( 'Stock Status', 'frontend-admin' ),
+									'manage_stock'     => __( 'Manage Stock', 'frontend-admin' ),
+									'stock_quantity'   => __( 'Stock Quantity', 'frontend-admin' ),
+									'allow_backorders' => __( 'Allow Backorders', 'frontend-admin' ),
 								),
 							),
 						),
@@ -1318,10 +1318,10 @@ class ContentTab {
 				$repeater->add_control(
 					'field_label_on',
 					array(
-						'label'        => __( 'Show Label', 'acf-frontend-form-element' ),
+						'label'        => __( 'Show Label', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 						'default'      => 'true',
 						'dynamic'      => array(
@@ -1332,7 +1332,7 @@ class ContentTab {
 				$repeater->add_control(
 					'label',
 					array(
-						'label'     => __( 'Label', 'acf-frontend-form-element' ),
+						'label'     => __( 'Label', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'condition' => array(
 							'field_label_on' => 'true',
@@ -1345,7 +1345,7 @@ class ContentTab {
 				$repeater->add_control(
 					'instructions',
 					array(
-						'label'   => __( 'Instructions', 'acf-frontend-form-element' ),
+						'label'   => __( 'Instructions', 'frontend-admin' ),
 						'type'    => Controls_Manager::TEXTAREA,
 						'dynamic' => array(
 							'active' => true,
@@ -1355,7 +1355,7 @@ class ContentTab {
 				$repeater->add_control(
 					'default_value',
 					array(
-						'label'     => __( 'Default Value', 'acf-frontend-form-element' ),
+						'label'     => __( 'Default Value', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1368,7 +1368,7 @@ class ContentTab {
 				$repeater->add_control(
 					'default_number_value',
 					array(
-						'label'     => __( 'Default Value', 'acf-frontend-form-element' ),
+						'label'     => __( 'Default Value', 'frontend-admin' ),
 						'type'      => Controls_Manager::NUMBER,
 						'dynamic'   => array(
 							'active' => true,
@@ -1381,7 +1381,7 @@ class ContentTab {
 				$repeater->add_control(
 					'default_image_value',
 					array(
-						'label'     => __( 'Default Featured Image', 'acf-frontend-form-element' ),
+						'label'     => __( 'Default Featured Image', 'frontend-admin' ),
 						'type'      => \Elementor\Controls_Manager::MEDIA,
 						'condition' => array(
 							'field_type' => array( 'image' ),
@@ -1391,7 +1391,7 @@ class ContentTab {
 				$repeater->add_control(
 					'placeholder',
 					array(
-						'label'     => __( 'Placeholder', 'acf-frontend-form-element' ),
+						'label'     => __( 'Placeholder', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1404,7 +1404,7 @@ class ContentTab {
 				$repeater->add_control(
 					'number_placeholder',
 					array(
-						'label'     => __( 'Placeholder', 'acf-frontend-form-element' ),
+						'label'     => __( 'Placeholder', 'frontend-admin' ),
 						'type'      => Controls_Manager::NUMBER,
 						'dynamic'   => array(
 							'active' => true,
@@ -1418,7 +1418,7 @@ class ContentTab {
 				$repeater->add_control(
 					'prepend',
 					array(
-						'label'     => __( 'Prepend', 'acf-frontend-form-element' ),
+						'label'     => __( 'Prepend', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1432,7 +1432,7 @@ class ContentTab {
 				$repeater->add_control(
 					'append',
 					array(
-						'label'     => __( 'Append', 'acf-frontend-form-element' ),
+						'label'     => __( 'Append', 'frontend-admin' ),
 						'type'      => Controls_Manager::TEXT,
 						'dynamic'   => array(
 							'active' => true,
@@ -1446,7 +1446,7 @@ class ContentTab {
 				$repeater->add_control(
 					'minimum',
 					array(
-						'label'     => __( 'Minimum Value', 'acf-frontend-form-element' ),
+						'label'     => __( 'Minimum Value', 'frontend-admin' ),
 						'type'      => Controls_Manager::NUMBER,
 						'dynamic'   => array(
 							'active' => true,
@@ -1459,7 +1459,7 @@ class ContentTab {
 				$repeater->add_control(
 					'maximum',
 					array(
-						'label'     => __( 'Maximum Value', 'acf-frontend-form-element' ),
+						'label'     => __( 'Maximum Value', 'frontend-admin' ),
 						'type'      => Controls_Manager::NUMBER,
 						'dynamic'   => array(
 							'active' => true,
@@ -1473,10 +1473,10 @@ class ContentTab {
 				$repeater->add_control(
 					'required',
 					array(
-						'label'        => __( 'Required', 'acf-frontend-form-element' ),
+						'label'        => __( 'Required', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 						'dynamic'      => array(
 							'active' => true,
@@ -1486,21 +1486,21 @@ class ContentTab {
 				$repeater->add_control(
 					'hidden',
 					array(
-						'label'        => __( 'Hidden', 'acf-frontend-form-element' ),
+						'label'        => __( 'Hidden', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 					)
 				);
 				$repeater->add_control(
 					'disabled',
 					array(
-						'label'        => __( 'Disabled', 'acf-frontend-form-element' ),
+						'label'        => __( 'Disabled', 'frontend-admin' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'description'  => __( 'This will prevent users from editing the field and the data will not be sent.', 'acf-frontend-form-element' ),
-						'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-						'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+						'description'  => __( 'This will prevent users from editing the field and the data will not be sent.', 'frontend-admin' ),
+						'label_on'     => __( 'Yes', 'frontend-admin' ),
+						'label_off'    => __( 'No', 'frontend-admin' ),
 						'return_value' => 'true',
 					)
 				);
@@ -1524,7 +1524,7 @@ class ContentTab {
 						'field_type'     => $field_type,
 						'field_label_on' => 'true',
 						'required'       => '',
-						'label'          => __( $field_label, 'acf-frontend-form-element' ),
+						'label'          => __( $field_label, 'frontend-admin' ),
 						'instructions'   => '',
 					);
 				}
@@ -1543,7 +1543,7 @@ class ContentTab {
 							'remove'    => true,
 							'sort'      => true,
 						),
-						'title_field'   => '<span style="text-transform: capitalize;">{{{ field_type.replace(/_/g, " ") || \'' . __( 'Select Field Type', 'acf-frontend-form-element' ) . '\'}}}</span>',
+						'title_field'   => '<span style="text-transform: capitalize;">{{{ field_type.replace(/_/g, " ") || \'' . __( 'Select Field Type', 'frontend-admin' ) . '\'}}}</span>',
 						'condition'     => array(
 							'admin_forms_select' => '',
 						),
@@ -1705,26 +1705,26 @@ class ContentTab {
 		$widget->add_control(
 			'limit_reached',
 			array(
-				'label'       => __( 'Limit Reached Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Limit Reached Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'default'     => 'show_message',
 				'options'     => array(
-					'show_message'   => __( 'Limit Message', 'acf-frontend-form-element' ),
-					'custom_content' => __( 'Custom Content', 'acf-frontend-form-element' ),
-					'show_nothing'   => __( 'Nothing', 'acf-frontend-form-element' ),
+					'show_message'   => __( 'Limit Message', 'frontend-admin' ),
+					'custom_content' => __( 'Custom Content', 'frontend-admin' ),
+					'show_nothing'   => __( 'Nothing', 'frontend-admin' ),
 				),
 			)
 		);
 		$widget->add_control(
 			'limit_submit_message',
 			array(
-				'label'       => __( 'Reached Limit Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Reached Limit Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'label_block' => true,
 				'rows'        => 4,
-				'default'     => __( 'You have already submitted this form the maximum amount of times that you are allowed', 'acf-frontend-form-element' ),
-				'placeholder' => __( 'you have already submitted this form the maximum amount of times that you are allowed', 'acf-frontend-form-element' ),
+				'default'     => __( 'You have already submitted this form the maximum amount of times that you are allowed', 'frontend-admin' ),
+				'placeholder' => __( 'you have already submitted this form the maximum amount of times that you are allowed', 'frontend-admin' ),
 				'condition'   => array(
 					'limit_reached' => 'show_message',
 				),
@@ -1733,7 +1733,7 @@ class ContentTab {
 		$widget->add_control(
 			'limit_submit_content',
 			array(
-				'label'       => __( 'Reached Limit Content', 'acf-frontend-form-element' ),
+				'label'       => __( 'Reached Limit Content', 'frontend-admin' ),
 				'type'        => Controls_Manager::WYSIWYG,
 				'placeholder' => 'You have already submitted this form the maximum amount of times that you are allowed',
 				'label_block' => true,
@@ -1749,9 +1749,9 @@ class ContentTab {
 		$repeater->add_control(
 			'rule_name',
 			array(
-				'label'       => __( 'Rule Name', 'acf-frontend-form-element' ),
+				'label'       => __( 'Rule Name', 'frontend-admin' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => __( 'Rule Name', 'acf-frontend-form-element' ),
+				'default'     => __( 'Rule Name', 'frontend-admin' ),
 				'label_block' => true,
 			)
 		);
@@ -1759,7 +1759,7 @@ class ContentTab {
 		$repeater->add_control(
 			'allowed_submits',
 			array(
-				'label'   => __( 'Allowed Submissions', 'acf-frontend-form-element' ),
+				'label'   => __( 'Allowed Submissions', 'frontend-admin' ),
 				'type'    => Controls_Manager::NUMBER,
 				'default' => '',
 			)
@@ -1768,10 +1768,10 @@ class ContentTab {
 		$repeater->add_control(
 			'limit_to_everyone',
 			array(
-				'label'        => __( 'Limit For Everyone', 'acf-frontend-form-element' ),
+				'label'        => __( 'Limit For Everyone', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'return_value' => 'true',
 			)
 		);
@@ -1781,7 +1781,7 @@ class ContentTab {
 		$repeater->add_control(
 			'limit_by_role',
 			array(
-				'label'       => __( 'Limit By Role', 'acf-frontend-form-element' ),
+				'label'       => __( 'Limit By Role', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'multiple'    => true,
@@ -1796,10 +1796,10 @@ class ContentTab {
 			$repeater->add_control(
 				'limit_by_user',
 				array(
-					'label'       => __( 'Limit By User', 'acf-frontend-form-element' ),
+					'label'       => __( 'Limit By User', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter a commma seperated list of user ids', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18', 'frontend-admin' ),
+					'description' => __( 'Enter a commma seperated list of user ids', 'frontend-admin' ),
 					'condition'   => array(
 						'limit_to_everyone' => '',
 					),
@@ -1809,7 +1809,7 @@ class ContentTab {
 			$repeater->add_control(
 				'limit_by_user',
 				array(
-					'label'        => __( 'Limit By User', 'acf-frontend-form-element' ),
+					'label'        => __( 'Limit By User', 'frontend-admin' ),
 					'type'         => Query_Module::QUERY_CONTROL_ID,
 					'label_block'  => true,
 					'autocomplete' => array(
@@ -1827,13 +1827,13 @@ class ContentTab {
 		$widget->add_control(
 			'limiting_rules',
 			array(
-				'label'         => __( 'Add Limiting Rules', 'acf-frontend-form-element' ),
+				'label'         => __( 'Add Limiting Rules', 'frontend-admin' ),
 				'type'          => Controls_Manager::REPEATER,
 				'fields'        => $repeater->get_controls(),
 				'prevent_empty' => false,
 				'default'       => array(
 					array(
-						'rule_name' => __( 'Subscribers', 'acf-frontend-form-element' ),
+						'rule_name' => __( 'Subscribers', 'frontend-admin' ),
 					),
 				),
 				'title_field'   => '{{{ rule_name }}}',
@@ -1856,7 +1856,7 @@ class ContentTab {
 		$widget->start_controls_section(
 			'actions_section',
 			array(
-				'label'     => __( 'Actions', 'acf-frontend-form-element' ),
+				'label'     => __( 'Actions', 'frontend-admin' ),
 				'tab'       => $tab,
 				'condition' => $condition,
 			)
@@ -1870,7 +1870,7 @@ class ContentTab {
 			$widget->add_control(
 				'more_actions',
 				array(
-					'label'       => __( 'Submit Actions', 'acf-frontend-form-element' ),
+					'label'       => __( 'Submit Actions', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'multiple'    => true,
@@ -1883,18 +1883,18 @@ class ContentTab {
 				'more_actions_promo',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go pro</b></a> to unlock more actions.</p>', 'acf-frontend-form-element' ),
+					'raw'             => __( '<p><a target="_blank" href="https://www.dynamiapps.com/"><b>Go pro</b></a> to unlock more actions.</p>', 'frontend-admin' ),
 					'content_classes' => 'acf-fields-note',
 				)
 			);
 		}
 
 		$redirect_options = array(
-			'current'     => __( 'Stay on Current Page/Post', 'acf-frontend-form-element' ),
-			'custom_url'  => __( 'Custom Url', 'acf-frontend-form-element' ),
-			'referer_url' => __( 'Referer', 'acf-frontend-form-element' ),
-			'post_url'    => __( 'Post Url', 'acf-frontend-form-element' ),
-			'none'       => __( 'None', 'acf-frontend-form-element' ),
+			'current'     => __( 'Stay on Current Page/Post', 'frontend-admin' ),
+			'custom_url'  => __( 'Custom Url', 'frontend-admin' ),
+			'referer_url' => __( 'Referer', 'frontend-admin' ),
+			'post_url'    => __( 'Post Url', 'frontend-admin' ),
+			'none'       => __( 'None', 'frontend-admin' ),
 		);
 
 		$redirect_options = apply_filters( 'frontend_admin/forms/redirect_options', $redirect_options );
@@ -1902,7 +1902,7 @@ class ContentTab {
 		$widget->add_control(
 			'redirect',
 			array(
-				'label'       => __( 'Redirect After Submit', 'acf-frontend-form-element' ),
+				'label'       => __( 'Redirect After Submit', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'default'     => 'current',
 				'options'     => $redirect_options,
@@ -1913,7 +1913,7 @@ class ContentTab {
 		$widget->add_control(
 			'open_modal',
 			array(
-				'label'        => __( 'Leave Modal Open After Submit', 'acf-frontend-form-element' ),
+				'label'        => __( 'Leave Modal Open After Submit', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'return_value' => 'true',
 				'condition'    => array(
@@ -1925,13 +1925,13 @@ class ContentTab {
 		$widget->add_control(
 			'redirect_action',
 			array(
-				'label'       => __( 'After Reload', 'acf-frontend-form-element' ),
+				'label'       => __( 'After Reload', 'frontend-admin' ),
 				'type'        => Controls_Manager::SELECT,
 				'default'     => 'clear',
 				'options'     => array(
-					''		=> __( 'Nothing', 'acf-frontend-form-element' ),
-					'clear' => __( 'Clear Form', 'acf-frontend-form-element' ),
-					'edit'  => __( 'Edit Content', 'acf-frontend-form-element' ),
+					''		=> __( 'Nothing', 'frontend-admin' ),
+					'clear' => __( 'Clear Form', 'frontend-admin' ),
+					'edit'  => __( 'Edit Content', 'frontend-admin' ),
 				),
 				'render_type' => 'none',
 			)
@@ -1939,9 +1939,9 @@ class ContentTab {
 		$widget->add_control(
 			'custom_url',
 			array(
-				'label'       => __( 'Custom Url', 'acf-frontend-form-element' ),
+				'label'       => __( 'Custom Url', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'placeholder' => __( 'Enter Url Here', 'acf-frontend-form-element' ),
+				'placeholder' => __( 'Enter Url Here', 'frontend-admin' ),
 				'options'     => false,
 				'show_label'  => false,
 				'condition'   => array(
@@ -1957,20 +1957,20 @@ class ContentTab {
 		$widget->add_control(
 			'show_success_message',
 			array(
-				'label'        => __( 'Show Success Message', 'acf-frontend-form-element' ),
+				'label'        => __( 'Show Success Message', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'acf-frontend-form-element' ),
-				'label_off'    => __( 'No', 'acf-frontend-form-element' ),
+				'label_on'     => __( 'Yes', 'frontend-admin' ),
+				'label_off'    => __( 'No', 'frontend-admin' ),
 				'default'      => 'true',
 				'return_value' => 'true',
 				'render_type'  => 'none',
 			)
 		);
-		$success = $widget->form_defaults['success_message'] ?? __( 'Form has been submitted successfully.', 'acf-frontend-form-element' );
+		$success = $widget->form_defaults['success_message'] ?? __( 'Form has been submitted successfully.', 'frontend-admin' );
 		$widget->add_control(
 			'update_message',
 			array(
-				'label'       => __( 'Submit Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Submit Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'default'     => $success,
 				'placeholder' => $success,
@@ -1985,10 +1985,10 @@ class ContentTab {
 		$widget->add_control(
 			'error_message',
 			array(
-				'label'       => __( 'Error Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Error Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXTAREA,
-				'description' => __( 'There shouldn\'t be any problems with the form submission, but if there are, this is what your users will see. If you are expeiencing issues, try and changing your cache settings and reach out to ', 'acf-frontend-form-element' ) . 'support@dynamiapps.com',
-				'default'     => __( 'Please fix the form errors and try again.', 'acf-frontend-form-element' ),
+				'description' => __( 'There shouldn\'t be any problems with the form submission, but if there are, this is what your users will see. If you are expeiencing issues, try and changing your cache settings and reach out to ', 'frontend-admin' ) . 'support@dynamiapps.com',
+				'default'     => __( 'Please fix the form errors and try again.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -1999,9 +1999,9 @@ class ContentTab {
 		$widget->add_control(
 			'required_message',
 			array(
-				'label'       => __( 'Required Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Required Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'This field is required.', 'acf-frontend-form-element' ),
+				'default'     => __( 'This field is required.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),
@@ -2012,9 +2012,9 @@ class ContentTab {
 		$widget->add_control(
 			'email_verified_message',
 			array(
-				'label'       => __( 'Email Verified Message', 'acf-frontend-form-element' ),
+				'label'       => __( 'Email Verified Message', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => __( 'Email has been verified.', 'acf-frontend-form-element' ),
+				'default'     => __( 'Email has been verified.', 'frontend-admin' ),
 				'dynamic'     => array(
 					'active' => true,
 				),

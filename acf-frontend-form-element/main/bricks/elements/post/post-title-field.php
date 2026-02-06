@@ -70,7 +70,7 @@ class Post_Title_Field extends Text_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Post Title Field', 'acf-frontend-form-element' );
+		return __( 'Post Title Field', 'frontend-admin' );
 	}
 
 	 /**

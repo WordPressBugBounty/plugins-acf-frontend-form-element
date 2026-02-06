@@ -212,6 +212,7 @@ if ( ! class_exists( 'number' ) ) :
 		*/
 
 		function validate_value( $valid, $value, $field, $input ) {
+			error_log( 'Validating number field ' . $field['name'] . ' with value: ' . print_r( $value, true ) );
 
 			// remove ','
 			if ( acf_str_exists( ',', $value ) ) {
@@ -220,14 +221,13 @@ if ( ! class_exists( 'number' ) ) :
 
 			}
 
+			
 			// if value is not numeric...
 			if ( ! is_numeric( $value ) ) {
 
 				// allow blank to be saved
 				if ( ! empty( $value ) ) {
-
 					$valid = __( 'Value must be a number', 'acf' );
-
 				}
 
 				// return early

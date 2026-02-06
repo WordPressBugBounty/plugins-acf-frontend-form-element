@@ -11,7 +11,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		public function check_inline_field() {
 			// validate
 			if ( ! feadmin_verify_ajax() ) {
-				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
 			}
 			do_action( 'frontend_admin/validate_field' );
 
@@ -44,9 +44,13 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 						}
 
 						$input = 'acff[' . $source . '][' . $key . ']';
+						$value = apply_filters( 'frontend_admin/forms/sanitize_input', feadmin_sanitize_input( $value, $field ), $field );
+							
 						// validate
 						$valid = $form_validate->validate_value( $value, $field, $input );
 						if ( $valid ) {
+							// sanitize input based on field settings
+								
 							acf_update_value( $value, $source, $field );
 
 							if ( empty( $fields_select ) ) {
@@ -85,27 +89,29 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 
 		public function check_submit_form() {
-			// verify nonce
-			if ( ! feadmin_verify_nonce( 'fea_form' ) ) {
-				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'acf-frontend-form-element' ) );
-			}
+			
 
 			// bail ealry if form not submit
 			if ( empty( $_POST['_acf_form'] ) ) {
-				wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 			}
 
 			// load form
 			global $fea_instance, $fea_form;
 			
 			$form = $fea_instance->form_display->validate_form( $_POST['_acf_form'] );	
-
-
-			//$fea_form = $form;
+			
 			// bail ealry if form is corrupt
 			if ( empty( $form ) ) {
-				wp_send_json_error( __( 'No Form Data', 'acf-frontend-form-element' ) );
+				wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 			}
+			
+			// verify nonce
+			if ( ! feadmin_verify_nonce( $form['id'] . '_form' ) ) {
+				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
+			}
+
+			
 
 			// submit
 			$this->submit_form( $form );
@@ -243,12 +249,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 				if( $form['kses'] ){
 					// sanitize input based on field settings
-					$sanitized = apply_filters( 'frontend_admin/forms/sanitize_input', false, $input, $field );
-					if( ! $sanitized ){
-						$input = feadmin_sanitize_input( $input, $field );
-					}else{
-						$input = $sanitized;
-					}			
+					$input = apply_filters( 'frontend_admin/forms/sanitize_input', feadmin_sanitize_input( $input, $field ), $field );			
 				}
 
 				if ( $field['type'] == 'fields_select' ) {
@@ -368,7 +369,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		public function submit_form( $form ) {
-			global $fea_instance;
+			global $fea_instance, $fea_form;
 			$form = $this->create_record( $form, true );
 
 			if ( empty( $form['approval'] ) ) {
@@ -389,6 +390,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					}
 				}
 			}
+
+			$fea_form = $form;
 			
 			$form = $this->run_actions( $form );
 
@@ -437,11 +440,11 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 		public function send_verification_emails( $form ) {
 			foreach ( $form['record']['emails_to_verify'] as $email_address ) {	
-				$subject  = __( 'Please verify your email.', 'acf-frontend-form-element' );
+				$subject  = __( 'Please verify your email.', 'frontend-admin' );
 				$message  = '<h1>' . $subject . '</h1>';
 				$token    = wp_create_nonce( 'frontend-admin-verify-' . $email_address );
 				$message .= '<p>' . sprintf(
-					__( 'Please click <a href="%s">here</a> to verify your email. Thank you.', 'acf-frontend-form-element' ) . '</p>',
+					__( 'Please click <a href="%s">here</a> to verify your email. Thank you.', 'frontend-admin' ) . '</p>',
 					add_query_arg(
 						array(
 							'submission'    => $form['submission'],
@@ -527,7 +530,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 						$host_field = $fea_instance->frontend->get_field( $response['field_key'] );
 
 						if ( ! $host_field ) {
-							wp_send_json_error( __( 'Post Added. No Field found to update.', 'acf-frontend-form-element' ) );
+							wp_send_json_error( __( 'Post Added. No Field found to update.', 'frontend-admin' ) );
 						}
 
 						$field_class = acf()->fields->get_field_type( $host_field['type'] );
@@ -547,7 +550,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			} else {
 				$form['return'] = $this->get_redirect_url( $form );
 
-				$response['location'] = 'current' == $form['redirect'] ?'current' : 'other';
+				$response['location'] = 'current' == $form['redirect'] && 'other' != $form['message_location'] ? 'current' : 'other';
 				
 				// vars
 				$return = acf_maybe_get( $form, 'return', '' );
@@ -657,7 +660,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$form['return'] = $this->get_redirect_url( $form );
 			$json                        = array(
 				'location'     => 'current',
-				'success_message' => __( 'Progress Saved', 'acf-frontend-form-element' ),
+				'success_message' => __( 'Progress Saved', 'frontend-admin' ),
 				'form_element' => $form['id'],
 				'objects' => $objects,
 				'preview' => $preview,
@@ -716,7 +719,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 
 			$redirect_url             = '';
-			$form['message_location'] = 'other';
 			switch ( $form['redirect'] ) {
 				case 'custom_url':
 					if ( is_array( $form['custom_url'] ) ) {
@@ -758,14 +760,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( isset( $_GET['submission'] ) && isset( $_GET['email-address'] ) && isset( $_GET['token'] ) ) {
 				$request = feadmin_sanitize_array( $_GET );
 			} else {
-				echo __( 'Could not verify email at this time', 'acf-frontend-form-element' );
+				echo __( 'Could not verify email at this time', 'frontend-admin' );
 				exit;
 			}
 
 			$token = wp_verify_nonce( $request['token'], 'frontend-admin-verify-' . $request['email-address'] );
 
 			if( ! $token ){
-				echo __( 'Could not verify email at this time', 'acf-frontend-form-element' );
+				echo __( 'Could not verify email at this time', 'frontend-admin' );
 				exit;
 			}
 
@@ -813,7 +815,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				$fea_instance->submissions_handler->update_submission( $request['submission'], $args );
 
 				$response = array(
-					'success_message' => __( 'Email Verified', 'acf-frontend-form-element' ),
+					'success_message' => __( 'Email Verified', 'frontend-admin' ),
 					'location'        => 'other',
 					'form_element'    => $submission->form,
 					'frontend-form-nonce' => wp_create_nonce( 'frontend-form' ),

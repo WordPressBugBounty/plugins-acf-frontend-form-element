@@ -23,8 +23,8 @@ if ( ! class_exists( 'post_title' ) ) :
 		function initialize() {
 			// vars
 			$this->name       = 'post_title';
-			$this->label      = __( 'Title', 'acf-frontend-form-element' );
-			  $this->category = __( 'Post', 'acf-frontend-form-element' );
+			$this->label      = __( 'Title', 'frontend-admin' );
+			  $this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults   = array(
 				'data_name'     => 'title',
 				'default_value' => '',
@@ -65,13 +65,13 @@ if ( ! class_exists( 'post_title' ) ) :
 				
 				global $fea_form;
 				if( ! empty( $fea_form['save_to_post'] ) && 'duplicate_post' == $fea_form['save_to_post'] ){
-					$copy = $fea_form['copy_title_text'] ??  __( 'Copy of', 'acf-frontend-form-element' );
+					$copy = $fea_form['copy_title_text'] ??  __( 'Copy of', 'frontend-admin' );
 					
 					$value = $copy . ' ' . $value;
 				}
 
 				if( ! empty( $fea_form['save_to_product'] ) && 'duplicate_product' == $fea_form['save_to_product'] ){
-					$copy = $fea_form['copy_product_title_text'] ??  __( 'Copy of', 'acf-frontend-form-element' );
+					$copy = $fea_form['copy_product_title_text'] ??  __( 'Copy of', 'frontend-admin' );
 					
 					$value = $copy . ' ' . $value;
 				}

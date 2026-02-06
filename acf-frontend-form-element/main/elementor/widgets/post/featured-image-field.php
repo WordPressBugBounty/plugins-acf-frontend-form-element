@@ -65,7 +65,7 @@ class Featured_Image_Field extends Image_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Featured Image Field', 'acf-frontend-form-element' );
+		return __( 'Featured Image Field', 'frontend-admin' );
 	}
 
 	 /**

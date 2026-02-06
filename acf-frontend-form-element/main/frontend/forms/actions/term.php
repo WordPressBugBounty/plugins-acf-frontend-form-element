@@ -21,7 +21,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 		}
 
 		public function get_label() {
-			return __( 'Term', 'acf-frontend-form-element' );
+			return __( 'Term', 'frontend-admin' );
 		}
 
 		public function get_fields_display( $form_field, $local_field ) {
@@ -68,8 +68,8 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 					 'required'          => 0,
 					 'conditional_logic' => 0,
 					 'choices'           => array(
-						 'edit_term' => __( 'Edit Term', 'acf-frontend-form-element' ),
-						 'new_term'  => __( 'New Term', 'acf-frontend-form-element' ),
+						 'edit_term' => __( 'Edit Term', 'frontend-admin' ),
+						 'new_term'  => __( 'New Term', 'frontend-admin' ),
 					 ),
 					 'allow_null'        => 0,
 					 'multiple'          => 0,
@@ -80,7 +80,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 				 ),
 				 array(
 					 'key'               => 'new_term_taxonomy',
-					 'label'             => __( 'Taxonomy', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Taxonomy', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -104,7 +104,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 				 ),
 				 array(
 					 'key'               => 'term_to_edit',
-					 'label'             => __( 'Term to Edit', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Term to Edit', 'frontend-admin' ),
 					 'type'              => 'select',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -118,9 +118,9 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 						 ),
 					 ),
 					 'choices'           => array(
-						 'current_term' => __( 'Current Term', 'acf-frontend-form-element' ),
-						 'url_query'    => __( 'URL Query', 'acf-frontend-form-element' ),
-						 'select_term'  => __( 'Specific Term', 'acf-frontend-form-element' ),
+						 'current_term' => __( 'Current Term', 'frontend-admin' ),
+						 'url_query'    => __( 'URL Query', 'frontend-admin' ),
+						 'select_term'  => __( 'Specific Term', 'frontend-admin' ),
 					 ),
 					 'default_value'     => false,
 					 'allow_null'        => 0,
@@ -132,7 +132,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 				 ),
 				 array(
 					 'key'               => 'url_query_term',
-					 'label'             => __( 'URL Query Key', 'acf-frontend-form-element' ),
+					 'label'             => __( 'URL Query Key', 'frontend-admin' ),
 					 'type'              => 'text',
 					 'instructions'      => '',
 					 'required'          => 0,
@@ -154,7 +154,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 				 ),
 				 array(
 					 'key'               => 'select_term',
-					 'label'             => __( 'Specific Term', 'acf-frontend-form-element' ),
+					 'label'             => __( 'Specific Term', 'frontend-admin' ),
 					 'name'              => 'select_term',
 					 'type'              => 'select',
 					 'prefix'            => 'form',
@@ -268,18 +268,18 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			if( 'delete_term' !== $widget->get_name() ){
 
 				$widget->add_control( 'save_to_term', array(
-					'label'   => __( 'Term', 'acf-frontend-form-element' ),
+					'label'   => __( 'Term', 'frontend-admin' ),
 					'type'    => Controls_Manager::SELECT,
 					'options' => array(
-						'edit_term' => __( 'Edit Term', 'acf-frontend-form-element' ),
-						'new_term'  => __( 'New Term', 'acf-frontend-form-element' ),
+						'edit_term' => __( 'Edit Term', 'frontend-admin' ),
+						'new_term'  => __( 'New Term', 'frontend-admin' ),
 					),
 					'default' => $type,
 				) );
 
 			}else{
 				$widget->add_control( 'save_to_term', array(
-					'label'   => __( 'Term', 'acf-frontend-form-element' ),
+					'label'   => __( 'Term', 'frontend-admin' ),
 					'type'    => Controls_Manager::HIDDEN,
 					'default' => $widget->get_name(),
 				) );
@@ -291,13 +291,13 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			$widget->add_control(
 				'term_to_edit',
 				array(
-					'label'     => __( 'Term To Edit', 'acf-frontend-form-element' ),
+					'label'     => __( 'Term To Edit', 'frontend-admin' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'current_term',
 					'options'   => array(
-						'current_term' => __( 'Current Term', 'acf-frontend-form-element' ),
-						'url_query'    => __( 'Url Query', 'acf-frontend-form-element' ),
-						'select_term'  => __( 'Specific Term', 'acf-frontend-form-element' ),
+						'current_term' => __( 'Current Term', 'frontend-admin' ),
+						'url_query'    => __( 'Url Query', 'frontend-admin' ),
+						'select_term'  => __( 'Specific Term', 'frontend-admin' ),
 					),
 					'condition' => $condition,
 				)
@@ -306,12 +306,12 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			$widget->add_control(
 				'url_query_term',
 				array(
-					'label'       => __( 'URL Query', 'acf-frontend-form-element' ),
+					'label'       => __( 'URL Query', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( 'term_id', 'acf-frontend-form-element' ),
-					'default'     => __( 'term_id', 'acf-frontend-form-element' ),
+					'placeholder' => __( 'term_id', 'frontend-admin' ),
+					'default'     => __( 'term_id', 'frontend-admin' ),
 					'required'    => true,
-					'description' => __( 'Enter the URL query parameter containing the id of the term you want to edit', 'acf-frontend-form-element' ),
+					'description' => __( 'Enter the URL query parameter containing the id of the term you want to edit', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -319,10 +319,10 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			$widget->add_control(
 				'term_select',
 				array(
-					'label'       => __( 'Term', 'acf-frontend-form-element' ),
+					'label'       => __( 'Term', 'frontend-admin' ),
 					'type'        => Controls_Manager::TEXT,
-					'placeholder' => __( '18', 'acf-frontend-form-element' ),
-					'description' => __( 'Enter term id', 'acf-frontend-form-element' ),
+					'placeholder' => __( '18', 'frontend-admin' ),
+					'description' => __( 'Enter term id', 'frontend-admin' ),
 					'condition'   => $condition,
 				)
 			);
@@ -332,7 +332,7 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			$widget->add_control(
 				'new_term_taxonomy',
 				array(
-					'label'       => __( 'Taxonomy', 'acf-frontend-form-element' ),
+					'label'       => __( 'Taxonomy', 'frontend-admin' ),
 					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'default'     => 'category',

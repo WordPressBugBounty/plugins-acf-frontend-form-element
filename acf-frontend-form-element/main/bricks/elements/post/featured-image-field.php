@@ -70,7 +70,7 @@ class Post_Image_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Post Image Field', 'acf-frontend-form-element' );
+		return __( 'Post Image Field', 'frontend-admin' );
 	}
 
 	 /**

@@ -42,8 +42,8 @@ class New_Post_Widget extends ACF_Form {
 		return array(
 			'custom_fields_save' => 'post',
 			'form_title'         => '',
-			'submit'             => __( 'Submit', 'acf-frontend-form-element' ),
-			'success_message'    => __( 'Your post has been added successfully.', 'acf-frontend-form-element' ),
+			'submit'             => __( 'Submit', 'frontend-admin' ),
+			'success_message'    => __( 'Your post has been added successfully.', 'frontend-admin' ),
 			'field_type'         => 'title',
 			'save_to_post'  => 'new_post',
 			'fields'             => [
@@ -66,7 +66,7 @@ class New_Post_Widget extends ACF_Form {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'New Post Form', 'acf-frontend-form-element' );
+		return __( 'New Post Form', 'frontend-admin' );
 	}
 
 	 /**

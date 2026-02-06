@@ -92,7 +92,7 @@ class Image_Field extends Base_Field {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Image Field', 'acf-frontend-form-element' );
+		return __( 'Image Field', 'frontend-admin' );
 	}
 
 	 /**

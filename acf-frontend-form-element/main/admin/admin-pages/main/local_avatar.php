@@ -81,7 +81,7 @@ class Local_Avatar_Settings {
 		if ( $image_fields ) {
 			$local_fields = array(
 				'local_avatar' => array(
-					'label'         => __( 'Avatar Field', 'acf-frontend-form-element' ),
+					'label'         => __( 'Avatar Field', 'frontend-admin' ),
 					'type'          => 'select',
 					'instructions'  => '',
 					'required'      => 0,
@@ -102,8 +102,8 @@ class Local_Avatar_Settings {
 		} else {
 			$local_fields = array(
 				'local_avatar' => array(
-					'label'           => __( 'Avatar Field', 'acf-frontend-form-element' ),
-					'message'         => '<h3>' . __( 'Please create an image type field within a form or a field group in order to proceed.', 'acf-frontend-form-element' ) . '</h3>',
+					'label'           => __( 'Avatar Field', 'frontend-admin' ),
+					'message'         => '<h3>' . __( 'Please create an image type field within a form or a field group in order to proceed.', 'frontend-admin' ) . '</h3>',
 					'type'            => 'message',
 					'no_data_collect' => 1,
 					'instructions'    => '',

@@ -21,7 +21,7 @@ if ( ! class_exists( 'color' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'color';
-			$this->label    = __( 'Color', 'acf-frontend-form-element' );
+			$this->label    = __( 'Color', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',
 			);
@@ -48,8 +48,8 @@ if ( ! class_exists( 'color' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'                 => __( 'Default Value', 'acf-frontend-form-element' ),
-					'instructions'          => __( 'Appears when creating a new post', 'acf-frontend-form-element' ),
+					'label'                 => __( 'Default Value', 'frontend-admin' ),
+					'instructions'          => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'                  => 'color',
 					'name'                  => 'default_value',
 					'dynamic_value_choices' => 1,
