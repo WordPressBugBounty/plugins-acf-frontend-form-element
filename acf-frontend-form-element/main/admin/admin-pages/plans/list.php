@@ -42,10 +42,10 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
 				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
-				$sql .= ! empty( $_REQUEST['order'] ) ? 
-					$wpdb->prepare( ' ' . esc_sql( $_REQUEST['order'] ) )
-					:
-					' ASC';
+				 $sql .= ! empty( $_REQUEST['order'] && $_REQUEST['order'] == 'DESC' ) ?
+                    ' DESC'
+                    :
+                    ' ASC';
 			}else{
 				$sql .= ' ORDER BY created_at DESC' ;
 			}

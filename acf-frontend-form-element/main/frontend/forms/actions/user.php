@@ -445,7 +445,6 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				'first_name',
 				'last_name',
 				'user_bio',
-				'role'
 			);
 
 			if ( ! empty( $record['fields']['user'] ) ) {
@@ -515,6 +514,16 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					$user_to_insert['user_nicename'] = $user_to_insert['user_login'];
 				}
 
+					if ( ! empty( $form['new_user_role'] ) ) {
+						$user_to_insert['role'] = $form['new_user_role'];
+						if ( ! current_user_can( 'administrator' ) && $user_to_insert['role'] == 'administrator' ) {
+							$user_to_insert['role'] = get_option( 'default_role' );
+						} 
+					}else {
+						$user_to_insert['role'] = get_option( 'default_role' );
+					}
+				
+
 				$user_id = wp_insert_user( $user_to_insert );
 
 				if ( is_wp_error( $user_id ) ) {
@@ -535,22 +544,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					}
 					update_user_meta( $user_id, 'nickname', $nickname );
 				}
-				if ( empty( $user_to_insert['role'] ) ) {
-					$user = get_user_by( 'id', $user_id );
-							 // Check if there is a default role set for the form
-					if ( ! empty( $form['new_user_role'] ) ) {
-						$new_role = $form['new_user_role'];
-						if ( ! current_user_can( 'administrator' ) && $new_role == 'administrator' ) {
-							$new_role = get_option( 'default_role' );
-						}
-						
-						$user->set_role( $new_role );
-					}
-					// Otherwise set the default to be the wp default
-					else {
-						$user->set_role( get_option( 'default_role' ) );
-					}
-				}
+				
 				do_action( 'user_register', $user_id, $user_to_insert );
 			} else {
 				if ( $user_to_insert ) {

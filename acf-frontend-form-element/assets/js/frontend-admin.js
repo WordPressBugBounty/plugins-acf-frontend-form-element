@@ -4990,9 +4990,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("change", triggerChecks);
     document.addEventListener("input", triggerChecks);
 
-	//trigger on select2 change
-	document.on('select2:select', triggerChecks);
-	document.on('select2:unselect', triggerChecks);
+	// trigger on select2 change
+	document.addEventListener('select2:select', triggerChecks);
+	document.addEventListener('select2:unselect', triggerChecks);
 
 	let forms = document.querySelectorAll(".frontend-form");
 	forms.forEach(function(form) {

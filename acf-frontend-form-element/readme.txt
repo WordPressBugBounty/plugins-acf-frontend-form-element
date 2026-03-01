@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.27
+Stable tag: 3.28.29
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,7 +182,14 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
-= 3.28.27 - 20-01-2025 =
+= 3.28.29 - 23-02-2026 =
+ * Fixed issue with user form
+
+= 3.28.28 - 16-02-2026 =
+ * Fixed payments order issue
+ * Fixed woo variations field error
+
+= 3.28.27 - 20-01-2026 =
  * Fixed conditional logic with select2 UI
  * Fixed new user form
  * Fixed conflict with duplicate page plugin
