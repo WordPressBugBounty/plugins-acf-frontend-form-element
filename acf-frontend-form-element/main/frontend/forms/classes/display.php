@@ -116,6 +116,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				return false;
 			}
 
+			//make sure the form has a key
+			$form_key = get_post_meta( $form->ID, 'form_key', 1 );
+			if ( ! $form_key ) {
+				return false;
+			}
+
 			$form_args = $form->post_content ? maybe_unserialize( $form->post_content ) : array();
 
 			$form_args['ID'] = $form->ID;
@@ -123,12 +129,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 			$form_args['status'] = $form->post_status;
 
-			$form_key = get_post_meta( $form->ID, 'form_key', 1 );
-
-			if ( ! $form_key ) {
-				$form_key = $form->ID;
-			}
-
+			
 			$form_args['id'] = $form_key;
 
 			$form_args               = $this->get_form_fields( $form->ID, $form_args );

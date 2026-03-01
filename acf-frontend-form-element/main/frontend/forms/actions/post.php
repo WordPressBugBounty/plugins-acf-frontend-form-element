@@ -143,6 +143,8 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 		public function get_form_builder_options( $form ) {
 			$post_types = acf_get_pretty_post_types();
+			unset($post_types['admin_form']);
+		
 			 $options = array(
 				 array(
 					 'key'               => 'save_to_post',
@@ -520,6 +522,11 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						if( is_array( $form['post_type'] ) && ! in_array( 'any', $form['post_type'] ) && ! in_array( $post_type, $form['post_type'] ) ){
 							$form['post_id'] = 'none';
 						}
+
+						if( 'admin_form' == $form['post_type'] ){
+							$form['post_id'] = 'none';
+							$form['hide_if_no_post'] = true;
+						}
 						
 					}
 
@@ -587,6 +594,9 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			);
 
 			$post_type_choices = feadmin_get_post_type_choices();
+
+			//remove admin_form
+			unset($post_type_choices['admin_form']);
 
 			$widget->add_control(
 				'post_to_edit',
@@ -795,7 +805,9 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			// 2. when user confirms email  3. when admin approves submission
 			// 4. on woocommerce purchase
 			$post_type_choices = feadmin_get_post_type_choices();
+			unset($post_type_choices['admin_form']);
 
+			
 			
 			$widget->add_control(
 				'post_to_edit',

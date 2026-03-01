@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.29
+Stable tag: 3.28.30
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,9 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.30 - 01-03-2026 =
+ * Fixed admin_form post types
+
 = 3.28.29 - 23-02-2026 =
  * Fixed issue with user form
 
