@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "frontend-admin/repeater",
+  "title": "FEA Form Repeater",
+  "description": "Groups content into repeaters.",
+  "category": "frontend-admin",
+  "textdomain": "frontend-admin",
+  "icon": "list-view",
+  "supports": {
+    "align": [
+      "wide"
+    ]
+  },
+  "providesContext": {
+    "frontend-admin/repeater/active_row": "active_row"
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Repeater"
+    },
+    "active_row": {
+      "type": "number",
+      "default": 0
+    },
+    "repeater_layout": {
+      "type": "string",
+      "default": "table"
+    },
+    "add_button_text": {
+      "type": "string",
+      "default": "Add Row"
+    },
+    "remove_button_text": {
+      "type": "string",
+      "default": "Remove Row"
+    },
+    "min_rows": {
+      "type": "number"
+    },
+    "max_rows": {
+      "type": "number"
+    }
+  },
+  "editorScript": "file:../../repeater/index.js"
+}

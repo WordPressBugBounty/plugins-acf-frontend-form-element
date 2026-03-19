@@ -22,7 +22,8 @@ if ( ! class_exists( 'url' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'url';
+			$this->name     = 'url-input';
+			 $this->public = false;
 			$this->label    = __( 'Url', 'acf' );
 			$this->defaults = array(
 				'default_value' => '',

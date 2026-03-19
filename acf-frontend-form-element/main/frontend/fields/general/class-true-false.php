@@ -22,7 +22,7 @@ if ( ! class_exists( 'true_false' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'true_false';
+			$this->name     = 'toggle';
 			$this->label    = __( 'True / False', 'acf' );
 			$this->category = 'choice';
 			$this->defaults = array(

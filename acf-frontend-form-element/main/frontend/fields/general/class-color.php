@@ -20,7 +20,8 @@ if ( ! class_exists( 'color' ) ) :
 
 		function initialize() {
 			// vars
-			$this->name     = 'color';
+			$this->name     = 'color-input';
+			 $this->public = false;
 			$this->label    = __( 'Color', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',

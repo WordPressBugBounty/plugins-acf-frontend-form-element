@@ -22,8 +22,9 @@ if ( ! class_exists( 'textarea' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'textarea';
+			$this->name     = 'text_area';
 			$this->label    = __( 'Text Area', 'acf' );
+		  $this->public = false;
 			$this->defaults = array(
 				'default_value' => '',
 				'new_lines'     => '',

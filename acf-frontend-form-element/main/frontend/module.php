@@ -361,15 +361,15 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			$class = 'Frontend_Admin\Field_Types\\' . $field;								
 
-			if( $acf_support ){
+			/* if( $acf_support ){
 				if( function_exists( 'acf_register_field_type' ) ){
 					$instance = acf_register_field_type( $class );
 					$this->field_types[ $field ] = $instance;
 				}
-			}else{
+			}else{ */
 				$instance = new $class( [ 'fea' => true ] );
 				$this->field_types[ $field ] = $instance;
-			}
+			//}
 		}
 
 
@@ -390,7 +390,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				'select',
 				'textarea',
 				'text-editor',
-				//'block-editor',
 				'true-false',
 				'url',
 				'related-items',
@@ -533,7 +532,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'color',
 					'related-terms',
 					'plans',
-					'text-editor',
 					//'block-editor',
 					'custom-terms',
 					'delete-object',
@@ -631,7 +629,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			 global $fea_field_types;
 			$fea_field_types = $this->get_field_types();
 
-			add_action( 'acf/include_field_types', array( $this, 'include_field_types' ), 6 );
+			$this->include_field_types();
 			// add_filter( 'acf/load_field_groups', array( $this, 'include_forms_as_groups' ), 5 );
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );

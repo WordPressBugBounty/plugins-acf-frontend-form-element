@@ -22,7 +22,8 @@ if ( ! class_exists( 'password' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'password';
+			$this->name     = 'password-input';
+			 $this->public = false;
 			$this->label    = __( 'Password', 'acf' );
 			$this->defaults = array(
 				'placeholder' => '',

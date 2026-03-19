@@ -22,7 +22,8 @@ if ( ! class_exists( 'checkbox' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'checkbox';
+			$this->name     = 'checkbox-input';
+			 $this->public = false;
 			$this->label    = __( 'Checkbox', 'acf' );
 			$this->category = 'choice';
 			$this->defaults = array(

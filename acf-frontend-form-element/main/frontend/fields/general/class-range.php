@@ -22,7 +22,8 @@ if ( ! class_exists( 'range' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'range';
+			$this->name     = 'range-input';
+			 $this->public = false;
 			$this->label    = __( 'Range', 'acf' );
 			$this->defaults = array(
 				'default_value' => '',

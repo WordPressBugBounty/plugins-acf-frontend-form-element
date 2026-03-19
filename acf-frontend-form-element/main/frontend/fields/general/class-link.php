@@ -22,7 +22,8 @@ if ( ! class_exists( 'link' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'link';
+			$this->name     = 'link-input';
+			 $this->public = false;
 			$this->label    = __( 'Link', 'acf' );
 			$this->category = 'relational';
 			$this->defaults = array(

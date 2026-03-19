@@ -14,6 +14,10 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         {
             $blocks = [ 
                 'form' => 'Form',
+                /* 'steps' => 'Form_Steps',
+                'step' => 'Form_Step',
+                'repeater' => 'Repeater',
+                'repeater-item' => 'Repeater_Item', */
                 'admin-form' => 'Form_Select',
                 'submissions' => 'Submissions_Select'
                // 'field' => 'field'
@@ -74,6 +78,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
             $field['name'] = $attr['name'] ?? 'fea_' . $field['type'];
 
+            
             $field = $form_display->get_field_data_type( $field, $fea_form );
 
             if( ! $field ) return false;
@@ -103,15 +108,64 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
             ob_start();
             
-            
-                fea_instance()->form_display->render_field_wrap( $field );
+            $fea_instance->form_display->render_field_wrap( $field );
+            //$this->render_field_wrap( $field );
             
             $render = ob_get_contents();
             ob_end_clean();    
             return $render;
         }
         
-      
+      public function render_field_wrap( $attributes ) {
+
+        $label      = $attributes['label'] ?? '';
+        $field_name = $attributes['name'] ?? '';
+
+        ?>
+
+        <div class="fe-field-wrap" data-wp-interactive="frontend-admin/field" data-wp-context='<?php echo wp_json_encode([
+            'fieldName' => $field_name
+        ]); ?>'>
+
+            
+            <?php if ( $label ) : ?>
+                <label class="fe-field-label">
+                    <?php echo esc_html( $label ); ?>
+                    <?php do_action( 'frontend_admin/field_render/type=' . $attributes['type'], $attributes ); ?>
+                </label>
+            <?php endif; ?>
+        
+
+
+        </div>
+
+        <style>
+            .fe-field-wrap {
+                margin-bottom: 1.5em;
+            }
+            .fe-field-label {
+                display: block;
+                margin-bottom: 0.5em;
+                font-weight: bold;
+            }
+            .fe-field-wrap input{
+                width: 100%;
+                padding: 0.5em;
+                box-sizing: border-box;
+            }
+        </style>
+        
+
+        <?php
+
+        wp_enqueue_script_module(
+                'fea-field',
+                plugins_url( 'blocks/assets/field.js', __FILE__ ),
+                [],
+                '1.0.0',
+            );
+
+    }
 
         
 

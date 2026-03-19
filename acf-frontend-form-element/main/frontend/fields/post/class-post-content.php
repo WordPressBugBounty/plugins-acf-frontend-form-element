@@ -3,7 +3,7 @@ namespace Frontend_Admin\Field_Types;
 
 if ( ! class_exists( 'post_content' ) ) :
 
-	class post_content extends text {
+	class post_content extends text_editor {
 
 
 
@@ -54,12 +54,12 @@ if ( ! class_exists( 'post_content' ) ) :
 		 * @return void
 		 */
 		function prepare_field( $field ) {
-			if ( feadmin_edit_mode() ) {
+			/* if ( feadmin_edit_mode() ) {
 				$field['type'] = 'textarea';
 				$field['rows'] = 14;
 			}else{
 				$field['type'] = $field['field_type'] ?? 'text_editor';
-			}
+			} */
 			return $field;
 		}
 

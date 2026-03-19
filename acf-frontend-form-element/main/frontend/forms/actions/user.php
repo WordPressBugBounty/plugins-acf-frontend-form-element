@@ -582,8 +582,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 			if ( ! empty( $metas ) ) {
 				foreach ( $metas as $meta ) {
-					error_log( 'meta: ' . $meta['_input'] );
-					error_log( 'type: ' . $meta['type'] );
+				
 					acf_update_value( $meta['_input'], 'user_' . $user_id, $meta );
 				}
 			}

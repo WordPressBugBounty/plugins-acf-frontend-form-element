@@ -41,7 +41,6 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			
 			$this->initialize();
 
-			if( ! isset( $data['fea'] ) ){
 				// register info
 				acf_register_field_type_info(
 					array(
@@ -52,6 +51,8 @@ if ( ! class_exists( 'Field_Base' ) ) :
 					)
 				);
 
+				
+				$this->add_field_action( 'frontend_admin/field_render', array( $this, 'render_field_interactive' ), 10, 1 );
 
 				// value
 				$this->add_field_filter( 'acf/load_value', array( $this, 'load_value' ), 10, 3 );
@@ -100,8 +101,13 @@ if ( ! class_exists( 'Field_Base' ) ) :
 
 				//enqueue scripts on frontend
 				$this->add_action( 'frontend_admin/field/enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 0 );
-			}
+			
 
+		}
+
+		public function render_field_interactive( $field ) {
+			// do nothing by default - this is meant to be overridden by fields that want to provide an interactive rendering experience in the editor. By default, we'll just use the standard render_field method for both frontend and editor rendering.
+			
 		}
 
 

@@ -53,6 +53,15 @@ if ( ! class_exists( 'delete_object' ) ) :
 					if ( empty( $form ) ) {
 						wp_send_json_error( __( 'No Form Data', 'frontend-admin' ) );
 					}
+
+					
+					$form = apply_filters( 'frontend_admin/show_form', $form );
+
+					if( empty( $form ) ) {
+						wp_send_json_error( __( 'Not Allowed to Delete Objects', 'frontend-admin' ) );
+					}else{
+						$allowed_by_settings = true;
+					}
 					
 					if ( ! empty( $form['fields'][ $key ] ) ) {
 						$field = $form['fields'][ $key ];
@@ -103,8 +112,10 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$post_id = intval( $objects['post'] );
 					if ( ! $post_id ) wp_send_json_error( __( 'No Post ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'edit_post', $post_id ) ) wp_send_json_error( __( 'You do have have permission to delete this post', 'frontend-admin' ) );
-					
+					if ( ! current_user_can( 'edit_post', $post_id ) && ! $allowed_by_settings ) {
+						wp_send_json_error( __( 'You do have have permission to delete this post', 'frontend-admin' ) );
+					}
+
 					if ( empty( $field['force_delete'] ) ) {
 						$deleted = wp_trash_post( $post_id );
 					} else {
@@ -116,7 +127,9 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$product_id = intval( $objects['product'] );
 					if( ! $product_id ) wp_send_json_error( __( 'No Product ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'edit_post', $product_id ) ) wp_send_json_error( __( 'You do have have permission to delete this product', 'frontend-admin' ) );
+					if ( ! current_user_can( 'edit_post', $product_id ) && ! $allowed_by_settings ) {
+						wp_send_json_error( __( 'You do have have permission to delete this product', 'frontend-admin' ) );
+					}
 
 					if ( empty( $field['force_delete'] ) ) {
 						$deleted = wp_trash_post( $product_id );
@@ -129,7 +142,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$term_id = intval( $objects['term'] );
 					if( ! $term_id ) wp_send_json_error( __( 'No Term ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'delete_term', $term_id ) ) {
+					if ( ! current_user_can( 'delete_term', $term_id ) && ! $allowed_by_settings ) {
 						 wp_send_json_error( __( 'You do have have permission to delete this term', 'frontend-admin' ) );
 					}
 					$deleted                = wp_delete_term( $term_id, sanitize_title( $_POST['_acf_taxonomy_type'] ) );
@@ -139,7 +152,10 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$user_id = intval( $objects['user'] );
 					if( ! $user_id ) wp_send_json_error( __( 'No User ID Found', 'frontend-admin' ) );
 
-					if( ! current_user_can( 'edit_user', $user_id ) ) wp_send_json_error( __( 'You do have have permission to delete this user', 'frontend-admin' ) );
+					if( ! current_user_can( 'edit_user', $user_id ) && ! $allowed_by_settings ) {
+						
+						wp_send_json_error( __( 'You do have have permission to delete this user', 'frontend-admin' ) );
+					}
 
 					$deleted                = wp_delete_user( $user_id, $field['reassign_posts'] );
 					$field['record']['user'] = $user_id;

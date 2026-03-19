@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "frontend-admin/step",
+  "title": "Form Step",
+  "description": "Groups content into steps.",
+  "category": "frontend-admin",
+  "parent": [
+    "frontend-admin/steps"
+  ],
+  "textdomain": "frontend-admin",
+  "icon": "list-view",
+  "supports": {
+    "align": [
+      "wide"
+    ]
+  },
+  "usesContext": [
+    "frontend-admin/steps/active_step"
+  ],
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "next_button_text": {
+      "type": "string",
+      "default": "Next"
+    },
+    "prev_button_text": {
+      "type": "string",
+      "default": "Previous"
+    }
+  },
+  "editorScript": "file:../../step/index.js"
+}

@@ -22,7 +22,8 @@ if ( ! class_exists( 'radio' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'radio';
+			$this->name     = 'radio-input';
+			 $this->public = false;
 			$this->label    = __( 'Radio Button', 'acf' );
 			$this->category = 'choice';
 			$this->defaults = array(

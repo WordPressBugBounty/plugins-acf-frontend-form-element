@@ -20,7 +20,7 @@ if ( ! class_exists( 'text' ) ) :
 
 		function initialize() {
 			// vars
-			$this->name     = 'text';
+			$this->name     = 'text_input';
 			$this->label    = __( 'Text', 'frontend-admin' );
 			  $this->public = false;
 			$this->defaults = array(
@@ -94,6 +94,132 @@ if ( ! class_exists( 'text' ) ) :
 			<?php if( $field['append'] ){ ?>
 			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
 			<?php }
+		}
+
+
+		function render_text_input( $attrs = [] ) {
+
+			$bindings = [];
+			$html_attrs = [];
+
+			foreach ( $attrs as $key => $value ) {
+
+				// allow dynamic bindings
+				if ( str_starts_with( $key, 'data-wp-bind--' ) ) {
+					$bindings[] = $key . '="' . esc_attr( $value ) . '"';
+					continue;
+				}
+
+				if ( $value === true ) {
+					$html_attrs[] = esc_attr( $key );
+					continue;
+				}
+
+				if ( $value !== '' && $value !== null ) {
+					$html_attrs[] = esc_attr( $key ) . '="' . esc_attr( $value ) . '"';
+				}
+			}
+
+			// add onChange handler for dynamic updates
+			if ( ! array_key_exists( 'data-wp-on--change', $attrs )
+				&& array_key_exists( 'data-wp-bind--name', $attrs ) ) {
+				$bindings[] = 'data-wp-on--change="callbacks.handleChange"';
+			}
+
+			//value from callbacks.getValue will be used if value is not set in $attrs, allowing dynamic updates
+			if ( ! array_key_exists( 'value', $attrs ) && array_key_exists( 'data-wp-bind--name', $attrs ) ) {
+				$bindings[] = 'data-wp-bind--value="callbacks.getFieldValue"';
+			}
+
+			return '<input ' . implode( ' ', $html_attrs ) . ' ' . implode( ' ', $bindings ) . ' />';
+		}
+		/*
+		*  render_field_interactive()
+		*
+		*  Create the interactive HTML interface for your field that uses data-wp-* attributes. 
+		*  This is the new way of rendering fields and will eventually replace render_field() in most cases.
+		*
+		*  @param    $field - an array holding all the field's data
+		*  @type    action
+		*  @since    5.7.0
+		*  @date    2024-06-10
+		*/
+
+		function render_field_interactive( $field ) {
+			$field = wp_parse_args( $field, [
+				'prepend' => '',
+				'append'  => '',
+			] );
+
+			$class = $field['class'] ?? '';
+
+			if ( $field['prepend'] !== '' ) {
+				$class .= ' acf-is-prepended';
+			}
+
+			if ( $field['append'] !== '' ) {
+				$class .= ' acf-is-appended';
+			}
+
+			$input_attrs = [
+				'type'  => $this->name,
+				'class' => $class
+			];
+
+			$attr_keys = [
+				'id',
+				'value',
+				'placeholder',
+				'maxlength',
+				'pattern',
+				'readonly',
+				'disabled',
+				'required'
+			];
+
+			if ( ! empty( $field['no_autocomplete'] ) ) {
+				$input_attrs['autocomplete'] = 'off';
+			}
+
+			if ( ! empty( $field['input_data'] ) ) {
+				foreach ( $field['input_data'] as $k => $data ) {
+					$input_attrs[ 'data-' . $k ] = $data;
+				}
+			}
+
+			foreach ( $attr_keys as $k ) {
+				if ( isset( $field[ $k ] ) ) {
+					$input_attrs[ $k ] = $field[ $k ];
+				}
+			}
+
+			// base field name stored in context
+			$field_name = $field['name'] ?? '';
+
+			$input_attrs['data-wp-bind--name'] = "callbacks.getFieldName";
+
+			?>
+
+			
+				<?php if ( $field['prepend'] ) : ?>
+					<div class="acf-input-prepend">
+						<?php echo esc_html( $field['prepend'] ); ?>
+					</div>
+				<?php endif; ?>
+
+				<div class="acf-input-wrap">
+					<?php echo $this->render_text_input( $input_attrs ); ?>
+				</div>
+
+				<?php if ( $field['append'] ) : ?>
+					<div class="acf-input-append">
+						<?php echo esc_html( $field['append'] ); ?>
+					</div>
+				<?php endif; ?>
+
+
+			<?php
+
 		}
 
 

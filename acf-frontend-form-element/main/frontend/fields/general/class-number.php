@@ -22,7 +22,8 @@ if ( ! class_exists( 'number' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'number';
+			$this->name     = 'number-input';
+			 $this->public = false;
 			$this->label    = __( 'Number', 'acf' );
 			$this->defaults = array(
 				'default_value' => '',

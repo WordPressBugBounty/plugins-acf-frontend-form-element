@@ -416,7 +416,13 @@ class Frontend_Forms_UI {
 			return;
 		}
 
-		$form = maybe_unserialize( $post->post_content );
+		$raw_form = $post->post_content;
+
+		if ( is_serialized( $raw_form ) ) {
+			$form = @unserialize( trim( $raw_form ), [ 'allowed_classes' => false ] );
+		}else{
+			$form = $raw_form;
+		}
 		$form = wp_unslash( $form );
 
 		if ( ! $form ) {

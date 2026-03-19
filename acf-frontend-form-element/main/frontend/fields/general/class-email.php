@@ -22,7 +22,8 @@ if ( ! class_exists( 'email' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'email';
+			$this->name     = 'email_input';
+			 $this->public = false;
 			$this->label    = __( 'Email', 'acf' );
 			$this->defaults = array(
 				'default_value' => '',

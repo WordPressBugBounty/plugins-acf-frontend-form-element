@@ -20,7 +20,8 @@ if ( ! class_exists( 'date' ) ) :
 
 		function initialize() {
 			// vars
-			$this->name     = 'date';
+			$this->name     = 'date-input';
+			 $this->public = false;
 			$this->label    = __( 'Date', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',

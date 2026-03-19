@@ -22,7 +22,8 @@ if ( ! class_exists( 'select' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'select';
+			$this->name     = 'dropdown';
+			$this->public = false;
 			$this->label    = _x( 'Select', 'noun', 'acf' );
 			$this->category = 'choice';
 			$this->defaults = array(
