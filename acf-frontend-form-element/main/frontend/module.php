@@ -579,10 +579,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				 ),
 			 );
 
-			 if(  function_exists( 'acf_get_field_groups' ) ){
-				 $field_types['general'][] = 'fields-select';
-			 }
-
 			$field_types = apply_filters( 'frontend_admin/field_types', $field_types );
 
 

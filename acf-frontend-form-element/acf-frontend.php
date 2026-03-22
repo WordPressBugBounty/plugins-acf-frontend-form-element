@@ -3,7 +3,7 @@
  * Plugin Name: Frontend Admin
  * Plugin URI:  https://www.dynamiapps.com/frontend-admin/
  * Description: This awesome plugin allows you to easily display admin forms to the frontend of your site so your clients can easily edit content on their own from the frontend.
- * Version:     3.28.31
+ * Version:     3.28.32
  * Author:      Shabti Kaplan
  * Author URI:  https://www.dynamiapps.com/
  * Text Domain: frontend-admin

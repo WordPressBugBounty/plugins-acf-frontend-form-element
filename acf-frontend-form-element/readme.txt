@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.31
+Stable tag: 3.28.32
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,9 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.32 - 22-03-2026 =
+ * Fixed "fields select" error
+
 = 3.28.31 - 19-03-2026 =
  * Fixed admin form loading settings
  * Fixed Editor delete users not working
