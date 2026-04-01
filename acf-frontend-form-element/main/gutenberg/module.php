@@ -14,9 +14,9 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         {
             $blocks = [ 
                 'form' => 'Form',
-                /* 'steps' => 'Form_Steps',
+                'steps' => 'Form_Steps',
                 'step' => 'Form_Step',
-                'repeater' => 'Repeater',
+               /*  'repeater' => 'Repeater',
                 'repeater-item' => 'Repeater_Item', */
                 'admin-form' => 'Form_Select',
                 'submissions' => 'Submissions_Select'
@@ -24,10 +24,12 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             ];
 
             foreach( $blocks as $block => $className ){
+                
                 include_once( FEA_DIR . 'main/gutenberg/blocks/' . $block . '.php' );
                 $className = "\Frontend_Admin\Gutenberg\\".$className;
                 $class = new $className;
                 $name = str_replace( '_', '-', $block );
+                
                 register_block_type(
                     FEA_DIR . "/assets/build/blocks/$name", [
                     'render_callback' => [ $class, 'render' ],
@@ -36,12 +38,16 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             }
 
             $field_types = fea_instance()->frontend->field_types;
+
+            global $fea_field_types;
             
 
             if( $field_types ){
                 foreach( $field_types as $type ){
                     if ( $type instanceof Field_Types\Field_Base ) {
                         $name = str_replace( '_', '-', $type->name );
+                        $name = str_replace( '-input', '', $name );
+                        $name = str_replace( '-area', 'area', $name );
                        
                         if( ! empty( $name ) && file_exists( FEA_DIR . "/assets/build/$name/index.js" ) ){
                             register_block_type(
@@ -74,6 +80,9 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                 array( '', '', '_' ),
                 $block->name
             );
+
+            $field['type'] = str_replace( '_area', 'area', $field['type'] );
+            $field['type'] = str_replace( '_input', '', $field['type'] );
             do_action( 'frontend_admin/form_assets/type=' . $field['type'], $field );
 
             $field['name'] = $attr['name'] ?? 'fea_' . $field['type'];
@@ -121,20 +130,25 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         $label      = $attributes['label'] ?? '';
         $field_name = $attributes['name'] ?? '';
 
+        
+        $field_class = fea_instance()->frontend->field_types[ $attributes['type'] ] ?? null;
+        if ( ! $field_class ) return;
+
+
         ?>
 
         <div class="fe-field-wrap" data-wp-interactive="frontend-admin/field" data-wp-context='<?php echo wp_json_encode([
             'fieldName' => $field_name
         ]); ?>'>
 
-            
             <?php if ( $label ) : ?>
                 <label class="fe-field-label">
+                    
                     <?php echo esc_html( $label ); ?>
-                    <?php do_action( 'frontend_admin/field_render/type=' . $attributes['type'], $attributes ); ?>
                 </label>
             <?php endif; ?>
         
+            <?php $field_class->render_field_interactive( $field ); ?>
 
 
         </div>

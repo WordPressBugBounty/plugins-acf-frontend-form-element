@@ -54,12 +54,12 @@ if ( ! class_exists( 'post_content' ) ) :
 		 * @return void
 		 */
 		function prepare_field( $field ) {
-			/* if ( feadmin_edit_mode() ) {
+			if ( feadmin_edit_mode() ) {
 				$field['type'] = 'textarea';
 				$field['rows'] = 14;
 			}else{
-				$field['type'] = $field['field_type'] ?? 'text_editor';
-			} */
+				$field['type'] = $field['field_type'] ?? 'wysiwyg';
+			}
 			return $field;
 		}
 

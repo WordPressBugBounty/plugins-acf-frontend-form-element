@@ -82,6 +82,95 @@ if ( ! class_exists( 'textarea' ) ) :
 
 		}
 
+		/*
+		*  render_field_interactive()
+		*
+		*  Create the interactive HTML interface for your field that uses data-wp-* attributes. 
+		*  This is the new way of rendering fields and will eventually replace render_field() in most cases.
+		*
+		*  @param    $field - an array holding all the field's data
+		*  @type    action
+		*  @since    5.7.0
+		*  @date    2024-06-10
+		*/
+
+		function render_field_interactive( $field ) {
+			$field = wp_parse_args( $field, [
+				'prepend' => '',
+				'append'  => '',
+				'rows'    => 8,
+				'type'    => $this->name,
+				'class'   => '',
+				'input_data' => [],
+			] );
+
+			$class = $field['class'] ?? '';
+
+			if ( $field['prepend'] !== '' ) {
+				$class .= ' acf-is-prepended';
+			}
+
+			if ( $field['append'] !== '' ) {
+				$class .= ' acf-is-appended';
+			}
+
+			$input_attrs = [
+				'type'  => $field['type'] ?? $this->name,
+				'class' => $class
+			];
+
+			$attr_keys = [
+				'id',
+				'value',
+				'placeholder',
+				'maxlength',
+				'pattern',
+				'readonly',
+				'disabled',
+				'required'
+			];
+
+			if ( ! empty( $field['no_autocomplete'] ) ) {
+				$input_attrs['autocomplete'] = 'off';
+			}
+
+			if ( ! empty( $field['input_data'] ) ) {
+				foreach ( $field['input_data'] as $k => $data ) {
+					$input_attrs[ 'data-' . $k ] = $data;
+				}
+			}
+
+			foreach ( $attr_keys as $k ) {
+				if ( isset( $field[ $k ] ) ) {
+					$input_attrs[ $k ] = $field[ $k ];
+				}
+			}
+
+			// base field name stored in context
+			$field_name = $field['name'] ?? '';
+
+			$input_attrs['data-wp-bind--name'] = "callbacks.getFieldName";
+
+			?>
+
+			
+				<?php if ( $field['prepend'] ) : ?>
+					<div class="acf-input-prepend">
+						<?php echo $field['prepend']; ?>
+					</div>
+				<?php endif; ?>
+
+				<textarea <?php acf_esc_attr_e( $input_attrs ); ?>></textarea>
+
+				<?php if ( $field['append'] ) : ?>
+					<div class="acf-input-append">
+						<?php echo $field['append']; ?>
+					</div>
+				<?php endif; ?>
+			<?php
+		}
+		
+
 
 		/*
 		*  render_field_settings()

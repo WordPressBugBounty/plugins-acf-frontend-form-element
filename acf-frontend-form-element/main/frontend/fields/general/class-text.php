@@ -146,6 +146,7 @@ if ( ! class_exists( 'text' ) ) :
 		*/
 
 		function render_field_interactive( $field ) {
+
 			$field = wp_parse_args( $field, [
 				'prepend' => '',
 				'append'  => '',
@@ -162,7 +163,7 @@ if ( ! class_exists( 'text' ) ) :
 			}
 
 			$input_attrs = [
-				'type'  => $this->name,
+				'type'  => $field['type'] ?? $this->name,
 				'class' => $class
 			];
 

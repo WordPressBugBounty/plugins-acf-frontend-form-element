@@ -320,6 +320,72 @@ if ( ! class_exists( 'upload_image' ) ) :
 			</p>
 		<?php }
 
+		/*
+		*  render_field_interactive()
+		*
+		*  Create the interactive HTML interface for your field that uses data-wp-* attributes. 
+		*  This is the new way of rendering fields and will eventually replace render_field() in most cases.
+		*
+		*  @param    $field - an array holding all the field's data
+		*  @type    action
+		*  @since    5.7.0
+		*  @date    2024-06-10
+		*/
+
+		function render_field_interactive( $field ) {
+			$field = wp_parse_args( $field, [
+				'name'  => '',
+				'value' => '',
+			] );
+
+			 wp_enqueue_script_module(
+				'frontend-admin/image-field',
+				plugins_url( 'assets/image.js', __FILE__ ),
+				[],
+				'1.0.1'
+			 );
+
+		
+			?>
+
+			<div
+				data-wp-interactive="frontend-admin/image-field"
+				data-wp-context='<?php echo wp_json_encode( [
+					'value' => $field['value'],
+				] ); ?>'
+			>
+				<!-- Preview -->
+				<img
+					data-wp-bind--src="state.imageUrl"
+					data-wp-bind--hidden="!state.imageUrl"
+					style="max-width: 150px;"
+				/>
+
+				<!-- Hidden input -->
+				<input
+					type="hidden"
+					name="<?php echo esc_attr( $field['name'] ); ?>"
+					data-wp-bind--value="state.value"
+				/>
+
+				<!-- Select button -->
+				<button type="button" data-wp-on--click="actions.selectImage">
+					Select Image
+				</button>
+
+				<!-- Remove button -->
+				<button
+					type="button"
+					data-wp-on--click="actions.removeImage"
+					data-wp-bind--hidden="!state.value"
+				>
+					Remove
+				</button>
+			</div>
+
+			<?php
+			
+		}
 
 		/*
 		*  render_field_settings()

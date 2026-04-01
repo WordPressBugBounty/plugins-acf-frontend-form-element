@@ -143,7 +143,7 @@ store('frontend-admin/repeater', {
 	callbacks: {
 		getRowId: () => {
 			const context = getContext();
-			return 'Row Id: ' + context.row.id;
+			return '#' + (context.row.id + 1);
 		},
 		isDragOver: () => {
 			const context = getContext();

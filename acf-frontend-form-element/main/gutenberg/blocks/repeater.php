@@ -40,12 +40,14 @@ if(! class_exists('Frontend_Admin\Gutenberg\Repeater') ) :
 	margin-bottom: 8px;
 	background: #fff;
     transition: transform 0.15s ease;
+    cursor: grab;
 }
 .fe-repeater-row.fe-repeater-drag-over {
     border-top: 2px solid #007cba;
     margin-top: -2px; /* compensate so layout doesn't shift */
 }
 .fe-repeater-row[draggable="true"]:active {
+    cursor: grabbing;
     opacity: 0.4;
 }
 .fe-repeater-row-actions {
@@ -64,7 +66,18 @@ if(! class_exists('Frontend_Admin\Gutenberg\Repeater') ) :
     opacity: 1;
     pointer-events: auto;
 }
-.fe-repeater-row-actions button {
+span.fe-repeater-row-id{
+    font-size: 16px;
+    color: #888;
+    position: absolute;
+    display:none;
+    bottom: 14px;
+    right: 2px;
+}
+.fe-repeater-row:hover span.fe-repeater-row-id{
+    display: block;
+}
+.fe-repeater-row-actions button{
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -161,10 +174,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Repeater') ) :
                 </div>
 
 				
-				<span data-wp-text="callbacks.getRowId"></span> 
+				
+                    <span class="fe-repeater-row-id" data-wp-text="callbacks.getRowId"></span> 
 
                 <div class="fe-repeater-row-actions">
-
                     <!-- Duplicate row -->
                     <button
                         type="button"

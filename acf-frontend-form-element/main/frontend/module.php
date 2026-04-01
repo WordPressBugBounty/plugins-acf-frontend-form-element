@@ -374,37 +374,10 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 
 		public function include_field_types() {
-			 include_once 'walkers/related-terms-walker.php';
-
-			// general field types
-			$general = array(
-				'field-base',
-				'text',
-				'radio',
-				'checkbox',
-				'email',
-				'link',
-				'number',
-				'range',
-				'password',
-				'select',
-				'textarea',
-				'text-editor',
-				'true-false',
-				'url',
-				'related-items',
-			);
-
-			if ( class_exists( 'ACF' ) ){
-				$general[] = 'fields-select';
-			}
-			foreach ( $general as $type ) {
-				include_once 'fields/general/class-' . $type . '.php';
-				$this->register_field_type( $type );
-			}
+			global $fea_field_types;
+			$fea_field_types = $this->get_field_types();
 			
 
-			global $fea_field_types;
 			if ( ! empty( $fea_field_types ) ) {
 				foreach ( $fea_field_types as $group => $fields ) {
 					$path = "fields/$group/";
@@ -522,8 +495,25 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 		}
 
 		public function get_field_types() {
+			 include_once 'walkers/related-terms-walker.php';
+			
 			 $field_types = array(
 				'general' => array(
+					'field-base',
+					'text',
+					'radio',
+					'checkbox',
+					'email',
+					'link',
+					'number',
+					'range',
+					'password',
+					'select',
+					'textarea',
+					'text-editor',
+					'true-false',
+					'url',
+					'related-items',
 					'submit-button',
 					'save-progress',
 					'time',
@@ -532,7 +522,6 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'color',
 					'related-terms',
 					'plans',
-					//'block-editor',
 					'custom-terms',
 					'delete-object',
 					'upload-file',
@@ -578,6 +567,9 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					 'delete-term',
 				 ),
 			 );
+			 if ( class_exists( 'ACF' ) ){
+				$field_types['general'][] = 'fields-select';
+			}
 
 			$field_types = apply_filters( 'frontend_admin/field_types', $field_types );
 
@@ -622,8 +614,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 		}
 
 		public function __construct() {
-			 global $fea_field_types;
-			$fea_field_types = $this->get_field_types();
+			 
 
 			$this->include_field_types();
 			// add_filter( 'acf/load_field_groups', array( $this, 'include_forms_as_groups' ), 5 );

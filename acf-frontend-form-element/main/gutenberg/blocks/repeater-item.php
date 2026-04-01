@@ -14,9 +14,9 @@ if(! class_exists('Frontend_Admin\Gutenberg\Repeater_Item') ) :
         public function render($attr, $content, $block)
         {
            return sprintf(
-		'<div class="fe-repeater-item">%s</div>',
-		$content
-	);
+                '<div class="fe-repeater-item">%s</div>',
+                $content
+            );
 
         }
       
