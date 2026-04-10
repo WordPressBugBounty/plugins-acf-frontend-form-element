@@ -25,6 +25,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			$this->name     = 'upload_files';
 			$this->label    = __( 'Upload Files', 'frontend-admin' );
 			$this->category = 'content';
+			$this->public   = false;
 			$this->defaults = array(
 				'library'     => 'all',
 				'min'         => 0,

@@ -20,7 +20,7 @@ if ( ! class_exists( 'time' ) ) :
 
 		function initialize() {
 			// vars
-			$this->name     = 'time-input';
+			$this->name     = 'time_input';
 			$this->label    = __( 'Time', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',

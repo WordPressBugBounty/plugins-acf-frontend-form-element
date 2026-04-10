@@ -25,7 +25,7 @@ if ( ! class_exists( 'text_editor' ) ) :
 			$this->name     = 'text_editor';
 			$this->label    = __( 'Text Editor', 'frontend-admin' );
 			$this->category = 'content';
-			$this->public   = true;
+			$this->public   = false;
 			$this->defaults = array(
 				'tabs'          => 'all',
 				'toolbar'       => 'full',

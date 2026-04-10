@@ -22,6 +22,12 @@ if ( ! class_exists( 'datetime_input' ) ) :
 			// vars
 			$this->name     = 'datetime_input';
 			$this->label    = __( 'Date Time', 'frontend-admin' );
+			$this->category = 'content';
+			$this->doc_url  = '';
+			$this->description = __( 'A date and time input field. Uses the HTML5 datetime-local input type.', 'frontend-admin' );
+			$this->preview_image = '';
+			$this->pro = false;
+			$this->tutorial_url = '';
 			$this->defaults = array(
 				'default_value' => '',
 			);

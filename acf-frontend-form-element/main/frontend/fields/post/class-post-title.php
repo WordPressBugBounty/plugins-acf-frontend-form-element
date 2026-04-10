@@ -57,7 +57,6 @@ if ( ! class_exists( 'post_title' ) ) :
 		}
 
 		public function load_value( $value, $post_id = false, $field = false ) {
-			
 			if ( $post_id && is_numeric( $post_id ) ) {
 				$edit_post = get_post( $post_id );
 				

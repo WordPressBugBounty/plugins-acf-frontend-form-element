@@ -10,10 +10,10 @@ if ( ! class_exists( 'Field_Base' ) ) :
 		public $label         = '';
 		public $category      = 'basic';
 		public $description   = '';
-		public $doc_url       = false;
-		public $tutorial_url  = false;
-		public $preview_image = false;
-		public $pro           = false;
+		public $doc_url       = null;
+		public $tutorial_url  = null;
+		public $preview_image = null;
+		public $pro           = null;
 		public $defaults      = array();
 		public $l10n          = array();
 		public $public        = true;
@@ -42,14 +42,15 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			$this->initialize();
 
 				// register info
-				acf_register_field_type_info(
+				/* acf_register_field_type_info(
 					array(
 						'label'    => $this->label,
 						'name'     => $this->name,
 						'category' => $this->category,
 						'public'   => $this->public,
 					)
-				);
+				); */
+				if( $this->public ) acf_register_field_type( $this );
 
 				
 				$this->add_field_action( 'frontend_admin/field_render', array( $this, 'render_field_interactive' ), 10, 1 );
@@ -126,6 +127,11 @@ if ( ! class_exists( 'Field_Base' ) ) :
 
 		function initialize() {
 
+			$this->doc_url  = '';
+			$this->description = '';
+			$this->preview_image = '';
+			$this->pro = false;
+			$this->tutorial_url = '';
 			// Do Nothing
 
 		}

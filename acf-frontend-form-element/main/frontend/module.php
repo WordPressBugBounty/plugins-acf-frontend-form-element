@@ -361,15 +361,9 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 
 			$class = 'Frontend_Admin\Field_Types\\' . $field;								
 
-			/* if( $acf_support ){
-				if( function_exists( 'acf_register_field_type' ) ){
-					$instance = acf_register_field_type( $class );
-					$this->field_types[ $field ] = $instance;
-				}
-			}else{ */
-				$instance = new $class( [ 'fea' => true ] );
+		
+				$instance = new $class();
 				$this->field_types[ $field ] = $instance;
-			//}
 		}
 
 
@@ -501,6 +495,11 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				'general' => array(
 					'field-base',
 					'text',
+					'textarea',
+					'text-editor',
+					'upload-file',
+					'upload-image',
+					'upload-files',
 					'radio',
 					'checkbox',
 					'email',
@@ -508,27 +507,24 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'number',
 					'range',
 					'password',
-					'select',
-					'textarea',
-					'text-editor',
+					'datetime-input',
 					'true-false',
+					'delete-object',
+					'select',
+					
 					'url',
 					'related-items',
 					'submit-button',
 					'save-progress',
 					'time',
 					'date',
-					'datetime-input',
 					'color',
 					'related-terms',
 					'plans',
 					'custom-terms',
-					'delete-object',
-					'upload-file',
-					'upload-image',
-					'upload-files',
+					
 					'list-items',
-					'recaptcha',
+					'recaptcha', 
 				),
 				 'post' => array(
 					 'post-to-edit',
