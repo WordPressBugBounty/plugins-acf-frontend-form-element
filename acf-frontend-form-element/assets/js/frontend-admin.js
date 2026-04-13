@@ -1,3 +1,5 @@
+feaFunctions = {};
+
 (function($){
 	$.extend(
 		{
@@ -411,11 +413,11 @@
 		}
 	);
 
-	acf.validateFrontendForm = function (args) {
-		return acf.getFrontendValidator( args.form ).validate( args );
+	feaFunctions.validateFrontendForm = function (args) {
+		return feaFunctions.getFrontendValidator( args.form ).validate( args );
 	};
 
-	acf.getFrontendValidator = function ($el) {
+	feaFunctions.getFrontendValidator = function ($el) {
 		// instantiate
 		var validator = $el.data( 'acf' );
 
@@ -426,7 +428,7 @@
 		return validator;
 	};
 
-	acf.showErrors = function (error) {
+	feaFunctions.showErrors = function (error) {
 		// get input
 		var $input = this.find( '[name="' + error.input + '"]' ).first(); // if $_POST value was an array, this $input may not exist
 
@@ -906,7 +908,7 @@
 		}
 	);
 
-	acf.getForm = function( $clicked, $type ){
+	feaFunctions.getForm = function( $clicked, $type ){
 		$type = $type || $clicked.data( 'name' );
 
 		if ( $type == 'plans' ) {
@@ -955,7 +957,7 @@
 			formWidth = 600;
 		}
 		modalLevel++;
-		var request = acf.showModal( $clicked, formWidth - narrowfy );
+		var request = feaFunctions.showModal( $clicked, formWidth - narrowfy );
 		$controls[modalLevel] = $clicked.parents( '.acf-field' );
 		narrowfy += 20;
 
@@ -985,14 +987,14 @@
 		}
 	}
 
-	acf.showModalContent = function( html ){
+	feaFunctions.showModalContent = function( html ){
 		// update popup
 		currentModal.find( '.content-container' ).html( html );
 		acf.doAction( 'append',currentModal );
 
 		var event = new CustomEvent('renderModalContent');
 		// Dispatch/Trigger/Fire the event
-		document.dispatchEvent(event);
+		feaFunctions.dispatchEvent(event);
 	};
 
 	
@@ -1107,29 +1109,29 @@
 			if ( button.data( 'state' ) == 'save' ) {
 				//find _acf_status and change to save
 				$form.find( 'input[name=_acf_status]' ).val('save');
-				acf.submitFrontendForm( $form );
+				feaFunctions.submitFrontendForm( $form );
 				return;
 			} else {
 				//find _acf_status and change to submit
 				$form.find( 'input[name=_acf_status]' ).val('');
 			}
 
-			acf.disableFileInputs( $form );
+			feaFunctions.disableFileInputs( $form );
 			acf.lockForm( $form );
 			$form.addClass( 'lock-form' );
 
 			args = {
 				form: $form,
 				reset: false,
-				complete: acf.submitFrontendForm,
+				complete: feaFunctions.submitFrontendForm,
 			}
-			acf.validateFrontendForm( args );
+			feaFunctions.validateFrontendForm( args );
 			
 
 		}
 	);
 
-	acf.disableFileInputs = function( $form ){
+	feaFunctions.disableFileInputs = function( $form ){
 		let $fileInputs = $( 'input[type="file"]:not([disabled])', $form )
 		$fileInputs.each(
 			function (i, input) {
@@ -1141,7 +1143,7 @@
 
 	}
 
-	acf.enableFileInputs = function( $form ){
+	feaFunctions.enableFileInputs = function( $form ){
 		let $fileInputs = $( 'input.temp-disabled', $form )
 		$fileInputs.each(
 			function (i, input) {
@@ -1151,7 +1153,7 @@
 		);
 	}
 
-	acf.submitFrontendForm = function( $form, $validator ){
+	feaFunctions.submitFrontendForm = function( $form, $validator ){
 		//if is string convert to jQuery object
 		$form = typeof $form == 'string' ? $( $form ) : $form;
 
@@ -1165,7 +1167,7 @@
 					$( formModal ).animate( {scrollTop:$form.offset().top - 50}, 'slow' );
 				}
 				$validator.reset();
-				acf.enableFileInputs( $form );
+				feaFunctions.enableFileInputs( $form );
 				$form.removeClass('lock-form');
 				acf.unlockForm( $form );
 				return;
@@ -1195,16 +1197,16 @@
 				processData: false,
 				contentType: false,
 				success: function(response){
-					acf.frontendFormSuccess( response, $form );
+					feaFunctions.frontendFormSuccess( response, $form );
 				},
 				error: function(response){
-					acf.frontendFormSuccess( response, $form );
+					feaFunctions.frontendFormSuccess( response, $form );
 				},
 			}
 		);
 	}
 
-	acf.frontendFormSuccess = function(response, $form = null){
+	feaFunctions.frontendFormSuccess = function(response, $form = null){
 		$form = $form || $( 'form[data-id=' + response?.data?.form_element + ']' );
 
 		if (response.success && response.data?.form_element) {
@@ -1257,7 +1259,7 @@
 					$( '.fea-loader' ).addClass( 'acf-hidden' );
 				} else {
 					if (data.submission) {
-						acf.updateSubmission( data );
+						feaFunctions.updateSubmission( data );
 						$form.parents( '.fea-modal' ).hide();
 					}
 					if (data.reload_form) {
@@ -1307,13 +1309,13 @@
 
 		window.onbeforeunload = null;
 		$( window ).off( 'beforeunload' );
-		var $validator = acf.getFrontendValidator( $form );
+		var $validator = feaFunctions.getFrontendValidator( $form );
 		$validator.reset();
 		$( '.fea-loader' ).addClass( 'acf-hidden' );
 		$( '.fea-submit-button' ).removeClass( 'disabled' );
 	}
 
-	acf.updateSubmission = function(data){
+	feaFunctions.updateSubmission = function(data){
 		var $submission = $( '.fea-list-item[data-id=' + data.submission + ']' );
 
 		if( $submission ){
@@ -4999,5 +5001,7 @@ document.addEventListener("DOMContentLoaded", function () {
     	checkAndApplyConditions(form);
 	});
 });
+
+document.fea = feaFunctions || {};
 
    

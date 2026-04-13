@@ -607,6 +607,7 @@ class ACF_Form extends Widget_Base {
 
 							if( $selected_field ){
 								$selected_field['class'] .= 'elementor-repeater-item-' . $form_field['_id'];
+								
 								$form['fields'][$selected] = $selected_field;
 							}
 						}

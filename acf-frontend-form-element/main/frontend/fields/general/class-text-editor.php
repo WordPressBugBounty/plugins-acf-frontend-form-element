@@ -35,8 +35,6 @@ if ( ! class_exists( 'text_editor' ) ) :
 			);
 
 	
-
-			add_action( 'acf/prepare_field/type=wysiwyg', array( $this, 'prepare_field' ) );
 		}
 
 		/*

@@ -27,10 +27,12 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Step') ) :
 
             $render = sprintf(
                 '<div 
-                    class="fe-form-step"
+                    class="acf-fields"
+                    data-step="%d"
                     data-wp-context=\'{"step":%d}\'
                     data-wp-bind--hidden="callbacks.stepActive"
                 >%s',
+                $step_index,
                 $step_index,
                 $content
             );

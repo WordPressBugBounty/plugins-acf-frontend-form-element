@@ -65,12 +65,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
             ?>
 
             <div
-                class="fe-form-steps"
-                data-wp-interactive="frontend-admin/form"
-                data-wp-context='<?php echo wp_json_encode( [
-                    'activeStep' => 1,
-                    'validateSteps' => $validate_steps,
-                ] ); ?>'
+                class="frontend-admin-steps frontend-admin-tabs-view-horizontal"
+                
             >
 
                 <div class="fe-form-steps-tabs">
@@ -112,12 +108,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
                   
             </style>
             <?php
-            wp_enqueue_script_module(
-                'fea-form-steps',
-                plugins_url( 'assets/steps.js', __FILE__ ),
-                [],
-                '1.0.0',
-            );
+           
 
             return ob_get_clean();
         }

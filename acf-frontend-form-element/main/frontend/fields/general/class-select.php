@@ -38,8 +38,8 @@ if ( ! class_exists( 'select' ) ) :
 			);
 
 			// ajax
-			add_action( 'wp_ajax_acf/fields/select/query', array( $this, 'ajax_query' ) );
-			add_action( 'wp_ajax_nopriv_acf/fields/select/query', array( $this, 'ajax_query' ) );
+			/* add_action( 'wp_ajax_acf/fields/select/query', array( $this, 'ajax_query' ) );
+			add_action( 'wp_ajax_nopriv_acf/fields/select/query', array( $this, 'ajax_query' ) ); */
 
 		}
 

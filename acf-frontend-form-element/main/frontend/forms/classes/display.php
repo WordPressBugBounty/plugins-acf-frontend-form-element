@@ -833,6 +833,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 						if( is_array( $sub_field ) ){
 							$_fields[$sub_field['key']] = $sub_field;
+							if( $field['conditional_logic'] ){
+								$_fields[$sub_field['key']]['conditional_logic'] = $field['conditional_logic'];
+							}
 						}
 
 						

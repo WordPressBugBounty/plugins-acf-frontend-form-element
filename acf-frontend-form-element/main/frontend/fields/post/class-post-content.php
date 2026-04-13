@@ -59,6 +59,10 @@ if ( ! class_exists( 'post_content' ) ) :
 				$field['rows'] = 14;
 			}else{
 				$field['type'] = $field['field_type'] ?? 'wysiwyg';
+				$field['toolbar'] = $field['toolbar'] ?? 'full';
+				$field['tabs'] = $field['tabs'] ?? 'all';
+				$field['media_upload'] = $field['media_upload'] ?? 1;
+				$field['delay'] = $field['delay'] ?? 0;
 			}
 			return $field;
 		}

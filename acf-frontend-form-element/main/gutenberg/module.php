@@ -14,8 +14,8 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         {
             $blocks = [ 
                 'form' => 'Form',
-                'steps' => 'Form_Steps',
-                'step' => 'Form_Step',
+                //'steps' => 'Form_Steps',
+                //'step' => 'Form_Step',
                /*  'repeater' => 'Repeater',
                 'repeater-item' => 'Repeater_Item', */
                 'admin-form' => 'Form_Select',
