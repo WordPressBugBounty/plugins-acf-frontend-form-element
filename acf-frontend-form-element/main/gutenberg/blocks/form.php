@@ -261,6 +261,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 $form_display = $fea_instance->form_display;
     
                 $form_data = $block['attrs']['form_settings'];
+
+                error_log( print_r( $form_data, true ) );
                 $form_data['submit_actions'] = true;
                 $form_data['message_location'] = 'other';
 
@@ -282,7 +284,6 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 }
                 $fea_form =  $form_display->validate_form( $form_data );
 
-                error_log( print_r( $fea_form, true ) );
                 
                 $fea_form['fields'] = $this->get_form_fields( $block, $fea_form );
 

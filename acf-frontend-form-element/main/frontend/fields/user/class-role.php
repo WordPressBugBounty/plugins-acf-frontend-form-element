@@ -108,7 +108,9 @@ if ( ! class_exists( 'role' ) ) :
 			if ( ! in_array( $value, $allowed_roles ) ) {
 				wp_die( __( 'Invalid role option selected.', 'frontend-admin' ) );
 			}
-
+			if ( $value === 'administrator' && ! current_user_can( 'administrator' ) ) { 
+				wp_die( __( 'You do not have permission to assign this role.', 'frontend-admin' ) ); 
+			}
 			
 			$user->set_role( $value );
 	

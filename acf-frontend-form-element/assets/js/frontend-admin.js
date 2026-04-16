@@ -126,7 +126,7 @@ feaFunctions = {};
 		'.fea-inline-edit',
 		function(e){
 			var $el = $( this ).closest('.fea-display-field');
-			acf.showModal( $el ); // ajax
+			feaFunctions.showModal( $el ); // ajax
 			currentModal.attr( 'data-source', $el.data( 'source' ) );
 			currentModal.attr( 'data-key', $el.data( 'field' ) );
 			currentModal.find( '.fea-close' ).remove();
@@ -152,7 +152,7 @@ feaFunctions = {};
 						<button type="button" class="fea-inline-cancel button">${acf.__('Cancel')}</button>
 					</form>
 				`;
-				acf.showModalContent(html);
+				feaFunctions.showModalContent(html);
 				form = currentModal.find( 'form' );
 				form.prepend( field );
 				
@@ -215,7 +215,7 @@ feaFunctions = {};
 							window.onbeforeunload = null;
 							$(window).off('beforeunload');
 							if ( response.data.errors ) {
-								response.data.errors.map( acf.showErrors, $form );
+								response.data.errors.map( feaFunctions.showErrors, $form );
 							} else {
 								if ( response.data.updates ) {
 									$el.parents( '.fea-modal' ).hide();
@@ -265,7 +265,7 @@ feaFunctions = {};
 		function(e){
 			e.preventDefault();
 			var clicked = $( this );
-			acf.getForm( clicked, 'admin_form' );
+			feaFunctions.getForm( clicked, 'admin_form' );
 		}
 	);
 
@@ -327,7 +327,7 @@ feaFunctions = {};
 		function(e){
 			e.preventDefault();
 			var clicked = $( this );
-			acf.getForm( clicked );
+			feaFunctions.getForm( clicked );
 		}
 	);
 
@@ -377,9 +377,13 @@ feaFunctions = {};
 	var narrowfy   = 0;
 	var $controls  = [];
 
-	acf.showModal = function( $el, $width, $location ){
+	feaFunctions.showModal = function( $el, $width, $location ){
 		$location = $location || $( 'body' );
-		$width    = $width || 600;
+		const mobile = window.innerWidth <= 500;
+		console.log( 'mobile', mobile );
+		console.log( 'window width', window.innerWidth );
+
+		$width    =  mobile ? 300 : $width || 600;
 		var $key;
 		if ( $el.data( 'modal_id' ) ) {
 			$key = $el.data( 'modal_id' );
@@ -640,7 +644,7 @@ feaFunctions = {};
 
 				let $scrollTo = false;
 
-				let errors     = fieldErrors.map( acf.showErrors, this.$el ); // errorMessage
+				let errors     = fieldErrors.map( feaFunctions.showErrors, this.$el ); // errorMessage
 				let errorCount = errors.length;
 				
 				let customErrorMessage = this.$el.data( 'error-message' );
@@ -981,7 +985,7 @@ feaFunctions = {};
 					data: acf.prepareForAjax( ajaxData ),
 					type: 'post',
 					dataType: 'html',
-					success: acf.showModalContent
+					success: feaFunctions.showModalContent
 				}
 			);
 		}
@@ -994,7 +998,7 @@ feaFunctions = {};
 
 		var event = new CustomEvent('renderModalContent');
 		// Dispatch/Trigger/Fire the event
-		feaFunctions.dispatchEvent(event);
+		document.dispatchEvent(event);
 	};
 
 	
@@ -2755,7 +2759,7 @@ feaFunctions = {};
 				$el.closest( '.edit-modal' ).hide();
 			},
 			onClickEditPreview: function(e,$el){
-				acf.showModal( $el,600,this.$el );
+				feaFunctions.showModal( $el,600,this.$el );
 				var $fileData = this.$( '.file-meta-data' );
 				if ( this.$( '.edit-modal' ).find( '.file-meta-data' ).length == '0' ) {
 					this.$( '.edit-modal' ).find( '.content-container' ).html( $fileData );
@@ -2947,7 +2951,7 @@ feaFunctions = {};
 			},
 
 			onClickEditPreview: function(e,$el){
-				acf.showModal( $el,600,this.$el );
+				feaFunctions.showModal( $el,600,this.$el );
 				var $fileData = this.$( '.file-meta-data' );
 				if ( this.$( '.edit-modal' ).find( '.file-meta-data' ).length == '0' ) {
 					this.$( '.edit-modal' ).find( '.content-container' ).html( $fileData );
@@ -4722,7 +4726,7 @@ acf.add_filter(
 			},
 
 			addEditPlan: function( e, $el ){
-				acf.getForm( $el, 'plans' );
+				feaFunctions.getForm( $el, 'plans' );
 			},
 
 			deleteObject: function($el) {

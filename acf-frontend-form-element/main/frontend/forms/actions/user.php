@@ -422,6 +422,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 		}
 
 		public function run( $form, $step = false ) {
+			
 			$record = $form['record'];
 			if ( empty( $record['user'] ) || empty( $record['fields']['user'] ) ) {
 				return $form;
@@ -455,11 +456,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					$field = fea_instance()->frontend->get_field( $_field['key'] );
 
 					if ( ! $field ) {
-						if( isset( $form['fields'][$_field['key']] ) ){
-							$field = $form['fields'][$_field['key']];
-						}else{
-							continue;
-						}
+						continue;
 					}
 
 					$field_type      = $field['type'];
@@ -530,7 +527,6 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					return $form;
 				}
 
-				$GLOBALS['admin_form']['record']['user'] = $user_id;
 				$form['record']['user'] = $user_id;
 
 				if ( isset( $form['hide_admin_bar'] ) ) {
@@ -587,7 +583,6 @@ if ( ! class_exists( 'ActionUser' ) ) :
 				}
 			}
 
-			$form['record']['user'] = $user_id;
 
 			if ( ! empty( $form['login_user'] ) ) {
 				$user = get_user_by( 'id', $user_id );

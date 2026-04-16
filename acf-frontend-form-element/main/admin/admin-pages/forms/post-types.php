@@ -50,7 +50,16 @@ if ( function_exists( 'register_post_type' ) ) :
 			'with_front' => true,
 			'slug'       => $dashboard_slug,
 		),
-		'capability_type'   => 'page',
+		    'capability_type' => 'post',
+    'map_meta_cap' => true,
+    'capabilities' => [
+        'create_posts' => 'manage_options',
+        'edit_posts' => 'manage_options',
+        'edit_others_posts' => 'manage_options',
+        'publish_posts' => 'manage_options',
+        'read_private_posts' => 'manage_options',
+        'delete_posts' => 'manage_options',
+    ],
 		'query_var'         => false,
 	);
 	register_post_type( 'admin_form', $args );

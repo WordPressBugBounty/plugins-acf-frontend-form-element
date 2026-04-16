@@ -163,7 +163,7 @@ public $current_control_group = null;
 
 	if( ! $fea_scripts ){
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
-		wp_enqueue_script( 'fea-delete-object',  FEA_URL . 'assets/js/delete-object' . $min . '.js', array('acf-input','fea-public'), FEA_VERSION, true );	
+		wp_enqueue_script( 'fea-delete-object',  FEA_URL . 'assets/js/delete-object' . $min . '.js', array(), FEA_VERSION, true );	
 		$fea_scripts = true;
 	}
 	$this->set_attribute( '_root', 'class', 'fea-delete-button' );

@@ -96,11 +96,21 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				$form = false;
 			}
 
+			
+			global $fea_gettting_form;
+			if( $key == $fea_gettting_form ){
+				return $form;
+			}
+
+			$fea_gettting_form = $key;
 			$form = apply_filters( 'frontend_admin/forms/get_form', $form, $key, $element );
+
+			$fea_gettting_form = false;
+
 			if( $form ){
 				return $this->validate_form( $form );
 			}
-			
+						
 
 			return false;
 		}
@@ -257,7 +267,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			$form = feadmin_parse_args(
 				$form,
 				array(
-					'id'                    => isset( $form['ID'] ) ? $form['ID'] : 'acf-form',
+					'id'                    => isset( $form['ID'] ) ? $form['ID'] : 'fea-form',
 					'ID'					=> '',
 					'parent_form'           => '',
 					'custom_fields_save'    => 'post',
@@ -833,9 +843,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 						if( is_array( $sub_field ) ){
 							$_fields[$sub_field['key']] = $sub_field;
-							if( $field['conditional_logic'] ){
-								$_fields[$sub_field['key']]['conditional_logic'] = $field['conditional_logic'];
-							}
 						}
 
 						

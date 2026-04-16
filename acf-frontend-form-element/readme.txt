@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.35
+Stable tag: 3.28.36
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,10 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.28.36 - 16-04-2026 =
+ * Fixed Edit user form
+ * Fixed modal button not opening modal
+
 = 3.28.35 - 13-04-2026 =
  * Fixed select field not loading choices
  * Fixed ACF Fields field type conditional logic

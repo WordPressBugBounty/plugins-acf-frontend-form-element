@@ -346,6 +346,10 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				}
 			}
 
+			if(  empty( $post_id ) ){
+				return $value;
+			}
+
 			$field_name = $matches[1][0];
 
 			$tag_parts   = explode( ':', $field_name );
@@ -355,7 +359,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				$return_type = $tag_parts[1];
 			}
 			
-			$author = $record['post_author']['_input'] ?? $edit_post->post_author;
+			$author = $record['post_author']['_input'] ?? $edit_post ? $edit_post->post_author : false;
 			
 			if ( $author ) {
 				$author = get_user_by( 'id', $author );
@@ -428,7 +432,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 					break;
 				case 'post_url':
 				case 'url':
-					if( $return_type ){
+					if( $return_type && $post_id ){
 						//this is text for the link
 						return '<a href="' . get_permalink( $post_id ) . '">'.$return_type.'</a>';
 					}
@@ -525,7 +529,6 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				break;
 				case 'main_image':
 					if ( isset( $record['main_image']['value'] ) ) {
-						error_log(print_r($record['main_image']['value'],true));
 						$post_thumb_id  = $record['main_image']['value']['ID'];
 						$post_thumb_url = $record['main_image']['value']['url'];
 					} else {

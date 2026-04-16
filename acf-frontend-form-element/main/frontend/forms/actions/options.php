@@ -94,11 +94,7 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 					$field = fea_instance()->frontend->get_field( $option['key'] );
 
 					if ( ! $field ) {
-						if( isset( $form['fields'][$option['key']] ) ){
-							$field = $form['fields'][$option['key']];
-						}else{
-							continue;
-						}
+						continue;
 					}
 
 					acf_update_value( $option['_input'], 'options', $field );

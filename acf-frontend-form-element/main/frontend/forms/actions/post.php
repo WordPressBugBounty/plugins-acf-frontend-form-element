@@ -1052,8 +1052,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					}
 					$field = fea_instance()->frontend->get_field( $_field['key'] );
 
-					
-
 					if ( ! $field ) {
 						continue;
 					}
@@ -1108,6 +1106,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 		}
 
 		public function save_post( $form, $post_to_edit, $metas, $post_to_duplicate ) {
+			
 			if ( $post_to_edit['ID'] == 0 ) {
 				$post_to_edit['meta_input'] = array(
 					'admin_form_source' => str_replace( '_', '', $form['id'] ),
@@ -1134,7 +1133,6 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					wp_send_json_error( $form );
 				}
 
-				$GLOBALS['admin_form']['record']['post'] = $post_id;
 				$form['record']['post'] = $post_id;
 			} else {
 				$post_id = $post_to_edit['ID'];
@@ -1199,6 +1197,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 
 			do_action( 'frontend_admin/save_post', $form, $post_id );
 			do_action( 'acf_frontend/save_post', $form, $post_id );
+		
 			return $form;
 		}
 

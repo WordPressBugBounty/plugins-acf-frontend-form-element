@@ -121,9 +121,15 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		function create_record( $form, $save = false ) {
 
 			// Retrieve all form fields and their values
-			if ( empty( $form['record'] ) ) {
-				$form['record'] = array();
-			}
+			$form['record'] = array(
+				'post'  => false,
+				'user'  => false,
+				'term'  => false,
+				'product' => false,
+				'emails_to_verify' => array(),
+				'verified_emails' => array(),
+			);
+			
 
 			if ( ! empty( $form['submission_title'] ) ) {
 				$form['dynamic_title'] = true;
@@ -382,13 +388,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$form = $this->should_save_content( $form );
 			foreach ( $fea_instance->local_actions as $name => $action ) {
-				if ( $form['save_data'] ) {
-					$form = $action->run( $form );
-				} else {
-					if ( $name != 'options' && isset( $form[ "{$name}_id" ] ) ) {
+				if ( $name != 'options' && isset( $form[ "{$name}_id" ] ) ) {
 						$form['record'][ $name ] = $form[ "{$name}_id" ];
 					}
-				}
+				if ( $form['save_data'] ) {
+					$form = $action->run( $form );
+				} 
 			}
 
 			$fea_form = $form;
@@ -558,11 +563,13 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				if ( $return ) {
 					// update %placeholders%
 
-					if ( isset( $form['post_id'] ) ) {
-						$return = str_replace( array( '%post_id%', '[post:id]' ), $form['post_id'], $return );
-						$return = str_replace( array( '%post_url%', '[post:url]' ), get_permalink( $form['post_id'] ), $return );
+					if ( isset( $form['record']['post'] ) ) {
+						$return = str_replace( array( '%post_id%', '[post:id]' ), $form['record']['post'], $return );
+						$return = str_replace( array( '%post_url%', '[post:url]' ), get_permalink( $form['record']['post'] ), $return );
 
 					}
+
+					error_log( 'Redirect URL before dynamic values: ' . $return );
 
 					$return = $fea_instance->dynamic_values->get_dynamic_values( $return, $form, true );
 
@@ -660,7 +667,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$form['return'] = $this->get_redirect_url( $form );
 			$json                        = array(
 				'location'     => 'current',
-				'success_message' => __( 'Progress Saved', 'frontend-admin' ),
+				'success_message' => __( 'Progress Saved', 'frontend-admin' ),				
 				'form_element' => $form['id'],
 				'objects' => $objects,
 				'preview' => $preview,
@@ -670,7 +677,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( isset( $_POST['_acf_message'] ) ) {
 				$json['success_message'] = sanitize_textarea_field( $_POST['_acf_message'] );
 			}
-
+			if( empty( $form['show_update_message'] ) )
+				$json['success_message'] = '';
+		
 			$expiration_time = time() + 600;
 			setcookie( 'admin_form_success', json_encode( $json ), $expiration_time, '/' );
 			wp_send_json_success( $json );
