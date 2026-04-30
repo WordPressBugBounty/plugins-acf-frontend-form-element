@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.28.36
+Stable tag: 3.29.1
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,17 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.1 - 29-04-2026 =
+ * Added Steps block
+ * Fixed Related Terms not loading value
+ * Updated Frremius SDK 
+
+= 3.28.37 - 24-04-2026 =
+ * Fixed character limit issue
+ * Fixed placeholder setting not saving
+ * Fixed content field issue
+ * Added chaacter counter to texteare and excerpt fields
+
 = 3.28.36 - 16-04-2026 =
  * Fixed Edit user form
  * Fixed modal button not opening modal

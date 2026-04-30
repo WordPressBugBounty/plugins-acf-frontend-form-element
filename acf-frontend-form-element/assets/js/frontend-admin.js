@@ -996,8 +996,13 @@ feaFunctions = {};
 		currentModal.find( '.content-container' ).html( html );
 		acf.doAction( 'append',currentModal );
 
-		var event = new CustomEvent('renderModalContent');
-		// Dispatch/Trigger/Fire the event
+
+		const event = new CustomEvent('renderModalContent', {
+			detail: {
+				modal: currentModal
+			}
+		});
+
 		document.dispatchEvent(event);
 	};
 
@@ -1369,6 +1374,8 @@ feaFunctions = {};
 			}
 		}
 	);
+
+	
 
 
 	var Field = acf.Field.extend(
@@ -2181,6 +2188,9 @@ feaFunctions = {};
 	);
 
 	acf.registerFieldType( Field );
+
+
+
 
 			/*
 	 * Field: Recaptcha
@@ -4362,6 +4372,91 @@ acf.add_filter(
 	);
 	acf.registerFieldType( Field );
 
+		//register content fieled that extends wysiwyg
+	var Field = acf.Field.extend({
+		type: 'post_content',
+		wait: 'load',
+		events: {
+			'mousedown .acf-editor-wrap.delay': 'onMousedown',
+			unmountField: 'disableEditor',
+			remountField: 'enableEditor',
+			removeField: 'disableEditor'
+		},
+		$control: function () {
+		return this.$('.acf-editor-wrap');
+		},
+		$input: function () {
+		return this.$('textarea');
+		},
+		getMode: function () {
+		return this.$control().hasClass('tmce-active') ? 'visual' : 'text';
+		},
+		initialize: function () {
+			// initializeEditor if no delay
+			if (!this.$control().hasClass('delay')) {
+				this.initializeEditor();
+			}
+		},
+			initializeEditor: function () {
+				// vars
+				var $wrap = this.$control();
+				var $textarea = this.$input();
+				var args = {
+					tinymce: true,
+					quicktags: true,
+					toolbar: this.get('toolbar'),
+					mode: this.getMode(),
+					field: this
+				};
+
+		// generate new id
+		var oldId = $textarea.attr('id');
+		var newId = acf.uniqueId('acf-editor-');
+
+		// Backup textarea data.
+		var inputData = $textarea.data();
+		var inputVal = $textarea.val();
+
+		// rename
+		acf.rename({
+			target: $wrap,
+			search: oldId,
+			replace: newId,
+			destructive: true
+		});
+
+		// update id
+		this.set('id', newId, true);
+
+		// apply data to new textarea (acf.rename creates a new textarea element due to destructive mode)
+		// fixes bug where conditional logic "disabled" is lost during "screen_check"
+		this.$input().data(inputData).val(inputVal);
+
+		// initialize
+		acf.tinymce.initialize(newId, args);
+		},
+		onMousedown: function (e) {
+		// prevent default
+		e.preventDefault();
+
+		// remove delay class
+		var $wrap = this.$control();
+		$wrap.removeClass('delay');
+		$wrap.find('.acf-editor-toolbar').remove();
+
+		// initialize
+		this.initializeEditor();
+		},
+		enableEditor: function () {
+		if (this.getMode() == 'visual') {
+			acf.tinymce.enable(this.get('id'));
+		}
+		},
+		disableEditor: function () {
+		acf.tinymce.destroy(this.get('id'));
+		}
+	});
+  acf.registerFieldType(Field);
 
 	var Field = acf.models.ImageField.extend(
 		{
@@ -5009,3 +5104,100 @@ document.addEventListener("DOMContentLoaded", function () {
 document.fea = feaFunctions || {};
 
    
+
+(function($){
+
+    function initCharCounter($field) {
+        const $textarea = $field.find('textarea');
+
+        if (!$textarea.length) return;
+
+        const maxLength = $field.data('maxlength') || null;
+
+        // Create counter element
+        const $counter = $('<div class="acf-char-counter" style="margin-top:4px;font-size:12px;color:#666;"></div>');
+        $textarea.after($counter);
+
+        function updateCount() {
+            const length = $textarea.val().length;
+
+            if (maxLength) {
+                $counter.text(length + ' / ' + maxLength);
+            } else {
+                $counter.text(length + ' characters');
+            }
+        }
+
+        // Bind events
+        $textarea.on('input', updateCount);
+
+        // Initial count
+        updateCount();
+    }
+
+    // ACF hook (works for repeaters, ajax, etc.)
+    acf.add_action('ready append', function($el){
+        $el.find('[data-char-counter]').each(function(){
+            initCharCounter($(this));
+        });
+    });
+
+})(jQuery);
+(function($){
+
+    function initRemainingCounter($field) {
+        const $textarea = $field.find('textarea');
+
+        if (!$textarea.length) return;
+
+        // Prevent duplicate init
+        if ($field.data('counter-initialized')) return;
+        $field.data('counter-initialized', true);
+
+        const maxLength = parseInt($field.data('maxlength'), 10);
+        const template = $field.data('remaining-text');
+
+        if (!maxLength || !template) return;
+
+        const $counter = $(`
+            <div class="acf-char-remaining" style="margin-top:4px;font-size:12px;color:#666;"></div>
+        `);
+
+        $textarea.after($counter);
+
+        function formatText(countUp, countDown, total) {
+            return template
+                .replace(/{count_up}/g, countUp)
+                .replace(/{count_down}/g, countDown)
+                .replace(/{total}/g, total);
+        }
+
+        function updateCount() {
+            const countUp = $textarea.val().length;
+            const countDown = Math.max(maxLength - countUp, 0);
+
+            $counter.text(formatText(countUp, countDown, maxLength));
+
+            // Optional UX coloring
+            if (countDown <= 20) {
+                $counter.css('color', '#d63638');
+            } else if (countDown <= 50) {
+                $counter.css('color', '#dba617');
+            } else {
+                $counter.css('color', '#666');
+            }
+        }
+
+        $textarea.on('input', updateCount);
+
+        updateCount();
+    }
+
+    acf.add_action('ready append', function($el){
+        $el.find('[data-remaining-text]').each(function(){
+            initRemainingCounter($(this));
+        });
+    });
+
+})(jQuery);
+

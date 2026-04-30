@@ -664,3 +664,5 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 	fea_instance()->frontend = new Forms();
 
 endif;
+
+

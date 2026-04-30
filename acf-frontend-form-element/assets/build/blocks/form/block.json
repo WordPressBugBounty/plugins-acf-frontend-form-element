@@ -20,6 +20,10 @@
       "type": "string",
       "default": ""
     },
+    "form_type": {
+      "type": "string",
+      "default": ""
+    },
     "form_key": {
       "type": "string",
       "default": ""

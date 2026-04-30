@@ -2,8 +2,8 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
   "name": "frontend-admin/steps",
-  "title": "FEA Form Steps",
-  "description": "Groups content into steps.",
+  "title": "Form Steps",
+  "description": "Groups fields and other content into steps.",
   "category": "frontend-admin",
   "textdomain": "frontend-admin",
   "icon": "list-view",
@@ -24,21 +24,21 @@
       "type": "boolean",
       "default": false
     },
-    "steps_display": {
-      "type": "string",
-      "default": false
-    },
     "steps_tabs_display": {
-      "type": "string",
+      "type": "boolean",
       "default": false
     },
     "steps_counter_display": {
-      "type": "string",
+      "type": "boolean",
       "default": false
+    },
+    "counter_text": {
+      "type": "string",
+      "default": "{current_steps} / {total_steps}"
     },
     "tabs_align": {
       "type": "string",
-      "default": false
+      "default": "left"
     },
     "tab_links": {
       "type": "boolean",

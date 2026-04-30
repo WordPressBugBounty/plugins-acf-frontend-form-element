@@ -11,7 +11,6 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 		function __construct() {
 			add_filter( 'template_include', array( $this, 'template_shortcodes' ) );
-			add_filter( 'the_content', array( $this, 'run_shortcode' ), 11 );
 		}
 
 
@@ -23,10 +22,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 			return $template;
 		}
-		public function run_shortcode( $content ) {
-			 $content = $this->get_dynamic_values( $content );
-			return $content;
-		}
+	
 
 		/*
 			 function implode_recur($separator, $arrayvar) {

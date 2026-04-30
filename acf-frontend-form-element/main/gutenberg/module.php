@@ -14,18 +14,25 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         {
             $blocks = [ 
                 'form' => 'Form',
-                //'steps' => 'Form_Steps',
-                //'step' => 'Form_Step',
+                'steps' => 'Form_Steps',
+                'step' => 'Form_Step',
                /*  'repeater' => 'Repeater',
                 'repeater-item' => 'Repeater_Item', */
                 'admin-form' => 'Form_Select',
                 'submissions' => 'Submissions_Select'
                // 'field' => 'field'
             ];
+            //enqueue frontend admin css
+            wp_enqueue_style( 'fea-public' );
+            if( fea_instance()->is_license_active() ){
+                wp_enqueue_style( 'fea-public-pro' );
+            }
 
             foreach( $blocks as $block => $className ){
                 
                 include_once( FEA_DIR . 'main/gutenberg/blocks/' . $block . '.php' );
+
+                
                 $className = "\Frontend_Admin\Gutenberg\\".$className;
                 $class = new $className;
                 $name = str_replace( '_', '-', $block );
@@ -116,7 +123,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
 
             ob_start();
-            
+            $field['builder'] = 'gutenberg';
             $fea_instance->form_display->render_field_wrap( $field );
             //$this->render_field_wrap( $field );
             

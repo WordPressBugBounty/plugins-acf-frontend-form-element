@@ -99,7 +99,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			// load form
 			global $fea_instance, $fea_form;
 			
-			$form = $fea_instance->form_display->validate_form( $_POST['_acf_form'] );	
+			$form = $fea_instance->form_display->get_form( $_POST['_acf_form'] );	
 			
 			// bail ealry if form is corrupt
 			if ( empty( $form ) ) {

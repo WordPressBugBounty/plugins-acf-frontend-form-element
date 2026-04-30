@@ -41,16 +41,8 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			
 			$this->initialize();
 
-				// register info
-				/* acf_register_field_type_info(
-					array(
-						'label'    => $this->label,
-						'name'     => $this->name,
-						'category' => $this->category,
-						'public'   => $this->public,
-					)
-				); */
-				if( $this->public ) acf_register_field_type( $this );
+				
+				if( $this->public && '' !== $this->name ) acf_register_field_type( $this );
 
 				
 				$this->add_field_action( 'frontend_admin/field_render', array( $this, 'render_field_interactive' ), 10, 1 );
@@ -71,10 +63,10 @@ if ( ! class_exists( 'Field_Base' ) ) :
 				$this->add_field_action( 'acf/delete_field', array( $this, 'delete_field' ), 10, 1 );
 				$this->add_field_action( 'acf/render_field', array( $this, 'render_field' ), 9, 1 );
 				$this->add_field_action( 'acf/render_field_settings', array( $this, 'render_field_settings' ), 9, 1 );
-				$this->add_field_action( 'acf/render_field_general_settings', array( $this, 'render_field_general_settings' ), 9, 1 );
+				/* $this->add_field_action( 'acf/render_field_general_settings', array( $this, 'render_field_general_settings' ), 9, 1 );
 				$this->add_field_action( 'acf/render_field_validation_settings', array( $this, 'render_field_validation_settings' ), 9, 1 );
 				$this->add_field_action( 'acf/render_field_presentation_settings', array( $this, 'render_field_presentation_settings' ), 9, 1 );
-				$this->add_field_action( 'acf/render_field_conditional_logic_settings', array( $this, 'render_field_conditional_logic_settings' ), 9, 1 );
+				$this->add_field_action( 'acf/render_field_conditional_logic_settings', array( $this, 'render_field_conditional_logic_settings' ), 9, 1 ); */
 				$this->add_field_filter( 'acf/prepare_field', array( $this, 'prepare_field' ), 10, 1 );
 				$this->add_field_filter( 'acf/translate_field', array( $this, 'translate_field' ), 10, 1 );
 

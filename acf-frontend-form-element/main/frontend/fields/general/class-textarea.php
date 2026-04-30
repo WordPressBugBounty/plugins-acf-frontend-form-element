@@ -24,7 +24,7 @@ if ( ! class_exists( 'textarea' ) ) :
 			// vars
 			$this->name     = 'text_area';
 			$this->label    = __( 'Text Area', 'acf' );
-		  $this->public = false;
+		  	$this->public = false;
 			$this->defaults = array(
 				'default_value' => '',
 				'new_lines'     => '',
@@ -33,8 +33,73 @@ if ( ! class_exists( 'textarea' ) ) :
 				'rows'          => '',
 			);
 
+			$fields = ['textarea','post_excerpt', 'product_short_description'];
+
+			foreach ( $fields as $field ) {
+				add_filter( "acf/prepare_field/type={$field}", [ $this, 'prepare_field' ], 10, 1 );
+				add_filter( "acf/render_field_settings/type={$field}", [ $this, 'remaining_characters_setting' ], 10, 1 );
+			}
+			
+			
 		}
 
+		function prepare_field( $field ) {
+				if( empty( $field['maxlength'] ) || empty( $field['show_remaining_characters'] ) ) return $field;
+
+
+				// Add custom attributes
+				$field['wrapper']['data-char-remaining'] = 1;
+				$field['wrapper']['data-remaining-text'] = $field['remaining_characters_text'];
+				$field['wrapper']['data-maxlength'] = $field['maxlength']; 
+
+				return $field;
+			}
+
+		function remaining_characters_setting( $field ) {
+			acf_render_field_setting(
+				$field,
+				[
+					'label'        => __( 'Show Remaining Characters', 'acf' ),
+					'instructions' => __( 'Display the number of characters remaining based on the maxlength setting', 'acf' ),
+					'type'         => 'true_false',
+					'name'         => 'show_remaining_characters',
+					'ui'           => 1,
+					'conditions'   => [
+						[
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						],
+					],
+				]
+			);
+
+			//text to show when characters are remaining
+			acf_render_field_setting(
+				$field,
+				[
+					'label'        => __( 'Remaining Characters Text', 'acf' ),
+					'instructions' => __( 'Text to show before the remaining character count. Use {count_down} or {count_up} as a placeholder for the number and {total} for the total', 'frontend-admin' ),
+					'type'         => 'text',
+					'name'         => 'remaining_characters_text',
+					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'acf' ),
+					'conditions'   => [
+						[
+							'field'    => 'show_remaining_characters',
+							'operator' => '==',
+							'value'    => 1,
+						],
+						[
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						],
+					],
+				]
+			);
+		}
+
+		
 
 		/*
 		*  render_field()

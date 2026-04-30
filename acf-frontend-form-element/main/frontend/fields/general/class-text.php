@@ -63,8 +63,15 @@ if ( ! class_exists( 'text' ) ) :
 				$field['class'] .= ' acf-is-appended';
 			}
 
-			// Input.
-			$input_attrs = array( 'type' => $this->name );
+			$field_type = str_replace( 'input_', '', $field['type'] );
+
+			 $input_attrs = array(
+				'type' => $field_type,
+				'class' => $field['class'] ?? '',
+			);
+
+			
+			$input_attrs = array( 'type' => $field['type'] ?? $this->name );
 			$attr_keys   = array( 'id', 'class', 'value', 'placeholder', 'maxlength', 'pattern', 'readonly', 'disabled', 'required' );
 
 			if ( empty( $field['sensitive'] ) ) {

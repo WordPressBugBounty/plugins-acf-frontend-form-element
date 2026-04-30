@@ -97,15 +97,8 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			
-			global $fea_gettting_form;
-			if( $key == $fea_gettting_form ){
-				return $form;
-			}
-
-			$fea_gettting_form = $key;
 			$form = apply_filters( 'frontend_admin/forms/get_form', $form, $key, $element );
 
-			$fea_gettting_form = false;
 
 			if( $form ){
 				return $this->validate_form( $form );
@@ -250,11 +243,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function validate_form( $form ) {
-			if( ! $form ) return false;
-
-			if ( ! is_array( $form ) ) {
-				$form = $this->get_form( $form );
-			}
+			if( ! $form || ! is_array( $form ) ) return false;
 			
 			/*
 			 if( empty( $form['no_cookies'] ) && empty( $form['no_record'] ) && ! feadmin_edit_mode() ){
@@ -1131,8 +1120,15 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 		}
 
 		public function render_submissions( $form ) {
-			 $editor = feadmin_edit_mode();
+			 $form 	 = $this->get_form( $form );
+		
+
 			$form    = $this->validate_form( $form );
+
+			if( ! $form ){
+				return;
+			}
+
 			$form    = wp_parse_args(
 				$form,
 				array(

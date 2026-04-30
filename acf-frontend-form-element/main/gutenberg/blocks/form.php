@@ -1,6 +1,7 @@
 <?php
 namespace Frontend_Admin\Gutenberg;
 
+
 if (! defined('ABSPATH') ) {
     exit; // Exit if accessed directly
 }
@@ -63,6 +64,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                  }
             }
    
+           /*  $form_variations = $this->block_variations( [], (object) [ 'name' => 'frontend-admin/form' ] );
+            error_log( print_r( $form_variations, true ) ); */
 
             $localization_data = [
                 'restUrl'  => rest_url( 'fea/v2' ),
@@ -116,8 +119,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                         $attrs = $block['attrs'];
                         $fea_current_post_id = $attrs['template_id'] ?? $wp_query->get_queried_object_id();
 
-                    
-                        $form_data = $attrs['form_settings'];
+                        if( empty( $attrs['form_settings'] )) return $block_content;
+                        $form_data = $attrs['form_settings'] ?? [];
 
                         $post_to_edit = $form_data['post_to_edit'] ?? 'current_post';
 
@@ -212,7 +215,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'save_type_label' => 'New',
                     'post_type' => $post_type->name, 
                     'post_type_label' => $post_type->labels->singular_name,
+                    'title' => sprintf( __( 'New %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
+                    'description' => sprintf( __( 'A form to create a new %s.', 'frontend-admin' ), $post_type->labels->singular_name ),
                     'attributes' => [
+                        'form_type' => 'new_' . $post_type->name,
                         'form_settings' => [
                             'post_to_edit' => 'new_post',
                             'new_post_type' => $post_type->name,
@@ -224,7 +230,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'save_type_label' => 'Edit',
                     'post_type' => $post_type->name, 
                     'post_type_label' => $post_type->labels->singular_name,
+                    'title' => sprintf( __( 'Edit %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
+                    'description' => sprintf( __( 'A form to edit an existing %s. The form will automatically load the %s that is being viewed.', 'frontend-admin' ), $post_type->labels->singular_name, $post_type->labels->singular_name ),
                     'attributes' => [
+                        'form_type' => 'edit_' . $post_type->name,
                         'form_settings' => [
                             'hide_if_no_post' => true,
                             'post_to_edit' => 'current_post',
@@ -262,7 +271,6 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
     
                 $form_data = $block['attrs']['form_settings'];
 
-                error_log( print_r( $form_data, true ) );
                 $form_data['submit_actions'] = true;
                 $form_data['message_location'] = 'other';
 
@@ -282,7 +290,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 }else{
                     $form_data['save_to_post'] = 'edit_post';
                 }
-                $fea_form =  $form_display->validate_form( $form_data );
+                $fea_form =  $form_data;
 
                 
                 $fea_form['fields'] = $this->get_form_fields( $block, $fea_form );

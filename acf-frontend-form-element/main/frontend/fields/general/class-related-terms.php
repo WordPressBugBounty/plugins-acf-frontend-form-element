@@ -354,7 +354,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 
 			if ( is_numeric( $post_id ) ) {
-				if( ! $field['load_terms'] ) return $value;
+				if( empty( $field['load_terms'] ) && empty( $field['load_post_terms'] ) ) return $value;
 
 				$value = acf_get_valid_terms( $value, $field['taxonomy'] );
 				// get terms

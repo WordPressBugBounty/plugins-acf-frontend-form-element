@@ -22,7 +22,7 @@ if ( ! class_exists( 'radio' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'radio-input';
+			$this->name     = 'radio_input';
 			 $this->public = false;
 			$this->label    = __( 'Radio Button', 'acf' );
 			$this->category = 'choice';
@@ -36,7 +36,9 @@ if ( ! class_exists( 'radio' ) ) :
 				'return_format'     => 'value',
 			);
 
-		}
+			}
+
+	
 
 		/*
 		*  render_field_settings()
@@ -323,6 +325,7 @@ if ( ! class_exists( 'radio' ) ) :
 
 		}
 
+		
 		/**
 		 * Return the schema array for the REST API.
 		 *

@@ -51,9 +51,9 @@ if ( ! class_exists( 'post_title' ) ) :
 			return $field;
 		}
 
-		function prepare_field( $field ) {
+		function render_field( $field ) {
 			$field['type'] = 'text';
-			return $field;
+			parent::render_field( $field );
 		}
 
 		public function load_value( $value, $post_id = false, $field = false ) {
