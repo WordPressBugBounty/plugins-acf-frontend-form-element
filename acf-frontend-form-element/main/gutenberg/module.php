@@ -484,6 +484,34 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
             return $result;
         }
 
+        public function allowed_block_types( $allowed_blocks, $editor_context ) {
+             // Allow everything for admins
+    if (current_user_can('administrator')) {
+        return $allowed_blocks;
+    }
+       // If allowed_blocks is true (all blocks allowed), convert to full list first
+    if ($allowed_blocks === true) {
+        $allowed_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
+        $allowed_blocks = array_keys($allowed_blocks);
+    }
+            if ( ! empty( $editor_context->post ) && fea_instance()->is_license_active() ) {
+                $post = $editor_context->post;
+                $form_blocks = [
+                    'frontend-admin/form',
+                    'frontend-admin/form-steps',
+                    'frontend-admin/form-step',
+                    'frontend-admin/form-select',
+                    'frontend-admin/submissions-select'
+                ];
+
+                 //$field_types = fea_instance()->frontend->field_types;
+                if ( ! empty( $form_blocks ) ) {
+                    return array_merge( $allowed_blocks, $form_blocks );
+                }
+            }
+            return $allowed_blocks;
+        }
+
 
 
         public function __construct()
@@ -499,6 +527,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
 		    add_filter( 'rest_pre_dispatch', array( $this, 'rest_pre_dispatch' ), 10, 3 );
 
+            add_filter('allowed_block_types_all', [ $this, 'allowed_block_types' ], 10, 2 );
         }
     }
 

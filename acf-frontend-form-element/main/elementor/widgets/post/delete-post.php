@@ -30,6 +30,39 @@ class Delete_Post_Widget extends Widget_Base {
 		return 'delete_post';
 	}
 
+		/**
+	 * Show in panel.
+	 *
+	 * Whether to show the widget in the panel or not. By default returns true.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return bool Whether to show the widget in the panel or not.
+	 */
+	public function show_in_panel() {
+		if( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Hide on search.
+	 *
+	 * Whether to hide the widget on search in the panel or not. By default returns false.
+	 *
+	 * @access public
+	 *
+	 * @return bool Whether to hide the widget when searching for widget or not.
+	 */
+	public function hide_on_search() {
+		if( ! current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Check if the widget is dynamic.
 	 *

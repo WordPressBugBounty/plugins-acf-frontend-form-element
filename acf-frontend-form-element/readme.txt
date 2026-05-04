@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.29.1
+Stable tag: 3.29.2
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,7 +182,7 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
-= 3.29.1 - 29-04-2026 =
+= 3.29.2 - 29-04-2026 =
  * Added Steps block
  * Fixed Related Terms not loading value
  * Updated Frremius SDK 
