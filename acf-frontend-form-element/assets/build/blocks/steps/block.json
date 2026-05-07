@@ -26,7 +26,7 @@
     },
     "steps_tabs_display": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "steps_counter_display": {
       "type": "boolean",

@@ -643,6 +643,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 					if ( empty( $form['user_id'] ) || ! feadmin_user_exists( $form['user_id'] ) ) {
 						$form['user_id'] = 'none';
+						return $form;
 					}
 					$user = get_userdata( $form['user_id'] );
 					if( ! $user ){
@@ -682,7 +683,9 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 			if( ! current_user_can( 'edit_user', $user_id ) ){
 				if( ! in_array( 'edit_users', $condition['special_permissions'] ) )
-					$settings['user_id'] = 'none';
+					{
+						$settings['user_id'] = 'none';
+					}
 			}
 
 			return $settings;

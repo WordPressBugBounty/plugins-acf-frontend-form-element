@@ -164,11 +164,11 @@ class PermissionsTab {
 								} 
 							}
 						}
-
-						return $settings;
+						
+					}else{
+						$settings['display'] = false;
 					}
-
-					$settings['display'] = false;
+					
 
 				}
 

@@ -12,8 +12,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
     {
 
         public function render($attr, $content){
+                        global $fea_form, $fea_instance, $fea_scripts;
+
+            if( ! $fea_form ) return $content;
             ob_start();
-            global $fea_form, $fea_instance, $fea_scripts;
 
             $GLOBALS['admin_form'] = $fea_form;
          
@@ -72,6 +74,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 'nonce'    => wp_create_nonce('wp_rest'),
                 'postTypes' => $post_types_options,
                 'isProUser' => $fea_instance->is_license_active() && $fea_instance->remote_actions,
+                'isAdmin'   => current_user_can( 'manage_options' ),
             ];
            
             $localization_data = apply_filters( 'frontend_admin/gutenberg/block_editor_localization_data', $localization_data );
@@ -193,7 +196,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
         }
    
         function block_variations( $variations, $block_type ) {
-            if ( 'frontend-admin/form' !== $block_type->name ) {
+            if ( 'frontend-admin/form' !== $block_type->name || ! current_user_can( 'manage_options' ) ) {
                 return $variations;
             }
 

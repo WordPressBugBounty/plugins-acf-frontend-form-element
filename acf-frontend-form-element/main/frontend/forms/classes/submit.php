@@ -111,8 +111,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				wp_send_json_error( __( 'Authentication Error. Please try refreshing the page.', 'frontend-admin' ) );
 			}
 
+		
+			$form = apply_filters( 'frontend_admin/show_form', $form );
+			if( empty( $form['display'] ) ) {
+				wp_send_json_error( __( 'You do not have permission to submit this form.', 'frontend-admin' ) );
+			}
 			
-
 			// submit
 			$this->submit_form( $form );
 
@@ -569,7 +573,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 					}
 
-					error_log( 'Redirect URL before dynamic values: ' . $return );
 
 					$return = $fea_instance->dynamic_values->get_dynamic_values( $return, $form, true );
 

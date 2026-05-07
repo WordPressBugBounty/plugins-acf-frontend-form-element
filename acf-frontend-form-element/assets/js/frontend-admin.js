@@ -380,9 +380,6 @@ feaFunctions = {};
 	feaFunctions.showModal = function( $el, $width, $location ){
 		$location = $location || $( 'body' );
 		const mobile = window.innerWidth <= 500;
-		console.log( 'mobile', mobile );
-		console.log( 'window width', window.innerWidth );
-
 		$width    =  mobile ? 300 : $width || 600;
 		var $key;
 		if ( $el.data( 'modal_id' ) ) {
@@ -4946,6 +4943,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 			return values.length > 0 ? values : null;
 		}
+
+		if (field.tagName.toLowerCase() === "select" && field.multiple) {
+			let values = [];
+			const options = field.options;
+			for (let i = 0; i < options.length; i++) {
+				if (options[i].selected) {
+					values.push(options[i].value);
+				}
+			}
+			return values.length > 0 ? values : null;
+		}
         
         return field.value || null;
     }
@@ -5085,7 +5093,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			if (!form) return;
-			console.log('form found');
             checkAndApplyConditions(form);
     }
     document.addEventListener("change", triggerChecks);
@@ -5094,6 +5101,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	// trigger on select2 change
 	document.addEventListener('select2:select', triggerChecks);
 	document.addEventListener('select2:unselect', triggerChecks);
+	jQuery(document).on('select2:select', '.acf-field-select select', triggerChecks);
+	jQuery(document).on('select2:unselect', '.acf-field-select select', triggerChecks);
 
 	let forms = document.querySelectorAll(".frontend-form");
 	forms.forEach(function(form) {
