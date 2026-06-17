@@ -1104,7 +1104,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 							}
 						}
 					} 
-					$attach_data['file'] = $upload_dir . '/' . $file_base;
+					$attach_data['file'] = _wp_relative_upload_path( $upload_dir . '/' . $file_base );
 					wp_update_attachment_metadata( $attachment, $attach_data );
 
 					update_post_meta( $attachment, '_reached_dest', true );

@@ -18,7 +18,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			add_submenu_page(  'fea-settings', __( 'Settings', 'frontend-admin' ), __( 'Settings', 'frontend-admin' ), 'manage_options',  'fea-settings', '', 0 );
 		}
 
-		function admin_settings_page() {
+		public function admin_settings_page() {
 			global $_active_tab;
 			$_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'welcome';
 			?>
@@ -277,6 +277,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			//include_once __DIR__ . '/admin-pages/main/admin-tools.php';
 
 			include_once __DIR__ . '/admin-pages/forms/settings.php';
+			include_once __DIR__ . '/admin-pages/dashboard/settings.php';
 			do_action( 'frontend_admin/admin_pages' );
 
 		}

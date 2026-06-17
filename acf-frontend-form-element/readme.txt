@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 6.8.1
-Stable tag: 3.29.3
+Stable tag: 3.29.5
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,12 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.5 - 17-06-2026 =
+ * Fixed error when non admins submit forms in Gutenberg and Bricks 
+
+= 3.29.4 - 10-06-2026 =
+ * Fixed Multi Step forms
+
 = 3.29.3 - 07-05-2026 =
  * Fixed error in cpt edit page
  * Fixed multiple select field conditional logic issue

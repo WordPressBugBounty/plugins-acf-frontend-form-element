@@ -29,6 +29,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 		public $submissions_handler = null;
 		public $submissions_list = null;
 		public $form_builder = null;
+		public $dashboard_pages = null;
 		public $emails_handler = null;
 		public $subscriptions_handler = null;
 		public $plans_handler = null;
@@ -102,7 +103,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.29.3' );
+			define( 'FEA_VERSION', '3.29.5' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page

@@ -11,8 +11,9 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
     class Form
     {
 
+
         public function render($attr, $content){
-                        global $fea_form, $fea_instance, $fea_scripts;
+            global $fea_form, $fea_instance, $fea_scripts;
 
             if( ! $fea_form ) return $content;
             ob_start();
@@ -201,7 +202,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
             }
 
             $exclude = [
-                'admin_form', 'attachment', 'revision', 'nav_menu_item'
+                'admin_form', 'attachment', 'revision', 'nav_menu_item', 'dashboard_page', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block',
             ];
             $post_types = get_post_types( [ 'public' => true, 'publicly_queryable' => true, 'exclude_from_search' => false ], 'objects' );
 
@@ -212,6 +213,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     continue;
                 }
 
+                $icon = $post_type->menu_icon ?? 'admin-post';
+                $icon = str_replace( 'dashicons-', '', $icon );
                 // Add a custom variation
                 $variations[] = $this->get_form_variation( [
                     'save_type' => 'new', 
@@ -221,7 +224,11 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'title' => sprintf( __( 'New %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
                     'description' => sprintf( __( 'A form to create a new %s.', 'frontend-admin' ), $post_type->labels->singular_name ),
                     'attributes' => [
+                        'page_name' => 'Add New ' . $post_type->labels->singular_name,
                         'form_type' => 'new_' . $post_type->name,
+                        'group' => $post_type->name,
+                        'group_label' => $post_type->labels->singular_name,
+                        'icon' => $icon,
                         'form_settings' => [
                             'post_to_edit' => 'new_post',
                             'new_post_type' => $post_type->name,
@@ -229,6 +236,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     ]
                ] );
                $variations[] = $this->get_form_variation( [
+                    'page_name' => 'Edit ' . $post_type->labels->singular_name,
                     'save_type' => 'edit', 
                     'save_type_label' => 'Edit',
                     'post_type' => $post_type->name, 
@@ -237,6 +245,9 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'description' => sprintf( __( 'A form to edit an existing %s. The form will automatically load the %s that is being viewed.', 'frontend-admin' ), $post_type->labels->singular_name, $post_type->labels->singular_name ),
                     'attributes' => [
                         'form_type' => 'edit_' . $post_type->name,
+                        'group' => $post_type->name,
+                        'group_label' => $post_type->labels->singular_name,
+                        'icon' => $icon,
                         'form_settings' => [
                             'hide_if_no_post' => true,
                             'post_to_edit' => 'current_post',
@@ -295,6 +306,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                 }
                 $fea_form =  $form_data;
 
+                $fea_form['builder'] = 'gutenberg';
+                $fea_form['object'] = $block;
                 
                 $fea_form['fields'] = $this->get_form_fields( $block, $fea_form );
 
@@ -340,6 +353,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
             return $fields;
         }
+
 
         public function get_form_fields( $block, $form ){
             $fields = [];

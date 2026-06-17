@@ -262,15 +262,18 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						$form['wp_uploader'] = 1;
 
 						if( empty( $form['object'] ) ){
-					
-			
 
 							fea_instance()->form_display->render_form( $form );
 
 
 						}else{
-						
-							$form['object']->print_element();
+							if( 'gutenberg' == ( $form['builder'] ?? '' ) ){
+								 $block_content = render_block( $form['object'] );
+            					echo $block_content;
+							}else{
+								$form['object']->print_element();
+							}
+							
 						}
 						if ( ! empty( $form['record']['emails_to_verify'] ) ) {
 							 echo '<div class="emails-to-verify">';
@@ -409,7 +412,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 					if ( isset( $update ) && is_numeric( $form['record'][ $type ] ) ) {
 						$approval_form[ "save_to_{$type}" ] = 'edit_' . $type;
 					} else {
-						$approval_form[ "save_to_{$type}" ] = $form[ "save_to_{$type}" ];
+						$approval_form[ "save_to_{$type}" ] = $form[ "save_to_{$type}" ] ?? null;
 					}
 				}
 			}
@@ -450,46 +453,6 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			global $fea_submissions_page;
 			$fea_submissions_page = add_submenu_page(  'fea-settings', __( 'Submissions', 'frontend-admin' ), __( 'Submissions', 'frontend-admin' ), 'manage_options',  'fea-settings-submissions', array( $this, 'display_submissions' ), 81 );
 			add_action( "load-$fea_submissions_page", array( $this, 'submissions_page_options' ) );
-		}
-
-		public function transfer_acff_rows_to_new_table() {
-			 global $wpdb;
-
-			$old_name = $wpdb->prefix . 'acff_submissions';
-			$query    = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $old_name ) );
-
-			if ( $wpdb->get_var( $query ) !== $old_name ) {
-				return;
-			}
-
-			$sql     = "SELECT * FROM $old_name";
-			$results = $wpdb->get_results( $sql, 'ARRAY_A' );
-
-			if ( $results ) {
-				foreach ( $results as $result ) {
-					$submission = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $old_name WHERE id = %d", $result['id'] ) );
-					if ( $submission ) {
-						$this->insert_submission( $result );
-						$wpdb->delete( $old_name, array( 'id' => $result['id'] ) );
-					}
-				}
-			} else {
-				$wpdb->query( "DROP TABLE IF EXISTS $old_name" );
-			}
-
-			$sql     = "SELECT * FROM $old_name";
-			$results = $wpdb->get_results( $sql, 'ARRAY_A' );
-
-			if ( $results ) {
-				foreach ( $results as $result ) {
-					$submission = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $old_name WHERE id = %d", $result['id'] ) );
-					if ( $submission ) {
-						$this->insert_submission( $result );
-						$wpdb->delete( $old_name, array( 'id' => $result['id'] ) );
-					}
-				}
-			}
-
 		}
 	
 

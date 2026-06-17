@@ -105,6 +105,15 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 			return $form;
 		}
 
+		public function __construct() {
+			add_action( 'init', function() {
+				if ( get_option( 'fea_flush_permalinks' ) ) {
+					flush_rewrite_rules();
+					delete_option( 'fea_flush_permalinks' );
+				}
+			} );
+		}
+
 	}
 
 	fea_instance()->local_actions['options'] = new ActionOptions();

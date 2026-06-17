@@ -1326,6 +1326,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			if ( empty( $form['submission'] ) ) {
+				
 				$form = apply_filters( 'frontend_admin/show_form', $form, 'form' );
 				if ( empty( $form['display'] ) ) {
 					return;

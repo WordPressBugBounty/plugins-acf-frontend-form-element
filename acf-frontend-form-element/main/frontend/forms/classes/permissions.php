@@ -31,7 +31,62 @@ class PermissionsTab {
 			}
 		}
 
-		global $post, $fea_limit_visibility;
+		global $post, $fea_limit_visibility, $fea_block_visibility;
+
+		
+		if( 'gutenberg' == $settings['builder'] ) {
+		  	if( empty( $fea_block_visibility ) ) {
+				$settings['display'] = true;
+				return $settings;
+			}else{
+				foreach( $fea_block_visibility as $index => $group ){
+					foreach( $group as $key => $value ){
+						$settings['form_conditions'][$index] = [
+							'who_can_see' => $value['showFor'] ?? 'logged_in',
+							'by_role' => $value['showForRoles'] ?? array( 'administrator' ),
+						];
+					}
+				}
+			}
+		}
+
+		if( ! empty( $settings['builder'] ) && 'bricks' == $settings['builder'] ) {
+		  	if( empty( $fea_block_visibility ) ) {
+				$settings['display'] = true;
+				return $settings;
+			}else{
+				foreach( $fea_block_visibility as $index => $group ){
+					$form_condition = [];
+					foreach( $group as $rule ){
+						//rule has key and value, we need to do switch case for each key and set the value in the settings array
+						switch( $rule['key'] ){
+							case 'user_role':
+								error_log( 'User role: ' . print_r( $rule['value'], true ) );
+								$form_condition['by_role'] = $rule['value'];
+								$form_condition['who_can_see'] = 'logged_in';
+								break;
+							case 'not_allowed':
+								$form_condition['not_allowed'] = $rule['value'];
+								break;
+							case 'not_allowed_message':
+								$form_condition['not_allowed_message'] = $rule['value'];
+								break;
+							case 'not_allowed_content':
+								$form_condition['not_allowed_content'] = $rule['value'];
+								break;
+							case 'email_verification':
+								$form_condition['email_verification'] = $rule['value'];
+								break;
+							case 'user_id':
+								$form_condition['by_user_id'] = $rule['value'];
+								break;
+						}
+					}
+					$settings['form_conditions'][$index] = $form_condition;
+				}
+			}
+		}
+		
 
 		if ( ! empty( $settings['form_conditions'] ) ) {
 			$conditions = $settings['form_conditions'];
@@ -177,6 +232,7 @@ class PermissionsTab {
 			if( empty( $condition['special_permissions'] ) || ! is_array( $condition['special_permissions'] ) ){
 				$condition['special_permissions'] = [];
 			}	
+				
 			$settings = apply_filters( 'frontend_admin/special_permissions', $settings, $condition, $active_user );
 
 			if ( $condition['not_allowed'] == 'show_message' ) {

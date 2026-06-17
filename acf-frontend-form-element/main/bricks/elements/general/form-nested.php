@@ -245,6 +245,24 @@ class FrontendForm extends \Bricks\Element {
 		];
 	}
 
+	public function get_element_conditions( $element ){
+		
+		global $fea_block_visibility, $fea_template_id;
+		if( empty( $element['settings']['_conditions'] ) ) {
+			$parent = $element['parent'] ?? null;
+
+			if( $parent ){
+				$parent_element = \Bricks\Helpers::get_element_data( $fea_template_id, $parent );
+				if( $parent_element ){
+					$this->get_element_conditions( $parent_element['element'] );
+				}
+			}
+		}else{
+			$fea_block_visibility = $element['settings']['_conditions'];
+		}
+		
+	}
+
 	public function get_form_element( $form, $key ){
 		if ( strpos( $key, '_bricks_' ) === false ) {
 			return $form;
@@ -261,7 +279,10 @@ class FrontendForm extends \Bricks\Element {
 
 
 		if( $element ){
-			
+			global $fea_template_id;
+			$fea_template_id = $ids[0];
+			$this->get_element_conditions( $element['element'] );
+		
 			return $this->prepare_form( $element['element']['settings'], $key, $element['elements'] );
 		}
 		return false;

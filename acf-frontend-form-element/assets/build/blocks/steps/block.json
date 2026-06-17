@@ -34,7 +34,7 @@
     },
     "counter_text": {
       "type": "string",
-      "default": "{current_steps} / {total_steps}"
+      "default": "{current_step} / {total_steps}"
     },
     "tabs_align": {
       "type": "string",

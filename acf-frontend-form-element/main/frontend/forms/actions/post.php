@@ -1207,6 +1207,7 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			if( ! is_numeric( $post_id ) ){
 				return $settings;
 			}
+	
 
 			if ( ! current_user_can( 'edit_post', $post_id ) ) {
 				if( ! in_array( 'edit_posts', $condition['special_permissions'] ) ){

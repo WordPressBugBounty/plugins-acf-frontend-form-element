@@ -13,6 +13,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         public function register_blocks()
         {
             $blocks = [ 
+                //'dashboard_pages' => 'Dashboard_Pages',
                 'form' => 'Form',
                 'steps' => 'Form_Steps',
                 'step' => 'Form_Step',
@@ -266,6 +267,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
 
                 // Show for logged in users only
                 if ( $showFor === 'logged_in' ) {
+                    
                     if ( ! $is_logged_in ) {
                         return [ false, $message ];
                     }
@@ -274,6 +276,11 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                     if ( ! empty( $roles ) ) {
                         $user_roles = (array) $user->roles;
                         $intersect = array_intersect( $user_roles, $roles );
+
+                        error_log( 'Evaluating role-based visibility rule:' );
+                        error_log( 'User roles: ' . implode( ', ', $user_roles ) );
+                        error_log( 'Rule roles: ' . implode( ', ', $roles ) );
+                        error_log( 'Intersect: ' . implode( ', ', $intersect ) );
 
                         if ( empty( $intersect ) ) {
                             return [ false, $message ];
@@ -411,6 +418,7 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
        
 
         public function get_the_block( $ids, $type = 'form' ) {
+
             $post_id = $ids[0];
             $key = $ids[1];
 
@@ -443,8 +451,16 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
         }
 
         public function recursive_block_search( $block, $key, $type = 'form' ) {
+            global $post, $fea_block_visibility;
+
             if ( ! is_array( $block ) ) {
+                $fea_block_visibility = null; // Reset global variable if block is not an array
                 return null;
+            }
+
+            // Check if the block has the limitVisility attribute and if so, save it to the global variable
+            if ( ! empty( $block['attrs']['limitVisibility'] ) && ! empty( $block['attrs']['visibilityRules'] ) ) {
+                $fea_block_visibility = $block['attrs']['visibilityRules'];
             }
 
             if ( ! empty( $block['attrs'][$type.'_key'] ) && $block['attrs'][$type.'_key'] === $key ) {
@@ -460,6 +476,8 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                     }
                 }
             }
+
+            $fea_block_visibility = null; // Reset global variable when going back up the recursion
 
             return null;
         }

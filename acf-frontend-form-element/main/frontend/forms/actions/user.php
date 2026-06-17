@@ -613,7 +613,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 						$form['user_to_edit'] = 'current_user';
 					}
 
-					if ( $form['user_to_edit'] == 'current_author' ) {
+					if ( 'current_author' == $form['user_to_edit'] ) {
 						if ( is_author() ) {
 							$author_id = get_queried_object_id();
 						} else {
@@ -622,7 +622,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 						$form['user_id'] = $author_id;
 					}
 
-					if ( $form['user_to_edit'] == 'select_user' ) {
+					if ( 'select_user' == $form['user_to_edit'] ) {
 						if ( ! empty( $form['select_user'] ) ) {
 							$form['user_id'] = $form['select_user'];
 						} else {
@@ -631,12 +631,12 @@ if ( ! class_exists( 'ActionUser' ) ) :
 							}
 						}
 					}
-					if ( $form['user_to_edit'] == 'url_query' ) {
+					if ( 'url_query' == $form['user_to_edit'] ) {
 						if ( isset( $_GET[ $form['url_query_user'] ] ) ) {
 							$form['user_id'] = absint( $_GET[ $form['url_query_user'] ] );
 						}
 					}
-					if ( $form['user_to_edit'] == 'current_user' ) {
+					if ( 'current_user' == $form['user_to_edit'] ) {
 						$form['user_id'] = get_current_user_id();
 					}
 				

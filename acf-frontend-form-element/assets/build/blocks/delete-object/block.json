@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "frontend-admin/delete-object",
+  "title": "Frontend Admin Delete Button",
+  "description": "Display a delete button so that your users can delete content from the frontend.",
+  "category": "frontend-admin",
+  "textdomain": "frontend-admin",
+  "icon": "list-view",
+  "supports": {
+    "align": [
+      "wide"
+    ]
+  },
+  "attributes": {
+    "buttonID": {
+      "type": "number",
+      "default": 0
+    },
+    "objectType": {
+      "type": "string",
+      "default": "post"
+    },
+    "button_settings": {
+      "type": "object",
+      "default": {
+        "post_type": [
+          "post"
+        ],
+        "post_to_edit": "current_post",
+        "url_query_post": "post_id",
+        "select_post": 0,
+        "redirect": "current",
+        "redirect_action": "none",
+        "custom_url": "",
+        "show_update_message": true,
+        "update_message": "Your post has been deleted successfully",
+        "error_message": "There has been an error. Please try again."
+      }
+    }
+  },
+  "editorScript": "file:../../admin-form/index.js"
+}

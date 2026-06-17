@@ -39,7 +39,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
             $active_step = 0;
             $tab_links = isset( $attr['tab_links'] ) ? boolval( $attr['tab_links'] ) : false;
             $tab_align = isset( $attr['tabs_align'] ) ? $attr['tabs_align'] : 'left';
-            $validate_steps = isset( $attr['validate_steps'] ) ? boolval( $attr['validate_steps'] ) : false;
+            $validate_steps = ! empty( $attr['validate_steps'] );
+
 
             global $fea_steps_context;
             $steps_total = count( $block->inner_blocks );
@@ -67,7 +68,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
 					}
 
                 $counter = sprintf(
-                    '<div class="fe-form-steps-counter">%s</div>',
+                    '<div class="fea-form-steps-counter">%s</div>',
                     $counter_text
                 );
             }
@@ -86,7 +87,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
                     $tabs .= sprintf(
                         '<button 
                             type="button"                                             
-                            class="form-tab %s %s"
+                            class="fea-step-tab %s %s"
                             data-step="%d"                          
                         >%s</button>',
                         $active_class,
@@ -122,45 +123,19 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
                 <?php if( ! empty( $counter ) ){ echo $counter; } ?>
 
                 <?php if ( ! empty( $tabs ) ) : ?>
-                    <div class="fe-form-steps-tabs">
+                    <div class="fea-form-steps-tabs">
                         <?php echo $tabs; ?>
                     </div>
                 <?php endif; ?>
 
-                 <div class="fe-form-steps-content">
+                 <div class="fea-form-steps-content">
                     <?php echo $content; ?>
                 </div>
 
 
             </div>
 
-            <style>
-                .fe-form-steps {
-                    border: 1px solid #ddd;
-                    padding: 20px;
-                    }
-
-                    .fe-form-steps-tabs {
-                    display: flex;
-                    gap: 8px;
-                    margin-bottom: 20px;
-                    }
-
-                    .fe-step-tab {
-                    padding: 8px 14px;
-                    border: 1px solid #ccc;
-                    background: white;
-                    cursor: pointer;
-                    }
-
-                    .fe-step-tab.is-active {
-                    background: #007cba;
-                    color: white;
-                    border-color: #007cba;
-                    }
-
-                  
-            </style>
+            
             <?php
            
 

@@ -52,7 +52,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Step') ) :
                     type="button" 
                     data-step="%s"
                     data-button="next"
-                    class="fe-step-next change-step">%s
+                    class="fea-step-next change-step">%s
                 </button>',
                 $steps_total == $current_step ? 'submit' : $current_step + 1,
                 $next_button
@@ -63,7 +63,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Step') ) :
                     type="button" 
                     data-step="%d"
                     data-button="prev"      
-                    class="change-step">%s
+                    class="change-step fea-step-prev">%s
                 </button>',
                 $current_step - 1,
                 $prev_button
@@ -71,7 +71,7 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Step') ) :
 
 
 
-            $render .= '<div class="fe-step-navigation">';
+            $render .= '<div class="fea-step-navigation">';
             if ( $current_step > 1 ) {
                 $render .= $prev_button;
             }

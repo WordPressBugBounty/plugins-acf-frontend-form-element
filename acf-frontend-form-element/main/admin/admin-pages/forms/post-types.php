@@ -40,14 +40,14 @@ if ( function_exists( 'register_post_type' ) ) :
 		'supports'          => false,
 		'show_in_rest'      => true,
 		'hierarchical'      => false,
-		'public'            => true,
+		'public'            => false,
 		'show_ui'           => true,
 		'show_in_menu'      =>  'fea-settings',
 		'menu_position'     => 80,
 		'show_in_admin_bar' => true,
 		'can_export'        => true,
 		'rewrite'           => array(
-			'with_front' => true,
+			'with_front' => false,
 			'slug'       => $dashboard_slug,
 		),
 		    'capability_type' => 'post',
@@ -85,68 +85,6 @@ if ( function_exists( 'register_post_type' ) ) :
 	);
 
 
-	/*
-		 $labels = array(
-		'name'                  => _x( 'Templates', 'Post Type General Name', 'frontend-admin' ),
-		'singular_name'         => _x( 'Template', 'Post Type Singular Name', 'frontend-admin' ),
-		'menu_name'             => __( 'Templates', 'frontend-admin' ),
-		'name_admin_bar'        => __( 'Template', 'frontend-admin' ),
-		'archives'              => __( 'Template Archives', 'frontend-admin' ),
-		'all_items'             => __( 'Templates', 'frontend-admin' ),
-		'add_new_item'          => __( 'Add New Template', 'frontend-admin' ),
-		'add_new'               => __( 'Add New', 'frontend-admin' ),
-		'new_item'              => __( 'New Template', 'frontend-admin' ),
-		'edit_item'             => __( 'Edit Template', 'frontend-admin' ),
-		'update_item'           => __( 'Update Template', 'frontend-admin' ),
-		'view_item'             => __( 'View Template', 'frontend-admin' ),
-		'search_items'          => __( 'Search Template', 'frontend-admin' ),
-		'not_found'             => __( 'Not found', 'frontend-admin' ),
-		'not_found_in_trash'    => __( 'Not found in Trash', 'frontend-admin' ),
-		'items_list'            => __( 'Templates list', 'frontend-admin' ),
-		'item_published'        => __( 'Settings Saved', 'frontend-admin' ),
-		'item_updated'          => __( 'Settings Saved', 'frontend-admin' ),
-		'items_list_navigation' => __( 'Templates list navigation', 'frontend-admin' ),
-		'filter_items_list'     => __( 'Filter templates list', 'frontend-admin' ),
-	);
-
-	$args = array(
-		'label'                 => __( 'Template', 'frontend-admin' ),
-		'description'           => __( 'Template', 'frontend-admin' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor' ),
-		'show_in_rest'          => true,
-		'hierarchical'          => false,
-		'public'                => false,
-		'show_ui'               => true,
-		'show_in_menu'          => 'frontend-admin-settings',
-		'menu_position'         => 80,
-		'show_in_admin_bar'     => false,
-		'can_export'            => true,
-		'capability_type'       => 'page',
-		'query_var'                => false,
-	);
-	register_post_type( 'fea-template', $args ); */
-
-
-	add_filter(
-		'post_updated_messages',
-		function ( $messages ) {
-			$messages['admin_template'] = array(
-				'',
-				__( 'Template updated.' ),
-				__( 'Custom field updated.' ),
-				__( 'Custom field deleted.' ),
-				__( 'Template updated.' ),
-				'',
-				__( 'Template published.' ),
-				__( 'Template saved.' ),
-				__( 'Template submitted.' ),
-				'',
-				__( 'Template draft updated.' ),
-			);
-			return $messages;
-		}
-	);
 
 	do_action( 'frontend_admin/post_types' );
 
