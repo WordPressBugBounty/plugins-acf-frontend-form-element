@@ -229,6 +229,8 @@ $fields = array(
 				'choices'           => array(
 					'edit_posts'   => __( 'Edit Other\'s Posts', 'frontend-admin' ),
 					'edit_users'   => __( 'Edit Other Users', 'frontend-admin' ),
+					'edit_terms'   => __( 'Edit Terms', 'frontend-admin' ),
+					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
 				),
 				'conditional_logic' => array(
 					array(

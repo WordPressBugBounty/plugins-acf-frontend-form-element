@@ -34,7 +34,7 @@ class PermissionsTab {
 		global $post, $fea_limit_visibility, $fea_block_visibility;
 
 		
-		if( 'gutenberg' == $settings['builder'] ) {
+		if( ! empty( $settings['builder'] ) && 'gutenberg' == $settings['builder'] ) {
 		  	if( empty( $fea_block_visibility ) ) {
 				$settings['display'] = true;
 				return $settings;
@@ -213,9 +213,9 @@ class PermissionsTab {
 							if ( $submits - (int) $submitted <= 0 ) {
 								$settings['display'] = false;
 								if ( $condition['limit_reached'] == 'show_message' ) {
-									echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>' . $condition['limit_reached_message'] . '</p></div>';
+									$settings['message'] = '<div class="acf-notice -limit frontend-admin-limit-message"><p>' . $condition['limit_reached_message'] . '</p></div>';
 								} elseif ( $condition['limit_reached'] == 'custom_content' ) {
-									echo wp_kses_post( $condition['limit_reached_content'] );
+									$settings['message'] = wp_kses_post( $condition['limit_reached_content'] );
 								} 
 							}
 						}
@@ -236,16 +236,19 @@ class PermissionsTab {
 			$settings = apply_filters( 'frontend_admin/special_permissions', $settings, $condition, $active_user );
 
 			if ( $condition['not_allowed'] == 'show_message' ) {
-				echo '<div class="acf-notice -limit frontend-admin-limit-message"><p>' . esc_html( $condition['not_allowed_message'] ) . '</p></div>';
+				$settings['message'] = '<div class="acf-notice -limit frontend-admin-limit-message"><p>' . esc_html( $condition['not_allowed_message'] ) . '</p></div>';
 			} elseif ( $condition['not_allowed'] == 'custom_content' ) {
-				echo wp_kses_post( $condition['not_allowed_content'] );
+				$settings['message'] = wp_kses_post( $condition['not_allowed_content'] );
 			}
 
 			if ( $settings['display'] ) {
+				$settings['special_permissions'] = $condition['special_permissions'];
 				break;
 			}
 		}
+
 		if ( empty( $settings['display'] ) ) {
+			echo $settings['message'];
 			$settings = false;
 		}
 

@@ -23,6 +23,12 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			'required'      => true,
 		);
 
+		// Tracks whether the global remaining-characters hook has been registered (only needs to happen once).
+		private static $remaining_characters_hooked = false;
+
+		// Tracks whether the ACF native field type settings hooks have been registered.
+		private static $acf_char_counter_hooked = false;
+
 		/*
 		*  __construct
 		*
@@ -41,7 +47,25 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			
 			$this->initialize();
 
-				
+				if ( ! self::$remaining_characters_hooked ) {
+					self::$remaining_characters_hooked = true;
+					add_filter( 'acf/prepare_field', array( __CLASS__, 'add_remaining_characters_attrs' ), 20 );
+				}
+
+				if ( ! self::$acf_char_counter_hooked ) {
+					self::$acf_char_counter_hooked = true;
+					// ACF native text/textarea already have maxlength — just append the toggle.
+					add_action( 'acf/render_field_settings/type=text',     array( __CLASS__, 'inject_show_remaining_setting' ), 20 );
+					add_action( 'acf/render_field_settings/type=textarea', array( __CLASS__, 'inject_show_remaining_setting' ), 20 );
+					// ACF native email/url have no maxlength — add both settings.
+					add_action( 'acf/render_field_settings/type=email', array( __CLASS__, 'inject_char_limit_and_remaining' ), 20 );
+					add_action( 'acf/render_field_settings/type=url',   array( __CLASS__, 'inject_char_limit_and_remaining' ), 20 );
+					// Server-side validation for types that don't natively enforce maxlength.
+					add_filter( 'acf/validate_value/type=email', array( __CLASS__, 'validate_char_limit' ), 20, 4 );
+					add_filter( 'acf/validate_value/type=url',   array( __CLASS__, 'validate_char_limit' ), 20, 4 );
+				}
+
+
 				if( $this->public && '' !== $this->name ) acf_register_field_type( $this );
 
 				
@@ -380,7 +404,159 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			// return
 			return $field;
 		}
-		
+
+		/**
+		 * Adds the "remaining characters" wrapper data attributes to any field (regardless of
+		 * type) that has a character limit and has opted in to showing the remaining count.
+		 * Hooked once into the generic (non type-specific) "acf/prepare_field" filter so it
+		 * applies to every text-based field type, not just textarea.
+		 *
+		 * @param array $field
+		 * @return array
+		 */
+		public static function add_remaining_characters_attrs( $field ) {
+			if ( empty( $field['maxlength'] ) || empty( $field['show_remaining_characters'] ) ) {
+				return $field;
+			}
+
+			$field['wrapper']['data-char-remaining'] = 1;
+			$field['wrapper']['data-remaining-text'] = $field['remaining_characters_text'] ?? '';
+			$field['wrapper']['data-maxlength']      = $field['maxlength'];
+
+			return $field;
+		}
+
+		/**
+		 * Renders the "Show Remaining Characters" and "Remaining Characters Text" field settings.
+		 * Shared by any field type that supports a character limit (text, text_editor, etc).
+		 * Requires the field to also expose a "maxlength" setting.
+		 *
+		 * @param array $field
+		 * @return void
+		 */
+		function remaining_characters_setting( $field ) {
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Show Remaining Characters', 'frontend-admin' ),
+					'instructions' => __( 'Display the number of characters remaining based on the maxlength setting', 'frontend-admin' ),
+					'type'         => 'true_false',
+					'name'         => 'show_remaining_characters',
+					'ui'           => 1,
+					'conditions'   => array(
+						array(
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						),
+					),
+				)
+			);
+
+			// text to show when characters are remaining
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'         => __( 'Remaining Characters Text', 'frontend-admin' ),
+					'instructions'  => __( 'Text to show before the remaining character count. Use {count_down} or {count_up} as a placeholder for the number and {total} for the total', 'frontend-admin' ),
+					'type'          => 'text',
+					'name'          => 'remaining_characters_text',
+					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'frontend-admin' ),
+					'conditions'    => array(
+						array(
+							'field'    => 'show_remaining_characters',
+							'operator' => '==',
+							'value'    => 1,
+						),
+						array(
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						),
+					),
+				)
+			);
+		}
+
+		/**
+		 * Injected into ACF native text/textarea settings (which already have maxlength).
+		 * Adds only the Show Remaining Characters toggle and text after the existing maxlength setting.
+		 */
+		public static function inject_show_remaining_setting( $field ) {
+			self::render_remaining_characters_fields( $field );
+		}
+
+		/**
+		 * Injected into ACF native email/url settings (which have no maxlength).
+		 * Adds both a Character Limit number field and the Show Remaining Characters toggle.
+		 */
+		public static function inject_char_limit_and_remaining( $field ) {
+			acf_render_field_setting( $field, array(
+				'label'        => __( 'Character Limit', 'frontend-admin' ),
+				'instructions' => __( 'Leave blank for no limit', 'frontend-admin' ),
+				'type'         => 'number',
+				'name'         => 'maxlength',
+			) );
+			self::render_remaining_characters_fields( $field );
+		}
+
+		/**
+		 * Renders the Show Remaining Characters toggle and Remaining Characters Text setting.
+		 * Static so it can be called from static hook callbacks without an instance.
+		 */
+		public static function render_remaining_characters_fields( $field ) {
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Show Remaining Characters', 'frontend-admin' ),
+					'instructions' => __( 'Display the number of characters remaining based on the maxlength setting', 'frontend-admin' ),
+					'type'         => 'true_false',
+					'name'         => 'show_remaining_characters',
+					'ui'           => 1,
+					'conditions'   => array(
+						array(
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						),
+					),
+				)
+			);
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'         => __( 'Remaining Characters Text', 'frontend-admin' ),
+					'instructions'  => __( 'Use {count_down} or {count_up} as a placeholder for the number and {total} for the total', 'frontend-admin' ),
+					'type'          => 'text',
+					'name'          => 'remaining_characters_text',
+					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'frontend-admin' ),
+					'conditions'    => array(
+						array(
+							'field'    => 'show_remaining_characters',
+							'operator' => '==',
+							'value'    => 1,
+						),
+						array(
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						),
+					),
+				)
+			);
+		}
+
+		/**
+		 * Server-side maxlength enforcement for ACF native types that don't validate it themselves
+		 * (email, url). Fires via acf/validate_value/type=X filters.
+		 */
+		public static function validate_char_limit( $valid, $value, $field, $input ) {
+			if ( $valid && ! empty( $field['maxlength'] ) && is_string( $value ) && acf_strlen( $value ) > (int) $field['maxlength'] ) {
+				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
+			}
+			return $valid;
+		}
+
 		/**
 		 * Apply basic formatting to prepare the value for default REST output.
 		 *

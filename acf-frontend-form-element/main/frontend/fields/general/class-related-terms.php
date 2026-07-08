@@ -1039,7 +1039,25 @@ if ( ! class_exists( 'related_terms' ) ) :
 			}
 
 			// vars
-			$taxonomy_obj   = get_taxonomy( $args['taxonomy'] );
+			$taxonomy_obj = get_taxonomy( $args['taxonomy'] );
+
+			if ( ! $taxonomy_obj ) {
+				wp_send_json_error(
+					array(
+						'error' => __( 'Invalid taxonomy', 'frontend-admin' ),
+					)
+				);
+			}
+
+			// verify the current user is allowed to create terms in this taxonomy
+			if ( ! current_user_can( $taxonomy_obj->cap->edit_terms ) ) {
+				wp_send_json_error(
+					array(
+						'error' => __( 'You do not have permission to add this term', 'frontend-admin' ),
+					)
+				);
+			}
+
 			$taxonomy_label = $taxonomy_obj->labels->singular_name;
 
 			// save?

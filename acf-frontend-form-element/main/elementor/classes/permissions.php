@@ -194,8 +194,10 @@ class Permissions {
 				'type'        => Controls_Manager::SELECT2,
 				'multiple'    => true,
 				'options'     => array(
-					'edit_posts' => __( 'Edit Other\'s Posts', 'frontend-admin' ),
-					'edit_users' => __( 'Edit Users', 'frontend-admin' ),
+					'edit_posts'   => __( 'Edit Other\'s Posts', 'frontend-admin' ),
+					'edit_users'   => __( 'Edit Users', 'frontend-admin' ),
+					'edit_terms'   => __( 'Edit Terms', 'frontend-admin' ),
+					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
 				),
 				'description' => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
 			)

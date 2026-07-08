@@ -27,11 +27,14 @@ if ( ! class_exists( 'text_editor' ) ) :
 			$this->category = 'content';
 			$this->public   = false;
 			$this->defaults = array(
-				'tabs'          => 'all',
-				'toolbar'       => 'full',
-				'media_upload'  => 1,
-				'default_value' => '',
-				'delay'         => 0,
+				'tabs'                      => 'all',
+				'toolbar'                   => 'full',
+				'media_upload'              => 1,
+				'default_value'             => '',
+				'delay'                     => 0,
+				'maxlength'                 => '',
+				'show_remaining_characters' => 0,
+				'remaining_characters_text' => '',
 			);
 
 	
@@ -145,6 +148,19 @@ if ( ! class_exists( 'text_editor' ) ) :
 				)
 			);
 
+			// maxlength
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Character Limit', 'frontend-admin' ),
+					'instructions' => __( 'Leave blank for no limit', 'frontend-admin' ),
+					'type'         => 'number',
+					'name'         => 'maxlength',
+				)
+			);
+
+			$this->remaining_characters_setting( $field );
+
 		}
 
 	
@@ -171,6 +187,26 @@ if ( ! class_exists( 'text_editor' ) ) :
 
 			// Follow the_content function in /wp-includes/post-template.php
 			return str_replace( ']]>', ']]&gt;', $value );
+		}
+
+		/**
+		 * validate_value
+		 *
+		 * Validates a field's value. Mirrors the client-side limit enforced in the
+		 * TinyMCE editor, counting visible (non-HTML) characters.
+		 *
+		 * @param   (bool|string) Whether the value is vaid or not.
+		 * @param   mixed                                          $value The field value.
+		 * @param   array                                          $field The field array.
+		 * @param   string                                         $input The HTML input name.
+		 * @return  (bool|string)
+		 */
+		function validate_value( $valid, $value, $field, $input ) {
+			if ( ! empty( $field['maxlength'] ) && is_string( $value ) && acf_strlen( wp_strip_all_tags( $value ) ) > $field['maxlength'] ) {
+				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
+			}
+
+			return $valid;
 		}
 
 	}

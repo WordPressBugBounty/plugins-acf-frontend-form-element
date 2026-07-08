@@ -431,8 +431,25 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			return $form;
 		}
 
+		public function conditions_logic( $settings, $condition, $user ) {
+			$term_id = $settings['term_id'] ?? 'none';
+
+			if ( ! is_numeric( $term_id ) ) {
+				return $settings;
+			}
+
+			if ( ! current_user_can( 'edit_term', $term_id ) ) {
+				if ( ! in_array( 'edit_terms', $condition['special_permissions'] ) ) {
+					$settings['term_id'] = 'none';
+				}
+			}
+
+			return $settings;
+		}
+
 		public function __construct() {
 			 add_filter( 'acf_frontend/save_form', array( $this, 'save_form' ), 4 );
+			 add_filter( 'frontend_admin/special_permissions', array( $this, 'conditions_logic' ), 10, 3 );
 		}
 	}
 	fea_instance()->local_actions['term'] = new ActionTerm();

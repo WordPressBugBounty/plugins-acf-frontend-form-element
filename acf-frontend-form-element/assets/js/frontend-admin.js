@@ -5117,18 +5117,24 @@ document.fea = feaFunctions || {};
 (function($){
 
     function initCharCounter($field) {
-        const $textarea = $field.find('textarea');
+        // WYSIWYG editor fields are TinyMCE inline editors (contenteditable divs), not textarea/input elements.
+        let $input = $field.find('.fea-wysiwyg-frontend');
+        const isWysiwyg = !!$input.length;
 
-        if (!$textarea.length) return;
+        if (!isWysiwyg) {
+            $input = $field.find('textarea, input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="search"], input[type="number"]');
+        }
+
+        if (!$input.length) return;
 
         const maxLength = $field.data('maxlength') || null;
 
         // Create counter element
         const $counter = $('<div class="acf-char-counter" style="margin-top:4px;font-size:12px;color:#666;"></div>');
-        $textarea.after($counter);
+        $input.after($counter);
 
         function updateCount() {
-            const length = $textarea.val().length;
+            const length = (isWysiwyg ? $input.text() : $input.val()).length;
 
             if (maxLength) {
                 $counter.text(length + ' / ' + maxLength);
@@ -5138,7 +5144,7 @@ document.fea = feaFunctions || {};
         }
 
         // Bind events
-        $textarea.on('input', updateCount);
+        $input.on('input', updateCount);
 
         // Initial count
         updateCount();
@@ -5155,9 +5161,15 @@ document.fea = feaFunctions || {};
 (function($){
 
     function initRemainingCounter($field) {
-        const $textarea = $field.find('textarea');
+        // WYSIWYG editor fields are TinyMCE inline editors (contenteditable divs), not textarea/input elements.
+        let $input = $field.find('.fea-wysiwyg-frontend');
+        const isWysiwyg = !!$input.length;
 
-        if (!$textarea.length) return;
+        if (!isWysiwyg) {
+            $input = $field.find('textarea, input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="search"], input[type="number"]');
+        }
+
+        if (!$input.length) return;
 
         // Prevent duplicate init
         if ($field.data('counter-initialized')) return;
@@ -5172,7 +5184,7 @@ document.fea = feaFunctions || {};
             <div class="acf-char-remaining" style="margin-top:4px;font-size:12px;color:#666;"></div>
         `);
 
-        $textarea.after($counter);
+        $input.after($counter);
 
         function formatText(countUp, countDown, total) {
             return template
@@ -5182,7 +5194,7 @@ document.fea = feaFunctions || {};
         }
 
         function updateCount() {
-            const countUp = $textarea.val().length;
+            const countUp = (isWysiwyg ? $input.text() : $input.val()).length;
             const countDown = Math.max(maxLength - countUp, 0);
 
             $counter.text(formatText(countUp, countDown, maxLength));
@@ -5197,7 +5209,7 @@ document.fea = feaFunctions || {};
             }
         }
 
-        $textarea.on('input', updateCount);
+        $input.on('input', updateCount);
 
         updateCount();
     }

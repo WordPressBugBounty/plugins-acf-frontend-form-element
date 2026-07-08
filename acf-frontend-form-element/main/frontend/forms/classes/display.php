@@ -1788,7 +1788,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			//wrapper tag
-			$field['wrapper_tag'] = $atts['tag'] ?? 'div';
+			$allowed_wrapper_tags = array( 'div', 'span', 'p', 'section', 'article', 'header', 'footer', 'aside', 'li', 'ul' );
+			$wrapper_tag = $atts['tag'] ?? 'div';
+			if ( ! in_array( $wrapper_tag, $allowed_wrapper_tags, true ) ) {
+				$wrapper_tag = 'div';
+			}
+			$field['wrapper_tag'] = $wrapper_tag;
 
 
 			echo fea_instance()->dynamic_values->render_field_display( $field, $source );

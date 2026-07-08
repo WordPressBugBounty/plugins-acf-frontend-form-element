@@ -142,7 +142,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$term_id = intval( $objects['term'] );
 					if( ! $term_id ) wp_send_json_error( __( 'No Term ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'delete_term', $term_id ) && ! $allowed_by_settings ) {
+					$term_special_permissions = $field['special_permissions'] ?? array();
+					if ( ! current_user_can( 'delete_term', $term_id ) && ! in_array( 'delete_terms', $term_special_permissions ) ) {
 						 wp_send_json_error( __( 'You do have have permission to delete this term', 'frontend-admin' ) );
 					}
 					$deleted                = wp_delete_term( $term_id, sanitize_title( $_POST['_acf_taxonomy_type'] ) );

@@ -814,6 +814,10 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 			$wrapper = apply_filters( 'acf/field_wrapper_attributes', $wrapper, $field );
 
 			$tag = $field['wrapper_tag'] ?? 'div';
+			$tag = tag_escape( $tag );
+			if ( empty( $tag ) ) {
+				$tag = 'div';
+			}
 			?>
 			<<?php echo $tag . ' ' . acf_esc_attrs( $wrapper ) ?>>
 			<?php

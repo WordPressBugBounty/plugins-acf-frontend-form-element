@@ -24,11 +24,13 @@ if ( ! class_exists( 'text' ) ) :
 			$this->label    = __( 'Text', 'frontend-admin' );
 			  $this->public = false;
 			$this->defaults = array(
-				'default_value' => '',
-				'maxlength'     => '',
-				'placeholder'   => '',
-				'prepend'       => '',
-				'append'        => '',
+				'default_value'             => '',
+				'maxlength'                 => '',
+				'placeholder'               => '',
+				'prepend'                   => '',
+				'append'                    => '',
+				'show_remaining_characters' => 0,
+				'remaining_characters_text' => '',
 			);
 
 		}
@@ -300,6 +302,8 @@ if ( ! class_exists( 'text' ) ) :
 					'name'         => 'maxlength',
 				)
 			);
+
+			$this->remaining_characters_setting( $field );
 
 		}
 

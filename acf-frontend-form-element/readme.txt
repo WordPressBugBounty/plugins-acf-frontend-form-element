@@ -2,8 +2,8 @@
 Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
-Tested up to: 6.8.1
-Stable tag: 3.29.5
+Tested up to: 7.0.0
+Stable tag: 3.29.8
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,16 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.8 - 08-07-2026 =
+ * Added character count feature to all text fields
+
+= 3.29.7 - 06-07-2026 =
+ * Added special permissions options
+ * Fixed Product Status field
+
+= 3.29.6 - 18-06-2026 =
+ * Fixed permissions showing when user can view form
+
 = 3.29.5 - 17-06-2026 =
  * Fixed error when non admins submit forms in Gutenberg and Bricks 
 
