@@ -1210,7 +1210,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				break;
 				default:
 					if ( is_string( $value ) ) {
-						$return .= $value;
+						$return .= esc_html( $value );
 					} else {
 						$return .= $this->display_default_value( $value );
 					}

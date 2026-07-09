@@ -627,7 +627,6 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 				<?php
 				foreach ( $value as $i => $v ) :
-					$i++;
 					// bail early if no value
 					if ( ! $v ) {
 						continue;

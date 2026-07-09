@@ -33,7 +33,9 @@ if ( ! class_exists( 'textarea' ) ) :
 				'rows'          => '',
 			);
 
-			$fields = ['textarea','post_excerpt', 'product_short_description'];
+			// 'textarea' is handled by the centralized character-counter hooks in Field_Base,
+			// so it's excluded here to avoid rendering the "Show Remaining Characters" setting twice.
+			$fields = ['post_excerpt', 'product_short_description'];
 
 			foreach ( $fields as $field ) {
 				add_filter( "acf/prepare_field/type={$field}", [ $this, 'prepare_field' ], 10, 1 );
@@ -56,47 +58,7 @@ if ( ! class_exists( 'textarea' ) ) :
 			}
 
 		function remaining_characters_setting( $field ) {
-			acf_render_field_setting(
-				$field,
-				[
-					'label'        => __( 'Show Remaining Characters', 'acf' ),
-					'instructions' => __( 'Display the number of characters remaining based on the maxlength setting', 'acf' ),
-					'type'         => 'true_false',
-					'name'         => 'show_remaining_characters',
-					'ui'           => 1,
-					'conditions'   => [
-						[
-							'field'    => 'maxlength',
-							'operator' => '!=',
-							'value'    => '',
-						],
-					],
-				]
-			);
-
-			//text to show when characters are remaining
-			acf_render_field_setting(
-				$field,
-				[
-					'label'        => __( 'Remaining Characters Text', 'acf' ),
-					'instructions' => __( 'Text to show before the remaining character count. Use {count_down} or {count_up} as a placeholder for the number and {total} for the total', 'frontend-admin' ),
-					'type'         => 'text',
-					'name'         => 'remaining_characters_text',
-					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'acf' ),
-					'conditions'   => [
-						[
-							'field'    => 'show_remaining_characters',
-							'operator' => '==',
-							'value'    => 1,
-						],
-						[
-							'field'    => 'maxlength',
-							'operator' => '!=',
-							'value'    => '',
-						],
-					],
-				]
-			);
+			Field_Base::render_remaining_characters_fields( $field );
 		}
 
 		

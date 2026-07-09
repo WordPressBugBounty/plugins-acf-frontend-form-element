@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 7.0.0
-Stable tag: 3.29.8
+Stable tag: 3.29.9
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,12 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.9 - 09-07-2026 =
+ * Changed character limit color scheme to use percentage of the limit reached instead of a fixed character count
+ * Added option to always use default color for character limit message
+ * Fixed "Show Remaining Characters" setting appearing twice on Text Area fields
+ * Fixed Gallery field hiding uploaded images from the media library
+
 = 3.29.8 - 08-07-2026 =
  * Added character count feature to all text fields
 

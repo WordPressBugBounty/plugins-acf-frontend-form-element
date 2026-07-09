@@ -67,11 +67,13 @@ if ( ! class_exists( 'upload_file' ) ) :
 				}
 			}
 
-			$file_fields = array_merge( $file_fields, array( 'gallery', 'product_images', 'upload_files' ) );
-			foreach ( $file_fields as $type ) {
+			$gallery_fields = array( 'gallery', 'product_images', 'upload_files' );
+			foreach ( $gallery_fields as $type ) {
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'extra_file_settings' ) );
 				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'move_folders' ), 9, 4 );
 			}
+
+			$file_fields = array_merge( $file_fields, $gallery_fields );
 
 			if ( defined( 'HAPPYFILES_VERSION' ) ) {
 				foreach ( $file_fields as $type ) {
@@ -576,7 +578,9 @@ if ( ! class_exists( 'upload_file' ) ) :
 			$attach_id = wp_insert_attachment( $attachment, $url );
 			$attach_url = wp_get_attachment_url( $attach_id );
 
-			update_post_meta( $attach_id, '_hide_from_library', true );
+			if ( ! empty( $field['hide_from_library'] ) ) {
+				update_post_meta( $attach_id, '_hide_from_library', true );
+			}
 
 			if( $attach_id instanceof WP_Error ){
 				wp_send_json_error( $attach_id->get_error_message() );

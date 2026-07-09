@@ -280,10 +280,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 					}
 				}
 
-				if ( is_string( $input ) ) {
-					$input = html_entity_decode( $input );
-				}
-
 				$field['_input'] = $input;
 
 				if ( 'user_password' == $field['type'] ) {

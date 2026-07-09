@@ -5177,6 +5177,7 @@ document.fea = feaFunctions || {};
 
         const maxLength = parseInt($field.data('maxlength'), 10);
         const template = $field.data('remaining-text');
+        const staticColor = !!$field.data('static-color');
 
         if (!maxLength || !template) return;
 
@@ -5196,13 +5197,16 @@ document.fea = feaFunctions || {};
         function updateCount() {
             const countUp = (isWysiwyg ? $input.text() : $input.val()).length;
             const countDown = Math.max(maxLength - countUp, 0);
+            const percentUsed = (countUp / maxLength) * 100;
 
             $counter.text(formatText(countUp, countDown, maxLength));
 
             // Optional UX coloring
-            if (countDown <= 20) {
+            if (staticColor) {
+                $counter.css('color', '#666');
+            } else if (percentUsed >= 75) {
                 $counter.css('color', '#d63638');
-            } else if (countDown <= 50) {
+            } else if (percentUsed >= 50) {
                 $counter.css('color', '#dba617');
             } else {
                 $counter.css('color', '#666');

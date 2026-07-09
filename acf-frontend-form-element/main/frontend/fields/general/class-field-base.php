@@ -423,6 +423,10 @@ if ( ! class_exists( 'Field_Base' ) ) :
 			$field['wrapper']['data-remaining-text'] = $field['remaining_characters_text'] ?? '';
 			$field['wrapper']['data-maxlength']      = $field['maxlength'];
 
+			if ( ! empty( $field['remaining_characters_static_color'] ) ) {
+				$field['wrapper']['data-static-color'] = 1;
+			}
+
 			return $field;
 		}
 
@@ -435,47 +439,7 @@ if ( ! class_exists( 'Field_Base' ) ) :
 		 * @return void
 		 */
 		function remaining_characters_setting( $field ) {
-			acf_render_field_setting(
-				$field,
-				array(
-					'label'        => __( 'Show Remaining Characters', 'frontend-admin' ),
-					'instructions' => __( 'Display the number of characters remaining based on the maxlength setting', 'frontend-admin' ),
-					'type'         => 'true_false',
-					'name'         => 'show_remaining_characters',
-					'ui'           => 1,
-					'conditions'   => array(
-						array(
-							'field'    => 'maxlength',
-							'operator' => '!=',
-							'value'    => '',
-						),
-					),
-				)
-			);
-
-			// text to show when characters are remaining
-			acf_render_field_setting(
-				$field,
-				array(
-					'label'         => __( 'Remaining Characters Text', 'frontend-admin' ),
-					'instructions'  => __( 'Text to show before the remaining character count. Use {count_down} or {count_up} as a placeholder for the number and {total} for the total', 'frontend-admin' ),
-					'type'          => 'text',
-					'name'          => 'remaining_characters_text',
-					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'frontend-admin' ),
-					'conditions'    => array(
-						array(
-							'field'    => 'show_remaining_characters',
-							'operator' => '==',
-							'value'    => 1,
-						),
-						array(
-							'field'    => 'maxlength',
-							'operator' => '!=',
-							'value'    => '',
-						),
-					),
-				)
-			);
+			self::render_remaining_characters_fields( $field );
 		}
 
 		/**
@@ -531,6 +495,30 @@ if ( ! class_exists( 'Field_Base' ) ) :
 					'name'          => 'remaining_characters_text',
 					'default_value' => __( '{count_down} characters remaining. ({count_up} of {total})', 'frontend-admin' ),
 					'conditions'    => array(
+						array(
+							'field'    => 'show_remaining_characters',
+							'operator' => '==',
+							'value'    => 1,
+						),
+						array(
+							'field'    => 'maxlength',
+							'operator' => '!=',
+							'value'    => '',
+						),
+					),
+				)
+			);
+
+			// keep the remaining-characters text in the default color instead of shifting to warning colors
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Always Use Default Text Color', 'frontend-admin' ),
+					'instructions' => __( 'Keep the remaining characters text in the default color instead of changing color as the limit is approached', 'frontend-admin' ),
+					'type'         => 'true_false',
+					'name'         => 'remaining_characters_static_color',
+					'ui'           => 1,
+					'conditions'   => array(
 						array(
 							'field'    => 'show_remaining_characters',
 							'operator' => '==',
