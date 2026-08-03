@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 7.0.0
-Stable tag: 3.29.9
+Stable tag: 3.29.10
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,11 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.10 - 03-08-2026 =
+ * Fixed roles without native post-editing capabilities (e.g. WooCommerce Customer) losing access to their own content in Edit Post/Product forms after passing the form's permission check
+ * Fixed approved users still triggering a form's "No Permission" message/echo after being granted access
+ * Fixed form submissions sometimes reporting a generic error despite succeeding, caused by stray HTML output ahead of the AJAX JSON response
+
 = 3.29.9 - 09-07-2026 =
  * Changed character limit color scheme to use percentage of the limit reached instead of a fixed character count
  * Added option to always use default color for character limit message

@@ -1117,6 +1117,13 @@ feaFunctions = {};
 				$form.find( 'input[name=_acf_status]' ).val('save');
 				feaFunctions.submitFrontendForm( $form );
 				return;
+			} else if ( button.data( 'state' ) == 'preview' ) {
+				console.log( '[FEA_PREVIEW_DEBUG] preview button clicked' );
+				//find _acf_status and change to preview. Validation still runs below.
+				$form.find( 'input[name=_acf_status]' ).val('preview');
+				//open the tab now, synchronously, so popup blockers allow it
+				feaFunctions.previewWindow = window.open( '', '_blank' );
+				console.log( '[FEA_PREVIEW_DEBUG] window.open result:', feaFunctions.previewWindow, 'closed:', feaFunctions.previewWindow ? feaFunctions.previewWindow.closed : 'n/a' );
 			} else {
 				//find _acf_status and change to submit
 				$form.find( 'input[name=_acf_status]' ).val('');
@@ -1129,13 +1136,23 @@ feaFunctions = {};
 			args = {
 				form: $form,
 				reset: false,
-				complete: feaFunctions.submitFrontendForm,
+				complete: function( formEl, validator ) {
+					console.log( '[FEA_PREVIEW_DEBUG] validation complete. hasErrors:', validator && validator.hasErrors ? validator.hasErrors() : 'n/a', 'status field:', $form.find( 'input[name=_acf_status]' ).val() );
+					return feaFunctions.submitFrontendForm( formEl, validator );
+				},
 			}
 			feaFunctions.validateFrontendForm( args );
 			
 
 		}
 	);
+
+	feaFunctions.closePreviewWindow = function(){
+		if ( feaFunctions.previewWindow && ! feaFunctions.previewWindow.closed ) {
+			feaFunctions.previewWindow.close();
+		}
+		feaFunctions.previewWindow = null;
+	}
 
 	feaFunctions.disableFileInputs = function( $form ){
 		let $fileInputs = $( 'input[type="file"]:not([disabled])', $form )
@@ -1166,6 +1183,7 @@ feaFunctions = {};
 		$validator = $validator || false;
 		if ( $validator ) {
 			if ( $validator.hasErrors() ) {
+				feaFunctions.closePreviewWindow();
 				$( '.fea-loader',$form ).addClass( 'acf-hidden' );
 				$( '.fea-submit-button',$form ).removeClass( 'disabled' );
 				var formModal = $form.closest( 'div.edit-modal' );
@@ -1191,8 +1209,9 @@ feaFunctions = {};
 			formData.append( 'redirect',currentButton.data( 'redirect' ) );
 		}
 
-		formData = acf.applyFilters( 'frontend_admin/form_submit/form_data', formData, $form, currentButton );	
+		formData = acf.applyFilters( 'frontend_admin/form_submit/form_data', formData, $form, currentButton );
 
+		console.log( '[FEA_PREVIEW_DEBUG] submitting ajax. _acf_status=', formData.get( '_acf_status' ), '_acf_form=', formData.get( '_acf_form' ) );
 
 		$.ajax(
 			{
@@ -1203,9 +1222,11 @@ feaFunctions = {};
 				processData: false,
 				contentType: false,
 				success: function(response){
+					console.log( '[FEA_PREVIEW_DEBUG] ajax success. response:', response );
 					feaFunctions.frontendFormSuccess( response, $form );
 				},
 				error: function(response){
+					console.log( '[FEA_PREVIEW_DEBUG] ajax error. response:', response );
 					feaFunctions.frontendFormSuccess( response, $form );
 				},
 			}
@@ -1222,7 +1243,21 @@ feaFunctions = {};
 
 			var data = response.data;
 			if( ! data ) {
+				feaFunctions.closePreviewWindow();
 				return;
+			}
+
+			console.log( '[FEA_PREVIEW_DEBUG] frontendFormSuccess. data.preview:', data.preview, 'previewWindow:', feaFunctions.previewWindow, 'closed:', feaFunctions.previewWindow ? feaFunctions.previewWindow.closed : 'n/a' );
+
+			if ( data.preview ) {
+				if ( feaFunctions.previewWindow && ! feaFunctions.previewWindow.closed ) {
+					console.log( '[FEA_PREVIEW_DEBUG] navigating existing previewWindow to', data.preview );
+					feaFunctions.previewWindow.location = data.preview;
+					feaFunctions.previewWindow = null;
+				} else {
+					console.log( '[FEA_PREVIEW_DEBUG] previewWindow missing/closed, calling window.open( data.preview )' );
+					window.open( data.preview, '_blank' );
+				}
 			}
 
 			if ( data?.redirect ) {
@@ -1306,8 +1341,9 @@ feaFunctions = {};
 				}
 			}
 		} else {
+			feaFunctions.closePreviewWindow();
 			$form.find( '.acf-notice' ).remove();
-			let message = response?.data?.message || acf.__( 'An error occurred. Please try again later.' );
+			let message = response?.data?.message || ( typeof response?.data === 'string' ? response.data : null ) || acf.__( 'An error occurred. Please try again later.' );
 			$form.append( '<div class="frontend-admin-message"><div class="acf-notice -error acf-error-message"><p class="error-msg">' + message + '</p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div></div>' );	
 		}
 		acf.unlockForm( $form );

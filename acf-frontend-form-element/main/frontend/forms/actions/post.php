@@ -1085,8 +1085,22 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				}
 			}
 
+			if ( ! empty( $form['is_preview'] ) ) {
+				// a preview may never publish: ignore any submitted status field
+				unset( $post_to_edit['post_status'] );
+				if ( empty( $old_status ) || in_array( $old_status, array( 'auto-draft', 'draft' ), true ) ) {
+					$record['status'] = 'draft';
+				}
+			}
+
+			$was_preview_draft = false;
+			if ( empty( $form['is_preview'] ) && is_numeric( $post_id ) && get_post_meta( $post_id, '_fea_preview_draft', true ) ) {
+				$was_preview_draft = true;
+				delete_post_meta( $post_id, '_fea_preview_draft' );
+			}
+
 			if ( empty( $post_to_edit['post_status'] ) ) {
-				
+
 				if ( isset( $record['status'] ) && $record['status'] == 'draft' ) {
 					$post_to_edit['post_status'] = 'draft';
 				} else {
@@ -1096,9 +1110,12 @@ if ( ! class_exists( 'ActionPost' ) ) :
 						$post_to_edit['post_status'] = $status;
 					} elseif ( empty( $old_status ) || $old_status == 'auto-draft' ) {
 						$post_to_edit['post_status'] = 'publish';
+					} elseif ( $was_preview_draft && 'draft' == $old_status ) {
+						// draft only existed because of a preview - treat like a new post
+						$post_to_edit['post_status'] = 'publish';
 					}
 				}
-				
+
 			}
 
 			$form = $this->save_post( $form, $post_to_edit, $metas, $post_to_duplicate );
@@ -1210,10 +1227,18 @@ if ( ! class_exists( 'ActionPost' ) ) :
 	
 
 			if ( ! current_user_can( 'edit_post', $post_id ) ) {
-				if( ! in_array( 'edit_posts', $condition['special_permissions'] ) ){
+				if ( ! empty( fea_instance()->form_preview ) && fea_instance()->form_preview->is_own_preview_draft( $post_id, $settings ) ) {
+					return $settings;
+				}
+				// map_meta_cap requires the post type's blanket edit_posts capability even
+				// for editing one's own post; roles with no native content capabilities
+				// (e.g. WooCommerce Customer) still own the post they authored, so allow
+				// that case without requiring the broader "Edit Other's Posts" permission.
+				$is_author = get_post_field( 'post_author', $post_id ) == $user->ID;
+				if ( ! $is_author && ! in_array( 'edit_posts', $condition['special_permissions'] ) ){
 					$settings['post_id'] = 'none';
 				}
-			}			
+			}
 
 			return $settings;
 		}

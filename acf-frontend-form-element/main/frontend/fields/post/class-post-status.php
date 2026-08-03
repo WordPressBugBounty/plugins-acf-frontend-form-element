@@ -32,7 +32,12 @@ if ( ! class_exists( 'post_status' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			}if ( $post_id && is_numeric( $post_id ) ) {
+			}
+			if ( ! empty( $GLOBALS['admin_form']['is_preview'] ) ) {
+				// previews must stay drafts - don't let a status field publish the post
+				return true;
+			}
+			if ( $post_id && is_numeric( $post_id ) ) {
 				$post_to_edit                = array(
 					'ID' => $post_id,
 				);

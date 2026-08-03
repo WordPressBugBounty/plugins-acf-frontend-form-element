@@ -231,19 +231,18 @@ class PermissionsTab {
 			
 			if( empty( $condition['special_permissions'] ) || ! is_array( $condition['special_permissions'] ) ){
 				$condition['special_permissions'] = [];
-			}	
-				
-			$settings = apply_filters( 'frontend_admin/special_permissions', $settings, $condition, $active_user );
+			}
+
+			if ( $settings['display'] ) {
+				$settings = apply_filters( 'frontend_admin/special_permissions', $settings, $condition, $active_user );
+				$settings['special_permissions'] = $condition['special_permissions'];
+				return $settings;
+			}
 
 			if ( $condition['not_allowed'] == 'show_message' ) {
 				$settings['message'] = '<div class="acf-notice -limit frontend-admin-limit-message"><p>' . esc_html( $condition['not_allowed_message'] ) . '</p></div>';
 			} elseif ( $condition['not_allowed'] == 'custom_content' ) {
 				$settings['message'] = wp_kses_post( $condition['not_allowed_content'] );
-			}
-
-			if ( $settings['display'] ) {
-				$settings['special_permissions'] = $condition['special_permissions'];
-				break;
 			}
 		}
 

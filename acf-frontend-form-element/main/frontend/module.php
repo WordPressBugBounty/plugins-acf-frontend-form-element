@@ -477,11 +477,11 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					$basic_settings = array( 'name', 'instructions', 'required', 'wrapper', 'frontend_admin_display_mode', 'field_label_hide', 'only_front' );
 					foreach( $basic_settings as $setting ){
 						$setting = $setting;
-						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-submit-button .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}";
+						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-submit-button .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-preview-button .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}";
 						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}";
 					}
-					echo '.acf-field-object-form-step .acf-field-setting-custom_fields_save, .acf-field-object-submit-button .acf-field-setting-custom_fields_save, .acf-field-object-save-progress .acf-field-setting-custom_fields_save{display:none}';
-					echo '.acf-field-object-form-step[data-step="1"] .acf-field-setting-prev_button_text,.acf-field-object-form-step .acf-field-setting-name,.acf-field-object-submit-button .acf-field-setting-label,.acf-field-object-save-progress .acf-field-setting-label,.acf-field-object-delete-post .acf-field-setting-label,.acf-field-object-delete-term .acf-field-setting-label,.acf-field-object-delete-user .acf-field-setting-label,.acf-field-object-delete-product .acf-field-setting-label,.acf-field-object-custom-terms .acf-field-setting-ui{display:none}';
+					echo '.acf-field-object-form-step .acf-field-setting-custom_fields_save, .acf-field-object-submit-button .acf-field-setting-custom_fields_save, .acf-field-object-save-progress .acf-field-setting-custom_fields_save, .acf-field-object-preview-button .acf-field-setting-custom_fields_save{display:none}';
+					echo '.acf-field-object-form-step[data-step="1"] .acf-field-setting-prev_button_text,.acf-field-object-form-step .acf-field-setting-name,.acf-field-object-submit-button .acf-field-setting-label,.acf-field-object-save-progress .acf-field-setting-label,.acf-field-object-preview-button .acf-field-setting-label,.acf-field-object-delete-post .acf-field-setting-label,.acf-field-object-delete-term .acf-field-setting-label,.acf-field-object-delete-user .acf-field-setting-label,.acf-field-object-delete-product .acf-field-setting-label,.acf-field-object-custom-terms .acf-field-setting-ui{display:none}';
 
 					echo '</style>';
 				}
@@ -516,6 +516,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 					'related-items',
 					'submit-button',
 					'save-progress',
+					'preview-button',
 					'time',
 					'date',
 					'color',
@@ -645,6 +646,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			include_once __DIR__ . '/forms/classes/limit-submit.php';
 
 			include_once __DIR__ . '/forms/classes/permissions.php';
+			include_once __DIR__ . '/forms/classes/preview.php';
 			include_once __DIR__ . '/forms/classes/shortcodes.php';
 			include_once __DIR__ . '/forms/actions/action-base.php';
 

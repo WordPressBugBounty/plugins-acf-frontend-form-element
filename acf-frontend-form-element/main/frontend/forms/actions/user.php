@@ -433,6 +433,16 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			// allow for custom save
 			$user_id = apply_filters( 'acf/pre_save_user', $user_id, $form );
 
+			// 'add_user' is the only legitimate non-numeric target (new user creation);
+			// anything else must resolve to a real user id the current requester can edit,
+			// independent of the show_form/special_permissions gating that ran earlier.
+			if ( 'add_user' !== $user_id ) {
+				if ( ! is_numeric( $user_id ) || ! current_user_can( 'edit_user', (int) $user_id ) ) {
+					return $form;
+				}
+				$user_id = (int) $user_id;
+			}
+
 			$username_generated = false;
 			$user_to_insert     = array();
 			$metas              = array();
@@ -677,7 +687,14 @@ if ( ! class_exists( 'ActionUser' ) ) :
 		public function conditions_logic( $settings, $condition, $user ){
 			$user_id = $settings['user_id'] ?? 'none';
 
+			// 'none' and 'add_user' are the only legitimate non-numeric states;
+			// anything else is unexpected input and must not bypass the capability check below.
+			if ( in_array( $user_id, array( 'none', 'add_user' ), true ) ) {
+				return $settings;
+			}
+
 			if( ! is_numeric( $user_id ) ){
+				$settings['user_id'] = 'none';
 				return $settings;
 			}
 

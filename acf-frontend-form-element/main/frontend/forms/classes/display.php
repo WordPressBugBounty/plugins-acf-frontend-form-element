@@ -1650,14 +1650,17 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 
 			if ( $request['item_id'] ) {
-				$type                  = $request['type'];
-				$form[ $type . '_id' ] = $request['item_id'];
-				if ( $form[ $type . '_id' ] ) {
-					if ( is_numeric( $form[ $type . '_id' ] ) ) {
-						$form[ 'save_to_' . $type ] = 'edit_' . $type;
-					} else {
-						$form[ 'save_to_' . $type ] = 'new_' . $type;
-					}
+				$type = $request['type'];
+
+				// only trust item_id as an object id when it's actually numeric; a non-numeric
+				// value (or garbage crafted to look like one, e.g. "1one") must not be stored
+				// as-is, since downstream code loosely casts ids and would coerce it to an
+				// unintended integer id instead of triggering the "new" flow.
+				if ( is_numeric( $request['item_id'] ) ) {
+					$form[ $type . '_id' ]      = absint( $request['item_id'] );
+					$form[ 'save_to_' . $type ] = 'edit_' . $type;
+				} else {
+					$form[ 'save_to_' . $type ] = 'new_' . $type;
 				}
 
 				if( $field && 'post' == $type ){

@@ -190,8 +190,9 @@ class Submit_Button_Widget extends Widget_Base {
 				'label'        => __( 'Submit Type', 'frontend-admin' ),
 				'type'         => Controls_Manager::SELECT,
 				'options'      => array(
-					'submit' => __( 'Submit', 'frontend-admin' ),
-					'save'   => __( 'Save Progress', 'frontend-admin' ),
+					'submit'  => __( 'Submit', 'frontend-admin' ),
+					'save'    => __( 'Save Progress', 'frontend-admin' ),
+					'preview' => __( 'Preview', 'frontend-admin' ),
 				),
 				'default'      => 'submit',
 			)

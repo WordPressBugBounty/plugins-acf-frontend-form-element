@@ -35,6 +35,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				foreach ( $_post as $source => $fields ) {
 					$source = fea_decrypt( $source );
 
+					if ( ! $this->current_user_can_edit_object( $source ) ) {
+						continue;
+					}
+
 					foreach ( $fields as $key => $value ) {
 						$field = $fea_instance->frontend->get_field( $key );
 						if( ! $field ) continue;
@@ -87,6 +91,36 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			wp_send_json_success( $json );
 		}
 
+		/**
+		 * Checks whether the current user may edit the object a decrypted
+		 * inline-update source resolves to. The source string comes from a
+		 * client-supplied token, so it must be re-authorized here rather than
+		 * trusted as-is.
+		 */
+		public function current_user_can_edit_object( $source ) {
+			if ( empty( $source ) ) {
+				return false;
+			}
+
+			if ( is_numeric( $source ) ) {
+				return current_user_can( 'edit_post', $source );
+			}
+
+			if ( ! is_string( $source ) ) {
+				return false;
+			}
+
+			if ( 0 === strpos( $source, 'user_' ) ) {
+				return current_user_can( 'edit_user', substr( $source, 5 ) );
+			}
+
+			if ( 0 === strpos( $source, 'term_' ) ) {
+				return current_user_can( 'edit_term', substr( $source, 5 ) );
+			}
+
+			return false;
+		}
+
 
 		public function check_submit_form() {
 			
@@ -112,11 +146,20 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 
 		
+			// permissions.php echoes a not-allowed message as a side effect when denying
+			// access; buffer and discard it here so it can't leak raw HTML in front of
+			// the JSON response body below and break the front-end's JSON.parse().
+			ob_start();
 			$form = apply_filters( 'frontend_admin/show_form', $form );
+			ob_end_clean();
 			if( empty( $form['display'] ) ) {
 				wp_send_json_error( __( 'You do not have permission to submit this form.', 'frontend-admin' ) );
 			}
-			
+
+			$form['is_preview'] = isset( $_POST['_acf_status'] ) && 'preview' == $_POST['_acf_status'];
+
+			error_log( '[FEA_PREVIEW_DEBUG] check_submit_form: _acf_status=' . ( $_POST['_acf_status'] ?? '<unset>' ) . ' is_preview=' . var_export( $form['is_preview'], true ) . ' form_id=' . $form['id'] );
+
 			// submit
 			$this->submit_form( $form );
 
@@ -387,6 +430,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$form['submission_status'] = 'approved';
 
 			$form = $this->should_save_content( $form );
+
+			error_log( '[FEA_PREVIEW_DEBUG] submit_form: is_preview=' . var_export( ! empty( $form['is_preview'] ), true ) . ' save_data=' . var_export( $form['save_data'] ?? null, true ) . ' save_to_post=' . ( $form['save_to_post'] ?? '<unset>' ) . ' post_id=' . var_export( $form['post_id'] ?? null, true ) );
+
+			if ( ! empty( $form['is_preview'] ) ) {
+				$form = $this->prepare_preview( $form );
+				error_log( '[FEA_PREVIEW_DEBUG] after prepare_preview: record.status=' . var_export( $form['record']['status'] ?? null, true ) . ' new_post_status=' . var_export( $form['new_post_status'] ?? null, true ) . ' new_product_status=' . var_export( $form['new_product_status'] ?? null, true ) );
+			}
+
 			foreach ( $fea_instance->local_actions as $name => $action ) {
 				if ( $name != 'options' && isset( $form[ "{$name}_id" ] ) ) {
 						$form['record'][ $name ] = $form[ "{$name}_id" ];
@@ -397,10 +448,116 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 
 			$fea_form = $form;
-			
+
+			error_log( '[FEA_PREVIEW_DEBUG] after local actions: record=' . wp_json_encode( $form['record'] ?? null ) );
+
 			$form = $this->run_actions( $form );
 
 			$this->return_form( $form );
+		}
+
+		/**
+		 * Field group key each local action actually checks before writing - mirrors the
+		 * bail conditions in ActionPost::run() / ActionProduct::run() / etc. A type's
+		 * save_to_$type/{$type}_id can be non-empty (e.g. "current_post" defaulting to
+		 * whatever page hosts the form) even though the submission never touches it.
+		 */
+		public function preview_active_types( $form ) {
+			$fields_key = array(
+				'post'    => 'post',
+				'user'    => 'user',
+				'term'    => 'term',
+				'product' => 'woo_product',
+			);
+			$active = array();
+			foreach ( $fields_key as $type => $key ) {
+				if ( ! empty( $form['record']['fields'][ $key ] ) ) {
+					$active[] = $type;
+				}
+			}
+			return $active;
+		}
+
+		public function prepare_preview( $form ) {
+			$active_types = $this->preview_active_types( $form );
+			foreach ( array( 'post', 'product' ) as $type ) {
+				if ( ! in_array( $type, $active_types, true ) ) {
+					continue;
+				}
+				$save_to = $form[ "save_to_$type" ] ?? '';
+				if ( ! $save_to && empty( $form[ "{$type}_id" ] ) ) {
+					continue;
+				}
+				if ( "duplicate_$type" == $save_to ) {
+					// duplicating creates a new object; the (possibly published) source is untouched
+					$form['record']['status'] = 'draft';
+					continue;
+				}
+				// key off the resolved target id, not save_to: a form rehydrated from
+				// _acf_objects keeps save_to "new_*" while the id is already numeric
+				$target = $form[ "{$type}_id" ] ?? '';
+				if ( ! is_numeric( $target ) && ! empty( $form['record'][ $type ] ) ) {
+					$target = $form['record'][ $type ];
+				}
+				if ( is_numeric( $target ) ) {
+					if ( 'publish' == get_post_status( $target ) ) {
+						wp_send_json_error( __( 'Preview is only available for unpublished content.', 'frontend-admin' ) );
+					}
+					// keep the current draft/pending status instead of applying the form's configured status
+					$form[ "new_{$type}_status" ] = 'no_change';
+				} else {
+					$form['record']['status'] = 'draft';
+				}
+			}
+			return $form;
+		}
+
+		public function return_preview( $form ) {
+			global $fea_instance;
+
+			$active_types = $this->preview_active_types( $form );
+
+			$preview_id = false;
+			foreach ( array( 'product', 'post' ) as $type ) {
+				if ( in_array( $type, $active_types, true ) && ! empty( $form['record'][ $type ] ) && is_numeric( $form['record'][ $type ] ) ) {
+					$preview_id = $form['record'][ $type ];
+					break;
+				}
+			}
+
+			error_log( '[FEA_PREVIEW_DEBUG] return_preview: preview_id=' . var_export( $preview_id, true ) . ' active_types=' . implode( ',', $active_types ) . ' record=' . wp_json_encode( $form['record'] ?? null ) );
+
+			if ( ! $preview_id ) {
+				wp_send_json_error( __( 'Nothing to preview.', 'frontend-admin' ) );
+			}
+
+			$objects = array();
+			foreach ( array( 'post', 'user', 'term', 'product' ) as $type ) {
+				if ( in_array( $type, $active_types, true ) && ! empty( $form['record'][ $type ] ) && is_numeric( $form['record'][ $type ] ) ) {
+					if ( in_array( $type, array( 'post', 'product' ), true ) && "edit_$type" != ( $form[ "save_to_$type" ] ?? '' ) ) {
+						// remember this draft only exists because of a preview, so the
+						// real submit can still apply the form's new-object status logic
+						update_post_meta( $form['record'][ $type ], '_fea_preview_draft', $form['id'] );
+					}
+					$form[ $type . '_id' ]   = $form['record'][ $type ];
+					$form[ "save_to_$type" ] = "edit_$type";
+					$objects[ $type ]        = $form['record'][ $type ];
+				}
+			}
+			if ( ! empty( $form['submission'] ) ) {
+				$objects['submission'] = $form['submission'];
+			}
+
+			$response = array(
+				'location'     => 'current',
+				'form_element' => $form['id'],
+				'objects'      => fea_encrypt( json_encode( $objects ) ),
+				'preview'      => $fea_instance->form_preview->get_preview_url( $preview_id ),
+			);
+
+			do_action( 'frontend_admin/form/after_preview', $form, $response );
+
+			wp_send_json_success( $response );
 		}
 
 		public function run_actions( $form ) {
@@ -423,7 +580,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			if ( ! empty( $remote_actions ) ) {
 
-				if ( empty( $form['approval'] ) ) {
+				if ( empty( $form['approval'] ) && empty( $form['is_preview'] ) ) {
 					if ( ! empty( $form['submit_actions'] ) ) {
 						foreach ( $remote_actions as $name => $action ) {
 							$action->run( $form );
@@ -479,6 +636,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			$types = array( 'post', 'user', 'term', 'product' );
 
 			$form = apply_filters( 'frontend_admin/form/return', $form );
+
+			if ( ! empty( $form['is_preview'] ) ) {
+				$this->return_preview( $form );
+			}
 
 			if( ! empty( $_POST['redirect'] ) ){
 				$form['redirect'] = $_POST['redirect'];
