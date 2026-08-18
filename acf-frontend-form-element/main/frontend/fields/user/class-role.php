@@ -78,6 +78,57 @@ if ( ! class_exists( 'role' ) ) :
 			return $field;
 		}
 
+		/**
+		 * Roles carrying any of these capabilities are treated as privileged: a
+		 * requester without promote_users must not be able to self-assign them
+		 * via a Role field, even when the field's own role_options allowlist
+		 * includes them (e.g. a form intentionally offering "author" alongside
+		 * "subscriber" as self-registration choices).
+		 */
+		function has_sensitive_capability( $role_slug ) {
+			$sensitive_caps = array(
+				'manage_options',
+				'edit_others_posts',
+				'delete_others_posts',
+				'edit_private_posts',
+				'delete_private_posts',
+				'unfiltered_html',
+				'unfiltered_upload',
+				'edit_theme_options',
+				'edit_files',
+				'edit_plugins',
+				'edit_themes',
+				'install_plugins',
+				'install_themes',
+				'update_plugins',
+				'update_themes',
+				'update_core',
+				'delete_plugins',
+				'delete_themes',
+				'create_users',
+				'delete_users',
+				'edit_users',
+				'promote_users',
+				'remove_users',
+				'manage_network',
+				'activate_plugins',
+			);
+
+			$role = get_role( $role_slug );
+
+			if ( ! $role ) {
+				return false;
+			}
+
+			foreach ( $sensitive_caps as $cap ) {
+				if ( ! empty( $role->capabilities[ $cap ] ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		function validate_value( $is_valid, $value, $field, $input ) {
 			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
 			if ( ! in_array( $value, $allowed_roles ) ) {
@@ -86,6 +137,9 @@ if ( ! class_exists( 'role' ) ) :
 			if ( isset( $field['frontend_admin_display_mode'] ) && $field['frontend_admin_display_mode'] == 'hidden' && $field['default_value'] != $value ) {
 				return __( 'Invalid role option selected.', 'frontend-admin' );
 			}
+			if ( $this->has_sensitive_capability( $value ) && ! current_user_can( 'promote_users' ) ) {
+				return __( 'You do not have permission to assign this role.', 'frontend-admin' );
+			}
 
 			return $is_valid;
 		}
@@ -93,7 +147,7 @@ if ( ! class_exists( 'role' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			} 
+			}
 			$user_id = explode( '_', $post_id );
 
 			if ( 'user' != $user_id[0] || empty( $user_id[1] ) ) return true; //checked value is not a user field and there is nothing to update
@@ -108,12 +162,12 @@ if ( ! class_exists( 'role' ) ) :
 			if ( ! in_array( $value, $allowed_roles ) ) {
 				wp_die( __( 'Invalid role option selected.', 'frontend-admin' ) );
 			}
-			if ( $value === 'administrator' && ! current_user_can( 'promote_users' ) ) { 
-				wp_die( __( 'You do not have permission to assign this role.', 'frontend-admin' ) ); 
+			if ( $this->has_sensitive_capability( $value ) && ! current_user_can( 'promote_users' ) ) {
+				wp_die( __( 'You do not have permission to assign this role.', 'frontend-admin' ) );
 			}
-			
+
 			$user->set_role( $value );
-	
+
 			return true;
 		}
 

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 7.0.0
-Stable tag: 3.29.10
+Stable tag: 3.29.11
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,6 +182,16 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.11 - 19-08-2026 =
+ * Security fix: Restricted the inline field update endpoint and the User Password field so updates can only be made to objects the requesting user is authorized to edit
+ * Security fix: Fixed a permission check bypass when editing or creating users through a crafted request
+ * Security fix: Restricted which roles can be assigned through a Role field so privileged roles can no longer be self-assigned without permission
+ * Security fix: Added a missing permission check to the Plan deletion endpoint
+ * Security fix: Fixed a permission check bypass in the Delete Button field that could allow deleting posts, products, or users without proper authorization
+ * Security fix: Fixed a Stored XSS vulnerability in the Steps and Step blocks' text attributes
+ * Fixed missing heading options (H1-H3) in the Text Editor / Post Content field's formatting toolbar
+ * Fixed a JavaScript conflict with other plugins that dispatch a similarly named modal event
+
 = 3.29.10 - 03-08-2026 =
  * Fixed roles without native post-editing capabilities (e.g. WooCommerce Customer) losing access to their own content in Edit Post/Product forms after passing the form's permission check
  * Fixed approved users still triggering a form's "No Permission" message/echo after being granted access

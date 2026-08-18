@@ -29,8 +29,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Step') ) :
             $step_index = isset($step_index) ? $step_index + 1 : 1;
 
             $current_step = $step_index ?? 0;
-            $next_button = $attr['next_button_text'] ?? __('Next', 'frontend-admin');
-            $prev_button = $attr['prev_button_text'] ?? __('Previous', 'frontend-admin');
+            $next_button = esc_html( $attr['next_button_text'] ?? __('Next', 'frontend-admin') );
+            $prev_button = esc_html( $attr['prev_button_text'] ?? __('Previous', 'frontend-admin') );
          
             
 

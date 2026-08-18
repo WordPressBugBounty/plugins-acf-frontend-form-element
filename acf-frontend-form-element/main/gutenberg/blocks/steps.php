@@ -61,10 +61,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
                 $the_step = '<span class="current-step">' . $active_step . '</span>';
 
 					if ( isset( $attr['counter_text'] ) ) {
-						$counter_text = str_replace( '{current_step}', $the_step, $attr['counter_text'] );
+						$counter_text = str_replace( '{current_step}', $the_step, esc_html( $attr['counter_text'] ) );
 						$counter_text = str_replace( '{total_steps}', $steps_total, $counter_text );
 					} else {
-						  $counter_text = $attr['counter_prefix'] . $the_step . $attr['counter_suffix'];
+						  $counter_text = esc_html( $attr['counter_prefix'] ) . $the_step . esc_html( $attr['counter_suffix'] );
 					}
 
                 $counter = sprintf(

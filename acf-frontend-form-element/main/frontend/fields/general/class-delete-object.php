@@ -59,10 +59,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 
 					if( empty( $form ) ) {
 						wp_send_json_error( __( 'Not Allowed to Delete Objects', 'frontend-admin' ) );
-					}else{
-						$allowed_by_settings = true;
 					}
-					
+
 					if ( ! empty( $form['fields'][ $key ] ) ) {
 						$field = $form['fields'][ $key ];
 					}else{
@@ -112,7 +110,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$post_id = intval( $objects['post'] );
 					if ( ! $post_id ) wp_send_json_error( __( 'No Post ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'edit_post', $post_id ) && ! $allowed_by_settings ) {
+					$post_special_permissions = $field['special_permissions'] ?? array();
+					if ( ! current_user_can( 'edit_post', $post_id ) && ! in_array( 'delete_posts', $post_special_permissions ) ) {
 						wp_send_json_error( __( 'You do have have permission to delete this post', 'frontend-admin' ) );
 					}
 
@@ -127,7 +126,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$product_id = intval( $objects['product'] );
 					if( ! $product_id ) wp_send_json_error( __( 'No Product ID Found', 'frontend-admin' ) );
 
-					if ( ! current_user_can( 'edit_post', $product_id ) && ! $allowed_by_settings ) {
+					$product_special_permissions = $field['special_permissions'] ?? array();
+					if ( ! current_user_can( 'edit_post', $product_id ) && ! in_array( 'delete_posts', $product_special_permissions ) ) {
 						wp_send_json_error( __( 'You do have have permission to delete this product', 'frontend-admin' ) );
 					}
 
@@ -153,8 +153,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$user_id = intval( $objects['user'] );
 					if( ! $user_id ) wp_send_json_error( __( 'No User ID Found', 'frontend-admin' ) );
 
-					if( ! current_user_can( 'edit_user', $user_id ) && ! $allowed_by_settings ) {
-						
+					$user_special_permissions = $field['special_permissions'] ?? array();
+					if( ! current_user_can( 'edit_user', $user_id ) && ! in_array( 'delete_users', $user_special_permissions ) ) {
 						wp_send_json_error( __( 'You do have have permission to delete this user', 'frontend-admin' ) );
 					}
 

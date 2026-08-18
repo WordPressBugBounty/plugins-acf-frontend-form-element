@@ -150,6 +150,10 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 				die();
 			}
 
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( __( 'You do not have permission to do this.', 'frontend-admin' ) );
+			}
+
 			if( empty( $_POST['plan'] ) ) wp_send_json_error( __( 'No plan found', 'frontend-admin' ) );
 
 			$plan_id = intval( $_POST['plan'] );

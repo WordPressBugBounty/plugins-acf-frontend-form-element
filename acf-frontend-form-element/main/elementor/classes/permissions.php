@@ -198,6 +198,8 @@ class Permissions {
 					'edit_users'   => __( 'Edit Users', 'frontend-admin' ),
 					'edit_terms'   => __( 'Edit Terms', 'frontend-admin' ),
 					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
+					'delete_posts' => __( 'Delete Other\'s Posts', 'frontend-admin' ),
+					'delete_users' => __( 'Delete Other Users', 'frontend-admin' ),
 				),
 				'description' => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
 			)

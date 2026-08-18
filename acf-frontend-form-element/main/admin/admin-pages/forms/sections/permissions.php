@@ -231,6 +231,8 @@ $fields = array(
 					'edit_users'   => __( 'Edit Other Users', 'frontend-admin' ),
 					'edit_terms'   => __( 'Edit Terms', 'frontend-admin' ),
 					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
+					'delete_posts' => __( 'Delete Other\'s Posts', 'frontend-admin' ),
+					'delete_users' => __( 'Delete Other Users', 'frontend-admin' ),
 				),
 				'conditional_logic' => array(
 					array(
