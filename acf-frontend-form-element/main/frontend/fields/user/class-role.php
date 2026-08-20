@@ -112,6 +112,8 @@ if ( ! class_exists( 'role' ) ) :
 				'remove_users',
 				'manage_network',
 				'activate_plugins',
+				'publish_posts',
+				'upload_files',
 			);
 
 			$role = get_role( $role_slug );
@@ -131,7 +133,7 @@ if ( ! class_exists( 'role' ) ) :
 
 		function validate_value( $is_valid, $value, $field, $input ) {
 			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
-			if ( ! in_array( $value, $allowed_roles ) ) {
+			if ( ! in_array( $value, $allowed_roles, true ) ) {
 				return __( 'Invalid role option selected.', 'frontend-admin' );
 			}
 			if ( isset( $field['frontend_admin_display_mode'] ) && $field['frontend_admin_display_mode'] == 'hidden' && $field['default_value'] != $value ) {
@@ -159,7 +161,7 @@ if ( ! class_exists( 'role' ) ) :
 			if ( ! $user || is_wp_error( $user ) ) return true; //user does not exist
 
 			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
-			if ( ! in_array( $value, $allowed_roles ) ) {
+			if ( ! in_array( $value, $allowed_roles, true ) ) {
 				wp_die( __( 'Invalid role option selected.', 'frontend-admin' ) );
 			}
 			if ( $this->has_sensitive_capability( $value ) && ! current_user_can( 'promote_users' ) ) {

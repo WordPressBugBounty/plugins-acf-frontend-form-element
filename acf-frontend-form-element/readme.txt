@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 7.0.0
-Stable tag: 3.29.11
+Stable tag: 3.29.12
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -182,13 +182,18 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 
 == Changelog ==
+= 3.29.12 - 19-08-2026 =
+ * Hardened the Role field's privileged-role protection to also cover roles that can publish content or upload files without review
+ * Fixed the New User role safeguard to check the correct permission instead of matching a specific role name
+ * Added missing permission checks to the Email, Display Name, and Website user fields to match the existing User Password field protection
+
 = 3.29.11 - 19-08-2026 =
- * Security fix: Restricted the inline field update endpoint and the User Password field so updates can only be made to objects the requesting user is authorized to edit
- * Security fix: Fixed a permission check bypass when editing or creating users through a crafted request
- * Security fix: Restricted which roles can be assigned through a Role field so privileged roles can no longer be self-assigned without permission
- * Security fix: Added a missing permission check to the Plan deletion endpoint
- * Security fix: Fixed a permission check bypass in the Delete Button field that could allow deleting posts, products, or users without proper authorization
- * Security fix: Fixed a Stored XSS vulnerability in the Steps and Step blocks' text attributes
+ * Restricted the inline field update endpoint and the User Password field so updates can only be made to objects the requesting user is authorized to edit
+ * Fixed a permission check bypass when editing or creating users through a crafted request
+ * Restricted which roles can be assigned through a Role field so privileged roles can no longer be self-assigned without permission
+ * Added a missing permission check to the Plan deletion endpoint
+ * Fixed a permission check bypass in the Delete Button field that could allow deleting posts, products, or users without proper authorization
+ * Fixed a Stored XSS vulnerability in the Steps and Step blocks' text attributes
  * Fixed missing heading options (H1-H3) in the Text Editor / Post Content field's formatting toolbar
  * Fixed a JavaScript conflict with other plugins that dispatch a similarly named modal event
 

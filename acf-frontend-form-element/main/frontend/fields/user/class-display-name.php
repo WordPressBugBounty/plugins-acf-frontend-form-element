@@ -165,6 +165,11 @@ if ( ! class_exists( 'display_name' ) ) :
 			}	 $user = explode( 'user_', $post_id );
 			if ( ! empty( $user[1] ) ) {
 				$user_id = $user[1];
+
+				if ( ! current_user_can( 'edit_user', $user_id ) ) {
+					return true;
+				}
+
 				remove_action( 'acf/save_post', '_acf_do_save_post' );
 				wp_update_user(
 					array(

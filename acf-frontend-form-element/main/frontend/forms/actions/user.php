@@ -523,7 +523,7 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 					if ( ! empty( $form['new_user_role'] ) ) {
 						$user_to_insert['role'] = $form['new_user_role'];
-						if ( ! current_user_can( 'administrator' ) && $user_to_insert['role'] == 'administrator' ) {
+						if ( ! current_user_can( 'promote_users' ) && $user_to_insert['role'] == 'administrator' ) {
 							$user_to_insert['role'] = get_option( 'default_role' );
 						} 
 					}else {
