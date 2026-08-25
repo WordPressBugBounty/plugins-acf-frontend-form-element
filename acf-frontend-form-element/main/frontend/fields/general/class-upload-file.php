@@ -997,6 +997,47 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 		}
 
+		/**
+		 * Resolves a symbolic path made of '.'/'..' segments against a base
+		 * directory, purely via string manipulation (no filesystem access, so
+		 * it works even when the target doesn't exist yet).
+		 */
+		function normalize_path( $path ) {
+			$path = str_replace( '\\', '/', $path );
+			$parts = array();
+			foreach ( explode( '/', $path ) as $segment ) {
+				if ( '' === $segment || '.' === $segment ) {
+					continue;
+				}
+				if ( '..' === $segment ) {
+					array_pop( $parts );
+					continue;
+				}
+				$parts[] = $segment;
+			}
+			return '/' . implode( '/', $parts );
+		}
+
+		/**
+		 * Resolves $dir_name (which may contain merge-tag output built from
+		 * attacker-submitted field values, e.g. custom_directory_name) against
+		 * $basedir, and confirms the result is still contained within
+		 * $basedir before it's returned. Returns false if the resolved path
+		 * would escape the base directory (path traversal).
+		 */
+		function get_safe_upload_dir( $basedir, $dir_name ) {
+			$dir_name = str_replace( "\0", '', (string) $dir_name );
+
+			$base_normalized = $this->normalize_path( $basedir );
+			$candidate        = $this->normalize_path( $basedir . '/' . $dir_name );
+
+			if ( $candidate !== $base_normalized && 0 !== strpos( $candidate . '/', $base_normalized . '/' ) ) {
+				return false;
+			}
+
+			return $candidate;
+		}
+
 		function move_folders( $checked, $value, $post_id = false, $field = false ) {
 			if( ! $value ) return $checked;
 
@@ -1010,12 +1051,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 				$dir_name = fea_instance()->dynamic_values->get_dynamic_values( $dir_name );
 
-								
-				$create_directory = wp_mkdir_p( $uploads['basedir'] . '/' . $dir_name );
-			
+				$upload_dir = $this->get_safe_upload_dir( $uploads['basedir'], $dir_name );
+
+				$create_directory = $upload_dir && wp_mkdir_p( $upload_dir );
+
 				if( $create_directory ){
-					$upload_dir = $uploads['basedir'] . '/' . $dir_name;
-					$_htaccess = $upload_dir . '/.htaccess';			
+					$_htaccess = $upload_dir . '/.htaccess';
 			
 					if( ! empty ( $field['secure_directory'] ) && $fea_instance->is_license_active() ){
 						// Protect uploads directory for the servers that support .htaccess

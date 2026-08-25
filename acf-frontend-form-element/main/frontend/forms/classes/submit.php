@@ -276,9 +276,19 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		public function add_value_to_record( $form, $key, $input, $group ) {
 			$record = $form['record'];
 			global $fea_instance;
+			$belongs_to_form = ! empty( $form['fields'][ $key ] );
 			$field = $fea_instance->frontend->get_field( $key );
 
 			if ( empty( $field ) ) {
+				return $form;
+			}
+
+			// A Role field must always belong to the form actually being submitted.
+			// get_field() falls back to a global, unscoped ACF lookup for keys not
+			// present on this form (needed for features like fields_select), but a
+			// Role field resolved that way could belong to a different, more
+			// permissive form and let its role_options govern this submission.
+			if ( 'role' === $field['type'] && ! $belongs_to_form ) {
 				return $form;
 			}
 

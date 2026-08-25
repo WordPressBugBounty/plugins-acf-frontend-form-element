@@ -1221,7 +1221,14 @@ if ( ! class_exists( 'ActionPost' ) ) :
 		public function conditions_logic( $settings, $condition, $user ){
 			$post_id = $settings['post_id'] ?? 'none';
 
+			// 'none' and 'add_post' are the only legitimate non-numeric states;
+			// anything else is unexpected input and must not bypass the capability check below.
+			if ( in_array( $post_id, array( 'none', 'add_post' ), true ) ) {
+				return $settings;
+			}
+
 			if( ! is_numeric( $post_id ) ){
+				$settings['post_id'] = 'none';
 				return $settings;
 			}
 	

@@ -114,6 +114,12 @@ if ( ! class_exists( 'role' ) ) :
 				'activate_plugins',
 				'publish_posts',
 				'upload_files',
+				'edit_posts',
+				'delete_posts',
+				'edit_pages',
+				'delete_pages',
+				'moderate_comments',
+				'list_users',
 			);
 
 			$role = get_role( $role_slug );

@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 4.6
 Tested up to: 7.0.0
-Stable tag: 3.29.12
+Stable tag: 3.29.13
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -178,10 +178,16 @@ If you purchase our pro version, you will be able to configure this from the for
 
 Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
+= Where do I report security bugs found in this plugin? =
 
-
+Please report security bugs found in the source code of the Frontend Admin plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/c80d6806-92bc-495a-9c77-84253507284d). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+= 3.29.13 - 25-08-2026 =
+ * Improved handling of the custom upload directory setting
+ * Improved permission checks in the Post, Term, and Product actions
+ * Improved validation when dynamically loading a form
+
 = 3.29.12 - 19-08-2026 =
  * Hardened the Role field's privileged-role protection to also cover roles that can publish content or upload files without review
  * Fixed the New User role safeguard to check the correct permission instead of matching a specific role name

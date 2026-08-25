@@ -1735,8 +1735,12 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					$form['show_in_modal'] = false;
 					$data_types = array( 'post', 'user', 'term', 'product' );
 					foreach ( $data_types as $type ) {
-						if ( isset( $data[ $type ] ) ) {
-							$form[ $type . '_id' ] = $data[ $type ];
+						// only trust a numeric id here; a non-numeric or cross-type value
+						// (e.g. "user_1" supplied for the "post" slot) must not be stored
+						// as-is, since downstream code loosely casts ids and would coerce
+						// it to an unintended integer id.
+						if ( isset( $data[ $type ] ) && is_numeric( $data[ $type ] ) ) {
+							$form[ $type . '_id' ] = absint( $data[ $type ] );
 						}
 					}
 					$this->render_form( $form );

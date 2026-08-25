@@ -434,7 +434,14 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 		public function conditions_logic( $settings, $condition, $user ) {
 			$term_id = $settings['term_id'] ?? 'none';
 
+			// 'none' and 'add_term' are the only legitimate non-numeric states;
+			// anything else is unexpected input and must not bypass the capability check below.
+			if ( in_array( $term_id, array( 'none', 'add_term' ), true ) ) {
+				return $settings;
+			}
+
 			if ( ! is_numeric( $term_id ) ) {
+				$settings['term_id'] = 'none';
 				return $settings;
 			}
 
