@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 class WP_Users_CSV_Exporter {
 
 public function __construct() {
@@ -104,7 +108,7 @@ public function handle_csv_export() {
         fputcsv($output, $row);
     }
 
-    fclose($output);
+    fclose($output); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- closes the php://output stream.
     exit;
 }
 

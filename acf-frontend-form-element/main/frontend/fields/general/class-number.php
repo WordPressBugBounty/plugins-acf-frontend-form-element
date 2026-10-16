@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'number' ) ) :
 
 	class number extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'number' ) ) :
 			// vars
 			$this->name     = 'number-input';
 			 $this->public = false;
-			$this->label    = __( 'Number', 'acf' );
+			$this->label    = __( 'Number', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',
 				'min'           => '',
@@ -82,11 +86,11 @@ if ( ! class_exists( 'number' ) ) :
 
 				if( $field['prepend'] ){
 			?>
-			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); ?></div>
+			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } ?>
 			<div class="acf-input-wrap"><?php acf_text_input( acf_filter_attrs( $atts ) ); ?></div>
 			<?php if( $field['append'] ){ ?>
-			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
+			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } 
 
 		}
@@ -111,8 +115,8 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'default_value',
 				)
@@ -131,7 +135,7 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum Value', 'acf' ),
+					'label'        => __( 'Minimum Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'min',
@@ -141,7 +145,7 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum Value', 'acf' ),
+					'label'        => __( 'Maximum Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'max',
@@ -161,8 +165,8 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf' ),
-					'instructions' => __( 'Appears within the input', 'acf' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 				)
@@ -171,7 +175,7 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Step Size', 'acf' ),
+					'label'        => __( 'Step Size', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'step',
@@ -181,8 +185,8 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Prepend', 'acf' ),
-					'instructions' => __( 'Appears before the input', 'acf' ),
+					'label'        => __( 'Prepend', 'frontend-admin' ),
+					'instructions' => __( 'Appears before the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'prepend',
 				)
@@ -191,8 +195,8 @@ if ( ! class_exists( 'number' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Append', 'acf' ),
-					'instructions' => __( 'Appears after the input', 'acf' ),
+					'label'        => __( 'Append', 'frontend-admin' ),
+					'instructions' => __( 'Appears after the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'append',
 				)
@@ -213,7 +217,6 @@ if ( ! class_exists( 'number' ) ) :
 		*/
 
 		function validate_value( $valid, $value, $field, $input ) {
-			error_log( 'Validating number field ' . $field['name'] . ' with value: ' . print_r( $value, true ) );
 
 			// remove ','
 			if ( acf_str_exists( ',', $value ) ) {
@@ -228,7 +231,7 @@ if ( ! class_exists( 'number' ) ) :
 
 				// allow blank to be saved
 				if ( ! empty( $value ) ) {
-					$valid = __( 'Value must be a number', 'acf' );
+					$valid = __( 'Value must be a number', 'frontend-admin' );
 				}
 
 				// return early
@@ -242,14 +245,14 @@ if ( ! class_exists( 'number' ) ) :
 			// min
 			if ( is_numeric( $field['min'] ) && $value < floatval( $field['min'] ) ) {
 
-				$valid = sprintf( __( 'Value must be equal to or higher than %d', 'acf' ), $field['min'] );
+				$valid = sprintf( /* translators: %d: number */ __( 'Value must be equal to or higher than %d', 'frontend-admin' ), $field['min'] );
 
 			}
 
 			// max
 			if ( is_numeric( $field['max'] ) && $value > floatval( $field['max'] ) ) {
 
-				$valid = sprintf( __( 'Value must be equal to or lower than %d', 'acf' ), $field['max'] );
+				$valid = sprintf( /* translators: %d: number */ __( 'Value must be equal to or lower than %d', 'frontend-admin' ), $field['max'] );
 
 			}
 

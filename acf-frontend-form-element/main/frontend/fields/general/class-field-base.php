@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'Field_Base' ) ) :
 
 	class Field_Base extends \acf_field {
@@ -540,7 +544,7 @@ if ( ! class_exists( 'Field_Base' ) ) :
 		 */
 		public static function validate_char_limit( $valid, $value, $field, $input ) {
 			if ( $valid && ! empty( $field['maxlength'] ) && is_string( $value ) && acf_strlen( $value ) > (int) $field['maxlength'] ) {
-				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
+				return sprintf( /* translators: %d: number */ __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
 			}
 			return $valid;
 		}

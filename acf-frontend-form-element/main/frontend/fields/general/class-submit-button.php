@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'submit_button' ) ) :
 
 	class submit_button extends Field_Base {

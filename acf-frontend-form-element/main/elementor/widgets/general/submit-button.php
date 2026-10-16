@@ -126,11 +126,11 @@ class Submit_Button_Widget extends Widget_Base {
 	 */
 	public static function get_button_sizes() {
 		 return array(
-			 'xs' => __( 'Extra Small', 'elementor' ),
-			 'sm' => __( 'Small', 'elementor' ),
-			 'md' => __( 'Medium', 'elementor' ),
-			 'lg' => __( 'Large', 'elementor' ),
-			 'xl' => __( 'Extra Large', 'elementor' ),
+			 'xs' => __( 'Extra Small', 'frontend-admin' ),
+			 'sm' => __( 'Small', 'frontend-admin' ),
+			 'md' => __( 'Medium', 'frontend-admin' ),
+			 'lg' => __( 'Large', 'frontend-admin' ),
+			 'xl' => __( 'Extra Large', 'frontend-admin' ),
 		 );
 	}
 
@@ -146,14 +146,14 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'section_button',
 			array(
-				'label' => __( 'Button', 'elementor' ),
+				'label' => __( 'Button', 'frontend-admin' ),
 			)
 		);
 	
 		$this->add_control(
 			'button_type',
 			array(
-				'label'        => __( 'Type', 'elementor' ),
+				'label'        => __( 'Type', 'frontend-admin' ),
 				'type'         => Controls_Manager::HIDDEN,
 				'default'      => '',
 				'prefix_class' => 'elementor-button-',
@@ -163,7 +163,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'text',
 			array(
-				'label'       => __( 'Text', 'elementor' ),
+				'label'       => __( 'Text', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
@@ -250,23 +250,23 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'        => __( 'Alignment', 'elementor' ),
+				'label'        => __( 'Alignment', 'frontend-admin' ),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
 					'left'    => array(
-						'title' => __( 'Left', 'elementor' ),
+						'title' => __( 'Left', 'frontend-admin' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => __( 'Center', 'elementor' ),
+						'title' => __( 'Center', 'frontend-admin' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => __( 'Right', 'elementor' ),
+						'title' => __( 'Right', 'frontend-admin' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => __( 'Justified', 'elementor' ),
+						'title' => __( 'Justified', 'frontend-admin' ),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -278,7 +278,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'size',
 			array(
-				'label'          => __( 'Size', 'elementor' ),
+				'label'          => __( 'Size', 'frontend-admin' ),
 				'type'           => Controls_Manager::SELECT,
 				'default'        => 'sm',
 				'options'        => self::get_button_sizes(),
@@ -289,7 +289,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'selected_icon',
 			array(
-				'label'            => __( 'Icon', 'elementor' ),
+				'label'            => __( 'Icon', 'frontend-admin' ),
 				'type'             => Controls_Manager::ICONS,
 				'default'          => array(
 					'value'   => 'fas fa-edit',
@@ -302,12 +302,12 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'icon_align',
 			array(
-				'label'     => __( 'Icon Position', 'elementor' ),
+				'label'     => __( 'Icon Position', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'left',
 				'options'   => array(
-					'left'  => __( 'Before', 'elementor' ),
-					'right' => __( 'After', 'elementor' ),
+					'left'  => __( 'Before', 'frontend-admin' ),
+					'right' => __( 'After', 'frontend-admin' ),
 				),
 				'condition' => array(
 					'selected_icon[value]!' => '',
@@ -318,7 +318,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'icon_indent',
 			array(
-				'label'     => __( 'Icon Spacing', 'elementor' ),
+				'label'     => __( 'Icon Spacing', 'frontend-admin' ),
 				'type'      => Controls_Manager::SLIDER,
 				'range'     => array(
 					'px' => array(
@@ -335,7 +335,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'view',
 			array(
-				'label'   => __( 'View', 'elementor' ),
+				'label'   => __( 'View', 'frontend-admin' ),
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => 'traditional',
 			)
@@ -344,14 +344,14 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'button_css_id',
 			array(
-				'label'       => __( 'Button ID', 'elementor' ),
+				'label'       => __( 'Button ID', 'frontend-admin' ),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
 				'default'     => '',
-				'title'       => __( 'Add your custom id WITHOUT the Pound key. e.g: my-id', 'elementor' ),
-				'description' => __( 'Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows <code>A-z 0-9</code> & underscore chars without spaces.', 'elementor' ),
+				'title'       => __( 'Add your custom id WITHOUT the Pound key. e.g: my-id', 'frontend-admin' ),
+				'description' => __( 'Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows <code>A-z 0-9</code> & underscore chars without spaces.', 'frontend-admin' ),
 				'separator'   => 'before',
 
 			)
@@ -363,7 +363,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'section_style',
 			array(
-				'label' => __( 'Button', 'elementor' ),
+				'label' => __( 'Button', 'frontend-admin' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -398,7 +398,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'text_padding',
 			array(
-				'label'      => __( 'Padding', 'elementor' ),
+				'label'      => __( 'Padding', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
@@ -411,7 +411,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'border_radius',
 			array(
-				'label'      => __( 'Border Radius', 'elementor' ),
+				'label'      => __( 'Border Radius', 'frontend-admin' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -426,14 +426,14 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->start_controls_tab(
 			'tab_button_normal',
 			array(
-				'label' => __( 'Normal', 'elementor' ),
+				'label' => __( 'Normal', 'frontend-admin' ),
 			)
 		);
 
 		$this->add_control(
 			'button_text_color',
 			array(
-				'label'     => __( 'Text Color', 'elementor' ),
+				'label'     => __( 'Text Color', 'frontend-admin' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -445,7 +445,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'background_color',
 			array(
-				'label'     => __( 'Background Color', 'elementor' ),
+				'label'     => __( 'Background Color', 'frontend-admin' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array(
 					'default'  => Global_Colors::COLOR_ACCENT,
@@ -459,7 +459,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'button_border_color',
 			array(
-				'label'     => __( 'Border Color', 'elementor' ),
+				'label'     => __( 'Border Color', 'frontend-admin' ),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
 					'border_border!' => '',
@@ -484,14 +484,14 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->start_controls_tab(
 			'tab_button_hover',
 			array(
-				'label' => __( 'Hover', 'elementor' ),
+				'label' => __( 'Hover', 'frontend-admin' ),
 			)
 		);
 
 		$this->add_control(
 			'hover_color',
 			array(
-				'label'     => __( 'Text Color', 'elementor' ),
+				'label'     => __( 'Text Color', 'frontend-admin' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-button:hover, {{WRAPPER}} .elementor-button:focus' => 'color: {{VALUE}};',
@@ -503,7 +503,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'button_background_hover_color',
 			array(
-				'label'       => __( 'Background Color', 'elementor' ),
+				'label'       => __( 'Background Color', 'frontend-admin' ),
 				'type'        => Controls_Manager::COLOR,
 				'description' => 'To add a different border for On Hover change this 
 					setting. To make the border disappear completely on hover make 
@@ -517,7 +517,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'button_hover_border_color',
 			array(
-				'label'     => __( 'Border Color', 'elementor' ),
+				'label'     => __( 'Border Color', 'frontend-admin' ),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
 					'border_border!' => '',
@@ -539,7 +539,7 @@ class Submit_Button_Widget extends Widget_Base {
 		$this->add_control(
 			'hover_animation',
 			array(
-				'label' => __( 'Hover Animation', 'elementor' ),
+				'label' => __( 'Hover Animation', 'frontend-admin' ),
 				'type'  => Controls_Manager::HOVER_ANIMATION,
 			)
 		);
@@ -606,8 +606,8 @@ class Submit_Button_Widget extends Widget_Base {
 
 
 			?>
-			<div <?php echo $this->get_render_attribute_string( 'wrapper' ); ?>>
-				<button <?php echo $this->get_render_attribute_string( 'button' ); ?>>
+			<div <?php echo $this->get_render_attribute_string( 'wrapper' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder. ?>>
+				<button <?php echo $this->get_render_attribute_string( 'button' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder. ?>>
 					<?php $this->render_text(); ?>		
 				</button>
 				</a>
@@ -647,15 +647,15 @@ class Submit_Button_Widget extends Widget_Base {
 
 		$this->add_inline_editing_attributes( 'text', 'none' );
 		?>
-		<span <?php echo $this->get_render_attribute_string( 'content-wrapper' ); ?>>
+		<span <?php echo $this->get_render_attribute_string( 'content-wrapper' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder. ?>>
 		<?php if ( ! empty( $settings['selected_icon']['value'] ) ) : ?>
-			<span <?php echo $this->get_render_attribute_string( 'icon-align' ); ?>>
+			<span <?php echo $this->get_render_attribute_string( 'icon-align' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder. ?>>
 			<?php
 				Icons_Manager::render_icon( $settings['selected_icon'], array( 'aria-hidden' => 'true' ) );
 			?>
 			</span>
 		<?php endif; ?>
-			<span <?php echo $this->get_render_attribute_string( 'text' ); ?>><?php esc_html_e( $settings['text'] ); ?></span>
+			<span <?php echo $this->get_render_attribute_string( 'text' ); ?>><?php esc_html_e( $settings['text'], 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.Security.EscapeOutput.OutputNotEscaped -- text set in the field or form settings. ?></span>
 		</span>
 		<?php
 	}

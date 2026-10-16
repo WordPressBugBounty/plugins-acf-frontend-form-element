@@ -193,7 +193,7 @@ class Delete_Post_Widget extends Widget_Base {
 				'type'         => Controls_Manager::SWITCHER,
 				'default'      => 'true',
 				'return_value' => 'true',
-				'description'  => __( 'Whether or not to completely delete the posts right away.' ),
+				'description'  => __( 'Whether or not to completely delete the posts right away.', 'frontend-admin' ),
 			)
 		);
 

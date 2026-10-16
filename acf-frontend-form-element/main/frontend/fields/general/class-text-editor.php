@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'text_editor' ) ) :
 
 	class text_editor extends Field_Base {
@@ -97,6 +101,8 @@ if ( ! class_exists( 'text_editor' ) ) :
 				) ) . ';', 'before' );
 			}
 
+			// The saved rich text is the editor's working copy: it is printed as stored so the editor loads it unchanged.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '
 			<div
 			class="fea-wysiwyg-frontend">
@@ -104,6 +110,7 @@ if ( ! class_exists( 'text_editor' ) ) :
 			</div>
 			<textarea class="fea-wysiwyg-frontend-textarea" name="' . esc_attr( $field['name'] ) . '" style="display:none;">' . esc_textarea( $field['value'] ) . '</textarea>
 			';
+			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		
 		}
@@ -125,8 +132,8 @@ if ( ! class_exists( 'text_editor' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'textarea',
 					'name'         => 'default_value',
 				)
@@ -135,8 +142,8 @@ if ( ! class_exists( 'text_editor' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Delay initialization?', 'acf' ),
-					'instructions' => __( 'TinyMCE will not be initialized until field is clicked', 'acf' ),
+					'label'        => __( 'Delay initialization?', 'frontend-admin' ),
+					'instructions' => __( 'TinyMCE will not be initialized until field is clicked', 'frontend-admin' ),
 					'name'         => 'delay',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -203,7 +210,7 @@ if ( ! class_exists( 'text_editor' ) ) :
 		 */
 		function validate_value( $valid, $value, $field, $input ) {
 			if ( ! empty( $field['maxlength'] ) && is_string( $value ) && acf_strlen( wp_strip_all_tags( $value ) ) > $field['maxlength'] ) {
-				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
+				return sprintf( /* translators: %d: number */ __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
 			}
 
 			return $valid;

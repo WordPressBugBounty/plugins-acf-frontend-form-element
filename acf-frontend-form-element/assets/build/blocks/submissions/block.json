@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "acf-frontend/submissions",
   "title": "Frontend Admin Submissions",
   "description": "Display frontend submissions so that site admins can update content from the frontend.",

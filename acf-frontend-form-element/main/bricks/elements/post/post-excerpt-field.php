@@ -17,7 +17,7 @@ class Post_Excerpt_Field extends Base_Field {
 
 
 	public function get_label() {
-		return esc_html__( 'Post Excerpt Field', 'bricks' );
+		return esc_html__( 'Post Excerpt Field', 'frontend-admin' );
 	}
 
 

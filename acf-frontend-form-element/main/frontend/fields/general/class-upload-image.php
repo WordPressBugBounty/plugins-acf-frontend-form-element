@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'upload_image' ) ) :
 
 	class upload_image extends upload_file {
@@ -98,7 +102,7 @@ if ( ! class_exists( 'upload_image' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Button Text' ),
+					'label'       => __( 'Button Text', 'frontend-admin' ),
 					'name'        => 'button_text',
 					'type'        => 'text',
 					'placeholder' => __( 'Add Image', 'frontend-admin' ),
@@ -107,7 +111,7 @@ if ( ! class_exists( 'upload_image' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'No File Text' ),
+					'label'       => __( 'No File Text', 'frontend-admin' ),
 					'name'        => 'no_file_text',
 					'type'        => 'text',
 					'placeholder' => __( 'No File Selected', 'frontend-admin' ),
@@ -248,7 +252,7 @@ if ( ! class_exists( 'upload_image' ) ) :
 			?>
 		<img data-name="image" src="<?php echo esc_url( $url ); ?>" alt="<?php echo esc_attr( $alt ); ?>"/>
 		<div class="acf-actions -hover">
-			<a class="acf-icon -pencil dark" data-name="<?php esc_attr_e( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'frontend-admin' ); ?>"></a>
+			<a class="acf-icon -pencil dark" data-name="<?php echo esc_attr( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'frontend-admin' ); ?>"></a>
 			<a class="acf-icon -cancel dark" data-name="remove" href="#" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 		</div>
 	</div>
@@ -310,9 +314,9 @@ if ( ! class_exists( 'upload_image' ) ) :
 			}
 
 			?>
-			<p><?php echo esc_html_e( $empty_text ); ?>
+			<p><?php esc_html_e( $empty_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?>
 				<a data-name="add" class="acf-button button" href="#">
-					<?php esc_html_e( $button_text ); ?>
+					<?php esc_html_e( $button_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?>
 					<?php if( ! empty( $field['button_icon'] ) ){
 						echo '<i class="' . esc_attr( $field['button_icon'] ) . '"></i>';
 					} ?>
@@ -495,12 +499,12 @@ if ( ! class_exists( 'upload_image' ) ) :
 					'type'         => 'select',
 					'name'         => 'preview_size',
 					'choices'      => acf_get_image_sizes(),
-					'conditional_logic' => array(
+					'conditions' => array(
 						array(
 							array(
 								'field'    => 'show_preview',
 								'operator' => '==',
-								'value'    => true,
+								'value'    => 1,
 							),
 						),
 					),

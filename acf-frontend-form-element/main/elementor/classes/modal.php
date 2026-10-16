@@ -62,24 +62,24 @@ class ModalWindow {
 		$modal_num = feadmin_get_random_string();
 
 		?>
-		<div class="modal-button-container"><button class="modal-button fea-open-modal" data-modal="<?php esc_attr_e( $modal_num ); ?>" >
+		<div class="modal-button-container"><button class="modal-button fea-open-modal" data-modal="<?php echo esc_attr( $modal_num ); ?>" >
 
 		<?php
 		if ( ! empty( $settings['modal_button_icon']['value'] ) ) {
-			echo $this->get_icon( $settings['modal_button_icon'], array( 'aria-hidden' => 'true' ) );
+			echo $this->get_icon( $settings['modal_button_icon'], array( 'aria-hidden' => 'true' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup rendered and escaped by the called method.
 		}
 		$current_id = fea_instance()->elementor->get_current_post_id();
-		esc_html_e( $settings['modal_button_text'] );
+		esc_html_e( $settings['modal_button_text'], 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 		?>
 		</button>
 		<?php
 		fea_instance()->form_display->maybe_show_success_message( $settings );
 		?>
 		</div>
-		<div id="modal_<?php esc_attr_e( $modal_num ); ?>" class="fea-modal edit-modal elementor-<?php esc_attr_e( $current_id ); ?>">
+		<div id="modal_<?php echo esc_attr( $modal_num ); ?>" class="fea-modal edit-modal elementor-<?php echo esc_attr( $current_id ); ?>">
 			<div class="fea-modal-content elementor-element elementor-element-<?php esc_attr( $settings['id'] ); ?>"> 
 				<div class="fea-modal-inner"> 
-					<span data-modal="<?php esc_attr_e( $modal_num ); ?>" class="acf-icon -cancel fea-close-modal"></span>
+					<span data-modal="<?php echo esc_attr( $modal_num ); ?>" class="acf-icon -cancel fea-close-modal"></span>
 						<div class="content-container">
 		<?php
 	}

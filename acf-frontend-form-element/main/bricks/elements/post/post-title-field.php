@@ -17,7 +17,7 @@ class Post_Title_Field extends Text_Field {
 
 
 	public function get_label() {
-		return esc_html__( 'Post Title Field', 'bricks' );
+		return esc_html__( 'Post Title Field', 'frontend-admin' );
 	}
 
 

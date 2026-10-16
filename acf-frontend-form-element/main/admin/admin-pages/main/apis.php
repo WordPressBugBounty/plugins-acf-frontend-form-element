@@ -41,7 +41,7 @@ class API_KEYS {
 				'google_recaptcha_message'           => array(
 					'label'        => '',
 					'type'         => 'message',
-					'message'      => sprintf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free service by Google that protects your website from spam and abuse. It does this while letting your valid users pass through with ease.', 'frontend-admin' ), 'https://www.google.com/recaptcha/intro/v3.html' ),
+					'message'      => sprintf( /* translators: %s: value */ __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free service by Google that protects your website from spam and abuse. It does this while letting your valid users pass through with ease.', 'frontend-admin' ), 'https://www.google.com/recaptcha/intro/v3.html' ),
 					'instructions' => '',
 					'required'     => 0,
 					'wrapper'      => array(

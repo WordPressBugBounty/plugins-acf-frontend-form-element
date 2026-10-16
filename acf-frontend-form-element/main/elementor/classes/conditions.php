@@ -90,7 +90,7 @@ class Widgets_Conditions {
             case 'current_user': return get_current_user_id();
             case 'current_user_email': return wp_get_current_user()->user_email;
             case 'current_user_role': return wp_get_current_user()->roles[0] ?? '';
-			case 'current_date': return date('Y-m-d');
+			case 'current_date': return gmdate('Y-m-d');
             default: return $key; // Custom values
         }
     }

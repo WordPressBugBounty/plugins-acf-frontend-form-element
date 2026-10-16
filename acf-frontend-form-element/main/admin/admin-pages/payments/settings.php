@@ -52,7 +52,7 @@ class FEA_Payments_Settings{
         
         //catch exception
         catch( \Exception $e) {
-            echo $e->getMessage();
+            echo esc_html( $e->getMessage() );
 			wp_die();
         }      
     }  

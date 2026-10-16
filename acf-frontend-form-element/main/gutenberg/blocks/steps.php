@@ -117,19 +117,19 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form_Steps') ) :
             ?>
 
             <div
-                <?php echo $container_attributes; ?>
+                <?php echo $container_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?>
             >
                 
-                <?php if( ! empty( $counter ) ){ echo $counter; } ?>
+                <?php if( ! empty( $counter ) ){ echo $counter; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?>
 
                 <?php if ( ! empty( $tabs ) ) : ?>
                     <div class="fea-form-steps-tabs">
-                        <?php echo $tabs; ?>
+                        <?php echo $tabs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?>
                     </div>
                 <?php endif; ?>
 
                  <div class="fea-form-steps-content">
-                    <?php echo $content; ?>
+                    <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered block markup. ?>
                 </div>
 
 

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_content' ) ) :
 
 	class post_content extends Field_Base {
@@ -248,7 +252,7 @@ if ( ! class_exists( 'post_content' ) ) :
 			);
 
 			?>
-		<div <?php echo acf_esc_attrs( $wrap ); ?>>
+		<div <?php echo acf_esc_attrs( $wrap ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs(). ?>>
 			<div id="wp-<?php echo esc_attr( $id ); ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
 				<?php if ( $field['media_upload'] ) : ?>
 				<div id="wp-<?php echo esc_attr( $id ); ?>-media-buttons" class="wp-media-buttons">
@@ -262,14 +266,14 @@ if ( ! class_exists( 'post_content' ) ) :
 				<?php endif; ?>
 					<?php if ( user_can_richedit() && $show_tabs ) : ?>
 					<div class="wp-editor-tabs">
-						<button id="<?php echo esc_attr( $id ); ?>-tmce" class="wp-switch-editor switch-tmce" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php esc_html_e( 'Visual', 'acf' ); ?></button>
-						<button id="<?php echo esc_attr( $id ); ?>-html" class="wp-switch-editor switch-html" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php echo esc_html_x( 'Text', 'Name for the Text editor tab (formerly HTML)', 'acf' ); ?></button>
+						<button id="<?php echo esc_attr( $id ); ?>-tmce" class="wp-switch-editor switch-tmce" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php esc_html_e( 'Visual', 'frontend-admin' ); ?></button>
+						<button id="<?php echo esc_attr( $id ); ?>-html" class="wp-switch-editor switch-html" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php echo esc_html_x( 'Text', 'Name for the Text editor tab (formerly HTML)', 'frontend-admin' ); ?></button>
 					</div>
 				<?php endif; ?>
 			</div>
 			<div id="wp-<?php echo esc_attr( $id ); ?>-editor-container" class="wp-editor-container">
 					<?php if ( $field['delay'] ) : ?>
-					<div class="acf-editor-toolbar"><?php esc_html_e( 'Click to initialize TinyMCE', 'acf' ); ?></div>
+					<div class="acf-editor-toolbar"><?php esc_html_e( 'Click to initialize TinyMCE', 'frontend-admin' ); ?></div>
 				<?php endif; ?>
 					<?php printf( $textarea, $field['value'] ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by format_for_editor(). ?>
 			</div>

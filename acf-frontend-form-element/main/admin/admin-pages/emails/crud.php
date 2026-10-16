@@ -150,7 +150,7 @@ if( ! class_exists( 'FEA_Emails_Crud' ) ) :
 			$sql .= $wpdb->prepare( " OFFSET %d", ( $args['current_page'] - 1 ) * $args['per_page'] );	
 
 
-			$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+			$result = $wpdb->get_results( $sql, 'ARRAY_A' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			return $result;
 		}
@@ -165,7 +165,7 @@ if( ! class_exists( 'FEA_Emails_Crud' ) ) :
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}fea_emails";
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- only the table prefix is interpolated.
 		}
 
 		public function delete_email( $id = 0 ){

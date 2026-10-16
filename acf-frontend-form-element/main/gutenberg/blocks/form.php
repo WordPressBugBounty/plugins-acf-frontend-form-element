@@ -27,10 +27,10 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
 
             
 
-            echo '<form '. feadmin_get_esc_attrs( $fea_form['form_attributes'] ) .'>';
+            echo '<form '. feadmin_get_esc_attrs( $fea_form['form_attributes'] ) .'>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by feadmin_get_esc_attrs().
             if( $fea_form ) $fea_instance->form_display->form_render_data( $fea_form );
 
-            echo $content;
+            echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered block markup.
             echo '</form>';
 
             do_action( 'frontend_admin/gutenberg/after_render', $fea_form );
@@ -149,15 +149,16 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
         }
 
         function get_form_variation( $args ){
-            $form_title = sprintf( __( '%s %s Form', 'frontend-admin' ), $args['save_type_label'], $args['post_type_label'] );
+            /* translators: 1: action label, e.g. New or Edit 2: post type label */
+            $form_title = sprintf( __( '%1$s %2$s Form', 'frontend-admin' ), $args['save_type_label'], $args['post_type_label'] );
             $default_content = '<h2 style="font-size: 32px; margin: revert; text-wrap-mode: wrap;">Content Heading</h2>
 <p style="line-height: revert; margin: revert; letter-spacing: -0.1px; text-wrap-mode: wrap;">Lorum Ipsum</p>';
             $inner_blocks = [
                 ['core/heading', [ 'content' => $form_title ] ],
-                ['frontend-admin/post-title-field', [ 'label' => sprintf( __( '%s Title', 'frontend-admin' ), $args['post_type_label']) ] ],
-                ['frontend-admin/post-excerpt-field', [ 'label' => sprintf( __( '%s Excerpt', 'frontend-admin' ), $args['post_type_label']) ] ],
-                ['frontend-admin/featured-image-field', [ 'label' => sprintf( __( '%s Image', 'frontend-admin' ), $args['post_type_label']) ] ],
-                ['frontend-admin/post-content-field', [ 'default_value' => $default_content, 'label' => sprintf( __( '%s Content', 'frontend-admin' ), $args['post_type_label']) ] ],
+                ['frontend-admin/post-title-field', [ 'label' => sprintf( /* translators: %s: value */ __( '%s Title', 'frontend-admin' ), $args['post_type_label']) ] ],
+                ['frontend-admin/post-excerpt-field', [ 'label' => sprintf( /* translators: %s: value */ __( '%s Excerpt', 'frontend-admin' ), $args['post_type_label']) ] ],
+                ['frontend-admin/featured-image-field', [ 'label' => sprintf( /* translators: %s: value */ __( '%s Image', 'frontend-admin' ), $args['post_type_label']) ] ],
+                ['frontend-admin/post-content-field', [ 'default_value' => $default_content, 'label' => sprintf( /* translators: %s: value */ __( '%s Content', 'frontend-admin' ), $args['post_type_label']) ] ],
             ];
             
             if ( function_exists('acf_get_field_groups') ) {
@@ -221,8 +222,8 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'save_type_label' => 'New',
                     'post_type' => $post_type->name, 
                     'post_type_label' => $post_type->labels->singular_name,
-                    'title' => sprintf( __( 'New %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
-                    'description' => sprintf( __( 'A form to create a new %s.', 'frontend-admin' ), $post_type->labels->singular_name ),
+                    'title' => sprintf( /* translators: %s: value */ __( 'New %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
+                    'description' => sprintf( /* translators: %s: value */ __( 'A form to create a new %s.', 'frontend-admin' ), $post_type->labels->singular_name ),
                     'attributes' => [
                         'page_name' => 'Add New ' . $post_type->labels->singular_name,
                         'form_type' => 'new_' . $post_type->name,
@@ -241,8 +242,9 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     'save_type_label' => 'Edit',
                     'post_type' => $post_type->name, 
                     'post_type_label' => $post_type->labels->singular_name,
-                    'title' => sprintf( __( 'Edit %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
-                    'description' => sprintf( __( 'A form to edit an existing %s. The form will automatically load the %s that is being viewed.', 'frontend-admin' ), $post_type->labels->singular_name, $post_type->labels->singular_name ),
+                    'title' => sprintf( /* translators: %s: value */ __( 'Edit %s Form', 'frontend-admin' ), $post_type->labels->singular_name ),
+                    /* translators: 1: post type name 2: post type name */
+                    'description' => sprintf( __( 'A form to edit an existing %1$s. The form will automatically load the %2$s that is being viewed.', 'frontend-admin' ), $post_type->labels->singular_name, $post_type->labels->singular_name ),
                     'attributes' => [
                         'form_type' => 'edit_' . $post_type->name,
                         'group' => $post_type->name,
@@ -386,13 +388,11 @@ if(! class_exists('Frontend_Admin\Gutenberg\Form') ) :
                     //get field type attributes from the block json located at assets/build/blocks/{$field_type}/block.json
                     $field_json_path = FEA_DIR . 'assets/build/blocks/' . $field_type . '/block.json';
                     if( ! file_exists( $field_json_path ) ){
-                        error_log( 'Field type block json not found: ' . $field_json_path );
                         continue;
                     }
 
                     $field_json = json_decode( file_get_contents( $field_json_path ), true );
                     if( ! $field_json || ! isset( $field_json['attributes'] ) ){
-                        error_log( 'Field type block json is invalid: ' . $field_json_path );
                         continue;
                     }
 

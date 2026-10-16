@@ -506,6 +506,9 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			}
 			global $wpdb;
 
+			$is_new_user_registration = false;
+			$is_public_registration   = false;
+
 			if ( $user_id == 'add_user' ) {
 				if ( empty( $user_to_insert['user_login'] ) ) {
 					$user_to_insert['user_login'] = $this->generate_username();
@@ -521,17 +524,28 @@ if ( ! class_exists( 'ActionUser' ) ) :
 					$user_to_insert['user_nicename'] = $user_to_insert['user_login'];
 				}
 
-					if ( ! empty( $form['new_user_role'] ) ) {
-						$user_to_insert['role'] = $form['new_user_role'];
-						if ( ! current_user_can( 'promote_users' ) && $user_to_insert['role'] == 'administrator' ) {
-							$user_to_insert['role'] = get_option( 'default_role' );
-						} 
-					}else {
-						$user_to_insert['role'] = get_option( 'default_role' );
-					}
-				
+				$is_public_registration = ! is_user_logged_in();
 
-				$user_id = wp_insert_user( $user_to_insert );
+				$default_role = get_option( 'default_role' );
+
+				// The form's new_user_role is a setting saved by whoever built the form,
+				// never submitted input, so it is honored for every submitter the form's
+				// own permissions let through. The one exception is an administrator-level
+				// role, which still needs a submitter who may promote users or who was
+				// given the "Assign Privileged User Roles" special permission.
+				if ( ! empty( $form['new_user_role'] ) ) {
+					$user_to_insert['role'] = $form['new_user_role'];
+					$new_role               = get_role( $user_to_insert['role'] );
+					$is_admin_role          = 'administrator' === $user_to_insert['role'] || ( $new_role && ! empty( $new_role->capabilities['manage_options'] ) );
+					if ( ! $new_role || ( $is_admin_role && ! feadmin_has_special_permission( 'assign_roles', 'promote_users', $form ) ) ) {
+						$user_to_insert['role'] = $default_role;
+					}
+				} else {
+					$user_to_insert['role'] = $default_role;
+				}
+
+				$user_id                  = wp_insert_user( $user_to_insert );
+				$is_new_user_registration = ! is_wp_error( $user_id );
 
 				if ( is_wp_error( $user_id ) ) {
 					return $form;
@@ -589,12 +603,53 @@ if ( ! class_exists( 'ActionUser' ) ) :
 			if ( ! empty( $metas ) ) {
 				foreach ( $metas as $meta ) {
 				
+					// a field's name is its meta key: never let one write the user's
+					// roles, level or sessions (also enforced on acf/pre_update_metadata)
+					if ( feadmin_is_protected_meta_key( $meta['name'] ?? '', 'user' ) ) {
+						continue;
+					}
+
 					acf_update_value( $meta['_input'], 'user_' . $user_id, $meta );
 				}
 			}
 
+			// Check the role the new account really ended up with, not the one the
+			// form asked for: a field saved above may have changed it. Unless the
+			// submitter may promote users, anything beyond the assigned role or a
+			// non-privileged role chosen through a Role field is undone, and the
+			// account is not logged in.
+			$role_escalated = false;
+			if ( $is_new_user_registration && ! feadmin_has_special_permission( 'assign_roles', 'promote_users', $form ) ) {
+				clean_user_cache( $user_id );
+				$created_user = get_userdata( $user_id );
+				$role_field   = function_exists( 'acf_get_field_type' ) ? acf_get_field_type( 'role' ) : false;
 
-			if ( ! empty( $form['login_user'] ) ) {
+				foreach ( array_keys( array_filter( (array) $created_user->caps ) ) as $cap ) {
+					if ( $cap === $user_to_insert['role'] ) {
+						continue;
+					}
+					$is_safe_role = get_role( $cap ) && $role_field && method_exists( $role_field, 'has_sensitive_capability' ) && ! $role_field->has_sensitive_capability( $cap );
+					if ( ! $is_safe_role ) {
+						$role_escalated = true;
+					}
+				}
+
+				if ( $role_escalated ) {
+					$created_user->remove_all_caps();
+					$created_user->set_role( $user_to_insert['role'] );
+				}
+			}
+
+
+			// Auto-login must only fire for a user actually created by this request's
+			// add_user branch, and only when that creation was either genuine public
+			// self-registration or performed by a submitter who holds create_users -
+			// never for an edit_user
+			// save, which would otherwise let anyone with edit access to another
+			// account's form switch the current session into that account.
+			$legitimate_registration = $is_new_user_registration && ( $is_public_registration || current_user_can( 'create_users' ) );
+
+			if ( ! empty( $form['login_user'] ) && $legitimate_registration && ! $role_escalated ) {
 				$user = get_user_by( 'id', $user_id );
 				if ( ! empty( $user->user_login ) ) {
 					wp_set_current_user( $user_id, $user->user_login );

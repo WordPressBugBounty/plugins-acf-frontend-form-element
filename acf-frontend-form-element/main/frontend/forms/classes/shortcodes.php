@@ -687,7 +687,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 
 			switch ( $matches[1][0] ) {
 				case 'year':
-					return date('Y');
+					return gmdate('Y');
 					break;
 				default:
 					return '';
@@ -819,7 +819,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				$tag = 'div';
 			}
 			?>
-			<<?php echo $tag . ' ' . acf_esc_attrs( $wrapper ) ?>>
+			<<?php echo tag_escape( $tag ) . ' ' . acf_esc_attrs( $wrapper ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs(). ?>>
 			<?php
 			if ( $permissions ) {
 				$_field = $field;
@@ -833,14 +833,14 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				<?php
 			}
 
-			echo $this->display_field( $field, $source );
+			echo $this->display_field( $field, $source ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 			if ( $permissions ) {
 				?>
 				 </span> 
 				 <?php
 			}
 			?>
-			</<?php echo $tag; ?>>
+			</<?php echo tag_escape( $tag ); ?>>
 			<?php
 		}
 
@@ -1064,8 +1064,8 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 					break;
 				case 'true_false':
 				case 'mailchimp_status':
-					$true_text  = isset( $field['ui_on_text'] ) && ! empty( $field['ui_on_text'] ) ? $field['ui_on_text'] : __( 'Yes', 'advanced-forms' );
-					$false_text = isset( $field['ui_off_text'] ) && ! empty( $field['ui_off_text'] ) ? $field['ui_off_text'] : __( 'No', 'advanced-forms' );
+					$true_text  = isset( $field['ui_on_text'] ) && ! empty( $field['ui_on_text'] ) ? $field['ui_on_text'] : __( 'Yes', 'frontend-admin' );
+					$false_text = isset( $field['ui_off_text'] ) && ! empty( $field['ui_off_text'] ) ? $field['ui_off_text'] : __( 'No', 'frontend-admin' );
 
 					$return .= $value ? $true_text : $false_text;
 					break;
@@ -1206,7 +1206,7 @@ if ( ! class_exists( 'Dynamic_Values' ) ) :
 				case 'date_time_picker':
 				case 'date_picker':
 					$return_format = $field['return_format'] ?? 'd/m/Y g:i a';
-					return date( $return_format, strtotime( $value ) );
+					return gmdate( $return_format, strtotime( $value ) );
 				break;
 				default:
 					if ( is_string( $value ) ) {

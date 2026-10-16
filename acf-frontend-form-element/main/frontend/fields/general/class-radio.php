@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'radio' ) ) :
 
 	class radio extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'radio' ) ) :
 			// vars
 			$this->name     = 'radio_input';
 			 $this->public = false;
-			$this->label    = __( 'Radio Button', 'acf' );
+			$this->label    = __( 'Radio Button', 'frontend-admin' );
 			$this->category = 'choice';
 			$this->defaults = array(
 				'layout'            => 'vertical',
@@ -60,8 +64,8 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Choices', 'acf' ),
-					'hint'  => __( 'Enter each choice on a new line.', 'acf' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'acf' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'acf' ) . '</span>',
+					'label' => __( 'Choices', 'frontend-admin' ),
+					'hint'  => __( 'Enter each choice on a new line.', 'frontend-admin' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'frontend-admin' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'frontend-admin' ) . '</span>',
 					'type'  => 'textarea',
 					'name'  => 'choices',
 				)
@@ -70,8 +74,8 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Default Value', 'acf' ),
-					'hint'  => __( 'Appears when creating a new post', 'acf' ),
+					'label' => __( 'Default Value', 'frontend-admin' ),
+					'hint'  => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'default_value',
 				)
@@ -80,15 +84,15 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Value', 'acf' ),
-					'instructions' => __( 'Specify the returned value on front end', 'acf' ),
+					'label'        => __( 'Return Value', 'frontend-admin' ),
+					'instructions' => __( 'Specify the returned value on front end', 'frontend-admin' ),
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'value' => __( 'Value', 'acf' ),
-						'label' => __( 'Label', 'acf' ),
-						'array' => __( 'Both (Array)', 'acf' ),
+						'value' => __( 'Value', 'frontend-admin' ),
+						'label' => __( 'Label', 'frontend-admin' ),
+						'array' => __( 'Both (Array)', 'frontend-admin' ),
 					),
 				)
 			);
@@ -106,7 +110,7 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Null?', 'acf' ),
+					'label'        => __( 'Allow Null?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'allow_null',
 					'type'         => 'true_false',
@@ -117,22 +121,22 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Other Choice', 'acf' ),
+					'label'        => __( 'Allow Other Choice', 'frontend-admin' ),
 					'name'         => 'other_choice',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Add 'other' choice to allow for custom values", 'acf' ),
+					'instructions' => __( "Add 'other' choice to allow for custom values", 'frontend-admin' ),
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Save Other Choice', 'acf' ),
+					'label'        => __( 'Save Other Choice', 'frontend-admin' ),
 					'name'         => 'save_other_choice',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Save 'other' values to the field's choices", 'acf' ),
+					'instructions' => __( "Save 'other' values to the field's choices", 'frontend-admin' ),
 					'conditions'   => array(
 						'field'    => 'other_choice',
 						'operator' => '==',
@@ -154,14 +158,14 @@ if ( ! class_exists( 'radio' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Layout', 'acf' ),
+					'label'        => __( 'Layout', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'layout',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'vertical'   => __( 'Vertical', 'acf' ),
-						'horizontal' => __( 'Horizontal', 'acf' ),
+						'vertical'   => __( 'Vertical', 'frontend-admin' ),
+						'horizontal' => __( 'Horizontal', 'frontend-admin' ),
 					),
 				)
 			);

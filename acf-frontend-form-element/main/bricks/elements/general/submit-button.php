@@ -16,15 +16,15 @@ class SubmitButton extends \Bricks\Element_Button {
   // public $scripts      = []; // Enqueue registered scripts by their handle
 
   public function get_label() {
-    return esc_html__( 'Submit Button', 'bricks' );
+    return esc_html__( 'Submit Button', 'frontend-admin' );
   }
   public function set_controls() {
     parent::set_controls();
 
     $this->controls['text'] = [
 			'type'        => 'text',
-			'default'     => esc_html__( 'Submit Form', 'bricks' ),
-			'placeholder' => esc_html__( 'Submit Form', 'bricks' ),
+			'default'     => esc_html__( 'Submit Form', 'frontend-admin' ),
+			'placeholder' => esc_html__( 'Submit Form', 'frontend-admin' ),
 		];
 
   }

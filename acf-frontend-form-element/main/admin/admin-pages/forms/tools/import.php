@@ -137,7 +137,7 @@ if ( ! class_exists( 'FEA_Form_Import' ) ) :
 			$total = count( $ids );
 
 			// Generate text.
-			$text = sprintf( _n( 'Imported 1 form', 'Imported %s forms', $total, 'frontend-admin' ), $total );
+			$text = sprintf( /* translators: %s: number of forms */ _n( 'Imported %s form', 'Imported %s forms', $total, 'frontend-admin' ), $total );
 
 			// Add links to text.
 			$links = array();

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'delete_user' ) ) :
 
 	class delete_user extends delete_object {
@@ -33,7 +37,7 @@ if ( ! class_exists( 'delete_user' ) ) :
 				'reassign_posts'    => 0,
 				'redirect'          => 'current',
 				'show_delete_message' => 1,
-				'delete_message'    => __( 'Your profile has been deleted' ),
+				'delete_message'    => __( 'Your profile has been deleted', 'frontend-admin' ),
 			);
 
 			add_action( 'wp_ajax_acf_frontend/fields/reassign_posts/query', array( $this, 'ajax_query' ) );

@@ -537,7 +537,7 @@ class Base_Field extends Widget_Base {
 
 		if( $settings['field_display_mode'] == 'read_only' ){
 			//$source = $fea_instance->elementor->get_current_post_id();
-			echo $fea_instance->dynamic_values->render_field_display( $field );
+			echo $fea_instance->dynamic_values->render_field_display( $field ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 		}else{
 			$form_display->render_field_wrap( $field );
 

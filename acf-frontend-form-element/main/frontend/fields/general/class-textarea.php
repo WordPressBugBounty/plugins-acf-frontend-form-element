@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'textarea' ) ) :
 
 	class textarea extends Field_Base {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'textarea' ) ) :
 
 			// vars
 			$this->name     = 'text_area';
-			$this->label    = __( 'Text Area', 'acf' );
+			$this->label    = __( 'Text Area', 'frontend-admin' );
 		  	$this->public = false;
 			$this->defaults = array(
 				'default_value' => '',
@@ -183,7 +187,7 @@ if ( ! class_exists( 'textarea' ) ) :
 			
 				<?php if ( $field['prepend'] ) : ?>
 					<div class="acf-input-prepend">
-						<?php echo $field['prepend']; ?>
+						<?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?>
 					</div>
 				<?php endif; ?>
 
@@ -191,7 +195,7 @@ if ( ! class_exists( 'textarea' ) ) :
 
 				<?php if ( $field['append'] ) : ?>
 					<div class="acf-input-append">
-						<?php echo $field['append']; ?>
+						<?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?>
 					</div>
 				<?php endif; ?>
 			<?php
@@ -215,8 +219,8 @@ if ( ! class_exists( 'textarea' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'textarea',
 					'name'         => 'default_value',
 				)
@@ -235,8 +239,8 @@ if ( ! class_exists( 'textarea' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Character Limit', 'acf' ),
-					'instructions' => __( 'Leave blank for no limit', 'acf' ),
+					'label'        => __( 'Character Limit', 'frontend-admin' ),
+					'instructions' => __( 'Leave blank for no limit', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'maxlength',
 				)
@@ -256,8 +260,8 @@ if ( ! class_exists( 'textarea' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Rows', 'acf' ),
-					'instructions' => __( 'Sets the textarea height', 'acf' ),
+					'label'        => __( 'Rows', 'frontend-admin' ),
+					'instructions' => __( 'Sets the textarea height', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'rows',
 					'placeholder'  => 8,
@@ -267,8 +271,8 @@ if ( ! class_exists( 'textarea' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf' ),
-					'instructions' => __( 'Appears within the input', 'acf' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 				)
@@ -277,14 +281,14 @@ if ( ! class_exists( 'textarea' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'New Lines', 'acf' ),
-					'instructions' => __( 'Controls how new lines are rendered', 'acf' ),
+					'label'        => __( 'New Lines', 'frontend-admin' ),
+					'instructions' => __( 'Controls how new lines are rendered', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'new_lines',
 					'choices'      => array(
-						'wpautop' => __( 'Automatically add paragraphs', 'acf' ),
-						'br'      => __( 'Automatically add &lt;br&gt;', 'acf' ),
-						''        => __( 'No Formatting', 'acf' ),
+						'wpautop' => __( 'Automatically add paragraphs', 'frontend-admin' ),
+						'br'      => __( 'Automatically add &lt;br&gt;', 'frontend-admin' ),
+						''        => __( 'No Formatting', 'frontend-admin' ),
 					),
 				)
 			);
@@ -348,7 +352,7 @@ if ( ! class_exists( 'textarea' ) ) :
 
 			// Check maxlength.
 			if ( ! empty( $field['maxlength'] ) && ( acf_strlen( $value ) > $field['maxlength'] ) ) {
-				return sprintf( __( 'Value must not exceed %d characters', 'acf' ), $field['maxlength'] );
+				return sprintf( /* translators: %d: number */ __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
 			}
 
 			// Return.

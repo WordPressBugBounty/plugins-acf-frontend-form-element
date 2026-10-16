@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'password' ) ) :
 
 	class password extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'password' ) ) :
 			// vars
 			$this->name     = 'password-input';
 			 $this->public = false;
-			$this->label    = __( 'Password', 'acf' );
+			$this->label    = __( 'Password', 'frontend-admin' );
 			$this->defaults = array(
 				'placeholder' => '',
 				'prepend'     => '',
@@ -79,8 +83,8 @@ if ( ! class_exists( 'password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf' ),
-					'instructions' => __( 'Appears within the input', 'acf' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 				)
@@ -89,8 +93,8 @@ if ( ! class_exists( 'password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Prepend', 'acf' ),
-					'instructions' => __( 'Appears before the input', 'acf' ),
+					'label'        => __( 'Prepend', 'frontend-admin' ),
+					'instructions' => __( 'Appears before the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'prepend',
 				)
@@ -99,8 +103,8 @@ if ( ! class_exists( 'password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Append', 'acf' ),
-					'instructions' => __( 'Appears after the input', 'acf' ),
+					'label'        => __( 'Append', 'frontend-admin' ),
+					'instructions' => __( 'Appears after the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'append',
 				)
@@ -109,8 +113,8 @@ if ( ! class_exists( 'password' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Preview Password', 'acf' ),
-					'instructions' => __( 'Allow user to preview the password as plain text', 'acf' ),
+					'label'        => __( 'Preview Password', 'frontend-admin' ),
+					'instructions' => __( 'Allow user to preview the password as plain text', 'frontend-admin' ),
 					'type'         => 'true_false',
 					'name'         => 'preview_password',
 					'ui'           => 1,

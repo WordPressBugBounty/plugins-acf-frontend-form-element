@@ -40,22 +40,19 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 
 			$sql = "SELECT * FROM {$wpdb->prefix}fea_payments";
 
-			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
-				   $sql .= ! empty( $_REQUEST['order'] && $_REQUEST['order'] == 'DESC' ) ?
-                    ' DESC'
-                    :
-                    ' ASC';
-
-			}else{
-				$sql .= ' ORDER BY created_at DESC' ;
+			// the column name is reduced to letters, digits and underscores before it is used as an identifier
+			$orderby = ! empty( $_REQUEST['orderby'] ) ? str_replace( '-', '', sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only list sorting.
+			if ( $orderby ) {
+				$order = ! empty( $_REQUEST['order'] ) && 'desc' === sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only list sorting.
+				$sql  .= " ORDER BY `$orderby` $order";
+			} else {
+				$sql .= ' ORDER BY created_at DESC';
 			}
 
-			$sql .= " LIMIT $per_page";
-			$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+			$sql .= $wpdb->prepare( ' LIMIT %d OFFSET %d', $per_page, ( $page_number - 1 ) * $per_page );
 
 
-			$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+			$result = $wpdb->get_results( $sql, 'ARRAY_A' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			return $result;
 		}
@@ -87,13 +84,13 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}fea_payments";
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- only the table prefix is interpolated.
 		}
 
 
 		/** Text displayed when no payment data is available */
 		public function no_items() {
-			_e( 'No payments avaliable.', 'frontend-admin' );
+			esc_html_e( 'No payments avaliable.', 'frontend-admin' );
 		}
 
 
@@ -111,7 +108,7 @@ if( ! class_exists( 'FEA_Payments_List' ) ) :
 					return $item['amount'] . ' ' . $item['currency'];
 				case 'created_at':
 					$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-					return date( $time_format, strtotime( $item[ $column_name ] ) );
+					return gmdate( $time_format, strtotime( $item[ $column_name ] ) );
 				case 'method':
 					if( $item['method'] == 'stripe' ){
 						return '<img width="50" src="'. FEAP_URL . 'assets/images/stripe.png"/>';

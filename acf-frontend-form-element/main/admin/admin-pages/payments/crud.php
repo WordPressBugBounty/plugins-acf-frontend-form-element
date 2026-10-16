@@ -29,13 +29,13 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 
 			$acff_table = $wpdb->prefix . 'acff_payments';
 
-			if($wpdb->get_var("SHOW TABLES LIKE '$acff_table'") == $acff_table) {
-				$entries = $wpdb->get_results("SELECT * FROM $acff_table", ARRAY_A);
+			if($wpdb->get_var("SHOW TABLES LIKE '$acff_table'") == $acff_table) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- legacy table name built from the table prefix only.
+				$entries = $wpdb->get_results("SELECT * FROM $acff_table", ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- legacy table name built from the table prefix only.
 				foreach($entries as $entry) {
 					$wpdb->insert($table_name, $entry);
 				}
-				$wpdb->query("TRUNCATE TABLE $acff_table");
-				$wpdb->query("DROP TABLE $acff_table");
+				$wpdb->query("TRUNCATE TABLE $acff_table"); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- legacy table name built from the table prefix only.
+				$wpdb->query("DROP TABLE $acff_table"); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- legacy table name built from the table prefix only.
 			}
 		}
 
@@ -132,7 +132,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 			$sql .= $wpdb->prepare( " OFFSET %d", ( $args['current_page'] - 1 ) * $args['per_page'] );	
 
 
-			$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+			$result = $wpdb->get_results( $sql, 'ARRAY_A' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			return $result;
 		}
@@ -147,7 +147,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}fea_payments";
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- only the table prefix is interpolated.
 		}
 
 		public function delete_payment( $id = 0 ){
@@ -220,7 +220,7 @@ if( ! class_exists( 'FEA_Payments_Crud' ) ) :
 			add_screen_option( $option, $args );
 
 			?>
-				<h2><?php echo __( 'Payments', 'frontend-admin' ) ?></h2>
+				<h2><?php echo esc_html__( 'Payments', 'frontend-admin' ) ?></h2>
 				<?php
 				fea_instance()->payments_list->prepare_items();
 				fea_instance()->payments_list->display();

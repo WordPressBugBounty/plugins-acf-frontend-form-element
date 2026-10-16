@@ -233,6 +233,8 @@ $fields = array(
 					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
 					'delete_posts' => __( 'Delete Other\'s Posts', 'frontend-admin' ),
 					'delete_users' => __( 'Delete Other Users', 'frontend-admin' ),
+					'edit_site_options' => __( 'Edit Site Options', 'frontend-admin' ),
+					'assign_roles' => __( 'Assign Privileged User Roles', 'frontend-admin' ),
 				),
 				'conditional_logic' => array(
 					array(

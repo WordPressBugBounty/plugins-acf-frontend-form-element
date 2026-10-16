@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'url' ) ) :
 
 	class url extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'url' ) ) :
 			// vars
 			$this->name     = 'url-input';
 			 $this->public = false;
-			$this->label    = __( 'Url', 'acf' );
+			$this->label    = __( 'Url', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',
 				'placeholder'   => '',
@@ -72,11 +76,11 @@ if ( ! class_exists( 'url' ) ) :
 
 			if( $field['prepend'] ){
 			?>
-			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); ?></div>
+			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } ?>
 			<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><?php acf_text_input( acf_filter_attrs( $atts ) ); ?></div>
 			<?php if( $field['append'] ){ ?>
-			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
+			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } 
 
 		}
@@ -98,8 +102,8 @@ if ( ! class_exists( 'url' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'default_value',
 				)
@@ -118,8 +122,8 @@ if ( ! class_exists( 'url' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Placeholder Text', 'acf' ),
-					'instructions' => __( 'Appears within the input', 'acf' ),
+					'label'        => __( 'Placeholder Text', 'frontend-admin' ),
+					'instructions' => __( 'Appears within the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'placeholder',
 				)
@@ -159,7 +163,7 @@ if ( ! class_exists( 'url' ) ) :
 
 			} else {
 
-				$valid = __( 'Value must be a valid URL', 'acf' );
+				$valid = __( 'Value must be a valid URL', 'frontend-admin' );
 
 			}
 

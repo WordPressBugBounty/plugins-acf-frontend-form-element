@@ -9,7 +9,7 @@ if ( ! function_exists( 'fea_instance' ) ) {
 		global $fea_instance;
 
 		if ( ! isset( $fea_instance ) ) {
-			die( __( 'Frontend Admin is not working properly. Please contact support.', 'frontend-admin' ) );
+			die( esc_html__( 'Frontend Admin is not working properly. Please contact support.', 'frontend-admin' ) );
 		}
 
 		return $fea_instance;
@@ -213,12 +213,230 @@ function feadmin_get_post_type_choices() {
 	return $post_type_choices;
 }
 
+/**
+ * Unserializes stored data without ever instantiating objects.
+ */
+function feadmin_maybe_unserialize( $data ) {
+	if ( is_string( $data ) && is_serialized( $data ) ) {
+		return @unserialize( trim( $data ), array( 'allowed_classes' => false ) ); // phpcs:ignore -- allowed_classes is false.
+	}
+
+	return $data;
+}
+
+/**
+ * Post types that hold plugin, ACF or WordPress internals rather than content.
+ * Creating one of these defines fields, forms or site structure, so a form
+ * submission may only do it for a user who could do the same in wp-admin.
+ */
+function feadmin_get_protected_post_types() {
+	$post_types = array(
+		'admin_form',
+		'acf-field',
+		'acf-field-group',
+		'acf-post-type',
+		'acf-taxonomy',
+		'acf-ui-options-page',
+		'dashboard_page',
+		'attachment',
+		'revision',
+		'nav_menu_item',
+		'custom_css',
+		'customize_changeset',
+		'oembed_cache',
+		'user_request',
+		'wp_block',
+		'wp_template',
+		'wp_template_part',
+		'wp_global_styles',
+		'wp_navigation',
+		'wp_font_family',
+		'wp_font_face',
+	);
+
+	return apply_filters( 'frontend_admin/protected_post_types', $post_types );
+}
+
+/**
+ * Whether a submitted post type may be saved by the current user.
+ *
+ * @param mixed $post_type The submitted post type.
+ * @param array $field     Optional Post Type field the value came from; its
+ *                         "Post Types" setting limits the choices.
+ */
+function feadmin_can_submit_post_type( $post_type, $field = array() ) {
+	if ( ! is_string( $post_type ) || ! post_type_exists( $post_type ) ) {
+		return false;
+	}
+
+	if ( ! empty( $field['post_type_options'] ) && ! in_array( $post_type, (array) $field['post_type_options'], true ) ) {
+		return false;
+	}
+
+	if ( in_array( $post_type, feadmin_get_protected_post_types(), true ) && ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Whether a meta key is reserved and must never be written from a form field.
+ * A field's name is used as its meta key, so without this a field named e.g.
+ * wp_capabilities would write straight into a user's roles.
+ *
+ * @param string $name The meta key (field name).
+ * @param string $type The object type: post, user, term or option.
+ */
+function feadmin_is_protected_meta_key( $name, $type = 'post' ) {
+	global $wpdb;
+
+	$name      = ltrim( strtolower( (string) $name ) );
+	$protected = false;
+
+	// plugin and ACF internals, on any object type
+	foreach ( array( '_acf_', '_fea_' ) as $prefix ) {
+		if ( 0 === strpos( $name, $prefix ) ) {
+			$protected = true;
+		}
+	}
+
+	if ( 'user' === $type ) {
+		$keys = array(
+			$wpdb->get_blog_prefix() . 'capabilities',
+			$wpdb->get_blog_prefix() . 'user_level',
+			'session_tokens',
+			'frontend_admin_manager',
+		);
+		// covers every site's prefix on multisite, e.g. wp_2_capabilities
+		if ( in_array( $name, $keys, true ) || preg_match( '/(^|_)(capabilities|user_level)$/', $name ) ) {
+			$protected = true;
+		}
+	}
+
+	if ( 'post' === $type ) {
+		$keys = array(
+			'form_key',
+			'admin_form_source',
+			'admin_form_edited',
+			'_wp_attached_file',
+			'_wp_attachment_metadata',
+			'_edit_lock',
+			'_edit_last',
+		);
+		if ( in_array( $name, $keys, true ) ) {
+			$protected = true;
+		}
+	}
+
+	return apply_filters( 'frontend_admin/protected_meta_key', $protected, $name, $type );
+}
+
+/**
+ * Blocks writes to reserved meta keys at the point every field value is saved,
+ * so sub fields (a group "wp" with a sub field "capabilities") are covered too.
+ */
+function feadmin_block_protected_metadata( $pre, $post_id, $name, $value = '', $hidden = false ) {
+	if ( null !== $pre ) {
+		return $pre;
+	}
+
+	$type = 'post';
+	if ( is_string( $post_id ) && ! is_numeric( $post_id ) ) {
+		if ( 0 === strpos( $post_id, 'user_' ) ) {
+			$type = 'user';
+		} elseif ( 0 === strpos( $post_id, 'term_' ) ) {
+			$type = 'term';
+		} elseif ( 0 !== strpos( $post_id, 'post_' ) ) {
+			$type = 'option';
+		}
+	}
+
+	if ( feadmin_is_protected_meta_key( $name, $type ) ) {
+		return false;
+	}
+
+	// hidden meta is stored with an underscore prefix
+	if ( $hidden && feadmin_is_protected_meta_key( '_' . $name, $type ) ) {
+		return false;
+	}
+
+	return $pre;
+}
+add_filter( 'acf/pre_update_metadata', 'feadmin_block_protected_metadata', 5, 5 );
+
+/**
+ * Whether the current user may do something that normally needs $capability,
+ * either because they hold it or because the form's permission rule they
+ * matched grants it through the "Special Permissions" setting.
+ *
+ * @param string     $permission The special permission, e.g. edit_site_options.
+ * @param string     $capability The capability that allows it regardless of the form.
+ * @param array|null $form       The form being submitted. Defaults to the current form.
+ */
+function feadmin_has_special_permission( $permission, $capability, $form = null ) {
+	if ( current_user_can( $capability ) ) {
+		return true;
+	}
+
+	// special permissions are only ever granted to logged in users
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+
+	if ( null === $form ) {
+		global $fea_form;
+		$form = $fea_form;
+	}
+
+	// the validation request never runs the permission check, so the rule the
+	// user matches is not known yet: resolve it from the submitted form key
+	if ( ! is_array( $form ) && ! empty( $_POST['_acf_form'] ) ) {
+		static $resolved = array();
+		$form_key = sanitize_text_field( wp_unslash( $_POST['_acf_form'] ) );
+		if ( ! isset( $resolved[ $form_key ] ) ) {
+			$form = fea_instance()->form_display->get_form( $form_key );
+			if ( $form ) {
+				ob_start();
+				$form = apply_filters( 'frontend_admin/show_form', $form );
+				ob_end_clean();
+			}
+			$resolved[ $form_key ] = $form;
+		}
+		$form = $resolved[ $form_key ];
+	}
+
+	if ( ! is_array( $form ) || empty( $form['special_permissions'] ) ) {
+		return false;
+	}
+
+	if ( ! in_array( $permission, (array) $form['special_permissions'], true ) ) {
+		return false;
+	}
+
+	// A form built inside page content (a block or a page builder widget) is set up
+	// by whoever can edit that page, not necessarily an administrator. Its special
+	// permissions only count when the page's author could do the same themselves,
+	// so an Author cannot hand themselves site options or roles through their own post.
+	foreach ( array( '_elementor_', '_gutenberg_', '_bricks_' ) as $builder ) {
+		if ( false === strpos( (string) ( $form['id'] ?? '' ), $builder ) ) {
+			continue;
+		}
+		$page_id = explode( $builder, (string) $form['id'] )[0];
+		$author  = is_numeric( $page_id ) ? (int) get_post_field( 'post_author', (int) $page_id ) : 0;
+
+		return $author && user_can( $author, $capability );
+	}
+
+	return true;
+}
+
 function feadmin_get_random_string( $length = 15 ) {
 	$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	$charactersLength = strlen( $characters );
 	$randomString     = '';
 	for ( $i = 0; $i < $length; $i++ ) {
-		$randomString .= $characters[ rand( 0, $charactersLength - 1 ) ];
+		$randomString .= $characters[ wp_rand( 0, $charactersLength - 1 ) ];
 	}
 	return $randomString;
 }
@@ -246,7 +464,7 @@ function feadmin_get_client_ip() {
 }
 
 function feadmin_get_site_domain() {
-	return str_ireplace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
+	return str_ireplace( 'www.', '', wp_parse_url( home_url(), PHP_URL_HOST ) );
 }
 
 
@@ -268,7 +486,7 @@ function feadmin_duplicate_slug( $prefix = '' ) {
 
 function feadmin_slug_exists( $post_name ) {
 	global $wpdb;
-	if ( $wpdb->get_row( "SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name'", 'ARRAY_A' ) ) {
+	if ( $wpdb->get_row( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s", $post_name ), 'ARRAY_A' ) ) {
 		return true;
 	} else {
 		return false;
@@ -406,7 +624,7 @@ function feadmin_get_field_type_groups( $type = 'all' ) {
 	}
 	if ( $type == 'all' || $type == 'post' ) {
 		$fields['post'] = array(
-			'label'   => __( 'Post' ),
+			'label'   => __( 'Post', 'frontend-admin' ),
 			'options' => array(
 				'title'          => __( 'Post Title', 'frontend-admin' ),
 				'slug'           => __( 'Slug', 'frontend-admin' ),
@@ -527,11 +745,11 @@ function feadmin_get_selected_field( $selector = '', $type = '' ) {
 function feadmin_field_choice( $field ) {
 	// bail early if no field
 	if ( ! $field ) {
-		return __( 'Unknown field', 'acf' );
+		return __( 'Unknown field', 'frontend-admin' );
 	}
 
 	// title
-	$title = $field['label'] ? $field['label'] : __( '(no title)', 'acf' );
+	$title = $field['label'] ? $field['label'] : __( '(no title)', 'frontend-admin' );
 
 	// append type
 	$title .= ' (' . $field['type'] . ')';
@@ -563,11 +781,11 @@ function feadmin_field_choice( $field ) {
 function feadmin_group_choice( $field_group ) {
 	// bail early if no field group
 	if ( ! $field_group ) {
-		return __( 'Unknown field group', 'acf' );
+		return __( 'Unknown field group', 'frontend-admin' );
 	}
 
 	// return
-	return sprintf( __( 'All fields from %s', 'frontend-admin' ), $field_group['title'] );
+	return sprintf( /* translators: %s: value */ __( 'All fields from %s', 'frontend-admin' ), $field_group['title'] );
 
 }
 
@@ -803,7 +1021,6 @@ function feadmin_verify_ajax( $nonce = '', $action = '' ) {
 
 	// Bail if nonce can't be verified.
 	if ( ! wp_verify_nonce( sanitize_text_field( $nonce_to_check ), $nonce_action ) ) {
-		error_log('not verified');
 		return false;
 	}
 

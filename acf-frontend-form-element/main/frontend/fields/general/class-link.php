@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'link' ) ) :
 
 	class link extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'link' ) ) :
 			// vars
 			$this->name     = 'link-input';
 			 $this->public = false;
-			$this->label    = __( 'Link', 'acf' );
+			$this->label    = __( 'Link', 'frontend-admin' );
 			$this->category = 'relational';
 			$this->defaults = array(
 				'return_format' => 'array',
@@ -95,14 +99,14 @@ if ( ! class_exists( 'link' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Value', 'acf' ),
-					'instructions' => __( 'Specify the returned value on front end', 'acf' ),
+					'label'        => __( 'Return Value', 'frontend-admin' ),
+					'instructions' => __( 'Specify the returned value on front end', 'frontend-admin' ),
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'array' => __( 'Link Array', 'acf' ),
-						'url'   => __( 'Link URL', 'acf' ),
+						'array' => __( 'Link Array', 'frontend-admin' ),
+						'url'   => __( 'Link URL', 'frontend-admin' ),
 					),
 				)
 			);

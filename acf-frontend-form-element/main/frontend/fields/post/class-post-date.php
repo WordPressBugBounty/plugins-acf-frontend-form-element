@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_date' ) ) :
 
 	class post_date extends datetime_input {
@@ -44,7 +48,7 @@ if ( ! class_exists( 'post_date' ) ) :
 		function prepare_field( $field ) {
 			$field['type'] = 'date_time_picker';
 			if ( ! $field['value'] ) {
-				$field['value'] = date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp' ) );
+				$field['value'] = gmdate( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp' ) );
 			}
 			return $field;
 		}

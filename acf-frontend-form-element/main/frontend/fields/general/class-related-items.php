@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'related_items' ) ) :
 
 	class related_items extends Field_Base {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'related_items' ) ) :
 
 			// vars
 			$this->name     = 'related_items';
-			$this->label    = __( 'Relationship', 'acf' );
+			$this->label    = __( 'Relationship', 'frontend-admin' );
 			$this->category = 'relational';
 			$this->defaults = array(
 				'post_type'     => array(),
@@ -276,9 +280,9 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_localize_text(
 				array(
 					// 'Minimum values reached ( {min} values )' => __('Minimum values reached ( {min} values )', 'acf'),
-					'Maximum values reached ( {max} values )' => __( 'Maximum values reached ( {max} values )', 'acf' ),
-					'Loading'          => __( 'Loading', 'acf' ),
-					'No matches found' => __( 'No matches found', 'acf' ),
+					'Maximum values reached ( {max} values )' => __( 'Maximum values reached ( {max} values )', 'frontend-admin' ),
+					'Loading'          => __( 'Loading', 'frontend-admin' ),
+					'No matches found' => __( 'No matches found', 'frontend-admin' ),
 				)
 			);
 		}
@@ -617,7 +621,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			if ( in_array( 'post_type', $filters ) ) {
 
 				$filter_post_type_choices = array(
-					'' => __( 'Select post type', 'acf' ),
+					'' => __( 'Select post type', 'frontend-admin' ),
 				) + acf_get_pretty_post_types( $post_type );
 			}
 
@@ -626,7 +630,7 @@ if ( ! class_exists( 'related_items' ) ) :
 
 				$term_choices            = array();
 				$filter_taxonomy_choices = array(
-					'' => __( 'Select taxonomy', 'acf' ),
+					'' => __( 'Select taxonomy', 'frontend-admin' ),
 				);
 
 				// check for specific taxonomy setting
@@ -670,7 +674,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			);
 
 			?>
-<div <?php echo acf_esc_attrs( $atts ); ?>>
+<div <?php echo acf_esc_attrs( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs(). ?>>
 	
 			<?php
 			acf_hidden_input(
@@ -696,7 +700,7 @@ if ( ! class_exists( 'related_items' ) ) :
 					<?php
 					acf_text_input(
 						array(
-							'placeholder' => __( 'Search...', 'acf' ),
+							'placeholder' => __( 'Search...', 'frontend-admin' ),
 							'data-filter' => 's',
 						)
 					);
@@ -768,7 +772,7 @@ if ( ! class_exists( 'related_items' ) ) :
 							);
 						?>
 						<span data-id="<?php echo esc_attr( $post->ID ); ?>" class="acf-rel-item">
-								<?php echo acf_esc_html( $this->get_post_title( $post, $field ) ); ?>
+								<?php echo acf_esc_html( $this->get_post_title( $post, $field ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?>
 							<a href="#" class="acf-icon -minus small dark" data-name="remove_item"></a>
 						</span>
 					</li>
@@ -798,7 +802,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Post Type', 'acf' ),
+					'label'        => __( 'Filter by Post Type', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'post_type',
@@ -806,14 +810,14 @@ if ( ! class_exists( 'related_items' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All post types', 'acf' ),
+					'placeholder'  => __( 'All post types', 'frontend-admin' ),
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Taxonomy', 'acf' ),
+					'label'        => __( 'Filter by Taxonomy', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'taxonomy',
@@ -821,21 +825,21 @@ if ( ! class_exists( 'related_items' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All taxonomies', 'acf' ),
+					'placeholder'  => __( 'All taxonomies', 'frontend-admin' ),
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filters', 'acf' ),
+					'label'        => __( 'Filters', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'checkbox',
 					'name'         => 'filters',
 					'choices'      => array(
-						'search'    => __( 'Search', 'acf' ),
-						'post_type' => __( 'Post Type', 'acf' ),
-						'taxonomy'  => __( 'Taxonomy', 'acf' ),
+						'search'    => __( 'Search', 'frontend-admin' ),
+						'post_type' => __( 'Post Type', 'frontend-admin' ),
+						'taxonomy'  => __( 'Taxonomy', 'frontend-admin' ),
 					),
 				)
 			);
@@ -843,13 +847,13 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Format', 'acf' ),
+					'label'        => __( 'Return Format', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'choices'      => array(
-						'object' => __( 'Post Object', 'acf' ),
-						'id'     => __( 'Post ID', 'acf' ),
+						'object' => __( 'Post Object', 'frontend-admin' ),
+						'id'     => __( 'Post ID', 'frontend-admin' ),
 					),
 					'layout'       => 'horizontal',
 				)
@@ -871,7 +875,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum posts', 'acf' ),
+					'label'        => __( 'Minimum posts', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'min',
@@ -881,7 +885,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum posts', 'acf' ),
+					'label'        => __( 'Maximum posts', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'max',
@@ -901,12 +905,12 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Elements', 'acf' ),
-					'instructions' => __( 'Selected elements will be displayed in each result', 'acf' ),
+					'label'        => __( 'Elements', 'frontend-admin' ),
+					'instructions' => __( 'Selected elements will be displayed in each result', 'frontend-admin' ),
 					'type'         => 'checkbox',
 					'name'         => 'elements',
 					'choices'      => array(
-						'featured_image' => __( 'Featured Image', 'acf' ),
+						'featured_image' => __( 'Featured Image', 'frontend-admin' ),
 					),
 				)
 			);
@@ -987,7 +991,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			// min
 			if ( count( $value ) < $field['min'] ) {
 
-				$valid = _n( '%1$s requires at least %2$s selection', '%1$s requires at least %2$s selections', $field['min'], 'acf' );
+				$valid = /* translators: 1: value 2: value */ _n( '%1$s requires at least %2$s selection', '%1$s requires at least %2$s selections', $field['min'], 'frontend-admin' );
 				$valid = sprintf( $valid, $field['label'], $field['min'] );
 
 			}
@@ -1156,7 +1160,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add and Edit Posts' ),
+					'label'        => __( 'Add and Edit Posts', 'frontend-admin' ),
 					'instructions' => __( 'Allow posts to be created and edited whilst editing', 'frontend-admin' ),
 					'name'         => 'add_edit_post',
 					'type'         => 'true_false',
@@ -1166,7 +1170,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'      => __( 'Limit Editing to Post Author' ),
+					'label'      => __( 'Limit Editing to Post Author', 'frontend-admin' ),
 					'name'       => 'post_author_edit',
 					'type'       => 'true_false',
 					'ui'         => 1,
@@ -1182,11 +1186,11 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Add Post Button' ),
+					'label'         => __( 'Add Post Button', 'frontend-admin' ),
 					'name'          => 'add_post_button',
 					'type'          => 'text',
-					'default_value' => __( 'Add Post' ),
-					'placeholder'   => __( 'Add Post' ),
+					'default_value' => __( 'Add Post', 'frontend-admin' ),
+					'placeholder'   => __( 'Add Post', 'frontend-admin' ),
 					'conditions'    => array(
 						array(
 							'field'    => 'add_edit_post',
@@ -1199,7 +1203,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Form Container Width' ),
+					'label'         => __( 'Form Container Width', 'frontend-admin' ),
 					'name'          => 'form_width',
 					'type'          => 'number',
 					'prepend'       => 'px',
@@ -1225,7 +1229,7 @@ if ( ! class_exists( 'related_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Forms/Field Groups' ),
+					'label'        => __( 'Forms/Field Groups', 'frontend-admin' ),
 					'name'         => 'post_form_template',
 					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'frontend-admin' ) . '</div>',
 					'type'         => 'select',
@@ -1321,7 +1325,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				$add_post_button = ( $field['add_post_button'] ) ? $field['add_post_button'] : __( 'Add Post', 'frontend-admin' );
 				?>
 				<div class="margin-top-10 acf-actions">
-					<a class="add-rel-post acf-button button button-primary render-form" href="#" data-name="add_item"><?php esc_html_e( $add_post_button ); ?></a>
+					<a class="add-rel-post acf-button button button-primary render-form" href="#" data-name="add_item"><?php esc_html_e( $add_post_button, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?></a>
 				</div>
 				
 				<?php
@@ -1492,7 +1496,7 @@ if ( ! class_exists( 'related_items' ) ) :
 				// populate children
 				$data['children'][] = array(
 					'id'   => $field_group->ID,
-					'text' => sprintf( __( 'All fields from %s', 'frontend-admin' ), $field_group->post_title ),
+					'text' => sprintf( /* translators: %s: value */ __( 'All fields from %s', 'frontend-admin' ), $field_group->post_title ),
 				);
 				foreach ( $fields as $field ) {
 					// bail ealry if no key (fake field group or corrupt field)

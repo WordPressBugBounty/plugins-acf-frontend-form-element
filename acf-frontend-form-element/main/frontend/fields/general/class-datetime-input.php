@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'datetime_input' ) ) :
 
 	class datetime_input extends text {
@@ -74,16 +78,16 @@ if ( ! class_exists( 'datetime_input' ) ) :
 				}
 			}
 			if ( empty( $input_attrs['value'] ) ) {
-				$input_attrs['value'] = date( 'Y-m-d H:i' );
+				$input_attrs['value'] = gmdate( 'Y-m-d H:i' );
 			}
 
 			if( ! empty( $field['prepend'] ) ){
 			?>
-			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); ?></div>
+			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } ?>
 			<div class="acf-input-wrap"><?php acf_text_input( acf_filter_attrs( $input_attrs ) ); ?></div>
 			<?php if( ! empty(  $field['append'] ) ){ ?>
-			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
+			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } 
 		}
 

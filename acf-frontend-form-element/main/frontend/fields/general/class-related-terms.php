@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'related_terms' ) ) :
 
 	class related_terms extends Field_Base {
@@ -608,7 +612,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				$add_new_button = ! empty( $field['add_new_button'] ) ? $field['add_new_button'] : esc_attr( $taxonomy->labels->add_new_item );
 				?>
 				<div class="margin-top-10 acf-actions">
-					<a class="acf-button button button-primary" href="#" data-name="add" data-type="term"><?php esc_html_e( $add_new_button ); ?></a>
+					<a class="acf-button button button-primary" href="#" data-name="add" data-type="term"><?php esc_html_e( $add_new_button, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?></a>
 				</div>
 			<?php endif; ?>
 			</div>
@@ -705,7 +709,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			// vars
 			$args = array(
 				'taxonomy'         => $field['taxonomy'],
-				'show_option_none' => sprintf( _x( 'No %s', 'No terms', 'frontend-admin' ), strtolower( $taxonomy_obj->labels->name ) ),
+				'show_option_none' => sprintf( /* translators: %s: value */ _x( 'No %s', 'No terms', 'frontend-admin' ), strtolower( $taxonomy_obj->labels->name ) ),
 				'hide_empty'       => false,
 				'style'            => 'none',
 				'walker'           => new \Frontend_Admin\Walkers\Related_Terms( $field ),
@@ -890,7 +894,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add and Edit Terms' ),
+					'label'        => __( 'Add and Edit Terms', 'frontend-admin' ),
 					'instructions' => __( 'Allow terms to be created and edited whilst editing', 'frontend-admin' ),
 					'name'         => 'add_term',
 					'type'         => 'true_false',
@@ -900,7 +904,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Add Term Button' ),
+					'label'       => __( 'Add Term Button', 'frontend-admin' ),
 					'name'        => 'add_new_button',
 					'type'        => 'text',
 					'placeholder' => __( 'Add Term', 'frontend-admin' ),
@@ -916,7 +920,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Form Container Width' ),
+					'label'         => __( 'Form Container Width', 'frontend-admin' ),
 					'name'          => 'form_width',
 					'type'          => 'number',
 					'prepend'       => 'px',
@@ -944,7 +948,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Forms/Field Groups' ),
+					'label'        => __( 'Forms/Field Groups', 'frontend-admin' ),
 					'name'         => 'post_form_template',
 					'instructions' => '<div>' . __( 'Select an existing field group or form or the current field group or form', 'frontend-admin' ) . '</div>',
 					'type'         => 'select',
@@ -1067,7 +1071,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				if ( term_exists( $args['term_name'], $args['taxonomy'], $args['term_parent'] ) ) {
 					wp_send_json_error(
 						array(
-							'error' => sprintf( __( '%s already exists', 'frontend-admin' ), $taxonomy_label ),
+							'error' => sprintf( /* translators: %s: value */ __( '%s already exists', 'frontend-admin' ), $taxonomy_label ),
 						)
 					);
 				}
@@ -1103,7 +1107,7 @@ if ( ! class_exists( 'related_terms' ) ) :
 				// success
 				wp_send_json_success(
 					array(
-						'message'     => sprintf( __( '%s added', 'frontend-admin' ), $taxonomy_label ),
+						'message'     => sprintf( /* translators: %s: value */ __( '%s added', 'frontend-admin' ), $taxonomy_label ),
 						'term_id'     => $term->term_id,
 						'term_name'   => $term->name,
 						'term_label'  => $prefix . $term->name,

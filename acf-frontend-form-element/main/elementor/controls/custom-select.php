@@ -32,10 +32,10 @@ class Custom_Select extends \Elementor\Control_Select2
 		?>
                   <# var multiple = ( data.multiple ) ? 'multiple' : ''; #>
                   <div class="elementor-control-field">
-                      <label for="<?php echo $control_uid; ?>" class="elementor-control-title">{{{ data.label }}}</label>
+                      <label for="<?php echo esc_attr( $control_uid ); ?>" class="elementor-control-title">{{{ data.label }}}</label>
                       <div class="elementor-control-input-wrapper elementor-control-unit-5">
                           <select 
-						  	id="<?php echo $control_uid; ?>" 
+						  	id="<?php echo esc_attr( $control_uid ); ?>" 
 							class="custom-control-select elementor-control-tag-area" 
 							style="width:100%" 
 							data-children_of="{{ data.children_of }}" 

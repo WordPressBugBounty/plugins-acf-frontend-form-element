@@ -18,7 +18,7 @@ public $current_control_group = null;
   // public $scripts      = []; // Enqueue registered scripts by their handle
 
   public function get_label() {
-    return esc_html__( 'Delete Post', 'bricks' );
+    return esc_html__( 'Delete Post', 'frontend-admin' );
   }
 
 
@@ -34,8 +34,8 @@ public $current_control_group = null;
 		$this->controls['icon']['default']['icon'] = 'fa fa-trash-can';
 		$this->controls['text'] = [
 			'type'        => 'text',
-			'default'     => esc_html__( 'Delete Post', 'bricks' ),
-			'placeholder' => esc_html__( 'Delete Post', 'bricks' ),
+			'default'     => esc_html__( 'Delete Post', 'frontend-admin' ),
+			'placeholder' => esc_html__( 'Delete Post', 'frontend-admin' ),
 		];
 
 		$this->controls['_conditions']['default'] = [
@@ -102,7 +102,7 @@ public $current_control_group = null;
 				'label'        => __( 'Force Delete', 'frontend-admin' ),
 				'type'         => 'checkbox',
 				'default'      => false,
-				'description'  => __( 'Whether or not to completely delete the posts right away.' ),
+				'description'  => __( 'Whether or not to completely delete the posts right away.', 'frontend-admin' ),
 			)
 		);
 
@@ -253,7 +253,7 @@ public $current_control_group = null;
 	}
 
 	if ( isset( $settings['text'] ) ) {
-		$output .= trim( $settings['text'] );
+		$output .= wp_kses_post( trim( $settings['text'] ) );
 	}
 
 	if ( $icon && $icon_position === 'right' ) {
@@ -262,7 +262,7 @@ public $current_control_group = null;
 
 	$output .= "</{$this->tag}>";
 
-	echo $output;
+	echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above.
 }
 
 

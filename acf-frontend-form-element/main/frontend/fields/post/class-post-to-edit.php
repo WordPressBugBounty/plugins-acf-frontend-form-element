@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_to_edit' ) ) :
 
 	class post_to_edit extends Field_Base {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'post_to_edit';
-			$this->label    = __( 'Post To Edit', 'acf' );
+			$this->label    = __( 'Post To Edit', 'frontend-admin' );
 			$this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults = array(
 				'post_type'       => array( 'post' ),
@@ -121,7 +125,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 					$type         = 'post';
 					$default_text = 'New Post';
 				}
-				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' );
+				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 				$results      = array(
 					array(
 						'id'   => 'add_' . $type,
@@ -283,7 +287,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			);
 
 			// look for parent
-			$search = '| ' . __( 'Parent', 'acf' ) . ':';
+			$search = '| ' . __( 'Parent', 'frontend-admin' ) . ':';
 			$pos    = strpos( $text, $search );
 
 			if ( $pos !== false ) {
@@ -406,7 +410,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 					'instructions' => __( 'Only show posts by the following users', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'post_author',
-					'choices'      => array( 'current_user' => __( 'Current User' ) ),
+					'choices'      => array( 'current_user' => __( 'Current User', 'frontend-admin' ) ),
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
@@ -431,7 +435,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Post Type', 'acf' ),
+					'label'        => __( 'Filter by Post Type', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'post_type',
@@ -439,7 +443,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All post types', 'acf' ),
+					'placeholder'  => __( 'All post types', 'frontend-admin' ),
 				)
 			);
 
@@ -447,7 +451,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Taxonomy', 'acf' ),
+					'label'        => __( 'Filter by Taxonomy', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'taxonomy',
@@ -455,7 +459,7 @@ if ( ! class_exists( 'post_to_edit' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All taxonomies', 'acf' ),
+					'placeholder'  => __( 'All taxonomies', 'frontend-admin' ),
 				)
 			);
 			acf_render_field_setting(

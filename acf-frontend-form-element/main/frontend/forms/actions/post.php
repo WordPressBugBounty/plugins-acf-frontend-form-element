@@ -1003,6 +1003,12 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			// allow for custom save
 			$post_id = apply_filters( 'acf/pre_save_post', $post_id, $form );
 			
+			// 'add_post' is the only legitimate non-numeric target; a form that does
+			// not save to a post at all arrives here as 'none' and must not write.
+			if ( 'add_post' != $post_id && ! is_numeric( $post_id ) ) {
+				return $form;
+			}
+
 			$post_to_edit = array();
 
 
@@ -1012,6 +1018,9 @@ if ( ! class_exists( 'ActionPost' ) ) :
 			if ( 'add_post' == $post_id ) {
 				$post_to_edit['ID']        = 0;
 				$post_to_edit['post_type'] = $record['post_type'] ?? $form['new_post_type'] ?? 'post';
+				if ( ! feadmin_can_submit_post_type( $post_to_edit['post_type'] ) ) {
+					$post_to_edit['post_type'] = 'post';
+				}
 		   }else{
 				if( 'duplicate_post' == $form['save_to_post'] ){
 					$post_to_duplicate           = get_post( $post_id );
@@ -1062,6 +1071,21 @@ if ( ! class_exists( 'ActionPost' ) ) :
 					if ( ! in_array( $field_type, $core_fields ) ) {
 						$metas[ $field['key'] ] = $field;
 						continue;
+					}
+
+					// The submitted value of a Post Type or Post Status field is only a
+					// choice between the options the field offers. Anything else is
+					// dropped, leaving the form's own setting in place - otherwise a
+					// visitor could create posts of an internal type (acf-field,
+					// admin_form) and so register their own fields and forms.
+					if ( 'post_type' == $field_type && ! feadmin_can_submit_post_type( $field['value'], $field ) ) {
+						continue;
+					}
+					if ( 'post_status' == $field_type ) {
+						$allowed_statuses = ! empty( $field['post_status'] ) ? (array) $field['post_status'] : get_post_stati();
+						if ( ! is_string( $field['value'] ) || ! in_array( $field['value'], $allowed_statuses, true ) ) {
+							continue;
+						}
 					}
 
 					$submit_key = $field_type == 'post_slug' ? 'post_name' : $field_type;
@@ -1193,21 +1217,27 @@ if ( ! class_exists( 'ActionPost' ) ) :
 				}
 
 				global $wpdb;
-				$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_to_duplicate->ID" );
-				if ( count( $post_meta_infos ) != 0 ) {
-					$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-					foreach ( $post_meta_infos as $meta_info ) {
-						   $meta_key        = $meta_info->meta_key;
-						   $meta_value      = addslashes( $meta_info->meta_value );
-						   $sql_query_sel[] = "SELECT $post_id, '$meta_key', '$meta_value'";
-					}
-					$sql_query .= implode( ' UNION ALL ', $sql_query_sel );
-					$wpdb->query( $sql_query );
+				$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d", $post_to_duplicate->ID ) );
+				foreach ( $post_meta_infos as $meta_info ) {
+					$wpdb->insert(
+						$wpdb->postmeta,
+						array(
+							'post_id'    => $post_id,
+							'meta_key'   => $meta_info->meta_key,
+							'meta_value' => $meta_info->meta_value,
+						),
+						array( '%d', '%s', '%s' )
+					);
 				}
 			}
 
 			if ( ! empty( $metas ) ) {
 				foreach ( $metas as $meta ) {
+					// a field's name is its meta key: never let one write the
+					// plugin's own or WordPress' internal post meta (form_key etc.)
+					if ( feadmin_is_protected_meta_key( $meta['name'] ?? '', 'post' ) ) {
+						continue;
+					}
 					acf_update_value( $meta['_input'], $post_id, $meta );
 				}
 			}

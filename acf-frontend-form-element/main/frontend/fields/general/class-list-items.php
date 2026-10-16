@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'list_items' ) ) :
 
 	class list_items extends Field_Base {
@@ -92,7 +96,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			?>
 			<div class="acf-field acf-field-setting-sub_fields" data-setting="repeater" data-name="sub_fields">
 				<div class="acf-label">
-					<label><?php _e( 'Sub Fields', 'acf' ); ?></label>
+					<label><?php esc_html_e( 'Sub Fields', 'frontend-admin' ); ?></label>
 					<p class="description"></p>		
 				</div>
 				<div class="acf-input acf-input-sub">
@@ -107,23 +111,23 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Layout', 'acf' ),
+					'label'        => __( 'Layout', 'frontend-admin' ),
 					'instructions' => '',
 					'class'        => 'acf-repeater-layout',
 					'type'         => 'radio',
 					'name'         => 'layout',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'table' => __( 'Table', 'acf' ),
-						'block' => __( 'Block', 'acf' ),
-						'row'   => __( 'Row', 'acf' ),
+						'table' => __( 'Table', 'frontend-admin' ),
+						'block' => __( 'Block', 'frontend-admin' ),
+						'row'   => __( 'Row', 'frontend-admin' ),
 					),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum Rows', 'acf' ),
+					'label'        => __( 'Minimum Rows', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'min',
@@ -132,7 +136,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum Rows', 'acf' ),
+					'label'        => __( 'Maximum Rows', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'max',
@@ -141,22 +145,22 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Show Order', 'acf' ),
+					'label'        => __( 'Show Order', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'show_order',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'numbers' => __( 'Numbers', 'acf' ),
-						'ids'     => __( 'IDs', 'acf' ),
-						'no'      => __( 'No', 'acf' ),
+						'numbers' => __( 'Numbers', 'frontend-admin' ),
+						'ids'     => __( 'IDs', 'frontend-admin' ),
+						'no'      => __( 'No', 'frontend-admin' ),
 					),
 				)
 			);
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Show Add Button', 'acf' ),
+					'label'        => __( 'Show Add Button', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'true_false',
 					'name'         => 'show_add',
@@ -167,14 +171,14 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add Button Locations', 'acf' ),
+					'label'        => __( 'Add Button Locations', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'checkbox',
 					'name'         => 'add_button_locations',
 					'choices'      => array(
-						'top'    => __( 'Top', 'acf' ),
-						'bottom' => __( 'Bottom', 'acf' ),
-						'rows'   => __( 'Within Rows', 'acf' ),
+						'top'    => __( 'Top', 'frontend-admin' ),
+						'bottom' => __( 'Bottom', 'frontend-admin' ),
+						'rows'   => __( 'Within Rows', 'frontend-admin' ),
 					),
 					'conditional_logic' => array(
 						array(
@@ -210,7 +214,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Show Remove Button', 'acf' ),
+					'label'        => __( 'Show Remove Button', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'true_false',
 					'name'         => 'show_remove',
@@ -487,7 +491,7 @@ if ( ! class_exists( 'list_items' ) ) :
 						$td_attrs['data-event'] = 'collapse-row';
 					}
 					?>
-					<td <?php echo acf_esc_attrs( $td_attrs ); ?>>
+					<td <?php echo acf_esc_attrs( $td_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs(). ?>>
 						<?php if ( $field['collapsed'] ) : ?>
 						<a class="acf-icon -collapse small" href="#" title="<?php esc_attr_e( 'Click to toggle', 'frontend-admin' ); ?>"></a>
 						<?php endif; ?>
@@ -503,7 +507,7 @@ if ( ! class_exists( 'list_items' ) ) :
 					</td>
 				<?php endif; ?>
 				
-				<?php echo $before_fields; ?>
+				<?php echo $before_fields; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?>
 
 				<?php
 
@@ -561,7 +565,7 @@ if ( ! class_exists( 'list_items' ) ) :
 					
 				<?php endforeach; ?>
 				
-				<?php echo $after_fields; ?>
+				<?php echo $after_fields; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?>
 				
 				<?php if ( $show_remove ) : ?>
 					<td class="acf-row-handle remove">
@@ -578,7 +582,7 @@ if ( ! class_exists( 'list_items' ) ) :
 			<?php if ( $show_add ) : ?>
 	
 				<div class="acf-actions">
-					<a class="acf-button button button-primary" href="#" data-event="add-row"><?php echo acf_esc_html( $field['button_label'] ); ?></a>
+					<a class="acf-button button button-primary" href="#" data-event="add-row"><?php echo acf_esc_html( $field['button_label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></a>
 				</div>
 						
 				<?php endif; ?>

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'role' ) ) :
 
 	class role extends Field_Base {
@@ -145,7 +149,7 @@ if ( ! class_exists( 'role' ) ) :
 			if ( isset( $field['frontend_admin_display_mode'] ) && $field['frontend_admin_display_mode'] == 'hidden' && $field['default_value'] != $value ) {
 				return __( 'Invalid role option selected.', 'frontend-admin' );
 			}
-			if ( $this->has_sensitive_capability( $value ) && ! current_user_can( 'promote_users' ) ) {
+			if ( $this->has_sensitive_capability( $value ) && ! feadmin_has_special_permission( 'assign_roles', 'promote_users' ) ) {
 				return __( 'You do not have permission to assign this role.', 'frontend-admin' );
 			}
 
@@ -168,10 +172,10 @@ if ( ! class_exists( 'role' ) ) :
 
 			$allowed_roles = $field['role_options'] ?? array( 'subscriber' );
 			if ( ! in_array( $value, $allowed_roles, true ) ) {
-				wp_die( __( 'Invalid role option selected.', 'frontend-admin' ) );
+				wp_die( esc_html__( 'Invalid role option selected.', 'frontend-admin' ) );
 			}
-			if ( $this->has_sensitive_capability( $value ) && ! current_user_can( 'promote_users' ) ) {
-				wp_die( __( 'You do not have permission to assign this role.', 'frontend-admin' ) );
+			if ( $this->has_sensitive_capability( $value ) && ! feadmin_has_special_permission( 'assign_roles', 'promote_users' ) ) {
+				wp_die( esc_html__( 'You do not have permission to assign this role.', 'frontend-admin' ) );
 			}
 
 			$user->set_role( $value );

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'checkbox' ) ) :
 
 	class checkbox extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'checkbox' ) ) :
 			// vars
 			$this->name     = 'checkbox-input';
 			 $this->public = false;
-			$this->label    = __( 'Checkbox', 'acf' );
+			$this->label    = __( 'Checkbox', 'frontend-admin' );
 			$this->category = 'choice';
 			$this->defaults = array(
 				'layout'        => 'vertical',
@@ -79,7 +83,7 @@ if ( ! class_exists( 'checkbox' ) ) :
 
 			foreach ( $value as $value ) {
 				if ( empty( $value ) ) {
-					return __( 'Checkbox custom values cannot be empty. Uncheck any empty values.', 'acf' );
+					return __( 'Checkbox custom values cannot be empty. Uncheck any empty values.', 'frontend-admin' );
 				}
 			}
 
@@ -105,7 +109,7 @@ if ( ! class_exists( 'checkbox' ) ) :
 			$atts = array(
 				'type'  => 'checkbox',
 				'class' => 'acf-checkbox-toggle',
-				'label' => __( 'Toggle All', 'acf' ),
+				'label' => __( 'Toggle All', 'frontend-admin' ),
 			);
 
 			// custom label
@@ -168,7 +172,7 @@ if ( ! class_exists( 'checkbox' ) ) :
 			}
 
 			// append button
-			$html .= '<li><a href="#" class="button acf-add-checkbox">' . esc_attr__( 'Add new choice', 'acf' ) . '</a></li>' . "\n";
+			$html .= '<li><a href="#" class="button acf-add-checkbox">' . esc_attr__( 'Add new choice', 'frontend-admin' ) . '</a></li>' . "\n";
 
 			// return
 			return $html;
@@ -282,8 +286,8 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Choices', 'acf' ),
-					'hint'  => __( 'Enter each choice on a new line.', 'acf' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'acf' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'acf' ) . '</span>',
+					'label' => __( 'Choices', 'frontend-admin' ),
+					'hint'  => __( 'Enter each choice on a new line.', 'frontend-admin' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'frontend-admin' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'frontend-admin' ) . '</span>',
 					'type'  => 'textarea',
 					'name'  => 'choices',
 				)
@@ -292,8 +296,8 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Default Value', 'acf' ),
-					'hint'  => __( 'Enter each default value on a new line', 'acf' ),
+					'label' => __( 'Default Value', 'frontend-admin' ),
+					'hint'  => __( 'Enter each default value on a new line', 'frontend-admin' ),
 					'type'  => 'textarea',
 					'name'  => 'default_value',
 				)
@@ -302,15 +306,15 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Value', 'acf' ),
-					'instructions' => __( 'Specify the returned value on front end', 'acf' ),
+					'label'        => __( 'Return Value', 'frontend-admin' ),
+					'instructions' => __( 'Specify the returned value on front end', 'frontend-admin' ),
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'value' => __( 'Value', 'acf' ),
-						'label' => __( 'Label', 'acf' ),
-						'array' => __( 'Both (Array)', 'acf' ),
+						'value' => __( 'Value', 'frontend-admin' ),
+						'label' => __( 'Label', 'frontend-admin' ),
+						'array' => __( 'Both (Array)', 'frontend-admin' ),
 					),
 				)
 			);
@@ -329,22 +333,22 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Custom Values', 'acf' ),
+					'label'        => __( 'Allow Custom Values', 'frontend-admin' ),
 					'name'         => 'allow_custom',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Allow 'custom' values to be added", 'acf' ),
+					'instructions' => __( "Allow 'custom' values to be added", 'frontend-admin' ),
 				)
 			);
 
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Save Custom Values', 'acf' ),
+					'label'        => __( 'Save Custom Values', 'frontend-admin' ),
 					'name'         => 'save_custom',
 					'type'         => 'true_false',
 					'ui'           => 1,
-					'instructions' => __( "Save 'custom' values to the field's choices", 'acf' ),
+					'instructions' => __( "Save 'custom' values to the field's choices", 'frontend-admin' ),
 					'conditions'   => array(
 						'field'    => 'allow_custom',
 						'operator' => '==',
@@ -366,14 +370,14 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Layout', 'acf' ),
+					'label'        => __( 'Layout', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'layout',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'vertical'   => __( 'Vertical', 'acf' ),
-						'horizontal' => __( 'Horizontal', 'acf' ),
+						'vertical'   => __( 'Vertical', 'frontend-admin' ),
+						'horizontal' => __( 'Horizontal', 'frontend-admin' ),
 					),
 				)
 			);
@@ -381,8 +385,8 @@ if ( ! class_exists( 'checkbox' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add Toggle All', 'acf' ),
-					'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'acf' ),
+					'label'        => __( 'Add Toggle All', 'frontend-admin' ),
+					'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'frontend-admin' ),
 					'name'         => 'toggle',
 					'type'         => 'true_false',
 					'ui'           => 1,

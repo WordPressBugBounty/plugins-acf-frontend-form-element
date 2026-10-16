@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'upload_files' ) ) :
 
 	class upload_files extends Field_Base {
@@ -315,7 +319,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'       => __( 'Button Text' ),
+					'label'       => __( 'Button Text', 'frontend-admin' ),
 					'name'        => 'button_text',
 					'type'        => 'text',
 					'placeholder' => __( 'Add Image', 'frontend-admin' ),
@@ -388,13 +392,13 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 			?>
 		<div class="fea-uploads-side-info">
-			<img src="<?php esc_attr_e( $thumb ); ?>" alt="<?php esc_attr_e( $attachment['alt'] ); ?>" />
-			<p class="filename"><strong><?php esc_html_e( $attachment['filename'] ); ?></strong></p>
-			<p class="uploaded"><?php esc_html_e( $attachment['dateFormatted'] ); ?></p>
-			<p class="dimensions"><?php esc_html_e( $dimentions ); ?></p>
+			<img src="<?php echo esc_attr( $thumb ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" />
+			<p class="filename"><strong><?php echo esc_html( $attachment['filename'] ); ?></strong></p>
+			<p class="uploaded"><?php echo esc_html( $attachment['dateFormatted'] ); ?></p>
+			<p class="dimensions"><?php echo esc_html( $dimentions ); ?></p>
 			<p class="actions">
-				<a href="#" class="fea-uploads-edit" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Edit', 'frontend-admin' ); ?></a>
-				<a href="#" class="fea-uploads-remove" data-id="<?php esc_attr_e( $id ); ?>"><?php esc_html_e( 'Remove', 'frontend-admin' ); ?></a>
+				<a href="#" class="fea-uploads-edit" data-id="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Edit', 'frontend-admin' ); ?></a>
+				<a href="#" class="fea-uploads-remove" data-id="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Remove', 'frontend-admin' ); ?></a>
 			</p>
 		</div>
 		<table class="form-table">
@@ -454,7 +458,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 		</table>
 			<?php
 
-			esc_html_e( $compat );
+			esc_html_e( $compat, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 
 		}
 
@@ -518,7 +522,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			<div class="fea-uploads-attachment fea-uploads-add" data-id="0">
 				<div class="thumbnail">
 					<?php if( $placeholder ): ?>
-					<img src="<?php echo $placeholder; ?>" />
+					<img src="<?php echo esc_url( $placeholder ); ?>" />
 					<?php else: ?>
 					<i class="acf-icon -plus"></i>
 					<?php endif; ?>
@@ -613,7 +617,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			</div>
 
 			<?php if ( in_array( 'top', $button_locations ) ) : ?>
-				<a href="#" class="acf-button button button-primary fea-uploads-add"><?php esc_html_e( $button_text ); ?></a>
+				<a href="#" class="acf-button button button-primary fea-uploads-add"><?php esc_html_e( $button_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?></a>
 			<?php endif; ?>
 			
 			<div class="fea-uploads-main">
@@ -681,7 +685,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 						$extra_attr .= ' data-download=true';
 					}
 					?>
-							<div <?php echo $extra_attr; ?> class="<?php esc_attr_e( $a['class'] ); ?>" data-id="<?php esc_attr_e( $a['id'] ); ?>">
+							<div <?php echo $extra_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built from escaped parts above. ?> class="<?php echo esc_attr( $a['class'] ); ?>" data-id="<?php echo esc_attr( $a['id'] ); ?>">
 					
 					<?php
 					acf_hidden_input(
@@ -693,14 +697,14 @@ if ( ! class_exists( 'upload_files' ) ) :
 					?>
 					<div class="thumbnail">
 						
-						<img src="<?php esc_attr_e( $thumbnail['url'] ); ?>" alt="" title="<?php esc_attr_e( $a['title'] ); ?>"/>
+						<img src="<?php echo esc_attr( $thumbnail['url'] ); ?>" alt="" title="<?php echo esc_attr( $a['title'] ); ?>"/>
 						
 					</div>
 					<?php if ( $a['filename'] ) : ?>
-									<div class="filename"><?php esc_html_e( acf_get_truncated( $a['filename'], 30 ) ); ?></div>    
+									<div class="filename"><?php echo esc_html( acf_get_truncated( $a['filename'], 30 ) ); ?></div>    
 					<?php endif; ?>
 						<div class="actions">
-							<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php esc_attr_e( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
+							<a class="acf-icon -cancel small dark fea-uploads-remove" href="#" data-id="<?php echo esc_attr( $a['id'] ); ?>" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 						</div>
 					<?php
 					if( 'edit' == $click_event ){ 
@@ -725,7 +729,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 				<div class="image-preview-clone acf-hidden">
 						<div class="thumbnail">
-							<img data-default="<?php esc_attr_e( $default_icon ); ?>" src="" alt="" title=""/>
+							<img data-default="<?php echo esc_attr( $default_icon ); ?>" src="" alt="" title=""/>
 						</div>
 					<div class="actions">
 						<a class="acf-icon -cancel dark small fea-uploads-remove" href="#" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
@@ -799,7 +803,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 					<?php if ( in_array( 'bottom', $button_locations ) ) : ?>
 					<li>
-						<a href="#" class="acf-button button button-primary fea-uploads-add"><?php esc_html_e( $button_text ); ?></a>
+						<a href="#" class="acf-button button button-primary fea-uploads-add"><?php esc_html_e( $button_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?></a>
 					</li>
 					<?php endif; ?>
 					<?php $this->render_order( $field ); ?>
@@ -871,14 +875,14 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Add Image Button Locations', 'acf' ),
+					'label'        => __( 'Add Image Button Locations', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'checkbox',
 					'name'         => 'add_button_locations',
 					'choices'      => array(
-						'top'    => __( 'Top', 'acf' ),
-						'bottom' => __( 'Bottom', 'acf' ),
-						'item'   => __( 'Item', 'acf' ),
+						'top'    => __( 'Top', 'frontend-admin' ),
+						'bottom' => __( 'Bottom', 'frontend-admin' ),
+						'item'   => __( 'Item', 'frontend-admin' ),
 					),
 				
 				)
@@ -887,7 +891,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'When User Clicks Image...', 'acf' ),
+					'label'        => __( 'When User Clicks Image...', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'click_event',
@@ -903,7 +907,7 @@ if ( ! class_exists( 'upload_files' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Open Images in Lightbox', 'acf' ),
+					'label'        => __( 'Open Images in Lightbox', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'true_false',
 					'name'         => 'open_in_lightbox',
@@ -1115,14 +1119,14 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 			if ( empty( $value ) || ! is_array( $value ) ) {
 				if ( $field['required'] ) {
-					return sprintf( __( '%s value is required.', 'frontend-admin' ), $field['label'] );
+					return sprintf( /* translators: %s: value */ __( '%s value is required.', 'frontend-admin' ), $field['label'] );
 				}
 				$value = array();
 			}
 
 			if ( is_array( $value ) && count( $value ) < $field['min'] ) {
 
-				$valid = _n( '%1$s requires at least %2$s selection', '%1$s requires at least %2$s selections', $field['min'], 'acf' );
+				$valid = /* translators: 1: value 2: value */ _n( '%1$s requires at least %2$s selection', '%1$s requires at least %2$s selections', $field['min'], 'frontend-admin' );
 				$valid = sprintf( $valid, $field['label'], $field['min'] );
 
 			}

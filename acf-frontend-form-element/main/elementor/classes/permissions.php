@@ -182,7 +182,12 @@ class Permissions {
 			array(
 				'label'           => __( '<h3>Media Privacy</h3>', 'frontend-admin' ),
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => __( '<p align="left">Click <a target="_blank" href="' . admin_url( '?page=' .  'fea-settings&tab=uploads-privacy' ) . '">here</a> to limit the files displayed in the media library to the user who uploaded them.</p>', 'frontend-admin' ),
+				'raw'             => '<p align="left">' . sprintf(
+					/* translators: 1: opening link tag 2: closing link tag */
+					__( 'Click %1$shere%2$s to limit the files displayed in the media library to the user who uploaded them.', 'frontend-admin' ),
+					'<a target="_blank" href="' . esc_url( admin_url( '?page=fea-settings&tab=uploads-privacy' ) ) . '">',
+					'</a>'
+				) . '</p>',
 				'content_classes' => 'media-privacy-note',
 			)
 		);
@@ -200,6 +205,8 @@ class Permissions {
 					'delete_terms' => __( 'Delete Terms', 'frontend-admin' ),
 					'delete_posts' => __( 'Delete Other\'s Posts', 'frontend-admin' ),
 					'delete_users' => __( 'Delete Other Users', 'frontend-admin' ),
+					'edit_site_options' => __( 'Edit Site Options', 'frontend-admin' ),
+					'assign_roles' => __( 'Assign Privileged User Roles', 'frontend-admin' ),
 				),
 				'description' => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
 			)

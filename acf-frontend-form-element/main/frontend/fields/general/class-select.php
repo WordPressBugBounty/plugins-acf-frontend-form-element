@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'select' ) ) :
 
 	class select extends Field_Base {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'select' ) ) :
 			// vars
 			$this->name     = 'dropdown';
 			$this->public = false;
-			$this->label    = _x( 'Select', 'noun', 'acf' );
+			$this->label    = _x( 'Select', 'noun', 'frontend-admin' );
 			$this->category = 'choice';
 			$this->defaults = array(
 				'multiple'      => 0,
@@ -106,18 +110,18 @@ if ( ! class_exists( 'select' ) ) :
 			acf_localize_data(
 				array(
 					'select2L10n' => array(
-						'matches_1'            => _x( 'One result is available, press enter to select it.', 'Select2 JS matches_1', 'acf' ),
-						'matches_n'            => _x( '%d results are available, use up and down arrow keys to navigate.', 'Select2 JS matches_n', 'acf' ),
-						'matches_0'            => _x( 'No matches found', 'Select2 JS matches_0', 'acf' ),
-						'input_too_short_1'    => _x( 'Please enter 1 or more characters', 'Select2 JS input_too_short_1', 'acf' ),
-						'input_too_short_n'    => _x( 'Please enter %d or more characters', 'Select2 JS input_too_short_n', 'acf' ),
-						'input_too_long_1'     => _x( 'Please delete 1 character', 'Select2 JS input_too_long_1', 'acf' ),
-						'input_too_long_n'     => _x( 'Please delete %d characters', 'Select2 JS input_too_long_n', 'acf' ),
-						'selection_too_long_1' => _x( 'You can only select 1 item', 'Select2 JS selection_too_long_1', 'acf' ),
-						'selection_too_long_n' => _x( 'You can only select %d items', 'Select2 JS selection_too_long_n', 'acf' ),
-						'load_more'            => _x( 'Loading more results&hellip;', 'Select2 JS load_more', 'acf' ),
-						'searching'            => _x( 'Searching&hellip;', 'Select2 JS searching', 'acf' ),
-						'load_fail'            => _x( 'Loading failed', 'Select2 JS load_fail', 'acf' ),
+						'matches_1'            => _x( 'One result is available, press enter to select it.', 'Select2 JS matches_1', 'frontend-admin' ),
+						'matches_n'            => /* translators: %d: number */ _x( '%d results are available, use up and down arrow keys to navigate.', 'Select2 JS matches_n', 'frontend-admin' ),
+						'matches_0'            => _x( 'No matches found', 'Select2 JS matches_0', 'frontend-admin' ),
+						'input_too_short_1'    => _x( 'Please enter 1 or more characters', 'Select2 JS input_too_short_1', 'frontend-admin' ),
+						'input_too_short_n'    => /* translators: %d: number */ _x( 'Please enter %d or more characters', 'Select2 JS input_too_short_n', 'frontend-admin' ),
+						'input_too_long_1'     => _x( 'Please delete 1 character', 'Select2 JS input_too_long_1', 'frontend-admin' ),
+						'input_too_long_n'     => /* translators: %d: number */ _x( 'Please delete %d characters', 'Select2 JS input_too_long_n', 'frontend-admin' ),
+						'selection_too_long_1' => _x( 'You can only select 1 item', 'Select2 JS selection_too_long_1', 'frontend-admin' ),
+						'selection_too_long_n' => /* translators: %d: number */ _x( 'You can only select %d items', 'Select2 JS selection_too_long_n', 'frontend-admin' ),
+						'load_more'            => _x( 'Loading more results&hellip;', 'Select2 JS load_more', 'frontend-admin' ),
+						'searching'            => _x( 'Searching&hellip;', 'Select2 JS searching', 'frontend-admin' ),
+						'load_fail'            => _x( 'Loading failed', 'Select2 JS load_fail', 'frontend-admin' ),
 					),
 				)
 			);
@@ -259,7 +263,7 @@ if ( ! class_exists( 'select' ) ) :
 
 			// placeholder
 			if ( empty( $field['placeholder'] ) ) {
-				$field['placeholder'] = _x( 'Select', 'verb', 'acf' );
+				$field['placeholder'] = _x( 'Select', 'verb', 'frontend-admin' );
 			}
 
 			// add empty value (allows '' to be selected)
@@ -368,8 +372,8 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Choices', 'acf' ),
-					'hint'  => __( 'Enter each choice on a new line.', 'acf' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'acf' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'acf' ) . '</span>',
+					'label' => __( 'Choices', 'frontend-admin' ),
+					'hint'  => __( 'Enter each choice on a new line.', 'frontend-admin' ) . '<br />' . __( 'For more control, you may specify both a value and label like this:', 'frontend-admin' ) . '<br /><span class="acf-field-setting-example">' . __( 'red : Red', 'frontend-admin' ) . '</span>',
 					'name'  => 'choices',
 					'type'  => 'textarea',
 				)
@@ -379,8 +383,8 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Enter each default value on a new line', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Enter each default value on a new line', 'frontend-admin' ),
 					'name'         => 'default_value',
 					'type'         => 'textarea',
 				)
@@ -390,15 +394,15 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Return Format', 'acf' ),
-					'instructions' => __( 'Specify the value returned', 'acf' ),
+					'label'        => __( 'Return Format', 'frontend-admin' ),
+					'instructions' => __( 'Specify the value returned', 'frontend-admin' ),
 					'type'         => 'radio',
 					'name'         => 'return_format',
 					'layout'       => 'horizontal',
 					'choices'      => array(
-						'value' => __( 'Value', 'acf' ),
-						'label' => __( 'Label', 'acf' ),
-						'array' => __( 'Both (Array)', 'acf' ),
+						'value' => __( 'Value', 'frontend-admin' ),
+						'label' => __( 'Label', 'frontend-admin' ),
+						'array' => __( 'Both (Array)', 'frontend-admin' ),
 					),
 				)
 			);
@@ -406,7 +410,7 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Select multiple values?', 'acf' ),
+					'label'        => __( 'Select multiple values?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'multiple',
 					'type'         => 'true_false',
@@ -428,7 +432,7 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Null?', 'acf' ),
+					'label'        => __( 'Allow Null?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'allow_null',
 					'type'         => 'true_false',
@@ -449,8 +453,8 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Stylized UI', 'acf' ),
-					'instructions' => __( 'Use a stylized checkbox using select2', 'acf' ),
+					'label'        => __( 'Stylized UI', 'frontend-admin' ),
+					'instructions' => __( 'Use a stylized checkbox using select2', 'frontend-admin' ),
 					'name'         => 'ui',
 					'type'         => 'true_false',
 					'ui'           => 1,
@@ -460,7 +464,7 @@ if ( ! class_exists( 'select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Use AJAX to lazy load choices?', 'acf' ),
+					'label'        => __( 'Use AJAX to lazy load choices?', 'frontend-admin' ),
 					'instructions' => '',
 					'name'         => 'ajax',
 					'type'         => 'true_false',
@@ -683,7 +687,7 @@ if ( ! class_exists( 'select' ) ) :
 					'value' => $value,
 				);
 				$error = sprintf(
-					__( '%1$s is not one of %2$s', 'acf' ),
+					/* translators: 1: value 2: value */ __( '%1$s is not one of %2$s', 'frontend-admin' ),
 					$param,
 					implode( ', ', $allowed )
 				);

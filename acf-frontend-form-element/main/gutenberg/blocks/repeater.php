@@ -170,7 +170,7 @@ span.fe-repeater-row-id{
 			>
 
                 <div class="fe-repeater-row-fields">
-                    <?php echo $content; ?>
+                    <?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered block markup. ?>
                 </div>
 
 				

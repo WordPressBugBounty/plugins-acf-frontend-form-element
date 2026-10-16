@@ -168,7 +168,7 @@ if ( ! class_exists( 'FEA_Form_Export' ) ) :
 				// add notice
 				if ( $selected ) {
 					$count = count( $selected );
-					$text  = sprintf( _n( 'Exported 1 field group.', 'Exported %s forms.', $count, 'frontend-admin' ), $count );
+					$text  = sprintf( /* translators: %s: number of forms */ _n( 'Exported %s form.', 'Exported %s forms.', $count, 'frontend-admin' ), $count );
 					acf_add_admin_notice( $text, 'success' );
 				}
 			}

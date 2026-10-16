@@ -5098,7 +5098,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		//remove or show acf-hidden class
 		if (showField) {
-			field.classList.remove("acf-hidden");
+			// keep the class while something else (e.g. a closed tab) still holds a hide lock on the field
+			const hideLocks = jQuery(field).data("acfLockHidden");
+			if (!hideLocks || !hideLocks.length) {
+				field.classList.remove("acf-hidden");
+			}
 		} else {
 			field.classList.add("acf-hidden");
 		}

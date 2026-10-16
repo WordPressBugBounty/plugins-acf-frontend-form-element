@@ -395,7 +395,17 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 			}
 
 
-			$taxonomy = $record['taxonomy'] ?? 'category';
+			if ( 'new_term' == $form['save_to_term'] ) {
+				$taxonomy = $record['taxonomy'] ?? '';
+				if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
+					$taxonomy = $form['new_term_taxonomy'] ?? 'category';
+				}
+			} else {
+				// an existing term always belongs to its own taxonomy
+				$existing_term = is_numeric( $term_id ) ? get_term( $term_id ) : false;
+				$taxonomy      = ( $existing_term && ! is_wp_error( $existing_term ) ) ? $existing_term->taxonomy : ( $record['taxonomy'] ?? 'category' );
+			}
+
 			if ( 'new_term' == $form['save_to_term'] ) {
 				$term_data = wp_insert_term( $term_name, $taxonomy, $term_args );
 				if ( is_wp_error( $term_data ) ) {
@@ -419,6 +429,9 @@ if ( ! class_exists( 'ActionTerm' ) ) :
 
 			if ( ! empty( $metas ) ) {
 				foreach ( $metas as $meta ) {
+					if ( feadmin_is_protected_meta_key( $meta['name'] ?? '', 'term' ) ) {
+						continue;
+					}
 					acf_update_value( $meta['_input'], 'term_' . $term_id, $meta );
 				}
 			}

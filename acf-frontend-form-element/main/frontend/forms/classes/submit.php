@@ -27,7 +27,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			if ( ! empty( $_POST['acff'] ) ) {
 				if ( ! empty( $_POST['acff']['_validate_email'] ) ) {
-					$form_validate->add_error( '', __( 'Spam Detected', 'acf' ) );
+					$form_validate->add_error( '', __( 'Spam Detected', 'frontend-admin' ) );
 				}
 
 				$_post = $_POST['acff']; 
@@ -146,6 +146,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			}
 
 		
+			// objects the form targets before the permission check, keyed by their field group
+			$targets = array();
+			foreach ( array( 'post' => 'post', 'user' => 'user', 'term' => 'term', 'product' => 'woo_product' ) as $type => $group ) {
+				if ( is_numeric( $form[ "{$type}_id" ] ?? '' ) ) {
+					$targets[ $type ] = $group;
+				}
+			}
+
 			// permissions.php echoes a not-allowed message as a side effect when denying
 			// access; buffer and discard it here so it can't leak raw HTML in front of
 			// the JSON response body below and break the front-end's JSON.parse().
@@ -156,9 +164,17 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				wp_send_json_error( __( 'You do not have permission to submit this form.', 'frontend-admin' ) );
 			}
 
+			// the permission check resets a target to "none" when the current user may not
+			// edit it. The form renders no fields for such a target, so values arriving for
+			// it come from a crafted request: reject instead of storing a submission.
+			foreach ( $targets as $type => $group ) {
+				if ( 'none' === ( $form[ "{$type}_id" ] ?? '' ) && ! empty( $_POST['acff'][ $group ] ) ) {
+					wp_send_json_error( __( 'You do not have permission to submit this form.', 'frontend-admin' ) );
+				}
+			}
+
 			$form['is_preview'] = isset( $_POST['_acf_status'] ) && 'preview' == $_POST['_acf_status'];
 
-			error_log( '[FEA_PREVIEW_DEBUG] check_submit_form: _acf_status=' . ( $_POST['_acf_status'] ?? '<unset>' ) . ' is_preview=' . var_export( $form['is_preview'], true ) . ' form_id=' . $form['id'] );
 
 			// submit
 			$this->submit_form( $form );
@@ -166,6 +182,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 		}
 
 		function create_record( $form, $save = false ) {
+
+			// taxonomy was read from the encrypted _acf_objects in get_form_data();
+			// keep it, as the term action has no other way to know where to save.
+			$taxonomy = $form['record']['taxonomy'] ?? '';
 
 			// Retrieve all form fields and their values
 			$form['record'] = array(
@@ -176,14 +196,18 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				'emails_to_verify' => array(),
 				'verified_emails' => array(),
 			);
-			
+
+			if ( $taxonomy ) {
+				$form['record']['taxonomy'] = $taxonomy;
+			}
+
 
 			if ( ! empty( $form['submission_title'] ) ) {
 				$form['dynamic_title'] = true;
 			}
 
 			if ( ! empty( $_POST['acff']['_validate_email'] ) ) {
-				wp_send_json_error( __( 'Spam Detected', 'acf' ) );
+				wp_send_json_error( __( 'Spam Detected', 'frontend-admin' ) );
 			}
 
 			if ( ! empty( $_POST['acff'] ) ) {
@@ -273,22 +297,78 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 		}
 
+		/**
+		 * Whether a submitted field key is one of the fields of the given form.
+		 */
+		public function field_belongs_to_form( $form, $key, $field ) {
+			$key     = (string) $key;
+			$belongs = false;
+			$fields  = ! empty( $form['fields'] ) && is_array( $form['fields'] ) ? $form['fields'] : array();
+
+			if ( ! empty( $fields[ $key ] ) ) {
+				$belongs = true;
+			}
+
+			// Role fields decide a user's role, so they only ever count when they
+			// are listed on the form itself.
+			if ( ! $belongs && 'role' !== $field['type'] ) {
+				foreach ( $fields as $form_field ) {
+					if ( $key === $form_field || ( is_array( $form_field ) && isset( $form_field['key'] ) && $key === $form_field['key'] ) ) {
+						$belongs = true;
+						break;
+					}
+
+					// ACF fields and field groups pulled in through a "fields select" field
+					if ( is_array( $form_field ) && ! empty( $form_field['fields_select'] ) ) {
+						$excluded = ! empty( $form_field['fields_exclude'] ) ? (array) $form_field['fields_exclude'] : array();
+						foreach ( (array) $form_field['fields_select'] as $selected ) {
+							if ( is_array( $selected ) ) {
+								$selected_keys = array( $selected['key'] ?? '' );
+							} elseif ( is_string( $selected ) && 0 === strpos( $selected, 'group_' ) ) {
+								$selected_keys = wp_list_pluck( (array) acf_get_fields( $selected ), 'key' );
+							} else {
+								$selected_keys = array( $selected );
+							}
+							if ( in_array( $key, $selected_keys, true ) && ! in_array( $key, $excluded, true ) ) {
+								$belongs = true;
+								break 2;
+							}
+						}
+					}
+				}
+
+				// Page builder fields are stored in the page's own content, and
+				// their key starts with the id of the page the form is on.
+				if ( ! $belongs && ! empty( $form['id'] ) ) {
+					foreach ( array( '_elementor_', '_gutenberg_', '_bricks_' ) as $builder ) {
+						$form_page = explode( $builder, (string) $form['id'] );
+						$key_page  = explode( $builder, $key );
+						if ( isset( $form_page[1], $key_page[1] ) && $form_page[0] === $key_page[0] ) {
+							$belongs = true;
+							break;
+						}
+					}
+				}
+			}
+
+			return apply_filters( 'frontend_admin/submit/field_belongs_to_form', $belongs, $key, $field, $form );
+		}
+
 		public function add_value_to_record( $form, $key, $input, $group ) {
 			$record = $form['record'];
 			global $fea_instance;
-			$belongs_to_form = ! empty( $form['fields'][ $key ] );
 			$field = $fea_instance->frontend->get_field( $key );
 
 			if ( empty( $field ) ) {
 				return $form;
 			}
 
-			// A Role field must always belong to the form actually being submitted.
-			// get_field() falls back to a global, unscoped ACF lookup for keys not
-			// present on this form (needed for features like fields_select), but a
-			// Role field resolved that way could belong to a different, more
-			// permissive form and let its role_options govern this submission.
-			if ( 'role' === $field['type'] && ! $belongs_to_form ) {
+			// Every field must belong to the form actually being submitted.
+			// get_field() falls back to a global, unscoped lookup for keys not
+			// present on this form, so without this any field that exists anywhere
+			// on the site - another form's Role field, or a field a visitor managed
+			// to create - could be saved through this form.
+			if ( ! $this->field_belongs_to_form( $form, $key, $field ) ) {
 				return $form;
 			}
 
@@ -441,11 +521,9 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$form = $this->should_save_content( $form );
 
-			error_log( '[FEA_PREVIEW_DEBUG] submit_form: is_preview=' . var_export( ! empty( $form['is_preview'] ), true ) . ' save_data=' . var_export( $form['save_data'] ?? null, true ) . ' save_to_post=' . ( $form['save_to_post'] ?? '<unset>' ) . ' post_id=' . var_export( $form['post_id'] ?? null, true ) );
 
 			if ( ! empty( $form['is_preview'] ) ) {
 				$form = $this->prepare_preview( $form );
-				error_log( '[FEA_PREVIEW_DEBUG] after prepare_preview: record.status=' . var_export( $form['record']['status'] ?? null, true ) . ' new_post_status=' . var_export( $form['new_post_status'] ?? null, true ) . ' new_product_status=' . var_export( $form['new_product_status'] ?? null, true ) );
 			}
 
 			foreach ( $fea_instance->local_actions as $name => $action ) {
@@ -459,7 +537,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$fea_form = $form;
 
-			error_log( '[FEA_PREVIEW_DEBUG] after local actions: record=' . wp_json_encode( $form['record'] ?? null ) );
 
 			$form = $this->run_actions( $form );
 
@@ -535,7 +612,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				}
 			}
 
-			error_log( '[FEA_PREVIEW_DEBUG] return_preview: preview_id=' . var_export( $preview_id, true ) . ' active_types=' . implode( ',', $active_types ) . ' record=' . wp_json_encode( $form['record'] ?? null ) );
 
 			if ( ! $preview_id ) {
 				wp_send_json_error( __( 'Nothing to preview.', 'frontend-admin' ) );
@@ -616,7 +692,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 				$message  = '<h1>' . $subject . '</h1>';
 				$token    = wp_create_nonce( 'frontend-admin-verify-' . $email_address );
 				$message .= '<p>' . sprintf(
-					__( 'Please click <a href="%s">here</a> to verify your email. Thank you.', 'frontend-admin' ) . '</p>',
+					/* translators: %s: value */ __( 'Please click <a href="%s">here</a> to verify your email. Thank you.', 'frontend-admin' ) . '</p>',
 					add_query_arg(
 						array(
 							'submission'    => $form['submission'],
@@ -868,18 +944,34 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 
 			$title = isset( $form['submission_title'] ) ? $form['submission_title'] : $form['form_title'];
 
+			$existing = empty( $form['submission'] ) ? false : $fea_instance->submissions_handler->get_submission( $form['submission'] );
+
+			if ( ! empty( $form['approval'] ) ) {
+				// the record is rebuilt from the request on every submit, so carry the
+				// first approver over instead of replacing it when an approved submission is updated
+				$previous = $existing ? json_decode( fea_decrypt( $existing->fields ), true ) : array();
+				$previous = $previous['record'] ?? $previous;
+				$form['record']['approved_by'] = $previous['approved_by'] ?? get_current_user_id();
+				$form['record']['approved_at'] = $previous['approved_at'] ?? current_time( 'mysql' );
+			}
+
 			$args = array(
 				'fields' => fea_encrypt( json_encode( $form['record'] ) ),
-				'user'   => get_current_user_id(),
 				'status' => $status,
 				'title'  => $title,
 			);
 
 			if ( empty( $form['submission'] ) ) {
+				$args['user']       = get_current_user_id();
 				$args['created_at'] = current_time( 'mysql' );
 				$args['form']       = 'admin_form' == get_post_type( $form['ID'] ) ? $form['ID'] : $form['id'];
 				$form['submission'] = $fea_instance->submissions_handler->insert_submission( $args );
 			} else {
+				// keep the original submitter: an approver or editor saving the submission
+				// must not take it over. Only a submission nobody owns yet (guest draft) is claimed.
+				if ( empty( $form['approval'] ) && $existing && ! $existing->user ) {
+					$args['user'] = get_current_user_id();
+				}
 				$fea_instance->submissions_handler->update_submission( $form['submission'], $args );
 			}
 
@@ -939,14 +1031,14 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Submit_Form' ) ) :
 			if ( isset( $_GET['submission'] ) && isset( $_GET['email-address'] ) && isset( $_GET['token'] ) ) {
 				$request = feadmin_sanitize_array( $_GET );
 			} else {
-				echo __( 'Could not verify email at this time', 'frontend-admin' );
+				echo esc_html__( 'Could not verify email at this time', 'frontend-admin' );
 				exit;
 			}
 
 			$token = wp_verify_nonce( $request['token'], 'frontend-admin-verify-' . $request['email-address'] );
 
 			if( ! $token ){
-				echo __( 'Could not verify email at this time', 'frontend-admin' );
+				echo esc_html__( 'Could not verify email at this time', 'frontend-admin' );
 				exit;
 			}
 

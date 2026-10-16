@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'delete_post' ) ) :
 
 	class delete_post extends delete_object {
@@ -33,7 +37,7 @@ if ( ! class_exists( 'delete_post' ) ) :
 				'force_delete'      => 0,
 				'redirect'          => 'current',
 				'show_delete_message' => 1,
-				'delete_message'    => __( 'Your post has been deleted' ),
+				'delete_message'    => __( 'Your post has been deleted', 'frontend-admin' ),
 			);
 
 		}

@@ -16,7 +16,7 @@ class Conditions_Control extends \Elementor\Base_Data_Control {
     public function content_template() {
         ?>
         <div class="fea-conditions-container">
-            <button class="button manage-conditions"><?php esc_html_e( 'Manage Conditions', 'plugin-domain' ); ?></button>
+            <button class="button manage-conditions"><?php esc_html_e( 'Manage Conditions', 'frontend-admin' ); ?></button>
             <textarea class="conditions-json" name="{{ data.name }}" style="display:none;"></textarea>
         </div>
 

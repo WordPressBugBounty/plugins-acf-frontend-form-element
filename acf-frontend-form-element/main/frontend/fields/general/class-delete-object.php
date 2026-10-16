@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'delete_object' ) ) :
 
 	class delete_object extends Field_Base {
@@ -162,7 +166,7 @@ if ( ! class_exists( 'delete_object' ) ) :
 					$field['record']['user'] = $user_id;
 					break;
 				default:
-					wp_send_json_error( __( 'No object found to delete' ) );
+					wp_send_json_error( __( 'No object found to delete', 'frontend-admin' ) );
 			}
 
 			$expiration_time = time() + 600;
@@ -185,7 +189,8 @@ if ( ! class_exists( 'delete_object' ) ) :
 		*/
 
 		function render_field( $field ) {
-			$confirm = ! empty( $field['confirmation_text'] ) ? $field['confirmation_text'] : __( 'Are you sure you want to delete this ' . $this->object . '?', 'frontend-admin' );
+			/* translators: %s: the kind of object being deleted, e.g. post */
+			$confirm = ! empty( $field['confirmation_text'] ) ? $field['confirmation_text'] : sprintf( __( 'Are you sure you want to delete this %s?', 'frontend-admin' ), $this->object );
 
 			if ( ! empty( $field['button_icon'] ) ) {
 				$field['button_text'] = '<i class="' . $field['button_icon'] . '"></i> ' . $field['button_text'];

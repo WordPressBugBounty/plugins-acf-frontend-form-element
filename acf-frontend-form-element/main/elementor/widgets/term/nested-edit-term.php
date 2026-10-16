@@ -12,7 +12,7 @@ class Nested_Edit_Term extends Nested_Form {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Edit Taxonomy Form (Nestable)', 'elementor' );
+		return esc_html__( 'Edit Taxonomy Form (Nestable)', 'frontend-admin' );
 	}
 
 	public function get_icon() {

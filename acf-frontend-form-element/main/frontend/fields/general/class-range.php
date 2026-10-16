@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'range' ) ) :
 
 	class range extends number {
@@ -24,7 +28,7 @@ if ( ! class_exists( 'range' ) ) :
 			// vars
 			$this->name     = 'range-input';
 			 $this->public = false;
-			$this->label    = __( 'Range', 'acf' );
+			$this->label    = __( 'Range', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => '',
 				'min'           => '',
@@ -122,9 +126,9 @@ if ( ! class_exists( 'range' ) ) :
 
 			?>
 			<div class="acf-range-wrap">
-			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); ?></div>
+			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<div class="acf-input-wrap"><?php acf_text_input( acf_filter_attrs( $atts ) ); ?></div>
-			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
+			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			</div>
 			<?php
 		}
@@ -147,8 +151,8 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
-					'instructions' => __( 'Appears when creating a new post', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
+					'instructions' => __( 'Appears when creating a new post', 'frontend-admin' ),
 					'type'         => 'number',
 					'name'         => 'default_value',
 				)
@@ -167,7 +171,7 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Minimum Value', 'acf' ),
+					'label'        => __( 'Minimum Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'min',
@@ -178,7 +182,7 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Maximum Value', 'acf' ),
+					'label'        => __( 'Maximum Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'max',
@@ -200,7 +204,7 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Step Size', 'acf' ),
+					'label'        => __( 'Step Size', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'number',
 					'name'         => 'step',
@@ -211,8 +215,8 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Prepend', 'acf' ),
-					'instructions' => __( 'Appears before the input', 'acf' ),
+					'label'        => __( 'Prepend', 'frontend-admin' ),
+					'instructions' => __( 'Appears before the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'prepend',
 				)
@@ -221,8 +225,8 @@ if ( ! class_exists( 'range' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Append', 'acf' ),
-					'instructions' => __( 'Appears after the input', 'acf' ),
+					'label'        => __( 'Append', 'frontend-admin' ),
+					'instructions' => __( 'Appears after the input', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'append',
 				)

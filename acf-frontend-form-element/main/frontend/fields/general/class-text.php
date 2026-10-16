@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'text' ) ) :
 
 	class text extends Field_Base {
@@ -97,11 +101,11 @@ if ( ! class_exists( 'text' ) ) :
 
 			if( $field['prepend'] ){
 			?>
-			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); ?></div>
+			<div class="acf-input-prepend"><?php echo acf_esc_html( $field['prepend'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php } ?>
-			<div class="acf-input-wrap"><?php echo acf_text_input( acf_filter_attrs( $input_attrs ) ); ?></div>
+			<div class="acf-input-wrap"><?php echo acf_text_input( acf_filter_attrs( $input_attrs ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- acf_text_input() escapes the attributes it prints. ?></div>
 			<?php if( $field['append'] ){ ?>
-			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); ?></div>
+			<div class="acf-input-append"><?php echo acf_esc_html( $field['append'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></div>
 			<?php }
 		}
 
@@ -218,7 +222,7 @@ if ( ! class_exists( 'text' ) ) :
 				<?php endif; ?>
 
 				<div class="acf-input-wrap">
-					<?php echo $this->render_text_input( $input_attrs ); ?>
+					<?php echo $this->render_text_input( $input_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup rendered and escaped by the called method. ?>
 				</div>
 
 				<?php if ( $field['append'] ) : ?>
@@ -324,7 +328,7 @@ if ( ! class_exists( 'text' ) ) :
 		function validate_value( $valid, $value, $field, $input ) {
 			// Check maxlength
 			if ( ! empty( $field['maxlength'] ) && ( acf_strlen( $value ) > $field['maxlength'] ) ) {
-				return sprintf( __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
+				return sprintf( /* translators: %d: number */ __( 'Value must not exceed %d characters', 'frontend-admin' ), $field['maxlength'] );
 			}
 
 			// Return.

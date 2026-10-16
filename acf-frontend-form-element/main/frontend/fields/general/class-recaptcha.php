@@ -58,8 +58,9 @@ if ( ! class_exists( 'recaptcha' ) ) :
 					$site_key = $global_site_key;
 				}
 
-				?>            
-			   <script src="https://www.google.com/recaptcha/api.js?render=<?php esc_attr_e( $site_key ); ?>" async defer></script>
+				?>
+			   <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- reCAPTCHA is only loaded where a captcha field is rendered, with that field's site key. ?>
+			   <script src="https://www.google.com/recaptcha/api.js?render=<?php echo esc_attr( $site_key ); ?>" async defer></script>
 							
 				<?php
 			}
@@ -291,11 +292,11 @@ if ( ! class_exists( 'recaptcha' ) ) :
 					<div></div>
 					<?php acf_hidden_input( $hidden_input ); ?>                    
 				</div>
-				
-				<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=<?php esc_attr_e( $field['key'] ); ?>Recaptcha" async defer></script>
+				<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- reCAPTCHA is only loaded where a captcha field is rendered, with that field's onload callback. ?>
+				<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=<?php echo esc_attr( $field['key'] ); ?>Recaptcha" async defer></script>
 				<script type="text/javascript">
-				var <?php esc_html_e( $field['key'] ); ?>Recaptcha = function() {
-				   acf.getField('<?php esc_html_e( $field['key'] ); ?>').onLoad();
+				var <?php echo esc_html( $field['key'] ); ?>Recaptcha = function() {
+				   acf.getField('<?php echo esc_html( $field['key'] ); ?>').onLoad();
 				};
 				</script>
 
@@ -350,14 +351,14 @@ if ( ! class_exists( 'recaptcha' ) ) :
 			// Expired
 			if ( $value === 'expired' ) {
 
-				return __( 'reCaptcha has expired.' );
+				return __( 'reCaptcha has expired.', 'frontend-admin' );
 
 			}
 
 			// Error
 			elseif ( $value === 'error' ) {
 
-				return __( 'An error has occured.' );
+				return __( 'An error has occured.', 'frontend-admin' );
 
 			}
 

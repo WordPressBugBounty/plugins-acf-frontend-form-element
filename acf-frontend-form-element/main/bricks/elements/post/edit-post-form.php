@@ -28,7 +28,8 @@ class Nested_Edit_Post extends FrontendForm {
 
 	public function get_label() {
 
-		return esc_html__( sprintf( 'Edit %s Form',$this->post_type_label ), 'frontend-admin' );
+		/* translators: %s: post type label */
+		return sprintf( esc_html__( 'Edit %s Form', 'frontend-admin' ), $this->post_type_label );
 	}
 
 	
@@ -44,7 +45,7 @@ class Nested_Edit_Post extends FrontendForm {
 
 		$this->controls['save_to_post']['default'] = 'edit_post';
 		$this->controls['post_type']['default'] = [$this->current_post_type];
-		$this->controls['update_message']['default'] = sprintf( esc_html__( '%s Updated Successfully', 'frontend-admin' ), $this->post_type_label );
+		$this->controls['update_message']['default'] = sprintf( /* translators: %s: value */ esc_html__( '%s Updated Successfully', 'frontend-admin' ), $this->post_type_label );
 	
 	}
 
@@ -126,7 +127,7 @@ class Nested_Edit_Post extends FrontendForm {
 			// Content
 			[
 				'name'     => 'block',
-				'label'    => esc_html__( 'Fields', 'bricks' ),
+				'label'    => esc_html__( 'Fields', 'frontend-admin' ),
 				'settings' => [
 					'_hidden' => [
 						'_cssClasses' => 'tab-content',

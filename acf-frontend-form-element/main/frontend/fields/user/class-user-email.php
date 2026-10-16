@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'user_email' ) ) :
 
 	class user_email extends email {
@@ -81,7 +85,7 @@ if ( ! class_exists( 'user_email' ) ) :
 			$flags = defined( 'FILTER_FLAG_EMAIL_UNICODE' ) ? FILTER_FLAG_EMAIL_UNICODE : 0;
 
 			if ( $value && filter_var( wp_unslash( $value ), FILTER_VALIDATE_EMAIL, $flags ) === false ) {
-				return sprintf( __( "'%s' is not a valid email address", 'acf' ), esc_html( $value ) );
+				return sprintf( /* translators: %s: value */ __( "'%s' is not a valid email address", 'frontend-admin' ), esc_html( $value ) );
 			}
 
 			global $fea_form;
@@ -96,7 +100,7 @@ if ( ! class_exists( 'user_email' ) ) :
 				if ( ! empty( $edit_user->user_email ) && $edit_user->user_email == $value ) {
 					return $is_valid;
 				}
-				return sprintf( __( 'The email %s is already assigned to an existing account. Please try a different email or login to your account', 'frontend-admin' ), $value );
+				return sprintf( /* translators: %s: value */ __( 'The email %s is already assigned to an existing account. Please try a different email or login to your account', 'frontend-admin' ), $value );
 			}
 
 			if ( ! empty( $field['set_as_username'] ) ) {
@@ -104,7 +108,7 @@ if ( ! class_exists( 'user_email' ) ) :
 					if ( ! empty( $edit_user->user_login ) && $edit_user->user_login == $value ) {
 						return $is_valid;
 					}
-					return sprintf( __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
+					return sprintf( /* translators: %s: value */ __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
 				}
 			}
 
@@ -180,7 +184,7 @@ if ( ! class_exists( 'user_email' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Set as Username' ),
+					'label'        => __( 'Set as Username', 'frontend-admin' ),
 					'instructions' => 'Save value as username as well.',
 					'name'         => 'set_as_username',
 					'type'         => 'true_false',

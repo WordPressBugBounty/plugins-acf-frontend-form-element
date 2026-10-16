@@ -17,7 +17,7 @@ class Post_Content_Field extends Base_Field {
 
 
 	public function get_label() {
-		return esc_html__( 'Post Content Field', 'bricks' );
+		return esc_html__( 'Post Content Field', 'frontend-admin' );
 	}
 
 

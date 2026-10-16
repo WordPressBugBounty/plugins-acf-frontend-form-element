@@ -221,7 +221,7 @@ if ( ! class_exists( 'fea_admin_tools' ) ) :
 			?>
 		<form method="post">
 			<?php $tool->html(); ?>
-			<?php echo '<input type="hidden" name="_acf_nonce" value="' . wp_create_nonce( $tool->name ) . '" />'; ?>
+			<?php echo '<input type="hidden" name="_acf_nonce" value="' . esc_attr( wp_create_nonce( $tool->name ) ) . '" />'; ?>
 		</form>
 			<?php
 

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'term_name' ) ) :
 
 	class term_name extends text {
@@ -85,7 +89,8 @@ if ( ! class_exists( 'term_name' ) ) :
 				return $is_valid;
 			}
 
-			$value = sanitize_title( $value );
+			$term_name = $value;
+			$value     = sanitize_title( $value );
 
 			if ( term_exists( $value, sanitize_title( $_POST['_acf_taxonomy_type'] ) ) ) {
 				if ( $term_id != 'add_term' && ! empty( $term_id ) ) {
@@ -94,7 +99,8 @@ if ( ! class_exists( 'term_name' ) ) :
 						return $is_valid;
 					}
 				}
-				return __( 'The term ' . $value . ' exists.', 'frontend-admin' );
+				/* translators: %s: term name */
+				return sprintf( __( 'The term %s exists.', 'frontend-admin' ), $term_name );
 			}
 			return $is_valid;
 		}
@@ -147,7 +153,7 @@ if ( ! class_exists( 'term_name' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Change Slug' ),
+					'label'        => __( 'Change Slug', 'frontend-admin' ),
 					'instructions' => 'Save value as term slug as well.',
 					'name'         => 'change_slug',
 					'type'         => 'true_false',

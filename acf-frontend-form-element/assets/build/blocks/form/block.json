@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "frontend-admin/form",
   "title": "Frontend Form",
   "description": "Displays a form that allows users to edit and add content from the frontend.",

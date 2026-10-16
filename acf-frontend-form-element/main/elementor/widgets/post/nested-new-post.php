@@ -16,7 +16,7 @@ class Nested_New_Post extends Nested_Form {
 
 	public function get_title() {
 		$type = $this->post_type->labels->singular_name ?? 'Post';
-		return sprintf( esc_html__( 'New %s Form (Nestable)', 'elementor' ), $type );
+		return sprintf( /* translators: %s: value */ esc_html__( 'New %s Form (Nestable)', 'frontend-admin' ), $type );
 	}
 
 	public function get_icon() {

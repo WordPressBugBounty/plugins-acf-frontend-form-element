@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'allow_comments' ) ) :
 
 	class allow_comments extends true_false {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'allow_comments' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'allow_comments';
-			$this->label    = __( 'Allow Comments' );
+			$this->label    = __( 'Allow Comments', 'frontend-admin' );
 			$this->category = __( 'Post', 'frontend-admin' );
 			$this->defaults = array(
 				'default_value' => 0,

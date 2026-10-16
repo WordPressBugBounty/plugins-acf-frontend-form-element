@@ -42,7 +42,7 @@ class Nested_Form extends Widget_Nested_Base {
 	
 	
 	public function get_title() {
-		return esc_html__( 'Frontend Form (Nestable)', 'elementor' );
+		return esc_html__( 'Frontend Form (Nestable)', 'frontend-admin' );
 	}
 
 	public function get_icon() {
@@ -90,7 +90,7 @@ class Nested_Form extends Widget_Nested_Base {
 		return [
 			'elType' => 'container',
 			'settings' => [
-				'_title' => sprintf( __( 'Step #%s', 'elementor' ), $index ),
+				'_title' => sprintf( /* translators: %s: value */ __( 'Step #%s', 'frontend-admin' ), $index ),
 				'content_width' => 'full',
 			],
 			'elements' => $elements,
@@ -108,7 +108,7 @@ class Nested_Form extends Widget_Nested_Base {
 	}
 
 	protected function get_default_children_title() {
-		return esc_html__( 'Step #%d', 'elementor' );
+		return /* translators: %d: number */ esc_html__( 'Step #%d', 'frontend-admin' );
 	}
 
 	protected function get_default_children_placeholder_selector() {
@@ -182,17 +182,17 @@ class Nested_Form extends Widget_Nested_Base {
 
 
 		$this->start_controls_section( 'section_nested_form', [
-			'label' => esc_html__( 'Nested Form', 'elementor' ),
+			'label' => esc_html__( 'Nested Form', 'frontend-admin' ),
 		] );
 
 		
 		$repeater = new Repeater();
 
 		$repeater->add_control( 'step_title', [
-			'label' => esc_html__( 'Title', 'elementor' ),
+			'label' => esc_html__( 'Title', 'frontend-admin' ),
 			'type' => Controls_Manager::TEXT,
-			'default' => esc_html__( 'Step Title', 'elementor' ),
-			'placeholder' => esc_html__( 'Step Title', 'elementor' ),
+			'default' => esc_html__( 'Step Title', 'frontend-admin' ),
+			'placeholder' => esc_html__( 'Step Title', 'frontend-admin' ),
 			'label_block' => true,
 			'dynamic' => [
 				'active' => true,
@@ -202,7 +202,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$repeater->add_control(
 			'tab_icon',
 			[
-				'label' => esc_html__( 'Icon', 'elementor' ),
+				'label' => esc_html__( 'Icon', 'frontend-admin' ),
 				'type' => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'skin' => 'inline',
@@ -213,7 +213,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$repeater->add_control(
 			'tab_icon_active',
 			[
-				'label' => esc_html__( 'Active Icon', 'elementor' ),
+				'label' => esc_html__( 'Active Icon', 'frontend-admin' ),
 				'type' => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'skin' => 'inline',
@@ -227,7 +227,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$repeater->add_control(
 			'element_id',
 			[
-				'label' => esc_html__( 'CSS ID', 'elementor' ),
+				'label' => esc_html__( 'CSS ID', 'frontend-admin' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '',
 				'ai' => [
@@ -236,20 +236,20 @@ class Nested_Form extends Widget_Nested_Base {
 				'dynamic' => [
 					'active' => true,
 				],
-				'title' => esc_html__( 'Add your custom id WITHOUT the Pound key. e.g: my-id', 'elementor' ),
+				'title' => esc_html__( 'Add your custom id WITHOUT the Pound key. e.g: my-id', 'frontend-admin' ),
 				'style_transfer' => false,
 				'classes' => 'elementor-control-direction-ltr',
 			]
 		);
 
 		$this->add_control( 'tabs', [
-			'label' => esc_html__( 'Form Steps', 'elementor' ),
+			'label' => esc_html__( 'Form Steps', 'frontend-admin' ),
 			'type' => Control_Nested_Repeater::CONTROL_TYPE,
 			'fields' => $repeater->get_controls(),
 			'description' => __( 'Multi Step Forms coming soon to Frontend Admin PRO!', 'frontend-admin' ),
 			'default' => [
 				[
-					'step_title' => esc_html__( 'Single Step Form', 'elementor' ),
+					'step_title' => esc_html__( 'Single Step Form', 'frontend-admin' ),
 				],
 			],
 			'title_field' => '{{{ step_title }}}',
@@ -391,12 +391,12 @@ class Nested_Form extends Widget_Nested_Base {
 		$fea_instance->frontend->enqueue_scripts( 'frontend_admin_form' );
 		$fea_scripts = true;
 
-		echo '<form '. feadmin_get_esc_attrs( $form['form_attributes'] ) .'>';
+		echo '<form '. feadmin_get_esc_attrs( $form['form_attributes'] ) .'>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by feadmin_get_esc_attrs().
 
 		$this->add_render_attribute( 'elementor-tabs', [
 			'class' => 'e-n-tabs',
 			'data-widget-number' => $widget_number,
-			'aria-label' => esc_html__( 'Frontend Form. Open items with Enter or Space, close with Escape and navigate using the Arrow keys.', 'elementor' ),
+			'aria-label' => esc_html__( 'Frontend Form. Open items with Enter or Space, close with Escape and navigate using the Arrow keys.', 'frontend-admin' ),
 		] );
 
 		$this->add_render_attribute( 'tab-title-text', 'class', 'e-n-tab-title-text' );
@@ -468,7 +468,7 @@ class Nested_Form extends Widget_Nested_Base {
 			<# } #>
 		<?php } ?>
 
-		<div class="e-n-tabs" data-widget-number="{{ elementUid }}" aria-label="<?php echo esc_html__( 'Frontend Form. Open items with Enter or Space, close with Escape and navigate using the Arrow keys.', 'elementor' ); ?>">
+		<div class="e-n-tabs" data-widget-number="{{ elementUid }}" aria-label="<?php echo esc_html__( 'Frontend Form. Open items with Enter or Space, close with Escape and navigate using the Arrow keys.', 'frontend-admin' ); ?>">
 			<# if ( settings['tabs'] ) { #>
 				<# if ( settings['tabs'].length > 1 ) { #>
 				<div class="e-n-tabs-heading" role="tablist">
@@ -558,7 +558,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$content_selector = ':where( {{WRAPPER}} > .e-n-tabs > .e-n-tabs-content ) > .e-con';
 
 		$this->start_controls_section( 'section_tabs', [
-			'label' => esc_html__( 'Form', 'elementor' ),
+			'label' => esc_html__( 'Form', 'frontend-admin' ),
 		] );
 
 		$styling_block_start = '--n-tabs-direction: column; --n-tabs-heading-direction: row; --n-tabs-heading-width: initial; --n-tabs-title-flex-basis: content; --n-tabs-title-flex-shrink: 0;';
@@ -567,23 +567,23 @@ class Nested_Form extends Widget_Nested_Base {
 		$styling_inline_start = '--n-tabs-direction: row; --n-tabs-heading-direction: column; --n-tabs-heading-width: 240px; --n-tabs-title-flex-basis: initial; --n-tabs-title-flex-shrink: initial;';
 
 		$this->add_responsive_control( 'tabs_direction', [
-			'label' => esc_html__( 'Direction', 'elementor' ),
+			'label' => esc_html__( 'Direction', 'frontend-admin' ),
 			'type' => Controls_Manager::CHOOSE,
 			'options' => [
 				'block-start' => [
-					'title' => esc_html__( 'Above', 'elementor' ),
+					'title' => esc_html__( 'Above', 'frontend-admin' ),
 					'icon' => 'eicon-v-align-top',
 				],
 				'block-end' => [
-					'title' => esc_html__( 'Below', 'elementor' ),
+					'title' => esc_html__( 'Below', 'frontend-admin' ),
 					'icon' => 'eicon-v-align-bottom',
 				],
 				'inline-end' => [
-					'title' => esc_html__( 'After', 'elementor' ),
+					'title' => esc_html__( 'After', 'frontend-admin' ),
 					'icon' => 'eicon-h-align-' . $end,
 				],
 				'inline-start' => [
-					'title' => esc_html__( 'Before', 'elementor' ),
+					'title' => esc_html__( 'Before', 'frontend-admin' ),
 					'icon' => 'eicon-h-align-' . $start,
 				],
 			],
@@ -605,23 +605,23 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'tabs_justify_horizontal', [
-			'label' => esc_html__( 'Justify', 'elementor' ),
+			'label' => esc_html__( 'Justify', 'frontend-admin' ),
 			'type' => Controls_Manager::CHOOSE,
 			'options' => [
 				'start' => [
-					'title' => esc_html__( 'Start', 'elementor' ),
+					'title' => esc_html__( 'Start', 'frontend-admin' ),
 					'icon' => "eicon-align-$start_logical-h",
 				],
 				'center' => [
-					'title' => esc_html__( 'Center', 'elementor' ),
+					'title' => esc_html__( 'Center', 'frontend-admin' ),
 					'icon' => 'eicon-align-center-h',
 				],
 				'end' => [
-					'title' => esc_html__( 'End', 'elementor' ),
+					'title' => esc_html__( 'End', 'frontend-admin' ),
 					'icon' => "eicon-align-$end_logical-h",
 				],
 				'stretch' => [
-					'title' => esc_html__( 'Stretch', 'elementor' ),
+					'title' => esc_html__( 'Stretch', 'frontend-admin' ),
 					'icon' => 'eicon-align-stretch-h',
 				],
 			],
@@ -647,23 +647,23 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'tabs_justify_vertical', [
-			'label' => esc_html__( 'Justify', 'elementor' ),
+			'label' => esc_html__( 'Justify', 'frontend-admin' ),
 			'type' => Controls_Manager::CHOOSE,
 			'options' => [
 				'start' => [
-					'title' => esc_html__( 'Start', 'elementor' ),
+					'title' => esc_html__( 'Start', 'frontend-admin' ),
 					'icon' => 'eicon-align-start-v',
 				],
 				'center' => [
-					'title' => esc_html__( 'Center', 'elementor' ),
+					'title' => esc_html__( 'Center', 'frontend-admin' ),
 					'icon' => 'eicon-align-center-v',
 				],
 				'end' => [
-					'title' => esc_html__( 'End', 'elementor' ),
+					'title' => esc_html__( 'End', 'frontend-admin' ),
 					'icon' => 'eicon-align-end-v',
 				],
 				'stretch' => [
-					'title' => esc_html__( 'Stretch', 'elementor' ),
+					'title' => esc_html__( 'Stretch', 'frontend-admin' ),
 					'icon' => 'eicon-align-stretch-v',
 				],
 			],
@@ -687,7 +687,7 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'tabs_width', [
-			'label' => esc_html__( 'Width', 'elementor' ),
+			'label' => esc_html__( 'Width', 'frontend-admin' ),
 			'type' => Controls_Manager::SLIDER,
 			'range' => [
 				'%' => [
@@ -717,19 +717,19 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'title_alignment', [
-			'label' => esc_html__( 'Align Title', 'elementor' ),
+			'label' => esc_html__( 'Align Title', 'frontend-admin' ),
 			'type' => Controls_Manager::CHOOSE,
 			'options' => [
 				'start' => [
-					'title' => esc_html__( 'Start', 'elementor' ),
+					'title' => esc_html__( 'Start', 'frontend-admin' ),
 					'icon' => 'eicon-text-align-left',
 				],
 				'center' => [
-					'title' => esc_html__( 'Center', 'elementor' ),
+					'title' => esc_html__( 'Center', 'frontend-admin' ),
 					'icon' => 'eicon-text-align-center',
 				],
 				'end' => [
-					'title' => esc_html__( 'End', 'elementor' ),
+					'title' => esc_html__( 'End', 'frontend-admin' ),
 					'icon' => 'eicon-text-align-right',
 				],
 			],
@@ -746,18 +746,18 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'section_tabs_responsive', [
-			'label' => esc_html__( 'Additional Settings', 'elementor' ),
+			'label' => esc_html__( 'Additional Settings', 'frontend-admin' ),
 		] );
 
 		$this->add_responsive_control(
 			'horizontal_scroll',
 			[
-				'label' => esc_html__( 'Horizontal Scroll', 'elementor' ),
+				'label' => esc_html__( 'Horizontal Scroll', 'frontend-admin' ),
 				'type' => Controls_Manager::SELECT,
-				'description' => esc_html__( 'Note: Scroll tabs if they don’t fit into their parent container.', 'elementor' ),
+				'description' => esc_html__( 'Note: Scroll tabs if they don’t fit into their parent container.', 'frontend-admin' ),
 				'options' => [
-					'disable' => esc_html__( 'Disable', 'elementor' ),
-					'enable' => esc_html__( 'Enable', 'elementor' ),
+					'disable' => esc_html__( 'Disable', 'frontend-admin' ),
+					'enable' => esc_html__( 'Enable', 'frontend-admin' ),
 				],
 				'default' => 'disable',
 				'selectors_dictionary' => [
@@ -781,7 +781,7 @@ class Nested_Form extends Widget_Nested_Base {
 		);
 
 		$dropdown_options = [
-			'none' => esc_html__( 'None', 'elementor' ),
+			'none' => esc_html__( 'None', 'frontend-admin' ),
 		];
 		$excluded_breakpoints = [
 			'laptop',
@@ -797,7 +797,7 @@ class Nested_Form extends Widget_Nested_Base {
 
 			$dropdown_options[ $breakpoint_key ] = sprintf(
 				/* translators: 1: Breakpoint label, 2: `>` character, 3: Breakpoint value. */
-				esc_html__( '%1$s (%2$s %3$dpx)', 'elementor' ),
+				esc_html__( '%1$s (%2$s %3$dpx)', 'frontend-admin' ),
 				$breakpoint_instance->get_label(),
 				'>',
 				$breakpoint_instance->get_value()
@@ -807,9 +807,9 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_control(
 			'breakpoint_selector',
 			[
-				'label' => esc_html__( 'Breakpoint', 'elementor' ),
+				'label' => esc_html__( 'Breakpoint', 'frontend-admin' ),
 				'type' => Controls_Manager::SELECT,
-				'description' => esc_html__( 'Note: Choose at which breakpoint tabs will automatically switch to a vertical (“accordion”) layout.', 'elementor' ),
+				'description' => esc_html__( 'Note: Choose at which breakpoint tabs will automatically switch to a vertical (“accordion”) layout.', 'frontend-admin' ),
 				'options' => $dropdown_options,
 				'default' => 'mobile',
 				'prefix_class' => 'e-n-tabs-',
@@ -819,12 +819,12 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'section_tabs_style', [
-			'label' => esc_html__( 'Frontend Form', 'elementor' ),
+			'label' => esc_html__( 'Frontend Form', 'frontend-admin' ),
 			'tab' => Controls_Manager::TAB_STYLE,
 		] );
 
 		$this->add_responsive_control( 'tabs_title_space_between', [
-			'label' => esc_html__( 'Gap between tabs', 'elementor' ),
+			'label' => esc_html__( 'Gap between tabs', 'frontend-admin' ),
 			'type' => Controls_Manager::SLIDER,
 			'size_units' => [ 'px', 'em', 'rem', 'custom' ],
 			'range' => [
@@ -844,7 +844,7 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'tabs_title_spacing', [
-			'label' => esc_html__( 'Distance from content', 'elementor' ),
+			'label' => esc_html__( 'Distance from content', 'frontend-admin' ),
 			'type' => Controls_Manager::SLIDER,
 			'size_units' => [ 'px', 'em', 'rem', 'custom' ],
 			'range' => [
@@ -868,7 +868,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'tabs_title_normal',
 			[
-				'label' => esc_html__( 'Normal', 'elementor' ),
+				'label' => esc_html__( 'Normal', 'frontend-admin' ),
 			]
 		);
 
@@ -881,7 +881,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => '{{WRAPPER}} > .e-n-tabs > .e-n-tabs-heading > .e-n-tab-title[aria-selected="false"]:not( :hover )',
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Background Color', 'elementor' ),
+						'label' => esc_html__( 'Background Color', 'frontend-admin' ),
 						'selectors' => [
 							'{{SELECTOR}}' => 'background: {{VALUE}}',
 						],
@@ -897,10 +897,10 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"false\"]:not( :hover )",
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Border Color', 'elementor' ),
+						'label' => esc_html__( 'Border Color', 'frontend-admin' ),
 					],
 					'width' => [
-						'label' => esc_html__( 'Border Width', 'elementor' ),
+						'label' => esc_html__( 'Border Width', 'frontend-admin' ),
 					],
 				],
 			]
@@ -910,7 +910,7 @@ class Nested_Form extends Widget_Nested_Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name' => 'tabs_title_box_shadow',
-				'label' => esc_html__( 'Shadow', 'elementor' ),
+				'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 				'separator' => 'after',
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"false\"]:not( :hover )",
 			]
@@ -921,7 +921,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'tabs_title_hover',
 			[
-				'label' => esc_html__( 'Hover', 'elementor' ),
+				'label' => esc_html__( 'Hover', 'frontend-admin' ),
 			]
 		);
 
@@ -940,7 +940,7 @@ class Nested_Form extends Widget_Nested_Base {
 						'global' => [
 							'default' => Global_Colors::COLOR_ACCENT,
 						],
-						'label' => esc_html__( 'Background Color', 'elementor' ),
+						'label' => esc_html__( 'Background Color', 'frontend-admin' ),
 						'selectors' => [
 							'{{SELECTOR}}' => 'background: {{VALUE}};',
 						],
@@ -956,10 +956,10 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector_non_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Border Color', 'elementor' ),
+						'label' => esc_html__( 'Border Color', 'frontend-admin' ),
 					],
 					'width' => [
-						'label' => esc_html__( 'Border Width', 'elementor' ),
+						'label' => esc_html__( 'Border Width', 'frontend-admin' ),
 					],
 				],
 			]
@@ -969,7 +969,7 @@ class Nested_Form extends Widget_Nested_Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name' => 'tabs_title_box_shadow_hover',
-				'label' => esc_html__( 'Shadow', 'elementor' ),
+				'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 				'separator' => 'after',
 				'selector' => "{$heading_selector_non_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 			]
@@ -978,7 +978,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_control(
 			'hover_animation',
 			[
-				'label' => esc_html__( 'Hover Animation', 'elementor' ),
+				'label' => esc_html__( 'Hover Animation', 'frontend-admin' ),
 				'type' => Controls_Manager::HOVER_ANIMATION,
 			]
 		);
@@ -986,7 +986,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_control(
 			'tabs_title_transition_duration',
 			[
-				'label' => esc_html__( 'Transition Duration', 'elementor' ) . ' (s)',
+				'label' => esc_html__( 'Transition Duration', 'frontend-admin' ) . ' (s)',
 				'type' => Controls_Manager::SLIDER,
 				'selectors' => [
 					'{{WRAPPER}}' => '--n-tabs-title-transition: {{SIZE}}s',
@@ -1006,7 +1006,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'tabs_title_active',
 			[
-				'label' => esc_html__( 'Active', 'elementor' ),
+				'label' => esc_html__( 'Active', 'frontend-admin' ),
 			]
 		);
 
@@ -1025,7 +1025,7 @@ class Nested_Form extends Widget_Nested_Base {
 						'global' => [
 							'default' => Global_Colors::COLOR_ACCENT,
 						],
-						'label' => esc_html__( 'Background Color', 'elementor' ),
+						'label' => esc_html__( 'Background Color', 'frontend-admin' ),
 						'selectors' => [
 							'{{SELECTOR}}' => 'background: {{VALUE}};',
 						],
@@ -1041,10 +1041,10 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"true\"], {$heading_selector_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Border Color', 'elementor' ),
+						'label' => esc_html__( 'Border Color', 'frontend-admin' ),
 					],
 					'width' => [
-						'label' => esc_html__( 'Border Width', 'elementor' ),
+						'label' => esc_html__( 'Border Width', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1054,7 +1054,7 @@ class Nested_Form extends Widget_Nested_Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name' => 'tabs_title_box_shadow_active',
-				'label' => esc_html__( 'Shadow', 'elementor' ),
+				'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"true\"], {$heading_selector_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 			]
 		);
@@ -1066,7 +1066,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_responsive_control(
 			'tabs_title_border_radius',
 			[
-				'label' => esc_html__( 'Border Radius', 'elementor' ),
+				'label' => esc_html__( 'Border Radius', 'frontend-admin' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
 				'separator' => 'before',
@@ -1079,7 +1079,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_responsive_control(
 			'padding',
 			[
-				'label' => esc_html__( 'Padding', 'elementor' ),
+				'label' => esc_html__( 'Padding', 'frontend-admin' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
 				'selectors' => [
@@ -1091,7 +1091,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'section_title_style', [
-			'label' => esc_html__( 'Titles', 'elementor' ),
+			'label' => esc_html__( 'Titles', 'frontend-admin' ),
 			'tab' => Controls_Manager::TAB_STYLE,
 		] );
 
@@ -1115,14 +1115,14 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'title_normal',
 			[
-				'label' => esc_html__( 'Normal', 'elementor' ),
+				'label' => esc_html__( 'Normal', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control(
 			'title_text_color',
 			[
-				'label' => esc_html__( 'Color', 'elementor' ),
+				'label' => esc_html__( 'Color', 'frontend-admin' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}' => '--n-tabs-title-color: {{VALUE}}',
@@ -1137,7 +1137,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"false\"]:not( :hover )",
 				'fields_options' => [
 					'text_shadow_type' => [
-						'label' => esc_html__( 'Shadow', 'elementor' ),
+						'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1150,7 +1150,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"false\"]:not( :hover ) :is( span, a, i )",
 				'fields_options' => [
 					'text_stroke_type' => [
-						'label' => esc_html__( 'Stroke', 'elementor' ),
+						'label' => esc_html__( 'Stroke', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1161,14 +1161,14 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'title_hover',
 			[
-				'label' => esc_html__( 'Hover', 'elementor' ),
+				'label' => esc_html__( 'Hover', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control(
 			'title_text_color_hover',
 			[
-				'label' => esc_html__( 'Color', 'elementor' ),
+				'label' => esc_html__( 'Color', 'frontend-admin' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} [data-touch-mode="false"] .e-n-tab-title[aria-selected="false"]:hover' => '--n-tabs-title-color-hover: {{VALUE}}',
@@ -1183,7 +1183,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector_non_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 				'fields_options' => [
 					'text_shadow_type' => [
-						'label' => esc_html__( 'Shadow', 'elementor' ),
+						'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 					],
 				],
 
@@ -1197,7 +1197,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector_non_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover :is( span, a, i )",
 				'fields_options' => [
 					'text_stroke_type' => [
-						'label' => esc_html__( 'Stroke', 'elementor' ),
+						'label' => esc_html__( 'Stroke', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1208,14 +1208,14 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'title_active',
 			[
-				'label' => esc_html__( 'Active', 'elementor' ),
+				'label' => esc_html__( 'Active', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control(
 			'title_text_color_active',
 			[
-				'label' => esc_html__( 'Color', 'elementor' ),
+				'label' => esc_html__( 'Color', 'frontend-admin' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}' => '--n-tabs-title-color-active: {{VALUE}}',
@@ -1230,7 +1230,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"true\"], {$heading_selector_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover",
 				'fields_options' => [
 					'text_shadow_type' => [
-						'label' => esc_html__( 'Shadow', 'elementor' ),
+						'label' => esc_html__( 'Shadow', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1243,7 +1243,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => "{$heading_selector} > .e-n-tab-title[aria-selected=\"true\"] :is( span, a, i ), {$heading_selector_touch_device} > .e-n-tab-title[aria-selected=\"false\"]:hover :is( span, a, i )",
 				'fields_options' => [
 					'text_stroke_type' => [
-						'label' => esc_html__( 'Stroke', 'elementor' ),
+						'label' => esc_html__( 'Stroke', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1256,7 +1256,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'icon_section_style', [
-			'label' => esc_html__( 'Icon', 'elementor' ),
+			'label' => esc_html__( 'Icon', 'frontend-admin' ),
 			'tab' => Controls_Manager::TAB_STYLE,
 		] );
 
@@ -1266,23 +1266,23 @@ class Nested_Form extends Widget_Nested_Base {
 		$styling_inline_end = '--n-tabs-title-direction: row; --n-tabs-icon-order: 1; --n-tabs-title-justify-content-toggle: initial; --n-tabs-title-align-items-toggle: center;';
 
 		$this->add_responsive_control( 'icon_position', [
-			'label' => esc_html__( 'Position', 'elementor' ),
+			'label' => esc_html__( 'Position', 'frontend-admin' ),
 			'type' => Controls_Manager::CHOOSE,
 			'options' => [
 				'block-start' => [
-					'title' => esc_html__( 'Above', 'elementor' ),
+					'title' => esc_html__( 'Above', 'frontend-admin' ),
 					'icon' => 'eicon-v-align-top',
 				],
 				'inline-end' => [
-					'title' => esc_html__( 'After', 'elementor' ),
+					'title' => esc_html__( 'After', 'frontend-admin' ),
 					'icon' => 'eicon-h-align-' . $end,
 				],
 				'block-end' => [
-					'title' => esc_html__( 'Below', 'elementor' ),
+					'title' => esc_html__( 'Below', 'frontend-admin' ),
 					'icon' => 'eicon-v-align-bottom',
 				],
 				'inline-start' => [
-					'title' => esc_html__( 'Before', 'elementor' ),
+					'title' => esc_html__( 'Before', 'frontend-admin' ),
 					'icon' => 'eicon-h-align-' . $start,
 				],
 			],
@@ -1304,7 +1304,7 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'icon_size', [
-			'label' => esc_html__( 'Size', 'elementor' ),
+			'label' => esc_html__( 'Size', 'frontend-admin' ),
 			'type' => Controls_Manager::SLIDER,
 			'range' => [
 				'px' => [
@@ -1324,7 +1324,7 @@ class Nested_Form extends Widget_Nested_Base {
 		] );
 
 		$this->add_responsive_control( 'icon_spacing', [
-			'label' => esc_html__( 'Spacing', 'elementor' ),
+			'label' => esc_html__( 'Spacing', 'frontend-admin' ),
 			'type' => Controls_Manager::SLIDER,
 			'range' => [
 				'px' => [
@@ -1346,12 +1346,12 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'icon_section_normal',
 			[
-				'label' => esc_html__( 'Normal', 'elementor' ),
+				'label' => esc_html__( 'Normal', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control( 'icon_color', [
-			'label' => esc_html__( 'Color', 'elementor' ),
+			'label' => esc_html__( 'Color', 'frontend-admin' ),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => [
 				'{{WRAPPER}}' => '--n-tabs-icon-color: {{VALUE}};',
@@ -1363,12 +1363,12 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'icon_section_hover',
 			[
-				'label' => esc_html__( 'Hover', 'elementor' ),
+				'label' => esc_html__( 'Hover', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control( 'icon_color_hover', [
-			'label' => esc_html__( 'Color', 'elementor' ),
+			'label' => esc_html__( 'Color', 'frontend-admin' ),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => [
 				'{{WRAPPER}} [data-touch-mode="false"] .e-n-tab-title[aria-selected="false"]:hover' => '--n-tabs-icon-color-hover: {{VALUE}};',
@@ -1380,12 +1380,12 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->start_controls_tab(
 			'icon_section_active',
 			[
-				'label' => esc_html__( 'Active', 'elementor' ),
+				'label' => esc_html__( 'Active', 'frontend-admin' ),
 			]
 		);
 
 		$this->add_control( 'icon_color_active', [
-			'label' => esc_html__( 'Color', 'elementor' ),
+			'label' => esc_html__( 'Color', 'frontend-admin' ),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => [
 				'{{WRAPPER}}' => '--n-tabs-icon-color-active: {{VALUE}};',
@@ -1399,7 +1399,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'section_box_style', [
-			'label' => esc_html__( 'Content', 'elementor' ),
+			'label' => esc_html__( 'Content', 'frontend-admin' ),
 			'tab' => Controls_Manager::TAB_STYLE,
 		] );
 
@@ -1412,7 +1412,7 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => $content_selector,
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Background Color', 'elementor' ),
+						'label' => esc_html__( 'Background Color', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1425,10 +1425,10 @@ class Nested_Form extends Widget_Nested_Base {
 				'selector' => $content_selector,
 				'fields_options' => [
 					'color' => [
-						'label' => esc_html__( 'Border Color', 'elementor' ),
+						'label' => esc_html__( 'Border Color', 'frontend-admin' ),
 					],
 					'width' => [
-						'label' => esc_html__( 'Border Width', 'elementor' ),
+						'label' => esc_html__( 'Border Width', 'frontend-admin' ),
 					],
 				],
 			]
@@ -1437,7 +1437,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_responsive_control(
 			'box_border_radius',
 			[
-				'label' => esc_html__( 'Border Radius', 'elementor' ),
+				'label' => esc_html__( 'Border Radius', 'frontend-admin' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
 				'selectors' => [
@@ -1460,7 +1460,7 @@ class Nested_Form extends Widget_Nested_Base {
 		$this->add_responsive_control(
 			'box_padding',
 			[
-				'label' => esc_html__( 'Padding', 'elementor' ),
+				'label' => esc_html__( 'Padding', 'frontend-admin' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
 				'selectors' => [

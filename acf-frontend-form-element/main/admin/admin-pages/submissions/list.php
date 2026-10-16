@@ -56,7 +56,7 @@ if ( ! class_exists( 'Submissions_List' ) ) :
 			switch ( $column_name ) {
 				case 'created_at':
 					$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-					return date( $time_format, strtotime( $item[ $column_name ] ) );
+					return gmdate( $time_format, strtotime( $item[ $column_name ] ) );
 				case 'title':
 					if ( $item[ $column_name ] ) {
 						$title = $item[ $column_name ];

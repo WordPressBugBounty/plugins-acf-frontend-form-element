@@ -84,16 +84,16 @@ class Dashboard_Pages {
 				function ( $messages ) {
 					$messages['dashboard_page'] = array(
 						'',
-						__( 'Dashboard Page updated.' ),
-						__( 'Custom field updated.' ),
-						__( 'Custom field deleted.' ),
-						__( 'Dashboard Page updated.' ),
+						__( 'Dashboard Page updated.', 'frontend-admin' ),
+						__( 'Custom field updated.', 'frontend-admin' ),
+						__( 'Custom field deleted.', 'frontend-admin' ),
+						__( 'Dashboard Page updated.', 'frontend-admin' ),
 						'',
-						__( 'Dashboard Page published.' ),
-						__( 'Dashboard Page saved.' ),
-						__( 'Dashboard Page submitted.' ),
+						__( 'Dashboard Page published.', 'frontend-admin' ),
+						__( 'Dashboard Page saved.', 'frontend-admin' ),
+						__( 'Dashboard Page submitted.', 'frontend-admin' ),
 						'',
-						__( 'Dashboard Page draft updated.' ),
+						__( 'Dashboard Page draft updated.', 'frontend-admin' ),
 					);
 					return $messages;
 				}

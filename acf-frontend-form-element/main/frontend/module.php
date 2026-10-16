@@ -20,7 +20,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				acf_render_field_setting(
 					$field,
 					array(
-						'label'        => __( 'Show On Frontend Only' ),
+						'label'        => __( 'Show On Frontend Only', 'frontend-admin' ),
 						'instructions' => __( 'Lets you hide the field on the backend to avoid duplicate fields.', 'frontend-admin' ),
 						'name'         => 'only_front',
 						'type'         => 'true_false',
@@ -39,7 +39,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 			}
 
 			acf_render_field_setting( $field, array(
-				'label'			=> __('Display Mode'),
+				'label'			=> __('Display Mode', 'frontend-admin'),
 				'instructions'	=> __( 'Lets you show the editable field or display the value only. You may also hide the field, which is useful if you need to pass hidden data', 'frontend-admin' ),
 				'name'			=> 'frontend_admin_display_mode',
 				'type'			=> 'select',
@@ -317,7 +317,7 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 				)
 			);
 			foreach ( $forms as $form ) {
-				$field_group = (array) maybe_unserialize( $form->post_content );
+				$field_group = (array) feadmin_maybe_unserialize( $form->post_content );
 
 				// update attributes
 				$field_group['ID']         = $form->ID;
@@ -464,21 +464,21 @@ if ( ! class_exists( 'Frontend_Admin\Forms' ) ) :
 								foreach( $field as $groups => $group_fields ){
 									
 									foreach( $group_fields as $group_field ){
-										echo '.acf-field-object-' .$group_field. ' .acf-field-setting-name,.acf-field-object-' . $group_field . ' .acf-field-setting-custom_fields_save{display:none}.acf-field-object-' .$group_field.  ' .li-field-name{visibility:hidden}';
+										echo '.acf-field-object-' . esc_attr( $group_field ) . ' .acf-field-setting-name,.acf-field-object-' . esc_attr( $group_field ) . ' .acf-field-setting-custom_fields_save{display:none}.acf-field-object-' . esc_attr( $group_field ) . ' .li-field-name{visibility:hidden}';
 									}
 								}
 							}else{
 								if( is_string( $field ) ){
-									echo '.acf-field-object-' .$field. ' .acf-field-setting-name,.acf-field-object-' . $field . ' .acf-field-setting-custom_fields_save{display:none}.acf-field-object-' .$field.  ' .li-field-name{visibility:hidden}';
+									echo '.acf-field-object-' . esc_attr( $field ) . ' .acf-field-setting-name,.acf-field-object-' . esc_attr( $field ) . ' .acf-field-setting-custom_fields_save{display:none}.acf-field-object-' . esc_attr( $field ) . ' .li-field-name{visibility:hidden}';
 								}
 							}
 						}	
 					}
 					$basic_settings = array( 'name', 'instructions', 'required', 'wrapper', 'frontend_admin_display_mode', 'field_label_hide', 'only_front' );
 					foreach( $basic_settings as $setting ){
-						$setting = $setting;
-						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-submit-button .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-preview-button .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}";
-						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}";
+						$setting = esc_attr( $setting );
+						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-submit-button .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-preview-button .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $setting is escaped above.
+						echo ".acf-field-object-form-step .acf-field-setting-{$setting}, .acf-field-object-save-progress .acf-field-setting-{$setting}, .acf-field-object-fields-select .acf-field-setting-{$setting}{display:none}"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $setting is escaped above.
 					}
 					echo '.acf-field-object-form-step .acf-field-setting-custom_fields_save, .acf-field-object-submit-button .acf-field-setting-custom_fields_save, .acf-field-object-save-progress .acf-field-setting-custom_fields_save, .acf-field-object-preview-button .acf-field-setting-custom_fields_save{display:none}';
 					echo '.acf-field-object-form-step[data-step="1"] .acf-field-setting-prev_button_text,.acf-field-object-form-step .acf-field-setting-name,.acf-field-object-submit-button .acf-field-setting-label,.acf-field-object-save-progress .acf-field-setting-label,.acf-field-object-preview-button .acf-field-setting-label,.acf-field-object-delete-post .acf-field-setting-label,.acf-field-object-delete-term .acf-field-setting-label,.acf-field-object-delete-user .acf-field-setting-label,.acf-field-object-delete-product .acf-field-setting-label,.acf-field-object-custom-terms .acf-field-setting-ui{display:none}';

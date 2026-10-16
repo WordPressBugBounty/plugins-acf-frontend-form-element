@@ -69,16 +69,16 @@ if ( function_exists( 'register_post_type' ) ) :
 		function ( $messages ) {
 			$messages['admin_form'] = array(
 				'',
-				__( 'Form updated.' ),
-				__( 'Custom field updated.' ),
-				__( 'Custom field deleted.' ),
-				__( 'Form updated.' ),
+				__( 'Form updated.', 'frontend-admin' ),
+				__( 'Custom field updated.', 'frontend-admin' ),
+				__( 'Custom field deleted.', 'frontend-admin' ),
+				__( 'Form updated.', 'frontend-admin' ),
 				'',
-				__( 'Form published.' ),
-				__( 'Form saved.' ),
-				__( 'Form submitted.' ),
+				__( 'Form published.', 'frontend-admin' ),
+				__( 'Form saved.', 'frontend-admin' ),
+				__( 'Form submitted.', 'frontend-admin' ),
 				'',
-				__( 'Form draft updated.' ),
+				__( 'Form draft updated.', 'frontend-admin' ),
 			);
 			return $messages;
 		}

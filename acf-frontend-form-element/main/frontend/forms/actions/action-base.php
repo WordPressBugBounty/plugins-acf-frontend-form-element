@@ -43,7 +43,7 @@ abstract class ActionBase {
 					'ID'         => 0,
 					'parent'     => $form_id,
 					'key'        => 'field_' . uniqid(),
-					'label'      => __( $label, 'frontend-admin' ),
+					'label'      => __( $label, 'frontend-admin' ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 					'name'       => $default,
 					'type'       => $default,
 					'menu_order' => $i,

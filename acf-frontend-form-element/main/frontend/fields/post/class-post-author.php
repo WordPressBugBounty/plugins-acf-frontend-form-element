@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_author' ) ) :
 
 	class post_author extends Field_Base {
@@ -92,7 +96,7 @@ if ( ! class_exists( 'post_author' ) ) :
 		function ajax_query_init( $request, $query ) {
 			// Require field and make sure it's a user field.
 			if ( ! $query->field || ! in_array( $query->field['type'], $this->field_types ) ) {
-				$query->send( new WP_Error( 'acf_missing_field', __( 'Error loading field.', 'acf' ), array( 'status' => 404 ) ) );
+				$query->send( new WP_Error( 'acf_missing_field', __( 'Error loading field.', 'frontend-admin' ), array( 'status' => 404 ) ) );
 			}
 
 		}
@@ -352,7 +356,7 @@ if ( ! class_exists( 'post_author' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by role', 'acf' ),
+					'label'        => __( 'Filter by role', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'role',
@@ -360,7 +364,7 @@ if ( ! class_exists( 'post_author' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All user roles', 'acf' ),
+					'placeholder'  => __( 'All user roles', 'frontend-admin' ),
 				)
 			);
 

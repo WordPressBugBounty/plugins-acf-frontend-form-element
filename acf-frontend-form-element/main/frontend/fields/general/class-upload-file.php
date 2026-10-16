@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'upload_file' ) ) :
 
 	class upload_file extends Field_Base {
@@ -57,6 +61,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			foreach ( $file_fields as $type ) {
 				add_filter( 'acf/prepare_field/type=' . $type, array( $this, 'prepare_image_or_file_field' ), 5 );
 				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'update_file_value' ), 8, 4 );
+				add_filter( 'acf/pre_update_value/type=' . $type, array( $this, 'move_single_file' ), 9, 4 );
 				add_filter( 'acf/validate_value/type=' . $type, array( $this, 'validate_file_value' ), 5, 4 );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'upload_button_text_setting' ) );
 				add_action( 'acf/render_field_settings/type=' . $type, array( $this, 'extra_file_settings' ) );
@@ -97,7 +102,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			//check nonce 
 			if ( empty( $_GET['nonce'] ) || wp_verify_nonce( $_GET['nonce'], 'fea-file-upload_'. $file ) === false ) {
-				wp_die(__('Invalid nonce.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
+				wp_die(esc_html__('Invalid nonce.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
 			}
 
 
@@ -105,12 +110,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 			$file_path = $upload_dir['basedir'] . '/' . $file;
 			$real_file_path = realpath( $file_path );
 			if ($real_file_path === false || strpos($real_file_path, $upload_dir['basedir']) !== 0) {
-				wp_die(__('Invalid file path.', 'frontend-admin'), '400 Bad Request', ['response' => 400]);
+				wp_die(esc_html__('Invalid file path.', 'frontend-admin'), '400 Bad Request', ['response' => 400]);
 			}
 	
 			// Ensure the file exists.
 			if (!file_exists( $real_file_path )) {
-				wp_die(__('File not found.', 'frontend-admin'), '404 Not Found', ['response' => 404]);
+				wp_die(esc_html__('File not found.', 'frontend-admin'), '404 Not Found', ['response' => 404]);
 			}
 	
 			// Check permissions.
@@ -122,13 +127,13 @@ if ( ! class_exists( 'upload_file' ) ) :
 				!$current_user->exists() || // User not logged in
 				($uploader_id != $current_user->ID && !current_user_can('administrator') && !current_user_can('editor'))
 			) {
-				wp_die(__('Unauthorized access.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
+				wp_die(esc_html__('Unauthorized access.', 'frontend-admin'), '403 Forbidden', ['response' => 403]);
 			}
 	
 			// Serve the file with proper headers.
 			header('Content-Type: ' . mime_content_type($real_file_path));
 			header('Content-Disposition: inline; filename="' . basename($real_file_path) . '"');
-			readfile($real_file_path);
+			readfile($real_file_path); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- streams a protected upload after the access checks above.
 			exit;
 		
 		}
@@ -421,11 +426,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 					if ( $min_width && $file['width'] < $min_width ) {
 
 						// min width
-						$errors['min_width'] = sprintf( __( 'Image width must be at least %dpx.', 'frontend-admin' ), $min_width );
+						$errors['min_width'] = sprintf( /* translators: %d: number */ __( 'Image width must be at least %dpx.', 'frontend-admin' ), $min_width );
 					} elseif ( $max_width && $file['width'] > $max_width ) {
 
 						// min width
-						$errors['max_width'] = sprintf( __( 'Image width must not exceed %dpx.', 'frontend-admin' ), $max_width );
+						$errors['max_width'] = sprintf( /* translators: %d: number */ __( 'Image width must not exceed %dpx.', 'frontend-admin' ), $max_width );
 					}
 				}
 
@@ -437,11 +442,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 					if ( $min_height && $file['height'] < $min_height ) {
 
 						// min height
-						$errors['min_height'] = sprintf( __( 'Image height must be at least %dpx.', 'frontend-admin' ), $min_height );
+						$errors['min_height'] = sprintf( /* translators: %d: number */ __( 'Image height must be at least %dpx.', 'frontend-admin' ), $min_height );
 					} elseif ( $max_height && $file['height'] > $max_height ) {
 
 						// min height
-						$errors['max_height'] = sprintf( __( 'Image height must not exceed %dpx.', 'frontend-admin' ), $max_height );
+						$errors['max_height'] = sprintf( /* translators: %d: number */ __( 'Image height must not exceed %dpx.', 'frontend-admin' ), $max_height );
 					}
 				}
 			}
@@ -454,11 +459,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 				if ( $min_size && $file['size'] < acf_get_filesize( $min_size ) ) {
 
 					// min width
-					$errors['min_size'] = sprintf( __( 'File size must be at least %s.', 'frontend-admin' ), acf_format_filesize( $min_size ) );
+					$errors['min_size'] = sprintf( /* translators: %s: value */ __( 'File size must be at least %s.', 'frontend-admin' ), acf_format_filesize( $min_size ) );
 				} elseif ( $max_size && $file['size'] > acf_get_filesize( $max_size ) ) {
 
 					// min width
-					$errors['max_size'] = sprintf( __( 'File size must not exceed %s.', 'frontend-admin' ), acf_format_filesize( $max_size ) );
+					$errors['max_size'] = sprintf( /* translators: %s: value */ __( 'File size must not exceed %s.', 'frontend-admin' ), acf_format_filesize( $max_size ) );
 				}
 			}
 
@@ -485,13 +490,13 @@ if ( ! class_exists( 'upload_file' ) ) :
 						$mime_types[] = $last2 . ' ' . __( 'or', 'frontend-admin' ) . ' ' . $last1;
 					}
 
-					$errors['mime_types'] = sprintf( __( 'File type must be %s.', 'frontend-admin' ), implode( ', ', $mime_types ) );
+					$errors['mime_types'] = sprintf( /* translators: %s: value */ __( 'File type must be %s.', 'frontend-admin' ), implode( ', ', $mime_types ) );
 				}else{
 					$wp_filetype = wp_check_filetype( basename( $attachment['name'] ), null );
 
 					$allowed_types = get_allowed_mime_types();
 					if( ! in_array( $wp_filetype['type'], $allowed_types ) ){
-						$errors['mime_types'] = sprintf( __( 'Cannot upload %s files.', 'frontend-admin' ), $file['type'] );
+						$errors['mime_types'] = sprintf( /* translators: %s: value */ __( 'Cannot upload %s files.', 'frontend-admin' ), $file['type'] );
 					}
 				}
 			}
@@ -566,7 +571,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			$submissions_dir = $this->maybe_mkdir( $wp_upload_dir['basedir'] . '/fea-submissions', true );	
 			$url = $this->upload_file($submissions_dir,$file['name'], true);			
-			move_uploaded_file( $file['tmp_name'], $url );	
+			move_uploaded_file( $file['tmp_name'], $url ); // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- moves the validated upload into the submissions folder.	
 
 			$attachment = array(
 				'guid'           => $url,
@@ -624,16 +629,16 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 		function maybe_mkdir( $submissions_dir, $secure = false ){
 			if ( ! is_dir( $submissions_dir ) ) {
-				mkdir( $submissions_dir );
+				wp_mkdir_p( $submissions_dir );
 				//add index.php file to prevent directory listing
 				if( $secure ){				
 					if ( ! file_exists( $submissions_dir . '/index.php' ) ) {
-						touch( $submissions_dir . '/index.php' );
+						touch( $submissions_dir . '/index.php' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_touch -- empty index.php that stops directory listing.
 					}
 				}else{
 					
 					if ( file_exists( $submissions_dir . '/index.php' ) ) {
-						unlink( $submissions_dir . '/index.php' );
+						wp_delete_file( $submissions_dir . '/index.php' );
 					}
 				}
 			}
@@ -641,7 +646,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			$_htaccess = $submissions_dir . '/.htaccess';
 				//delete legacy fea-submissions .htaccess file	
 			if ( file_exists( $_htaccess ) ) {
-				unlink( $_htaccess );
+				wp_delete_file( $_htaccess );
 			}		
 
 			return $submissions_dir;
@@ -691,7 +696,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 					&& ! $value['id']
 					&& $field['required']
 				) {
-					return sprintf( __( '%s value is required.', 'frontend-admin' ), $field['label'] );
+					return sprintf( /* translators: %s: value */ __( '%s value is required.', 'frontend-admin' ), $field['label'] );
 				} else {
 					return $valid;
 				}
@@ -828,6 +833,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 				'data-mime_types'    => $field['mime_types'],
 				'data-uploader'      => $uploader,
 				'data-destination'   => $field['destination'],
+				'data-max_size'      => $field['max_size'],
 				'data-resize_width'  => $field['max_width'],
 				'data-resize_height' => $field['max_height'],
 			);
@@ -880,7 +886,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 		<div class="show-if-value file-wrap">
 			<?php $edit = $uploader != 'basic' ? 'edit' : 'edit-preview'; ?>
 			<div class="file-icon">
-				<img data-name="icon" data-default="<?php esc_attr_e( $default_icon ); ?>" src="<?php echo esc_url( $o['url'] ); ?>" alt=""/>
+				<img data-name="icon" data-default="<?php echo esc_attr( $default_icon ); ?>" src="<?php echo esc_url( $o['url'] ); ?>" alt=""/>
 			</div>
 			<div class="file-info">
 				<p>
@@ -896,7 +902,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 				</p>
 			</div>
 			<div class="acf-actions -hover">
-				<a class="acf-icon -pencil dark" data-name="<?php esc_attr_e( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'frontend-admin' ); ?>"></a>
+				<a class="acf-icon -pencil dark" data-name="<?php echo esc_attr( $edit ); ?>" href="#" title="<?php esc_attr_e( 'Edit', 'frontend-admin' ); ?>"></a>
 				<a class="acf-icon -cancel dark" data-name="remove" href="#" title="<?php esc_attr_e( 'Remove', 'frontend-admin' ); ?>"></a>
 			</div>
 		</div>
@@ -915,7 +921,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if ( $uploader == 'basic' ) :
 				?>
 				<?php if ( $value && ! is_numeric( $value ) ) : ?>
-				<div class="acf-error-message"><p><?php echo acf_esc_html( $value ); ?></p></div>
+				<div class="acf-error-message"><p><?php echo acf_esc_html( $value ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></p></div>
 				<?php endif; ?>
 		
 			<div class="acf-basic-uploader file-drop">
@@ -1064,28 +1070,31 @@ if ( ! class_exists( 'upload_file' ) ) :
 						if ( ! file_exists( $_htaccess ) ) {
 							$site_url = site_url();
 							$nonce = wp_create_nonce( 'fea-file-upload_' . $dir_name );
-							$rules = <<<HTACCESS
-							<IfModule mod_rewrite.c>
-								RewriteEngine On
-								RewriteBase /wp-content/uploads/
-
-								# Redirect file requests to WordPress with query parameters
-								RewriteCond %{REQUEST_FILENAME} -f
-								RewriteRule ^(.*)$ "{$site_url}/?fea-file-upload&nonce={$nonce}&file={$dir_name}/$1" [R=302,L]
-							</IfModule>
-							HTACCESS;
+							$rules = implode(
+								"\n",
+								array(
+									'<IfModule mod_rewrite.c>',
+									"\tRewriteEngine On",
+									"\tRewriteBase /wp-content/uploads/",
+									'',
+									"\t# Redirect file requests to WordPress with query parameters",
+									"\tRewriteCond %{REQUEST_FILENAME} -f",
+									"\t" . 'RewriteRule ^(.*)$ "' . $site_url . '/?fea-file-upload&nonce=' . $nonce . '&file=' . $dir_name . '/$1" [R=302,L]',
+									'</IfModule>',
+								)
+							);
 							file_put_contents( $_htaccess, $rules ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 						} 
 					
 						if ( ! file_exists( $upload_dir . '/index.php' ) ) {
-							touch( $upload_dir . '/index.php' );
+							touch( $upload_dir . '/index.php' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_touch -- empty index.php that stops directory listing.
 						}
 					}else{
 						if ( file_exists( $_htaccess ) ) {
-							unlink( $_htaccess );
+							wp_delete_file( $_htaccess );
 						}
 						if ( file_exists( $upload_dir . '/index.php' ) ) {
-							unlink( $upload_dir . '/index.php' );
+							wp_delete_file( $upload_dir . '/index.php' );
 						}
 					}
 				}		
@@ -1108,6 +1117,24 @@ if ( ! class_exists( 'upload_file' ) ) :
 			return $checked;
 		}
 
+		/**
+		 * Moves a single file/image upload into the field's custom directory.
+		 * Only files uploaded through the form (still sitting in fea-submissions)
+		 * are moved, so an existing media library file picked for the field keeps its URL.
+		 */
+		function move_single_file( $checked, $value, $post_id = false, $field = false ) {
+			if ( ! is_numeric( $value ) || empty( $field['custom_directory'] ) || empty( $field['custom_directory_name'] ) ) {
+				return $checked;
+			}
+
+			$path = get_attached_file( $value );
+			if ( ! $path || false === strpos( wp_normalize_path( $path ), '/fea-submissions/' ) ) {
+				return $checked;
+			}
+
+			return $this->move_folders( $checked, $value, $post_id, $field );
+		}
+
 		function move_file( $attachment, $upload_dir, $field ){
 			if( ! empty( $field['hide_from_library'] ) ){
 				update_post_meta( $attachment, '_hide_from_library', true );
@@ -1128,7 +1155,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 				if ( !file_exists($path) ) return;
 
-				$moved = rename( $path, $new_path );
+				$moved = rename( $path, $new_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- moves an uploaded file within the uploads folder.
 				if( $moved ){
 					update_attached_file( $attachment, $new_path );
 
@@ -1144,7 +1171,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 								if( ! file_exists( $size_path ) ) continue;
 								//remove unique id surrounded by double square brackets
 								$new_path = $this->upload_file( $upload_dir, $image_size['file'] );
-								rename( $size_path, $new_path );						
+								rename( $size_path, $new_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- moves an image size within the uploads folder.
 								$attach_data['sizes'][$key]['file'] = basename( $new_path );
 							}
 						}

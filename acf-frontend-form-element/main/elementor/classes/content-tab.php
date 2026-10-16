@@ -982,7 +982,7 @@ class ContentTab {
 		$repeater->add_responsive_control(
 			'field_margin',
 			array(
-				'label'               => __( 'Margin', 'elementor-pro' ),
+				'label'               => __( 'Margin', 'frontend-admin' ),
 				'type'                => Controls_Manager::DIMENSIONS,
 				'size_units'          => array( '%', 'px', 'em' ),
 				'default'             => array(
@@ -1010,7 +1010,7 @@ class ContentTab {
 		$repeater->add_responsive_control(
 			'field_padding',
 			array(
-				'label'               => __( 'Padding', 'elementor-pro' ),
+				'label'               => __( 'Padding', 'frontend-admin' ),
 				'type'                => Controls_Manager::DIMENSIONS,
 				'size_units'          => array( '%', 'px', 'em' ),
 				'default'             => array(
@@ -1524,7 +1524,7 @@ class ContentTab {
 						'field_type'     => $field_type,
 						'field_label_on' => 'true',
 						'required'       => '',
-						'label'          => __( $field_label, 'frontend-admin' ),
+						'label'          => __( $field_label, 'frontend-admin' ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 						'instructions'   => '',
 					);
 				}
@@ -1558,9 +1558,9 @@ class ContentTab {
 		$repeater->add_control(
 			'ui_on',
 			array(
-				'label'     => __( 'On Text', 'woocommerce' ),
+				'label'     => __( 'On Text', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Yes', 'woocommerce' ),
+				'default'   => __( 'Yes', 'frontend-admin' ),
 				'dynamic'   => array(
 					'active' => true,
 				),
@@ -1572,9 +1572,9 @@ class ContentTab {
 		$repeater->add_control(
 			'ui_off',
 			array(
-				'label'     => __( 'Off Text', 'woocommerce' ),
+				'label'     => __( 'Off Text', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'No', 'woocommerce' ),
+				'default'   => __( 'No', 'frontend-admin' ),
 				'dynamic'   => array(
 					'active' => true,
 				),
@@ -1598,9 +1598,9 @@ class ContentTab {
 		$repeater->add_control(
 			'instock',
 			array(
-				'label'     => __( 'In stock', 'woocommerce' ),
+				'label'     => __( 'In stock', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'In stock', 'woocommerce' ),
+				'default'   => __( 'In stock', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,
@@ -1613,9 +1613,9 @@ class ContentTab {
 		$repeater->add_control(
 			'outofstock',
 			array(
-				'label'     => __( 'Out of stock', 'woocommerce' ),
+				'label'     => __( 'Out of stock', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Out of stock', 'woocommerce' ),
+				'default'   => __( 'Out of stock', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,
@@ -1628,9 +1628,9 @@ class ContentTab {
 		$repeater->add_control(
 			'backorder',
 			array(
-				'label'     => __( 'On backorder', 'woocommerce' ),
+				'label'     => __( 'On backorder', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'On backorder', 'woocommerce' ),
+				'default'   => __( 'On backorder', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,
@@ -1655,9 +1655,9 @@ class ContentTab {
 		$repeater->add_control(
 			'do_not_allow',
 			array(
-				'label'     => __( 'Do not allow', 'woocommerce' ),
+				'label'     => __( 'Do not allow', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Do not allow', 'woocommerce' ),
+				'default'   => __( 'Do not allow', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,
@@ -1670,9 +1670,9 @@ class ContentTab {
 		$repeater->add_control(
 			'notify',
 			array(
-				'label'     => __( 'Notify', 'woocommerce' ),
+				'label'     => __( 'Notify', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Allow, but notify customers', 'woocommerce' ),
+				'default'   => __( 'Allow, but notify customers', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,
@@ -1685,9 +1685,9 @@ class ContentTab {
 		$repeater->add_control(
 			'allow',
 			array(
-				'label'     => __( 'Allow', 'woocommerce' ),
+				'label'     => __( 'Allow', 'frontend-admin' ),
 				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Allow', 'woocommerce' ),
+				'default'   => __( 'Allow', 'frontend-admin' ),
 				'required'  => true,
 				'dynamic'   => array(
 					'active' => true,

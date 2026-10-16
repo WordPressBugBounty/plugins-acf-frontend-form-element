@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 
 
@@ -100,7 +104,7 @@ if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 			}
 			
 			?>
-			<div class="fea-single-plan <?php if( 'clone' == $plan ) echo 'acf-hidden clone'; ?>" data-plan="<?php esc_attr_e( $choice['value'] ); ?>">
+			<div class="fea-single-plan <?php if( 'clone' == $plan ) echo 'acf-hidden clone'; ?>" data-plan="<?php echo esc_attr( $choice['value'] ); ?>">
 			<?php
 			$label = '';
 			if ( isset( $choice['label'] ) ) {
@@ -110,7 +114,7 @@ if ( ! class_exists( 'Frontend_Admin\Field_Types\plans' ) ) :
 		
 			// Render.
 			$checked = isset( $choice['checked'] );
-			echo '<label' . ( $checked ? ' class="selected"' : '' ) . '><input type="radio" ' . acf_esc_attr( $choice ) . '/> <span class="fea-plan-title">' . acf_esc_html( $label ) . '</span></label>';
+			echo '<label' . ( $checked ? ' class="selected"' : '' ) . '><input type="radio" ' . acf_esc_attr( $choice ) . '/> <span class="fea-plan-title">' . acf_esc_html( $label ) . '</span></label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attr().
 			if( $field['edit_plans'] ?? false )	$this->render_plan_actions( $plan['id'] ?? '' );
 			?>
 			</div>

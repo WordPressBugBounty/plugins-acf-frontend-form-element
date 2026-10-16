@@ -86,14 +86,15 @@ if ( ! class_exists( 'ActionOptions' ) ) :
 				}
 				do_action( 'frontend_admin/save_admin_options', $form );
 			}
-			if ( ! empty( $record['fields']['options'] ) ) {
+			// users who cannot manage options need the form's "Edit Site Options" special permission
+			if ( ! empty( $record['fields']['options'] ) && feadmin_has_special_permission( 'edit_site_options', 'manage_options', $form ) ) {
 				foreach ( $record['fields']['options'] as $option ) {
 					if ( ! isset( $option['key'] ) ) {
 						continue;
 					}
 					$field = fea_instance()->frontend->get_field( $option['key'] );
 
-					if ( ! $field ) {
+					if ( ! $field || feadmin_is_protected_meta_key( $field['name'] ?? '', 'option' ) ) {
 						continue;
 					}
 

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'term_slug' ) ) :
 
 	class term_slug extends text {
@@ -90,7 +94,8 @@ if ( ! class_exists( 'term_slug' ) ) :
 						return $is_valid;
 					}
 				}
-				return __( 'The term ' . $value . ' exists.', 'frontend-admin' );
+				/* translators: %s: term slug */
+				return sprintf( __( 'The term %s exists.', 'frontend-admin' ), $value );
 			}
 			return $is_valid;
 		}

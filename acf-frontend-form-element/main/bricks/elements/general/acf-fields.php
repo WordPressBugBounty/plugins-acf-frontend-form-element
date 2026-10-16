@@ -22,7 +22,7 @@ class ACF_Fields extends \Bricks\Element {
 	use Traits\Controls;
 
 	public function get_label() {
-		return esc_html__( 'ACF Fields', 'bricks' );
+		return esc_html__( 'ACF Fields', 'frontend-admin' );
 	}
 
 	public function get_keywords() {
@@ -148,7 +148,7 @@ class ACF_Fields extends \Bricks\Element {
 				],
 				'multiple'    => true,
 				'searchable'  => true,
-				'placeholder' => esc_html__( 'Select Fields', 'bricks' ),
+				'placeholder' => esc_html__( 'Select Fields', 'frontend-admin' ),
 			)
 		);
 
@@ -164,7 +164,7 @@ class ACF_Fields extends \Bricks\Element {
 				],
 				'multiple'    => true,
 				'searchable'  => true,
-				'placeholder' => esc_html__( 'Select Fields', 'bricks' ),
+				'placeholder' => esc_html__( 'Select Fields', 'frontend-admin' ),
 			)
 		);
 
@@ -345,11 +345,11 @@ class ACF_Fields extends \Bricks\Element {
 
 		$this->set_attribute( '_root', 'class', 'acf-fields-wrapper' );
 
-		echo "<div {$this->render_attributes( '_root' )}>";
+		echo "<div {$this->render_attributes( '_root' )}>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder.
 
 		$editor_mode = \Bricks\Helpers::get_editor_mode( get_the_ID() );
 		if( $editor_mode && ! $field_ids ){
-			echo '<div class="acf-fields-note">' . __( 'No fields selected', 'frontend-admin' ) . '</div>';
+			echo '<div class="acf-fields-note">' . esc_html__( 'No fields selected', 'frontend-admin' ) . '</div>';
 			return;	
 		}
 
@@ -393,7 +393,7 @@ class ACF_Fields extends \Bricks\Element {
 
 		}
 		if( ! empty( $settings['field_display_mode'] ) && 'read_only' == $settings['field_display_mode'] ){
-			echo $fea_instance->dynamic_values->render_field_display( $field );
+			echo $fea_instance->dynamic_values->render_field_display( $field ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 		}else{
 			$form_display->render_field_wrap( $field );
 			

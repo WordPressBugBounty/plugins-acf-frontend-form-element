@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_type' ) ) :
 
 	class post_type extends Field_Base {
@@ -83,7 +87,11 @@ if ( ! class_exists( 'post_type' ) ) :
 		function pre_update_value( $checked, $value, $post_id, $field ) {
 			if( $this->name !== $field['type'] ){
 				return $checked;
-			}if ( $post_id && is_numeric( $post_id ) ) {
+			}
+			if ( ! feadmin_can_submit_post_type( $value, $field ) ) {
+				return true;
+			}
+			if ( $post_id && is_numeric( $post_id ) ) {
 				remove_action( 'acf/save_post', '_acf_do_save_post' );
 				wp_update_post(
 					array(

@@ -10,7 +10,7 @@ class FrontendFormPopup extends \Bricks\Element {
 
 
 	public function get_label() {
-		return esc_html__( 'New Post Button', 'bricks' );
+		return esc_html__( 'New Post Button', 'frontend-admin' );
 	}
 
 	public function set_controls() {
@@ -46,7 +46,7 @@ class FrontendFormPopup extends \Bricks\Element {
 			// Content
 					[
 						'name'     => 'button',
-						'label'    => esc_html__( 'Add Post', 'bricks' ),
+						'label'    => esc_html__( 'Add Post', 'frontend-admin' ),
 						'settings' => [
 							'text' => esc_html__( 'New Post', 'frontend-admin' ),
 							'style' => 'primary',
@@ -65,7 +65,7 @@ class FrontendFormPopup extends \Bricks\Element {
 					],
 					[
 						'name'     => 'offcanvas',
-						'label'    => esc_html__( 'New Post Form', 'bricks' ),
+						'label'    => esc_html__( 'New Post Form', 'frontend-admin' ),
 						'settings' => [
 							'_hidden' => [
 								'_cssClasses' => 'offcanvas offcanvas-end new-post-form',
@@ -74,7 +74,7 @@ class FrontendFormPopup extends \Bricks\Element {
 						'children' => [
 							[
 								'name'      => 'block',
-								'label'     => esc_html__( 'Content', 'bricks' ),
+								'label'     => esc_html__( 'Content', 'frontend-admin' ),
 								'deletable' => false, // Prevent deleting this element directly. NOTE: Undocumented (@since 1.8)
 								'cloneable' => false, // Prevent cloning this element directly.  NOTE: Undocumented (@since 1.8)
 								'children'  => [
@@ -83,7 +83,7 @@ class FrontendFormPopup extends \Bricks\Element {
 										'children' => [
 											[
 												'name'     => 'block',
-												'label'    => esc_html__( 'Pane', 'bricks' ),
+												'label'    => esc_html__( 'Pane', 'frontend-admin' ),
 												'settings' => [
 													'_hidden' => [
 														'_cssClasses' => 'tab-pane',
@@ -109,7 +109,7 @@ class FrontendFormPopup extends \Bricks\Element {
 									],
 									[
 										'name'  => 'toggle',
-										'label' => esc_html__( 'Toggle', 'bricks' ) . ' (' . esc_html__( 'Close', 'bricks' ) . ')',
+										'label' => esc_html__( 'Toggle', 'frontend-admin' ) . ' (' . esc_html__( 'Close', 'frontend-admin' ) . ')',
 									],
 								],
 								'settings'  => [
@@ -121,7 +121,7 @@ class FrontendFormPopup extends \Bricks\Element {
 							// Backdrop (delete to disable)
 							[
 								'name'     => 'block',
-								'label'    => esc_html__( 'Backdrop', 'bricks' ),
+								'label'    => esc_html__( 'Backdrop', 'frontend-admin' ),
 								'children' => [],
 								'settings' => [
 									'_hidden' => [
@@ -138,6 +138,6 @@ class FrontendFormPopup extends \Bricks\Element {
 
 	public function render() {
 		// Render children elements (= individual items)
-		echo \Bricks\Frontend::render_children( $this );
+		echo \Bricks\Frontend::render_children( $this ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- child elements are rendered and escaped by Bricks.
 	}
 }

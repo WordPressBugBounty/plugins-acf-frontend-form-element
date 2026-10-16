@@ -1,9 +1,9 @@
-=== Frontend Admin by DynamiApps ===
+=== ACF Frontend Admin by DynamiApps ===
 Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
-Requires at least: 4.6
-Tested up to: 7.0.0
-Stable tag: 3.29.13
+Requires at least: 6.5
+Tested up to: 7.1
+Stable tag: 3.30.1
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -16,7 +16,7 @@ Add and edit posts, pages, users, terms, ACF fields and more all from the fronte
 
 (Previously called ACF Frontend)
 
-This awesome plugin allows you to easily display frontend admin forms on your site so your clients can easily edit content by themselves from the frontend. You can create awesome forms with our form builder to allow users to save custom meta data to pages, posts, users, and more. Then use our Gutenberg block or shortcode to easily display these forms for your users.  
+This awesome plugin allows you to easily display ACF Frontend Admin forms on your site so your clients can easily edit content by themselves from the frontend. You can create awesome forms with our form builder to allow users to save custom meta data to pages, posts, users, and more. Then use our Gutenberg block or shortcode to easily display these forms for your users.  
 
 So, what can this plugin do for you?
 
@@ -76,13 +76,13 @@ Accept payments through Stripe or Paypal upon form submission.
 7. Woocommerce Intergration 
 Easily add Woocomerce products from the frontend.
 
-Purchase your copy here at the official website: [Frontend Admin website](https://www.dynamiapps.com/)
+Purchase your copy here at the official website: [ACF Frontend Admin website](https://www.dynamiapps.com/)
 
 
 == Intergrations ==
 
 ### Page Builders ###
-Frontend Admin works with all WordPress page builders, including:
+ACF Frontend Admin works with all WordPress page builders, including:
 
 * Elementor
 * Bricks Builder
@@ -95,7 +95,7 @@ Frontend Admin works with all WordPress page builders, including:
 * And others
 
 ### Other Plugins ###
-Frontend Admin has built-in integrations with very popular plugins, such as:
+ACF Frontend Admin has built-in integrations with very popular plugins, such as:
 
 * WooCommmerce
 * Easy Digital Downloads
@@ -108,7 +108,7 @@ Frontend Admin has built-in integrations with very popular plugins, such as:
 
 == Useful Links ==
 Appreciate what we're doing? Want to stay updated with new features? Give us a like and follow us on our facebook page: 
-[Frontend Admin Facebook page](https://www.facebook.com/frontendadmin/)
+[ACF Frontend Admin Facebook page](https://www.facebook.com/frontendadmin/)
 
 The Pro version has even more cool features. Check it out at the official website:
 [DynamiApps website](https://www.dynamiapps.com/)
@@ -122,7 +122,7 @@ Check out our other plugin, which let's you dynamically query your posts more ea
 1. Make sure both Advanced Custom Fields is installed and activated. 
 2. Upload the plugin files to the `/wp-content/plugins/frontend-admins` directory, or install the plugin through the WordPress plugins screen directly.
 3. Activate the plugin through the 'Plugins' screen in WordPress
-4. Create a form under Frontend Admin > forms.
+4. Create a form under ACF Frontend Admin > forms.
 5. Choose the desired form type. 
 6. Configure the fields permisions, display, and other settings as you please.
 7. Copy and paste the shortcode on any page. You can also use our Gutenberg block.
@@ -137,28 +137,28 @@ https://www.youtube.com/watch?v=SIwiWvPqd8Q
 = Paul from WPTuts shows how to build a fully functional front-end dashboard in WordPress using the free Front-End Admin plugin and Bricks Builder. 
 https://www.youtube.com/watch?v=O0TYRap8U24
 
-= Paul from WP Tuts shows how to use Frontend Admin to create a frontend dashboard =
+= Paul from WP Tuts shows how to use ACF Frontend Admin to create a frontend dashboard =
 https://www.youtube.com/watch?v=FsLSrd-11-g
 
 = Bjorn from WPLearningLab shows how to create a WordPress Client Portal =
 https://www.youtube.com/watch?v=yjhd8GPi28o
 
-= Integrating Bricks Builder with Frontend Admin =
+= Integrating Bricks Builder with ACF Frontend Admin =
 https://www.youtube.com/watch?v=ju2J4d7wYZk
 
 = Frontend Forms in Elementor Pro Off Canvas Widget =
 https://www.youtube.com/watch?v=UII4uwpMP0I
 
-= Frontend Admin's Elementor Nestable Forms Widget on Wordpress =
+= ACF Frontend Admin's Elementor Nestable Forms Widget on Wordpress =
 https://www.youtube.com/watch?v=gxN5X54LNuk&t=2s
 
-= Enable Users To Add Content From The Front End Without Logging Into WordPress Using Frontend Admin =
+= Enable Users To Add Content From The Front End Without Logging Into WordPress Using ACF Frontend Admin =
 https://www.youtube.com/watch?v=6yT2E2IV-JU
 
-= WordPress Frontend Edits and Updates Using Frontend Admin =
+= WordPress Frontend Edits and Updates Using ACF Frontend Admin =
 https://www.youtube.com/watch?v=s6FeL77i2iM
 
-= Installating Frontend Admin =
+= Installating ACF Frontend Admin =
 https://www.youtube.com/watch?v=Qio9iHzpMLo
 
 = How to create a form for frontend data submission =
@@ -180,13 +180,28 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 
 = Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the Frontend Admin plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/c80d6806-92bc-495a-9c77-84253507284d). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+Please report security bugs found in the source code of the ACF Frontend Admin plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/c80d6806-92bc-495a-9c77-84253507284d). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+= 3.30.1 - 07-10-2026 =
+ * Advanced Custom Fields is now a required plugin and is no longer bundled. Install and activate it before updating: forms are not shown without it
+ * Improved validation of the Post Type and Post Status fields
+ * Improved handling of custom field names when saving posts, users, terms, and options
+ * Improved validation of submitted fields against the form's own fields
+ * Improved the automatic login step in the New User action
+ * Improved permission checks when saving options and site settings fields
+ * Added "Edit Site Options" and "Assign Privileged User Roles" special permissions, so a form can let roles without those capabilities save site options and assign privileged roles
+ * Improved loading of saved form settings
+ * Removed leftover debug logging (thanks to Zein with Patchstack for the responsible disclosure)
+ * Fixed a submission's submitter being replaced by the administrator who approved it
+ * Added the approving user and approval date to the submission page
+ * Fixed forms storing a submission for a post, user, term, or product the current user is not allowed to edit
+
 = 3.29.13 - 25-08-2026 =
  * Improved handling of the custom upload directory setting
  * Improved permission checks in the Post, Term, and Product actions
  * Improved validation when dynamically loading a form
+ * Improved data handling when duplicating posts and products through frontend forms (thanks to Ananda Dhakal with Patchstack for the responsible disclosure)
 
 = 3.29.12 - 19-08-2026 =
  * Hardened the Role field's privileged-role protection to also cover roles that can publish content or upload files without review
@@ -542,7 +557,7 @@ Please report security bugs found in the source code of the Frontend Admin plugi
  * Patched missing function
  
  = 3.23.3 - 18-09-2024 =
- * Added Frontend Admin metabox to enable "visibilty" limitation based on user role
+ * Added ACF Frontend Admin metabox to enable "visibilty" limitation based on user role
  * Added compatibility for Elementor's element cache feature
 
 = 3.23.2 - 17-09-2024 =

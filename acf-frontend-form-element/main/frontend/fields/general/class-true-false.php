@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'true_false' ) ) :
 
 	class true_false extends Field_Base {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'true_false' ) ) :
 
 			// vars
 			$this->name     = 'toggle';
-			$this->label    = __( 'True / False', 'acf' );
+			$this->label    = __( 'True / False', 'frontend-admin' );
 			$this->category = 'choice';
 			$this->defaults = array(
 				'default_value' => 0,
@@ -78,10 +82,10 @@ if ( ! class_exists( 'true_false' ) ) :
 
 				// vars
 				if ( $field['ui_on_text'] === '' ) {
-					$field['ui_on_text'] = __( 'Yes', 'acf' );
+					$field['ui_on_text'] = __( 'Yes', 'frontend-admin' );
 				}
 				if ( $field['ui_off_text'] === '' ) {
-					$field['ui_off_text'] = __( 'No', 'acf' );
+					$field['ui_off_text'] = __( 'No', 'frontend-admin' );
 				}
 
 				// update input
@@ -100,15 +104,15 @@ if ( ! class_exists( 'true_false' ) ) :
 <div class="acf-true-false">
 			<?php acf_hidden_input( $hidden ); ?>
 	<label>
-		<input <?php echo acf_esc_attr( $input ); ?>/>
+		<input <?php echo acf_esc_attr( $input ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attr(). ?>/>
 			<?php
 			if ( $switch ) {
-				echo acf_esc_html( $switch );}
+				echo acf_esc_html( $switch );} // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html().
 			?>
 			<?php
 			if ( $field['message'] ) :
 				?>
-				<span class="message"><?php echo acf_esc_html( $field['message'] ); ?></span><?php endif; ?>
+				<span class="message"><?php echo acf_esc_html( $field['message'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_html(). ?></span><?php endif; ?>
 	</label>
 </div>
 			<?php
@@ -132,8 +136,8 @@ if ( ! class_exists( 'true_false' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label' => __( 'Message', 'acf' ),
-					'hint'  => __( 'Displays text alongside the checkbox', 'acf' ),
+					'label' => __( 'Message', 'frontend-admin' ),
+					'hint'  => __( 'Displays text alongside the checkbox', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'message',
 				)
@@ -142,7 +146,7 @@ if ( ! class_exists( 'true_false' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Default Value', 'acf' ),
+					'label'        => __( 'Default Value', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'true_false',
 					'name'         => 'default_value',
@@ -162,11 +166,11 @@ if ( ! class_exists( 'true_false' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'On Text', 'acf' ),
-					'instructions' => __( 'Text shown when active', 'acf' ),
+					'label'        => __( 'On Text', 'frontend-admin' ),
+					'instructions' => __( 'Text shown when active', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'ui_on_text',
-					'placeholder'  => __( 'Yes', 'acf' ),
+					'placeholder'  => __( 'Yes', 'frontend-admin' ),
 					'conditions'   => array(
 						'field'    => 'ui',
 						'operator' => '==',
@@ -178,11 +182,11 @@ if ( ! class_exists( 'true_false' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Off Text', 'acf' ),
-					'instructions' => __( 'Text shown when inactive', 'acf' ),
+					'label'        => __( 'Off Text', 'frontend-admin' ),
+					'instructions' => __( 'Text shown when inactive', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'ui_off_text',
-					'placeholder'  => __( 'No', 'acf' ),
+					'placeholder'  => __( 'No', 'frontend-admin' ),
 					'conditions'   => array(
 						'field'    => 'ui',
 						'operator' => '==',
@@ -194,8 +198,8 @@ if ( ! class_exists( 'true_false' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Stylized UI', 'acf' ),
-					'instructions' => __( 'Use a stylized checkbox using select2', 'acf' ),
+					'label'        => __( 'Stylized UI', 'frontend-admin' ),
+					'instructions' => __( 'Use a stylized checkbox using select2', 'frontend-admin' ),
 					'type'         => 'true_false',
 					'name'         => 'ui',
 					'ui'           => 1,

@@ -126,7 +126,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			$sql .= $wpdb->prepare( " OFFSET %d", ( $args['current_page'] - 1 ) * $args['per_page'] );	
 
 
-			$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+			$result = $wpdb->get_results( $sql, 'ARRAY_A' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			return $result;
 		}
@@ -141,7 +141,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}fea_plans";
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- only the table prefix is interpolated.
 		}
 
 		public function ajax_delete_plan(){
@@ -324,7 +324,7 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_Crud' ) ) :
 			add_screen_option( $option, $args );
 
 			?>
-				<h2><?php echo __( 'Plans', 'frontend-admin' ) ?></h2>
+				<h2><?php echo esc_html__( 'Plans', 'frontend-admin' ) ?></h2>
 				<a href="?page=frontend-admin-plans&action=add-new" type="button" class="button add-plan"><?php esc_html_e( 'Add New Plan', 'frontend-admin' ); ?></a>
 
 				<?php

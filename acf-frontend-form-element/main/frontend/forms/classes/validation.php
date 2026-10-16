@@ -79,7 +79,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Validate_Form' ) ) :
 
 			if ( ! empty( $_POST['acff'] ) ) {
 				if ( ! empty( $_POST['acff']['_validate_email'] ) ) {
-					$this->add_error( '', __( 'Spam Detected', 'acf' ) );
+					$this->add_error( '', __( 'Spam Detected', 'frontend-admin' ) );
 				}
 				$data = wp_kses_post_deep( $_POST['acff'] ); 
 				$data_types = array( 'form', 'post', 'user', 'term', 'options', 'woo_product', 'submission' );
@@ -305,7 +305,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Validate_Form' ) ) :
 				//get the form default required message
 				$message = $_POST['_acf_required_message'] ?? '';
 				
-				if( ! $message ) $message = sprintf( __( '%s value is required', 'acf' ), $field['label'] );
+				if( ! $message ) $message = sprintf( /* translators: %s: value */ __( '%s value is required', 'frontend-admin' ), $field['label'] );
 
 			}
 

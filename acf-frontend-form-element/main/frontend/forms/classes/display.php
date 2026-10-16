@@ -125,7 +125,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				return false;
 			}
 
-			$form_args = $form->post_content ? maybe_unserialize( $form->post_content ) : array();
+			$form_args = $form->post_content ? feadmin_maybe_unserialize( $form->post_content ) : array();
 
 			$form_args['ID'] = $form->ID;
 
@@ -611,7 +611,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 
 				// Render HTML
-				echo '<' . esc_html( $element ) . ' ' . acf_esc_attrs( $wrapper ) . '>';
+				echo '<' . esc_html( $element ) . ' ' . acf_esc_attrs( $wrapper ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs().
 				if ( $element !== 'td' && ( ! isset( $field['field_label_hide'] ) || ! $field['field_label_hide'] ) ) {
 					echo '<' . esc_html( $inner_element ) . '  class="acf-label">';
 					acf_render_field_label( $field );
@@ -620,13 +620,13 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 				if( isset( $field['prev_value'] ) ){
 					if( $field['prev_value'] ){
-						echo '<a href="#" class="fea-view-changes">(' . __( 'View Changes', 'frontend-admin' ) . ')</a>';
-						echo '<a href="#" class="fea-edit-changes">(' . __( 'Edit', 'frontend-admin' ) . ')</a>';
+						echo '<a href="#" class="fea-view-changes">(' . esc_html__( 'View Changes', 'frontend-admin' ) . ')</a>';
+						echo '<a href="#" class="fea-edit-changes">(' . esc_html__( 'Edit', 'frontend-admin' ) . ')</a>';
 						echo '<div class="fea-prev-value">';
 							echo wp_kses_post( fea_instance()->dynamic_values->display_field( $field ) );
 						echo '</div>';
 					}else{
-						echo '<p>(' . __( 'New', 'frontend-admin' ) . ')</p>';
+						echo '<p>(' . esc_html__( 'New', 'frontend-admin' ) . ')</p>';
 					}
 
 						
@@ -644,7 +644,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					$message = fea_instance()->dynamic_values->get_dynamic_values( $message );
 				}
 				$message = do_shortcode( $message );
-				echo '<div class="acf-message">' . $message . '</div>';
+				echo '<div class="acf-message">' . $message . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message field content set by the form author, with shortcodes rendered.
 			}else{
 
 				if( ! empty( $field['display_only'] ) ){
@@ -823,7 +823,6 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					foreach ( $field['fields_select'] as $sub_field ) {
 						if( is_string( $sub_field )  ){
 							if( strpos( $sub_field, 'group_' ) !== false ){
-								echo $sub_field;
 								$_fields = array_merge( $_fields, acf_get_fields( $sub_field ) );
 							}else{
 								$_fields[] = fea_instance()->frontend->get_field( $sub_field );
@@ -1141,7 +1140,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 			if ( empty( $form['display'] ) ) {
 				if ( ! empty( $form['message'] ) && $form['message'] !== 'NOTHING' ) {
-					esc_html_e( $form['message'] );
+					esc_html_e( $form['message'], 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 				}
 				return;
 			}
@@ -1207,7 +1206,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				$total_pages = ceil( $total_submits / $args['per_page'] );
 
 				?>
-					<div class="load-more-results" data-form="<?php esc_attr_e( $form['ID'] ); ?>" data-page="1" data-count="<?php esc_attr_e( $count ); ?>" data-total="<?php esc_attr_e( $total_pages ); ?>"><span class="fea-loader acf-hidden"></span></div>
+					<div class="load-more-results" data-form="<?php echo esc_attr( $form['ID'] ); ?>" data-page="1" data-count="<?php echo esc_attr( $count ); ?>" data-total="<?php echo esc_attr( $total_pages ); ?>"><span class="fea-loader acf-hidden"></span></div>
 				<?php
 			}
 			if ( empty( $request['load_more'] ) ) {
@@ -1220,10 +1219,10 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 
 		function render_submission_item( $submission ) {
 			?>
-			<div class="fea-list-item" data-item="submission" data-id="<?php esc_html_e( $submission['id'] ); ?>">
+			<div class="fea-list-item" data-item="submission" data-id="<?php echo esc_html( $submission['id'] ); ?>">
 			<?php
 			if ( empty( $submission['title'] ) ) {
-				$submission['title'] = sprintf( __( 'Submission #%d', 'frontend-admin' ), $submission['id'] );
+				$submission['title'] = sprintf( /* translators: %d: number */ __( 'Submission #%d', 'frontend-admin' ), $submission['id'] );
 			}
 
 			global $wp;
@@ -1262,7 +1261,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			}
 			$status_label = fea_instance()->submissions_handler->get_status_label( $submission['status'] );
 			echo '<p class="item-status dashicons dashicons-flag" >' . esc_html( $status_label ) . '</p>';
-			echo '<p class="item-date dashicons dashicons-calendar-alt">' .  esc_html( date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $submission['created_at'] ) ) ) . '</p>';
+			echo '<p class="item-date dashicons dashicons-calendar-alt">' .  esc_html( gmdate( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $submission['created_at'] ) ) ) . '</p>';
 			?>
 			</div>
 			</div>
@@ -1274,7 +1273,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				if ( isset( $_GET['email-address'] ) ) {
 					$address = sanitize_email( $_GET['email-address'] );
 					if ( ! empty( $GLOBALS[ $address . '_verified' ] ) ) {
-						echo '<div class="frontend-admin-message"><div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg">' . esc_html( __( 'Email Verified Successfully' ) ) . '</p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div></div>';
+						echo '<div class="frontend-admin-message"><div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg">' . esc_html( __( 'Email Verified Successfully', 'frontend-admin' ) ) . '</p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div></div>';
 						return;
 					}
 				}
@@ -1368,7 +1367,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 						$button_text .= ' <span class="' . $form['modal_button_icon']['value'] . '"></span';
 					}
 
-					echo '<button ' . acf_esc_attrs( $attrs ) . ' >' . esc_html( $button_text ) . '</button>';
+					echo '<button ' . acf_esc_attrs( $attrs ) . ' >' . esc_html( $button_text ) . '</button>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs().
 					$this->maybe_show_success_message( $form );
 
 					return;
@@ -1388,7 +1387,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			$form_title   = $form['form_title'];
 
 			?>
-			<form <?php echo acf_esc_attrs( $form['form_attributes'] ); ?>> 
+			<form <?php echo acf_esc_attrs( $form['form_attributes'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by acf_esc_attrs(). ?>> 
 			<?php
 
 			$this->form_render_data( $form );
@@ -1455,7 +1454,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 					) {
 						?>
 						<div class="frontend-admin-message form-<?php echo esc_attr( $form_success['form_element'] ); ?>">
-							<div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg"><?php echo wp_unslash( wp_kses( $form_success['success_message'], 'post' ) ); ?></p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div>
+							<div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg"><?php echo wp_kses( wp_unslash( $form_success['success_message'] ), 'post' ); ?></p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div>
 						</div>
 						<?php
 				}
@@ -1471,24 +1470,24 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			
 			$file_data = array(
 				array(
-					'label' => __( 'Title' ),
+					'label' => __( 'Title', 'frontend-admin' ),
 					'type'  => 'text',
 					'name'  => 'title',
 				),
 				array(
-					'label'        => __( 'Alternative Text' ),
-					'instructions' => __( 'Leave empty if the image is purely decorative.' ),
+					'label'        => __( 'Alternative Text', 'frontend-admin' ),
+					'instructions' => __( 'Leave empty if the image is purely decorative.', 'frontend-admin' ),
 					'type'         => 'text',
 					'name'         => 'alt',
 				),
 				array(
-					'label' => __( 'Caption' ),
+					'label' => __( 'Caption', 'frontend-admin' ),
 					'type'  => 'textarea',
 					'name'  => 'caption',
 					'rows'  => 3,
 				),
 				array(
-					'label' => __( 'Description' ),
+					'label' => __( 'Description', 'frontend-admin' ),
 					'type'  => 'textarea',
 					'name'  => 'description',
 					'rows'  => 3,
@@ -1803,7 +1802,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 			$field['wrapper_tag'] = $wrapper_tag;
 
 
-			echo fea_instance()->dynamic_values->render_field_display( $field, $source );
+			echo fea_instance()->dynamic_values->render_field_display( $field, $source ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 
 		}
 
@@ -1942,7 +1941,7 @@ if ( ! class_exists( 'Frontend_Admin\Classes\Display_Form' ) ) :
 				$fea_scripts = true;
 				?>
 				<div class="-fixed frontend-admin-message form-<?php echo esc_attr( $form_success['form_element'] ); ?>">
-					<div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg"><?php echo wp_unslash( wp_kses( $message, 'post' ) ); ?></p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div>
+					<div class="acf-notice -success acf-success-message -dismiss"><p class="success-msg"><?php echo wp_kses( wp_unslash( $message ), 'post' ); ?></p><span class="frontend-admin-dismiss close-msg acf-notice-dismiss acf-icon -cancel small"></span></div>
 				</div>
 				<?php
 			}

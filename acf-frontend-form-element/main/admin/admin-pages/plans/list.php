@@ -40,21 +40,19 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 
 			$sql = "SELECT * FROM {$wpdb->prefix}fea_plans";
 
-			if ( ! empty( $_REQUEST['orderby'] ) ) {
-				$sql .= $wpdb->prepare( ' ORDER BY ' . sanitize_sql_orderby( $_REQUEST['orderby'] ) );
-				 $sql .= ! empty( $_REQUEST['order'] && $_REQUEST['order'] == 'DESC' ) ?
-                    ' DESC'
-                    :
-                    ' ASC';
-			}else{
-				$sql .= ' ORDER BY created_at DESC' ;
+			// the column name is reduced to letters, digits and underscores before it is used as an identifier
+			$orderby = ! empty( $_REQUEST['orderby'] ) ? str_replace( '-', '', sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only list sorting.
+			if ( $orderby ) {
+				$order = ! empty( $_REQUEST['order'] ) && 'desc' === sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only list sorting.
+				$sql  .= " ORDER BY `$orderby` $order";
+			} else {
+				$sql .= ' ORDER BY created_at DESC';
 			}
 
-			$sql .= " LIMIT $per_page";
-			$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+			$sql .= $wpdb->prepare( ' LIMIT %d OFFSET %d', $per_page, ( $page_number - 1 ) * $per_page );
 
 
-			$result = $wpdb->get_results( $sql, 'ARRAY_A' );
+			$result = $wpdb->get_results( $sql, 'ARRAY_A' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			return $result;
 		}
@@ -86,13 +84,13 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}fea_plans";
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- only the table prefix is interpolated.
 		}
 
 
 		/** Text displayed when no plan data is available */
 		public function no_items() {
-			_e( 'No plans avaliable.', 'frontend-admin' );
+			esc_html_e( 'No plans avaliable.', 'frontend-admin' );
 		}
 
 
@@ -108,11 +106,11 @@ if( ! class_exists( 'Frontend_Admin\Admin\Plans_List' ) ) :
 			switch( $column_name ){
 				case 'created_at':
 					$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-					return date( $time_format, strtotime( $item[ $column_name ] ) );
+					return gmdate( $time_format, strtotime( $item[ $column_name ] ) );
 				case 'expires_after':
 					if( $item['expires_after'] ){
 						$time_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-						return date( $time_format, strtotime( $item[ $column_name ] ) );
+						return gmdate( $time_format, strtotime( $item[ $column_name ] ) );
 					}else{
 						return __( 'Never', 'frontend-admin' );
 					}

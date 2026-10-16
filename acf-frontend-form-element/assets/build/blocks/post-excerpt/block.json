@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "frontend-admin/post-excerpt-field",
   "title": "Post Excerpt Field",
   "description": "Displays a post excerpt field.",

@@ -180,7 +180,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 			global $current_screen;
 
 			// Execute query
-			$results = $wpdb->get_results( $sql, ARRAY_A );
+			$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 
 			// Send response
 			return $results;
@@ -220,7 +220,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 				$sql .= $wpdb->prepare( ' form = %d', $args['form_id'] );
 			}
 
-			return $wpdb->get_var( $sql );
+			return $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- values are added with $wpdb->prepare() and identifiers come from an allowlist above.
 		}
 
 		public function delete_submission( $id = 0 ) {
@@ -250,6 +250,14 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 					?>
 					<h2><?php echo sprintf( 'Submission #%d: %s', esc_html( $submission_id ), esc_html( $title ) ); ?></h2>
 					<?php
+					$record = json_decode( fea_decrypt( $submission->fields ), true );
+					$record = $record['record'] ?? $record;
+					if ( ! empty( $record['approved_by'] ) ) {
+						$approver = get_user_by( 'ID', $record['approved_by'] );
+						if ( is_object( $approver ) ) {
+							echo '<p class="fea-submission-approver">' . esc_html( sprintf( /* translators: 1: value 2: value 3: value */ __( 'Approved by %1$s (%2$s) on %3$s', 'frontend-admin' ), $approver->display_name, $approver->user_login, $record['approved_at'] ?? '' ) ) . '</p>';
+						}
+					}
 
 					$action = fea_instance()->submissions_list->current_action();
 					if ( $action == 'edit' ) {
@@ -269,7 +277,7 @@ if ( ! class_exists( 'Submissions_Crud' ) ) :
 						}else{
 							if( 'gutenberg' == ( $form['builder'] ?? '' ) ){
 								 $block_content = render_block( $form['object'] );
-            					echo $block_content;
+            					echo $block_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered block markup.
 							}else{
 								$form['object']->print_element();
 							}

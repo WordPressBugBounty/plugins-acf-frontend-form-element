@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "frontend-admin/fields-select-field",
   "title": "ACF Fields Select",
   "description": "Displays ACF fields and field groups.",

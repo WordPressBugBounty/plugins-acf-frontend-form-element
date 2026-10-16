@@ -170,8 +170,8 @@ class Frontend_Forms_UI {
 
 				echo '<div class="shortcode-copy">';
 				// Show shortcode
-				echo '<p>'. esc_html( __( 'Form Shortcode' ) ) .': ';
-				printf( '<code>[frontend_admin form="%d"]</code>', $form_id );
+				echo '<p>'. esc_html( __( 'Form Shortcode', 'frontend-admin' ) ) .': ';
+				printf( '<code>[frontend_admin form="%d"]</code>', absint( $form_id ) );
 				printf(
 					'<button type="button" class="copy-shortcode" data-prefix="frontend_admin form" data-value="%1$s">%2$s %3$s</button>',
 					absint( $form_id ),
@@ -451,7 +451,7 @@ class Frontend_Forms_UI {
 				'steps_display'         => array( 'tabs' ),
 				'steps_tabs_display'    => array( 'desktop', 'tablet' ),
 				'steps_counter_display' => array( 'desktop', 'tablet' ),
-				'counter_text'          => sprintf( __( 'Step %1$s/%2$s', 'frontend-admin' ), '[current_step]', '[total_steps]' ),
+				'counter_text'          => sprintf( /* translators: 1: value 2: value */ __( 'Step %1$s/%2$s', 'frontend-admin' ), '[current_step]', '[total_steps]' ),
 			)
 		);
 
@@ -490,39 +490,39 @@ class Frontend_Forms_UI {
 		// localize text.
 		acf_localize_text(
 			array(
-				'The string "field_" may not be used at the start of a field name' => __( 'The string "field_" may not be used at the start of a field name', 'acf' ),
-				'This field cannot be moved until its changes have been saved' => __( 'This field cannot be moved until its changes have been saved', 'acf' ),
-				'Field group title is required' => __( 'Field group title is required', 'acf' ),
-				'Move field group to trash?'    => __( 'Move field group to trash?', 'acf' ),
-				'No toggle fields available'    => __( 'No toggle fields available', 'acf' ),
-				'Move Custom Field'             => __( 'Move Custom Field', 'acf' ),
-				'Close modal'                   => __( 'Close modal', 'acf' ),
-				'Field moved to other group'    => __( 'Field moved to other group', 'acf' ),
-				'Checked'                       => __( 'Checked', 'acf' ),
-				'(no label)'                    => __( '(no label)', 'acf' ),
-				'(this field)'                 => __( '(this field)', 'acf' ),
-				'copy'                          => __( 'copy', 'acf' ),
-				'or'                            => __( 'or', 'acf' ),
-				'Show this field group if'      => __( 'Show this field group if', 'acf' ),
-				'Null'                          => __( 'Null', 'acf' ),
+				'The string "field_" may not be used at the start of a field name' => __( 'The string "field_" may not be used at the start of a field name', 'frontend-admin' ),
+				'This field cannot be moved until its changes have been saved' => __( 'This field cannot be moved until its changes have been saved', 'frontend-admin' ),
+				'Field group title is required' => __( 'Field group title is required', 'frontend-admin' ),
+				'Move field group to trash?'    => __( 'Move field group to trash?', 'frontend-admin' ),
+				'No toggle fields available'    => __( 'No toggle fields available', 'frontend-admin' ),
+				'Move Custom Field'             => __( 'Move Custom Field', 'frontend-admin' ),
+				'Close modal'                   => __( 'Close modal', 'frontend-admin' ),
+				'Field moved to other group'    => __( 'Field moved to other group', 'frontend-admin' ),
+				'Checked'                       => __( 'Checked', 'frontend-admin' ),
+				'(no label)'                    => __( '(no label)', 'frontend-admin' ),
+				'(this field)'                 => __( '(this field)', 'frontend-admin' ),
+				'copy'                          => __( 'copy', 'frontend-admin' ),
+				'or'                            => __( 'or', 'frontend-admin' ),
+				'Show this field group if'      => __( 'Show this field group if', 'frontend-admin' ),
+				'Null'                          => __( 'Null', 'frontend-admin' ),
 
 				// Conditions.
-				'Has any value'                 => __( 'Has any value', 'acf' ),
-				'Has no value'                  => __( 'Has no value', 'acf' ),
-				'Value is equal to'             => __( 'Value is equal to', 'acf' ),
-				'Value is not equal to'         => __( 'Value is not equal to', 'acf' ),
-				'Value matches pattern'         => __( 'Value matches pattern', 'acf' ),
-				'Value contains'                => __( 'Value contains', 'acf' ),
-				'Value is greater than'         => __( 'Value is greater than', 'acf' ),
-				'Value is less than'            => __( 'Value is less than', 'acf' ),
-				'Selection is greater than'     => __( 'Selection is greater than', 'acf' ),
-				'Selection is less than'        => __( 'Selection is less than', 'acf' ),
+				'Has any value'                 => __( 'Has any value', 'frontend-admin' ),
+				'Has no value'                  => __( 'Has no value', 'frontend-admin' ),
+				'Value is equal to'             => __( 'Value is equal to', 'frontend-admin' ),
+				'Value is not equal to'         => __( 'Value is not equal to', 'frontend-admin' ),
+				'Value matches pattern'         => __( 'Value matches pattern', 'frontend-admin' ),
+				'Value contains'                => __( 'Value contains', 'frontend-admin' ),
+				'Value is greater than'         => __( 'Value is greater than', 'frontend-admin' ),
+				'Value is less than'            => __( 'Value is less than', 'frontend-admin' ),
+				'Selection is greater than'     => __( 'Selection is greater than', 'frontend-admin' ),
+				'Selection is less than'        => __( 'Selection is less than', 'frontend-admin' ),
 
 				// Pro-only fields.
-				'Repeater'           => __( 'Repeater', 'acf' ),
-				'Flexibly Content'   => __( 'Flexible Content', 'acf' ),
-				'Clone'              => __( 'Clone', 'acf' ),
-				'Gallery'            => __( 'Gallery', 'acf' ),
+				'Repeater'           => __( 'Repeater', 'frontend-admin' ),
+				'Flexibly Content'   => __( 'Flexible Content', 'frontend-admin' ),
+				'Clone'              => __( 'Clone', 'frontend-admin' ),
+				'Gallery'            => __( 'Gallery', 'frontend-admin' ),
 			)
 		);
 		
@@ -562,7 +562,7 @@ class Frontend_Forms_UI {
 		if ( isset( $screen->base ) && 'post' === $screen->base ) {
 			global $title, $post;
 			$form_type = get_post_meta( $post->ID, 'admin_form_type', true );
-			$title_placeholder = apply_filters( 'enter_title_here', __( 'Add title' ), $post );
+			$title_placeholder = apply_filters( 'enter_title_here', __( 'Add title', 'frontend-admin' ), $post );
 			if( $post->post_title ){
 				$form_title = $post->post_title;
 			}else{
@@ -579,7 +579,7 @@ class Frontend_Forms_UI {
 						?>
 						</h1>
 						<div class="acf-title-wrap">
-							<label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e( $title_placeholder ); ?></label>
+							<label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e( $title_placeholder, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?></label>
 							<input form="post" type="text" name="post_title" size="30" value="<?php echo esc_attr( $form_title ); ?>" id="title" class="acf-headerbar-title-field" spellcheck="true" autocomplete="off" placeholder="<?php esc_attr_e( 'Form Title', 'frontend-admin' ); ?>" />
 						</div>
 					</div>

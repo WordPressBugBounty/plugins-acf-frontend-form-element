@@ -17,7 +17,7 @@ class Post_Image_Field extends Base_Field {
 
 
 	public function get_label() {
-		return esc_html__( 'Post Image Field', 'bricks' );
+		return esc_html__( 'Post Image Field', 'frontend-admin' );
 	}
 
 

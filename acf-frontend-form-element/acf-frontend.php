@@ -1,13 +1,16 @@
 <?php
 /**
- * Plugin Name: Frontend Admin
+ * Plugin Name: ACF Frontend Admin
  * Plugin URI:  https://www.dynamiapps.com/frontend-admin/
  * Description: This awesome plugin allows you to easily display admin forms to the frontend of your site so your clients can easily edit content on their own from the frontend.
- * Version:     3.29.13
+ * Version:     3.30.1
+ * Requires Plugins: advanced-custom-fields
  * Author:      Shabti Kaplan
  * Author URI:  https://www.dynamiapps.com/
  * Text Domain: frontend-admin
  * Domain Path: /languages/
+ * License:     GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -63,7 +66,7 @@ if ( ! class_exists( 'Front_End_Admin' ) ) {
 	}
 
 	/**
-	 * Main Frontend Admin Class
+	 * Main ACF Frontend Admin Class
 	 *
 	 * The main class that initiates and runs the plugin.
 	 *

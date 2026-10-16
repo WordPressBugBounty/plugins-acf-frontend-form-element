@@ -39,11 +39,16 @@ class PermissionsTab {
 				$settings['display'] = true;
 				return $settings;
 			}else{
+				// special permissions are a form block setting: ignore them on rules inherited from a parent block
+				$form_attrs = $settings['object']['attrs'] ?? array();
+				$own_rules  = ! empty( $form_attrs['limitVisibility'] ) && ( $form_attrs['visibilityRules'] ?? null ) === $fea_block_visibility;
+
 				foreach( $fea_block_visibility as $index => $group ){
 					foreach( $group as $key => $value ){
 						$settings['form_conditions'][$index] = [
 							'who_can_see' => $value['showFor'] ?? 'logged_in',
 							'by_role' => $value['showForRoles'] ?? array( 'administrator' ),
+							'special_permissions' => $own_rules && ! empty( $value['specialPermissions'] ) && is_array( $value['specialPermissions'] ) ? $value['specialPermissions'] : [],
 						];
 					}
 				}
@@ -61,7 +66,6 @@ class PermissionsTab {
 						//rule has key and value, we need to do switch case for each key and set the value in the settings array
 						switch( $rule['key'] ){
 							case 'user_role':
-								error_log( 'User role: ' . print_r( $rule['value'], true ) );
 								$form_condition['by_role'] = $rule['value'];
 								$form_condition['who_can_see'] = 'logged_in';
 								break;
@@ -247,7 +251,7 @@ class PermissionsTab {
 		}
 
 		if ( empty( $settings['display'] ) ) {
-			echo $settings['message'];
+			echo wp_kses_post( $settings['message'] );
 			$settings = false;
 		}
 

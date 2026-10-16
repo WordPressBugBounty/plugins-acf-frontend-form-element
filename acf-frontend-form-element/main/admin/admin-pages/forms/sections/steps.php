@@ -109,8 +109,8 @@ $fields  = array(
 			'id'    => '',
 		),
 		'choices'           => array(
-			'horizontal' => __( 'Top', 'elementor' ),
-			'vertical'   => __( 'Side', 'elementor' ),
+			'horizontal' => __( 'Top', 'frontend-admin' ),
+			'vertical'   => __( 'Side', 'frontend-admin' ),
 		),
 		'layout'            => 'horizontal',
 		'conditional_logic' => array(

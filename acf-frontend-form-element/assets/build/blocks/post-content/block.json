@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "frontend-admin/post-content-field",
   "title": "Post Content Field",
   "description": "Displays a post content field.",

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'fields_select' ) ) :
 
 	class fields_select extends Field_Base {
@@ -102,7 +106,7 @@ if ( ! class_exists( 'fields_select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Fields or Field Groups', 'acf' ),
+					'label'        => __( 'Fields or Field Groups', 'frontend-admin' ),
 					'instructions' => __( 'Select one or more fields or field groups', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'fields_select',
@@ -119,7 +123,7 @@ if ( ! class_exists( 'fields_select' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Exclude Fields from Field Groups', 'acf' ),
+					'label'        => __( 'Exclude Fields from Field Groups', 'frontend-admin' ),
 					'instructions' => __( 'Select one or more fields from the field groups to exclude', 'frontend-admin' ),
 					'type'         => 'select',
 					'name'         => 'fields_exclude',

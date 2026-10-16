@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'username' ) ) :
 
 	class username extends text {
@@ -86,7 +90,7 @@ if ( ! class_exists( 'username' ) ) :
 
 			$edit_user = get_user_by( 'ID', $user_id );
 			
-			$username_taken = sprintf( __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
+			$username_taken = sprintf( /* translators: %s: value */ __( 'The username %s is taken. Please try a different username', 'frontend-admin' ), $value );
 
 			if ( username_exists( $value ) ) {
 				if ( ! empty( $edit_user->user_login ) && $edit_user->user_login == $value ) {
@@ -149,7 +153,7 @@ if ( ! class_exists( 'username' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Allow Edit' ),
+					'label'        => __( 'Allow Edit', 'frontend-admin' ),
 					'instructions' => __( 'Allow users to change their username. WARNING: allowing your users to change their username might affect existing urls and their SEO rating.', 'frontend-admin' ),
 					'name'         => 'allow_edit',
 					'type'         => 'true_false',

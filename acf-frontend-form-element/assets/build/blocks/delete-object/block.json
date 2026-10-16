@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "frontend-admin/delete-object",
   "title": "Frontend Admin Delete Button",
   "description": "Display a delete button so that your users can delete content from the frontend.",

@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'user_to_edit' ) ) :
 
 	class user_to_edit extends Field_Base {
@@ -23,7 +27,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 		function initialize() {
 			// vars
 			$this->name     = 'user_to_edit';
-			$this->label    = __( 'User To Edit', 'acf' );
+			$this->label    = __( 'User To Edit', 'frontend-admin' );
 			$this->category = __( 'User', 'frontend-admin' );
 			$this->defaults = array(
 				'role'                 => '',
@@ -117,7 +121,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				
 					$type         = 'user';
 					$default_text = 'New User';
-				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' );
+				$add_new_text = ! empty( $field['add_new_text'] ) ? $field['add_new_text'] : __( $default_text, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 				$results      = array(
 					array(
 						'id'   => 'add_' . $type,
@@ -195,8 +199,6 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 				$args
 			);
 
-			error_log( print_r( $args, true ) );
-			error_log( print_r( $users, true ) );
 
 
 			// bail early if no users
@@ -246,7 +248,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			);
 
 			// look for parent
-			$search = '| ' . __( 'Parent', 'acf' ) . ':';
+			$search = '| ' . __( 'Parent', 'frontend-admin' ) . ':';
 			$pos    = strpos( $text, $search );
 
 			if ( $pos !== false ) {
@@ -407,7 +409,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Filter by Role', 'acf' ),
+					'label'        => __( 'Filter by Role', 'frontend-admin' ),
 					'instructions' => '',
 					'type'         => 'select',
 					'name'         => 'role',
@@ -415,7 +417,7 @@ if ( ! class_exists( 'user_to_edit' ) ) :
 					'multiple'     => 1,
 					'ui'           => 1,
 					'allow_null'   => 1,
-					'placeholder'  => __( 'All user roles', 'acf' ),
+					'placeholder'  => __( 'All user roles', 'frontend-admin' ),
 				)
 			);
 

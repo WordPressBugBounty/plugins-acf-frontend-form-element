@@ -17,7 +17,7 @@ class Text_Field extends Base_Field {
 	public $name     = 'fea-text-field';
 
 	public function get_label() {
-		return esc_html__( 'Text Field', 'bricks' );
+		return esc_html__( 'Text Field', 'frontend-admin' );
 	}
 
 

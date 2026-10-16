@@ -311,7 +311,7 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'fields_spacing',
 			array(
-				'label'     => __( 'Spacing Between Fields', 'elementor-pro' ),
+				'label'     => __( 'Spacing Between Fields', 'frontend-admin' ),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => array(
 					'size' => 20,
@@ -379,11 +379,11 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'field_label_position',
 			array(
-				'label'     => __( 'Label Position', 'elementor-pro' ),
+				'label'     => __( 'Label Position', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'top'  => __( 'Above', 'elementor-pro' ),
-					'left' => __( 'Inline', 'elementor-pro' ),
+					'top'  => __( 'Above', 'frontend-admin' ),
+					'left' => __( 'Inline', 'frontend-admin' ),
 				),
 				'default'   => 'top',
 				'condition' => array(
@@ -394,10 +394,10 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'hide_mark_required',
 			array(
-				'label'        => __( 'Hide Required Mark', 'elementor-pro' ),
+				'label'        => __( 'Hide Required Mark', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Hide', 'elementor-pro' ),
-				'label_off'    => __( 'Show', 'elementor-pro' ),
+				'label_on'     => __( 'Hide', 'frontend-admin' ),
+				'label_off'    => __( 'Show', 'frontend-admin' ),
 				'return_value' => 'true',
 				'condition'    => array(
 					'hide_field_labels!' => 'true',
@@ -411,11 +411,11 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'field_instruction_position',
 			array(
-				'label'     => __( 'Instruction Position', 'elementor-pro' ),
+				'label'     => __( 'Instruction Position', 'frontend-admin' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'label' => __( 'Above Field', 'elementor-pro' ),
-					'field' => __( 'Below Field', 'elementor-pro' ),
+					'label' => __( 'Above Field', 'frontend-admin' ),
+					'field' => __( 'Below Field', 'frontend-admin' ),
 				),
 				'default'   => 'label',
 				'separator' => 'before',
@@ -425,10 +425,10 @@ class Field extends \Elementor\Widget_Base {
 		$this->add_control(
 			'field_seperator',
 			array(
-				'label'        => __( 'Field Seperator', 'elementor-pro' ),
+				'label'        => __( 'Field Seperator', 'frontend-admin' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Hide', 'elementor-pro' ),
-				'label_off'    => __( 'Show', 'elementor-pro' ),
+				'label_on'     => __( 'Hide', 'frontend-admin' ),
+				'label_off'    => __( 'Show', 'frontend-admin' ),
 				'default'      => 'true',
 				'return_value' => 'true',
 				'separator'    => 'before',
@@ -534,7 +534,7 @@ class Field extends \Elementor\Widget_Base {
 		$field = $this->prepare_field( $field );
 		if( ! $field ) return;
 		if( $settings['field_display_mode'] == 'read_only' ){
-			echo $fea_instance->dynamic_values->render_field_display( $field );
+			echo $fea_instance->dynamic_values->render_field_display( $field ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 		}else{
 			$form_display->render_field_wrap( $field );
 			

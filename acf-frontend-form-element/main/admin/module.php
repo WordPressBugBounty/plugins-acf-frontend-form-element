@@ -38,7 +38,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			foreach ( $this->tabs as $name => $label ) {
 
 				?>
-				<a class="nav-tab <?php echo $_active_tab == $name || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( '?page=' .  'fea-settings&tab=' . $name ) ); ?>"><?php esc_html_e( $label, 'frontend-admin' ); ?> </a>
+				<a class="nav-tab <?php echo $_active_tab == $name || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( admin_url( '?page=' .  'fea-settings&tab=' . $name ) ); ?>"><?php esc_html_e( $label, 'frontend-admin' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings. ?> </a>
 				<?php
 			}
 		}
@@ -91,7 +91,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 
 			<p class="frontend-admin-text">
 				<?php printf( 
-					esc_html__( 'Welcome to %s, the plugin that allows you to create and manage forms and content from the front end of your website.', 'frontend-admin' ), 
+					/* translators: %s: value */ esc_html__( 'Welcome to %s, the plugin that allows you to create and manage forms and content from the front end of your website.', 'frontend-admin' ), 
 					esc_html( 'Frontend Admin' ) 
 				); ?>
 			</p>
@@ -107,12 +107,12 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/gxN5X54LNuk?si=xc6z6mwradx35CCt" title="Elementor Nestable Forms Widget" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-			<p class="frontend-admin-text"><?php printf( esc_html( __( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'frontend-admin' ) ), 'Frontend Admin' ); ?></p>
+			<p class="frontend-admin-text"><?php printf( esc_html( /* translators: %s: value */ __( 'If this is your first time using %s, please watch this quick tutorial to help get you started.', 'frontend-admin' ) ), 'Frontend Admin' ); ?></p>
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/ZR7UAegiljQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					
 			
 			<br>
-			<p class="frontend-admin-text"><?php printf( wp_kses_post( __( 'If you have any questions at all please feel welcome to email support at <a href="mailto:%1$s"/>%1$s</a> or on whatsapp <a href="%2$s">%3$s</a>', 'frontend-admin' ) ), 'support@dynamiapps.com', esc_url( 'https://api.whatsapp.com/send?phone=972532323950' ), '+972-53-232-3950' ); ?> </p>
+			<p class="frontend-admin-text"><?php printf( wp_kses_post( /* translators: 1: value 2: value 3: value */ __( 'If you have any questions at all please feel welcome to email support at <a href="mailto:%1$s"/>%1$s</a> or on whatsapp <a href="%2$s">%3$s</a>', 'frontend-admin' ) ), 'support@dynamiapps.com', esc_url( 'https://api.whatsapp.com/send?phone=972532323950' ), '+972-53-232-3950' ); ?> </p>
 				
 					<?php
 			} else {
@@ -151,10 +151,10 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				echo '<input type="hidden" name="action" value="fea_install_plugin"/>';
 				$submit_value = "Install $addon module";
 			}
-				echo '<button type="submit" class="button">'. esc_html( __( $submit_value, 'frontend-admin' ) ) .'</button>';
+				echo '<button type="submit" class="button">'. esc_html( __( $submit_value, 'frontend-admin' ) ) .'</button>'; // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- text set in the field or form settings.
 			?>
-				<input type="hidden" name="addon" value="<?php esc_attr_e( $addon ); ?>"/>
-				<input type="hidden" name="nonce" value="<?php esc_attr_e( wp_create_nonce( 'frontend-admin-addon' ) ); ?>" />
+				<input type="hidden" name="addon" value="<?php echo esc_attr( $addon ); ?>"/>
+				<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'frontend-admin-addon' ) ); ?>" />
 				</form>
 			<?php
 		}
@@ -192,7 +192,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 				$addon_folder = WP_PLUGIN_DIR . str_replace( '/frontend-' . $addon . '.php', '', $addon_slug );
 				$fea_folder   = WP_PLUGIN_DIR . '/frontend-' . $addon;
 				if ( ! file_exists( $fea_folder ) ) {
-					rename( $addon_folder, $fea_folder );
+					rename( $addon_folder, $fea_folder ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename, PluginCheck.CodeAnalysis.WriteFile.PluginDirectoryWrite -- renames the folder of the add-on that was just installed; no data is stored in it.
 				}
 
 				$this->addon_form( $addon );
@@ -252,7 +252,7 @@ if ( ! class_exists( 'Admin_Settings' ) ) :
 					add_action( 'admin_notices', function(){
 						?>
 						<div class="notice notice-error">
-							<p><?php _e( 'Please update Frontend Admin Payments to the latest version to use the new payment settings.', 'frontend-admin' ); ?></p>
+							<p><?php esc_html_e( 'Please update Frontend Admin Payments to the latest version to use the new payment settings.', 'frontend-admin' ); ?></p>
 						</div>
 						<?php
 					} );	

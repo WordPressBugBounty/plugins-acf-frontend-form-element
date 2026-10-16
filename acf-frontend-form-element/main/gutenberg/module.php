@@ -277,10 +277,6 @@ if(! class_exists('Frontend_Admin_Gutenberg') ) :
                         $user_roles = (array) $user->roles;
                         $intersect = array_intersect( $user_roles, $roles );
 
-                        error_log( 'Evaluating role-based visibility rule:' );
-                        error_log( 'User roles: ' . implode( ', ', $user_roles ) );
-                        error_log( 'Rule roles: ' . implode( ', ', $roles ) );
-                        error_log( 'Intersect: ' . implode( ', ', $intersect ) );
 
                         if ( empty( $intersect ) ) {
                             return [ false, $message ];

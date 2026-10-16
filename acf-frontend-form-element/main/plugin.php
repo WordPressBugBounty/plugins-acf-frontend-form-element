@@ -104,7 +104,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			define( 'FEA_URL', $data['plugin_url'] );
 			define( 'FEA_DIR', $data['plugin_dir'] );
 			define( 'FEA_PLUGIN', $data['plugin'] );
-			define( 'FEA_VERSION', '3.29.13' );
+			define( 'FEA_VERSION', '3.30.1' );
 			do_action( 'front_end_admin_loaded' );
 
 			// Add tutorial videos to plugin item on plugins page
@@ -135,25 +135,13 @@ if ( ! class_exists( 'Plugin' ) ) {
 			add_action( 'after_setup_theme', array( $this, 'plugin_includes' ), 12 );
 		}
 
-		function include_custom_fields() {
-			if ( class_exists( 'ACF' ) ) return;
-
-			// Define path and URL to the ACF plugin.
-			define( 'FEACF_PATH', FEA_DIR . '/main/custom-fields/' );
-			define( 'FEACF_URL', FEA_URL . '/main/custom-fields/' );
-			
-			// Include the ACF plugin.
-			include_once FEACF_PATH . 'custom-fields.php';
-
-			// Customize the url setting to fix incorrect asset URLs.
-			add_filter(
-				'acf/settings/url',
-				function( $url ) {
-					return FEACF_URL;
-				}
-			);
-
-		}	
+		/**
+		 * Whether Advanced Custom Fields is active. The plugin no longer ships
+		 * its own copy, so nothing else is loaded without it.
+		 */
+		function has_custom_fields() {
+			return class_exists( 'ACF' );
+		}
 
 
 		/**
@@ -184,7 +172,10 @@ if ( ! class_exists( 'Plugin' ) ) {
 		 */
 		public function plugin_includes() {
 			
-			$this->include_custom_fields();
+			if ( ! $this->has_custom_fields() ) {
+				add_action( 'admin_notices', array( $this, 'admin_notice_missing_acf_plugin' ) );
+				return;
+			}
 
 			include_once __DIR__ . '/helpers.php';
 
@@ -267,11 +258,11 @@ if ( ! class_exists( 'Plugin' ) ) {
 			?>
 
 			<div class="notice notice-info fea-upgrade-pro-action" style="padding-right: 38px; position: relative;">
-				<p> <?php printf( esc_html( __( 'Try %s %s free for 7 days!', 'frontend-admin' ) ), 'Frontend Admin', '<b>Pro</b>' ); ?> 
+				<p> <?php /* translators: 1: plugin name 2: Pro */ printf( esc_html( __( 'Try %1$s %2$s free for 7 days!', 'frontend-admin' ) ), 'Frontend Admin', '<b>Pro</b>' ); ?> 
 				<a class="button button-primary" style="margin-left:20px;" href="https://dynamiapps.com/try-frontend-admin-pro/" target="_blank"><?php esc_html_e( 'Check it out', 'frontend-admin' ); ?></a></p>
 				<div><img width="40px" src="<?php echo esc_url( $image_path ); ?>" style="width:40px;margin:10px"/></div>
 
-			<a href="#" style="position:absolute;bottom:5px;right:5px;" type="button" data-nonce="<?php esc_attr_e( wp_create_nonce( 'fea_dismiss_pro_nonce' ) ); ?>" class="fea-dismiss-notice"><?php esc_html_e( 'Dismiss notice', 'frontend-admin' ); ?></a>
+			<a href="#" style="position:absolute;bottom:5px;right:5px;" type="button" data-nonce="<?php echo esc_attr( wp_create_nonce( 'fea_dismiss_pro_nonce' ) ); ?>" class="fea-dismiss-notice"><?php esc_html_e( 'Dismiss notice', 'frontend-admin' ); ?></a>
 			</div>
 			<?php
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '-min';
@@ -311,7 +302,7 @@ if ( ! class_exists( 'Plugin' ) ) {
 			printf( esc_html( __( "Hey, I noticed you've received over %1\$d submissions on %2\$s already - that's awesome! I am so glad you are enjoying my plugin! Please take a minute to help our business grow by leaving a review.", 'frontend-admin' ) ), esc_html( $min_submits ), 'Frontend Admin' );
 			?>
 			<strong><em>~ Shabti Kaplan</em></strong>
-			<ul data-nonce="<?php esc_attr_e( wp_create_nonce( 'fea_rate_action_nonce' ) ); ?>">
+			<ul data-nonce="<?php echo esc_attr( wp_create_nonce( 'fea_rate_action_nonce' ) ); ?>">
 			<li><a data-rate-action="do-rate" href="#" data-href="<?php echo esc_url( $review_url ); ?>"><?php esc_html_e( 'Ok, you deserve it', 'frontend-admin' ); ?></a></li>
 				<li><a data-rate-action="done-rating" href="#"><?php esc_html_e( 'I already did', 'frontend-admin' ); ?></a></li>
 				<li><a data-rate-action="not-yet" href="#"><?php esc_html_e( 'Nope, maybe later', 'frontend-admin' ); ?></a></li>
@@ -402,11 +393,18 @@ if ( ! class_exists( 'Plugin' ) ) {
 			}
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: Advanced Custom Fields */
-				__( '"%1$s" requires "%2$s" to be installed and activated.', 'frontend-admin' ),
+				__( '"%1$s" requires "%2$s" to be installed and activated. Your forms will not be shown until it is.', 'frontend-admin' ),
 				'<strong>Frontend Admin</strong>',
 				'<strong>Advanced Custom Fields</strong>'
 			);
-			printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', wp_kses_post( $message ) );
+			if ( current_user_can( 'install_plugins' ) ) {
+				$message .= sprintf(
+					' <a href="%1$s">%2$s</a>',
+					esc_url( admin_url( 'plugin-install.php?s=advanced-custom-fields&tab=search&type=term' ) ),
+					esc_html__( 'Install Advanced Custom Fields', 'frontend-admin' )
+				);
+			}
+			printf( '<div class="notice notice-error"><p>%1$s</p></div>', wp_kses_post( $message ) );
 		}
 
 

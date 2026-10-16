@@ -22,7 +22,7 @@ class Base_Field extends \Bricks\Element {
 	use Traits\Controls;
 
 	public function get_label() {
-		return esc_html__( 'Fields', 'bricks' );
+		return esc_html__( 'Fields', 'frontend-admin' );
 	}
 
 
@@ -452,7 +452,7 @@ class Base_Field extends \Bricks\Element {
 
 		if( ! empty( $settings['field_display_mode'] ) && 'read_only' == $settings['field_display_mode'] ){
 			//$source = $fea_instance->bricks->get_current_post_id();
-			echo $fea_instance->dynamic_values->render_field_display( $field );
+			echo $fea_instance->dynamic_values->render_field_display( $field ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendered field markup, escaped where it is built.
 		}else{
 			$form_display->render_field_wrap( $field );
 		}

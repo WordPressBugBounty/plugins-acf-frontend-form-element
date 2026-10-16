@@ -13,7 +13,7 @@ class FrontendForm extends \Bricks\Element {
 	use Traits\Controls;
 
 	public function get_label() {
-		return esc_html__( 'Frontend Form', 'bricks' ) . ' (' . esc_html__( 'Nestable', 'bricks' ) . ')';
+		return esc_html__( 'Frontend Form', 'frontend-admin' ) . ' (' . esc_html__( 'Nestable', 'frontend-admin' ) . ')';
 	}
 
 	public function get_keywords() {
@@ -25,7 +25,7 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control_group(
 			'form',
 			array(
-				'title' => esc_html__( 'Form', 'bricks' ),
+				'title' => esc_html__( 'Form', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -71,7 +71,7 @@ class FrontendForm extends \Bricks\Element {
 		$this->add_control_group(
 			'form_actions',
 			array(
-				'title' => esc_html__( 'Actions', 'bricks' ),
+				'title' => esc_html__( 'Actions', 'frontend-admin' ),
 				'tab'   => 'content',
 			)
 		);
@@ -219,7 +219,7 @@ class FrontendForm extends \Bricks\Element {
 			// Content
 			[
 				'name'     => 'block',
-				'label'    => esc_html__( 'Form content', 'bricks' ),
+				'label'    => esc_html__( 'Form content', 'frontend-admin' ),
 				'settings' => [
 					'_hidden' => [
 						'_cssClasses' => 'tab-content',
@@ -443,14 +443,14 @@ class FrontendForm extends \Bricks\Element {
 		$fea_form = $this->prepare_form( $settings );
 		$form_display->maybe_show_success_message( $fea_form );
 
-		echo "<div {$this->render_attributes( '_root' )}>";
+		echo "<div {$this->render_attributes( '_root' )}>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder.
 
 		$this->set_attribute( 'frontend-form', 'class', 'frontend-form' );
 
-		echo "<form {$this->render_attributes( 'frontend-form' )}>";
+		echo "<form {$this->render_attributes( 'frontend-form' )}>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attributes are escaped by the page builder.
 
 		// Render children elements (= individual items)
-		echo \Bricks\Frontend::render_children( $this );
+		echo \Bricks\Frontend::render_children( $this ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- child elements are rendered and escaped by Bricks.
 
 		$fea_instance->form_display->form_render_data( $fea_form );
 

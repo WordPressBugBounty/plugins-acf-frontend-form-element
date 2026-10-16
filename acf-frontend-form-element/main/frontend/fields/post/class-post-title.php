@@ -1,6 +1,10 @@
 <?php
 namespace Frontend_Admin\Field_Types;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! class_exists( 'post_title' ) ) :
 
 	class post_title extends text {
@@ -125,7 +129,7 @@ if ( ! class_exists( 'post_title' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Post Slug' ),
+					'label'        => __( 'Post Slug', 'frontend-admin' ),
 					'instructions' => 'Save value as post slug.',
 					'name'         => 'custom_slug',
 					'type'         => 'true_false',
