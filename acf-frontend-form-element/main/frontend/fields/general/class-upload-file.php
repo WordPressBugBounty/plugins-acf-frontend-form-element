@@ -467,6 +467,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 				}
 			}
 
+			// a file with no extension can not be checked, so it is never accepted
+			if ( 'upload' === $context && ! $file['type'] ) {
+				$errors['mime_types'] = __( 'This file type is not allowed.', 'frontend-admin' );
+			}
+
 			// file type
 			if ( $file['type'] ) {
 				$mime_types = feadmin_maybe_get( $field, 'mime_types', '' );
@@ -543,9 +548,10 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			// TO dos: validate file types, sizes, and dimensions
 			// Add loading bar for each image
-			if ( isset( $args['field_key'] ) ) {
-				$field = fea_instance()->frontend->get_field( $args['field_key'] );
-			} else {
+			$field = $args['field_key'] ? fea_instance()->frontend->get_field( $args['field_key'] ) : false;
+
+			// only accept files for an actual file or image field
+			if ( empty( $field['type'] ) || ! in_array( $field['type'], feadmin_get_upload_field_types(), true ) ) {
 				wp_send_json_error( __( 'Invalid Key', 'frontend-admin' ) );
 			}
 
@@ -553,6 +559,17 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			//sanitize file name
 			$file['name'] = sanitize_file_name( $file['name'] );
+
+			// The file must have an extension WordPress allows for the current user, and
+			// for images the content must match it. A file with no extension, or one
+			// WordPress does not allow (HTML, JavaScript, SVG...), is never stored.
+			$checked_type = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
+			if ( empty( $checked_type['ext'] ) || empty( $checked_type['type'] ) || ! in_array( $checked_type['type'], get_allowed_mime_types(), true ) ) {
+				wp_send_json_error( __( 'This file type is not allowed.', 'frontend-admin' ) );
+			}
+			if ( ! empty( $checked_type['proper_filename'] ) ) {
+				$file['name'] = sanitize_file_name( $checked_type['proper_filename'] );
+			}
 
 			// get errors
 			$errors = $this->validate_attachment( $file, $field, 'upload' );
@@ -563,7 +580,7 @@ if ( ! class_exists( 'upload_file' ) ) :
 				wp_send_json_error( $data );
 			}
 
-			$wp_filetype = wp_check_filetype( basename( $file['name'] ), null );
+			$wp_filetype = array( 'type' => $checked_type['type'] );
 
 			$wp_upload_dir = wp_upload_dir();
 
@@ -571,7 +588,9 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			$submissions_dir = $this->maybe_mkdir( $wp_upload_dir['basedir'] . '/fea-submissions', true );	
 			$url = $this->upload_file($submissions_dir,$file['name'], true);			
-			move_uploaded_file( $file['tmp_name'], $url ); // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- moves the validated upload into the submissions folder.	
+			if ( ! move_uploaded_file( $file['tmp_name'], $url ) ) { // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- moves the validated upload into the submissions folder.
+				wp_send_json_error( __( 'The file could not be saved.', 'frontend-admin' ) );
+			}	
 
 			$attachment = array(
 				'guid'           => $url,
@@ -590,6 +609,8 @@ if ( ! class_exists( 'upload_file' ) ) :
 			if( $attach_id instanceof WP_Error ){
 				wp_send_json_error( $attach_id->get_error_message() );
 			}
+
+			feadmin_mark_upload_owner( $attach_id );
 
 			if ( ! empty( $value['alt'] ) ) {
 				update_post_meta( $attach_id, '_wp_attachment_image_alt', $value['alt'] );
@@ -618,7 +639,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 				wp_send_json_error( __( 'Missing attachment id', 'frontend-admin' ) );
 			}
 
-			$attach_id = $args['attach_id'];
+			$attach_id = (int) $args['attach_id'];
+
+			if ( ! feadmin_can_edit_uploaded_attachment( $attach_id ) ) {
+				wp_send_json_error( __( 'You do not have permission to edit this file.', 'frontend-admin' ) );
+			}
 
 			$path = get_attached_file( $attach_id );
 
@@ -643,11 +668,14 @@ if ( ! class_exists( 'upload_file' ) ) :
 				}
 			}
 
+			// Uploaded files are served with the type their extension maps to and are
+			// never sniffed, so nothing in this folder can be rendered as HTML.
+			// This replaces the legacy redirect rules that used to live here.
 			$_htaccess = $submissions_dir . '/.htaccess';
-				//delete legacy fea-submissions .htaccess file	
-			if ( file_exists( $_htaccess ) ) {
-				wp_delete_file( $_htaccess );
-			}		
+			$rules     = "<IfModule mod_headers.c>\n\tHeader set X-Content-Type-Options \"nosniff\"\n</IfModule>\n";
+			if ( ! file_exists( $_htaccess ) || file_get_contents( $_htaccess ) !== $rules ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file.
+				file_put_contents( $_htaccess, $rules ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- server rules for the submissions folder.
+			}
 
 			return $submissions_dir;
 		}
@@ -1106,13 +1134,12 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			$upload_dir = apply_filters( 'frontend_admin/files/folder_path', $upload_dir, $field );
 
-			if( is_array( $value ) ){
-				foreach( $value as $attach_id ){
-					$this->move_file( $attach_id, $upload_dir, $field );
+			// the value is a list of submitted IDs: only move files the visitor may change
+			foreach ( (array) $value as $attach_id ) {
+				if ( feadmin_can_edit_uploaded_attachment( $attach_id ) ) {
+					$this->move_file( (int) $attach_id, $upload_dir, $field );
 				}
-			}else{
-				if(  is_numeric( $value ) ) $this->move_file( $value, $upload_dir, $field );
-			} 							
+			}
 			
 			return $checked;
 		}
@@ -1198,8 +1225,11 @@ if ( ! class_exists( 'upload_file' ) ) :
 
 			global $fea_form;
 
-			if ( ! empty( $fea_form['record']['fields']['file_data'][$field['name']] ) ) {
-				$meta = $fea_form['record']['fields']['file_data'][$field['name']];
+			// The submitted value is an attachment ID chosen by the visitor: only update
+			// the details of an attachment they may edit or uploaded themselves.
+			if ( ! empty( $fea_form['record']['fields']['file_data'][$field['name']] ) && feadmin_can_edit_uploaded_attachment( $value ) ) {
+				$value = (int) $value;
+				$meta  = $fea_form['record']['fields']['file_data'][$field['name']];
 				if ( isset( $meta['alt'] ) ) {
 					update_post_meta( $value, '_wp_attachment_image_alt', sanitize_text_field( $meta['alt'] ) );
 				}

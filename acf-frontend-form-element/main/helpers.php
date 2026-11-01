@@ -379,8 +379,8 @@ function feadmin_has_special_permission( $permission, $capability, $form = null 
 		return true;
 	}
 
-	// special permissions are only ever granted to logged in users
-	if ( ! is_user_logged_in() ) {
+	// a logged-out visitor can only hold "Assign Privileged User Roles", used by public registration forms
+	if ( ! is_user_logged_in() && 'assign_roles' !== $permission ) {
 		return false;
 	}
 
@@ -429,6 +429,96 @@ function feadmin_has_special_permission( $permission, $capability, $form = null 
 	}
 
 	return true;
+}
+
+/**
+ * Random key, kept in a cookie, that ties files uploaded by a logged-out
+ * visitor to that visitor's browser.
+ *
+ * @param bool $create Whether to create the key (and cookie) when there is none.
+ */
+function feadmin_get_upload_owner_key( $create = false ) {
+	$key = isset( $_COOKIE['fea_upload_owner'] ) ? sanitize_key( wp_unslash( $_COOKIE['fea_upload_owner'] ) ) : '';
+	if ( 32 !== strlen( $key ) ) {
+		$key = '';
+	}
+
+	if ( ! $key && $create && ! headers_sent() ) {
+		$key = strtolower( wp_generate_password( 32, false ) );
+		setcookie(
+			'fea_upload_owner',
+			$key,
+			array(
+				'expires'  => time() + DAY_IN_SECONDS,
+				'path'     => COOKIEPATH ? COOKIEPATH : '/',
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
+		$_COOKIE['fea_upload_owner'] = $key;
+	}
+
+	return $key;
+}
+
+/**
+ * Records who uploaded a file through a form. Logged in uploaders are already
+ * the attachment's author; a logged-out visitor is recorded by their upload key.
+ *
+ * @param int $attachment_id The new attachment.
+ */
+function feadmin_mark_upload_owner( $attachment_id ) {
+	if ( is_user_logged_in() ) {
+		return;
+	}
+	$key = feadmin_get_upload_owner_key( true );
+	if ( $key ) {
+		update_post_meta( $attachment_id, '_fea_upload_owner', wp_hash( $key ) );
+	}
+}
+
+/**
+ * Whether the current visitor may change an attachment submitted in a form:
+ * its title, caption, description, alt text, file location or metadata. The
+ * submitted value is only an ID, so it must be an attachment the visitor can
+ * edit or uploaded themselves.
+ *
+ * @param mixed $attachment_id The submitted attachment ID.
+ */
+function feadmin_can_edit_uploaded_attachment( $attachment_id ) {
+	if ( ! is_numeric( $attachment_id ) ) {
+		return false;
+	}
+	$attachment_id = (int) $attachment_id;
+	if ( $attachment_id <= 0 || 'attachment' !== get_post_type( $attachment_id ) ) {
+		return false;
+	}
+
+	if ( current_user_can( 'edit_post', $attachment_id ) ) {
+		return true;
+	}
+
+	$author = (int) get_post_field( 'post_author', $attachment_id );
+	if ( is_user_logged_in() ) {
+		return $author && get_current_user_id() === $author;
+	}
+
+	$owner = get_post_meta( $attachment_id, '_fea_upload_owner', true );
+	$key   = feadmin_get_upload_owner_key();
+
+	return ! $author && $owner && $key && hash_equals( (string) $owner, wp_hash( $key ) );
+}
+
+/**
+ * Field types whose values are uploaded files.
+ */
+function feadmin_get_upload_field_types() {
+	return apply_filters(
+		'frontend_admin/upload_field_types',
+		array( 'file', 'image', 'upload_file', 'featured_image', 'main_image', 'site_logo', 'upload_image', 'gallery', 'product_images', 'upload_files', 'site_favicon' )
+	);
 }
 
 function feadmin_get_random_string( $length = 15 ) {

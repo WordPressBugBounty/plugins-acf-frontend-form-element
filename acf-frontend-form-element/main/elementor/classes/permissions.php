@@ -208,7 +208,7 @@ class Permissions {
 					'edit_site_options' => __( 'Edit Site Options', 'frontend-admin' ),
 					'assign_roles' => __( 'Assign Privileged User Roles', 'frontend-admin' ),
 				),
-				'description' => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
+				'description' => __( 'Allow special permissions. For example, allow authors to edit other users\' posts or other users. For logged-out visitors only "Assign Privileged User Roles" applies: it lets a public registration form give its configured role when that role can edit, publish or upload.', 'frontend-admin' ),
 			)
 		);
 

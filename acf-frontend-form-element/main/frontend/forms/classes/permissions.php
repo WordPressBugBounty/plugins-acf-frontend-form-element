@@ -237,6 +237,13 @@ class PermissionsTab {
 				$condition['special_permissions'] = [];
 			}
 
+			// A logged-out visitor can only ever be given "Assign Privileged User Roles",
+			// which lets a public registration form use its configured role. The other
+			// special permissions reach other people's content and need an account.
+			if ( empty( $active_user->ID ) ) {
+				$condition['special_permissions'] = array_values( array_intersect( $condition['special_permissions'], array( 'assign_roles' ) ) );
+			}
+
 			if ( $settings['display'] ) {
 				$settings = apply_filters( 'frontend_admin/special_permissions', $settings, $condition, $active_user );
 				$settings['special_permissions'] = $condition['special_permissions'];

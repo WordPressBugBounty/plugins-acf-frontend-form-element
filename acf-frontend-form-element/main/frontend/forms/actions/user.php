@@ -528,16 +528,25 @@ if ( ! class_exists( 'ActionUser' ) ) :
 
 				$default_role = get_option( 'default_role' );
 
-				// The form's new_user_role is a setting saved by whoever built the form,
-				// never submitted input, so it is honored for every submitter the form's
-				// own permissions let through. The one exception is an administrator-level
-				// role, which still needs a submitter who may promote users or who was
-				// given the "Assign Privileged User Roles" special permission.
+				// The form's new_user_role is honored when the submitter is entitled to it:
+				// - an administrator-level role needs a logged-in submitter who may promote
+				//   users or holds the "Assign Privileged User Roles" special permission,
+				//   and is never given to a logged-out registrant;
+				// - for a logged-out registrant, any role that can edit, publish or upload
+				//   needs the form's "Assign Privileged User Roles" special permission;
+				// otherwise the site's default role is used.
 				if ( ! empty( $form['new_user_role'] ) ) {
 					$user_to_insert['role'] = $form['new_user_role'];
 					$new_role               = get_role( $user_to_insert['role'] );
 					$is_admin_role          = 'administrator' === $user_to_insert['role'] || ( $new_role && ! empty( $new_role->capabilities['manage_options'] ) );
-					if ( ! $new_role || ( $is_admin_role && ! feadmin_has_special_permission( 'assign_roles', 'promote_users', $form ) ) ) {
+					$role_field             = function_exists( 'acf_get_field_type' ) ? acf_get_field_type( 'role' ) : false;
+					$is_privileged_role     = ! $role_field || ! method_exists( $role_field, 'has_sensitive_capability' ) || $role_field->has_sensitive_capability( $user_to_insert['role'] );
+					$may_assign_roles       = feadmin_has_special_permission( 'assign_roles', 'promote_users', $form );
+
+					if ( ! $new_role
+						|| ( $is_admin_role && ( $is_public_registration || ! $may_assign_roles ) )
+						|| ( $is_public_registration && $is_privileged_role && ! $may_assign_roles )
+					) {
 						$user_to_insert['role'] = $default_role;
 					}
 				} else {

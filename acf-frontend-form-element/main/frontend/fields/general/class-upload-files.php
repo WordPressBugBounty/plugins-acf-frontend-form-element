@@ -161,10 +161,13 @@ if ( ! class_exists( 'upload_files' ) ) :
 
 				if( empty( $meta ) ) $meta = $fea_form['record']['fields']['file_data'][$field['name']][$index] ?? false;
 
-				if( empty( $meta ) ){
+				// the submitted IDs come from the visitor: only update the details of
+				// attachments they may edit or uploaded themselves
+				if( empty( $meta ) || ! feadmin_can_edit_uploaded_attachment( $attachment ) ){
 					continue;
 				}
-				
+				$attachment = (int) $attachment;
+
 				if ( isset( $meta['alt'] ) ) {
 					update_post_meta( $attachment, '_wp_attachment_image_alt', $meta['alt'] );
 				}

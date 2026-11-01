@@ -223,7 +223,7 @@ $fields = array(
 				'key'               => 'special_permissions',
 				'label'             => __( 'Special Permissions', 'frontend-admin' ),
 				'type'              => 'checkbox',
-				'instructions'      => __( 'Allow special permssions. For example, allow authors to edit other user\'s posts or other users', 'frontend-admin' ),
+				'instructions'      => __( 'Allow special permissions. For example, allow authors to edit other users\' posts or other users. For logged-out visitors only "Assign Privileged User Roles" applies: it lets a public registration form give its configured role when that role can edit, publish or upload.', 'frontend-admin' ),
 				'required'          => 0,
 				'default_value'     => array(),
 				'choices'           => array(
@@ -235,15 +235,6 @@ $fields = array(
 					'delete_users' => __( 'Delete Other Users', 'frontend-admin' ),
 					'edit_site_options' => __( 'Edit Site Options', 'frontend-admin' ),
 					'assign_roles' => __( 'Assign Privileged User Roles', 'frontend-admin' ),
-				),
-				'conditional_logic' => array(
-					array(
-						array(
-							'field'    => 'who_can_see',
-							'operator' => '==',
-							'value'    => 'logged_in',
-						),
-					),
 				),
 			),
 			array(

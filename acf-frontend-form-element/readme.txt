@@ -3,7 +3,7 @@ Contributors: shabti
 Tags: frontend editing, frontend posting, acf frontend, custom fields, custom dashboard
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 3.30.1
+Stable tag: 3.30.2
 Donate link: https://paypal.me/KaplanWebDev
 Requires PHP: 5.6.0
 License: GPLv2 or later
@@ -183,6 +183,13 @@ Yes. Simply add a taxonomy field and set the taxonomy type to Category
 Please report security bugs found in the source code of the ACF Frontend Admin plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/c80d6806-92bc-495a-9c77-84253507284d). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+= 3.30.2 - 01-11-2026 =
+ * Fixed file and image fields allowing the title, description and caption of content other than the visitor's own uploads to be changed
+ * Fixed the file upload field accepting files without an allowed file type
+ * Public registration forms now need the "Assign Privileged User Roles" special permission to give new users a role that can edit, publish or upload content
+ * Added a rule that stops browsers from guessing the type of files in the form submissions folder
+ * Removed the unused Block Editor field type
+
 = 3.30.1 - 07-10-2026 =
  * Advanced Custom Fields is now a required plugin and is no longer bundled. Install and activate it before updating: forms are not shown without it
  * Improved validation of the Post Type and Post Status fields
